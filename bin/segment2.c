@@ -40,13 +40,21 @@ ALIGNED8 static const u8 texture_hud_char_apostrophe                 [] = "textu
 ALIGNED8 static const u8 texture_hud_char_double_quote               [] = "textures/segment2/segment2.04A00.rgba16";
 ALIGNED8 static const u8 texture_hud_char_multiply                   [] = "textures/segment2/segment2.05600.rgba16";
 ALIGNED8 static const u8 texture_hud_char_coin                       [] = "textures/segment2/segment2.05800.rgba16";
-ALIGNED8 static const u8 texture_hud_char_mario_head                 [] = "textures/segment2/mario_head_normal.rgba16";
+ALIGNED8 static const u8 texture_hud_char_mario_head                 [] = "textures/segment2/segment2.05A00.rgba16";
 ALIGNED8 static const u8 texture_hud_char_star                       [] = "textures/segment2/segment2.05C00.rgba16";
 ALIGNED8 static const u8 texture_hud_char_camera                     [] = "textures/segment2/segment2.07B50.rgba16";
 ALIGNED8 static const u8 texture_hud_char_lakitu                     [] = "textures/segment2/segment2.07D50.rgba16";
 ALIGNED8 static const u8 texture_hud_char_no_camera                  [] = "textures/segment2/segment2.07F50.rgba16";
 ALIGNED8 static const u8 texture_hud_char_arrow_up                   [] = "textures/segment2/segment2.08150.rgba16";
 ALIGNED8 static const u8 texture_hud_char_arrow_down                 [] = "textures/segment2/segment2.081D0.rgba16";
+
+// HUD Font - Custom Characters
+ALIGNED8 static const u8 texture_hud_char_J                          [] = "textures/special/hud_j.rgba16";
+ALIGNED8 static const u8 texture_hud_char_Q                          [] = "textures/special/hud_q.rgba16";
+ALIGNED8 static const u8 texture_hud_char_V                          [] = "textures/special/hud_v.rgba16";
+ALIGNED8 static const u8 texture_hud_char_X                          [] = "textures/special/hud_x.rgba16";
+ALIGNED8 static const u8 texture_hud_char_Z                          [] = "textures/special/hud_z.rgba16";
+ALIGNED8 static const u8 texture_hud_char_decimal_point              [] = "textures/special/hud_decimal.rgba16";
 
 // Credits Font
 ALIGNED8 static const u8 texture_credits_char_3                      [] = "textures/segment2/segment2.06200.rgba16";
@@ -175,60 +183,127 @@ ALIGNED8 static const u8 texture_font_char_us_button_C_left          [] = "textu
 ALIGNED8 static const u8 texture_font_char_us_button_C_right         [] = "textures/segment2/font_graphics.06FC0.ia4";
 
 // Small Font - Custom Characters
-ALIGNED8 static const u8 texture_font_char_mayus_accent_a            [] = "textures/special/mayus_accent_a.rgba16";
-ALIGNED8 static const u8 texture_font_char_mayus_accent_e            [] = "textures/special/mayus_accent_e.rgba16";
-ALIGNED8 static const u8 texture_font_char_mayus_accent_i            [] = "textures/special/mayus_accent_i.rgba16";
-ALIGNED8 static const u8 texture_font_char_mayus_accent_o            [] = "textures/special/mayus_accent_o.rgba16";
-ALIGNED8 static const u8 texture_font_char_mayus_accent_u            [] = "textures/special/mayus_accent_u.rgba16";
-ALIGNED8 static const u8 texture_font_char_exclamation               [] = "textures/special/exclamation.rgba16";
-ALIGNED8 static const u8 texture_font_char_mayus_enye                [] = "textures/special/mayus_enye.rgba16";
-ALIGNED8 static const u8 texture_font_char_accent_a                  [] = "textures/special/accent_a.rgba16";
-ALIGNED8 static const u8 texture_font_char_accent_e                  [] = "textures/special/accent_e.rgba16";
-ALIGNED8 static const u8 texture_font_char_accent_i                  [] = "textures/special/accent_i.rgba16";
-ALIGNED8 static const u8 texture_font_char_accent_o                  [] = "textures/special/accent_o.rgba16";
-ALIGNED8 static const u8 texture_font_char_accent_u                  [] = "textures/special/accent_u.rgba16";
-ALIGNED8 static const u8 texture_font_char_question                  [] = "textures/special/question.rgba16";
-ALIGNED8 static const u8 texture_font_char_enye                      [] = "textures/special/enye.rgba16";
-ALIGNED8 static const u8 texture_font_char_sz   		  			 [] = "textures/special/sz.rgba16";
-ALIGNED8 static const u8 texture_font_char_ae_lowercase   			 [] = "textures/special/ae_lowercase.rgba16";
-ALIGNED8 static const u8 texture_font_char_ae_uppercase   			 [] = "textures/special/ae_uppercase.rgba16";
-ALIGNED8 static const u8 texture_font_char_oe_lowercase   			 [] = "textures/special/oe_lowercase.rgba16";
-ALIGNED8 static const u8 texture_font_char_oe_uppercase   			 [] = "textures/special/oe_uppercase.rgba16";
-ALIGNED8 static const u8 texture_font_char_ue_uppercase 			 [] = "textures/special/ue_uppercase.rgba16";
-ALIGNED8 static const u8 texture_font_char_ue_lowercase 			 [] = "textures/special/ue_lowercase.rgba16";
-
-ALIGNED8 static const u8 texture_font_char_g_breve_uppercase   		 [] = "textures/special/character_011E.rgba16";
-ALIGNED8 static const u8 texture_font_char_g_breve_lowercase   		 [] = "textures/special/character_011F.rgba16";
-ALIGNED8 static const u8 texture_font_char_s_cedilla_uppercase   	 [] = "textures/special/character_015E.rgba16";
-ALIGNED8 static const u8 texture_font_char_s_cedilla_lowercase   	 [] = "textures/special/character_015F.rgba16";
-ALIGNED8 static const u8 texture_font_char_i_uppercase 			     [] = "textures/special/character_0130.rgba16";
-ALIGNED8 static const u8 texture_font_char_i_lowercase 			     [] = "textures/special/character_0131.rgba16";
-
-// HUD Font - Custom Characters
-ALIGNED8 static const u8 texture_hud_char_J                          [] = "textures/special/hud_j.rgba16";
-ALIGNED8 static const u8 texture_hud_char_Q                          [] = "textures/special/hud_q.rgba16";
-ALIGNED8 static const u8 texture_hud_char_V                          [] = "textures/special/hud_v.rgba16";
-ALIGNED8 static const u8 texture_hud_char_X                          [] = "textures/special/hud_x.rgba16";
-ALIGNED8 static const u8 texture_hud_char_Z                          [] = "textures/special/hud_z.rgba16";
-ALIGNED8 static const u8 texture_hud_char_decimal_point              [] = "textures/special/hud_decimal.rgba16";
+ALIGNED8 static const u8 texture_font_char_cust_inverted_exclamation [] = "textures/special/character_00A1.ia4";
+//
+ALIGNED8 static const u8 texture_font_char_cust_inverted_question    [] = "textures/special/character_00BF.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_A_grave              [] = "textures/special/character_00C0.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_A_acute              [] = "textures/special/character_00C1.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_A_circumflex         [] = "textures/special/character_00C2.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_A_tilde              [] = "textures/special/character_00C3.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_A_diaeresis          [] = "textures/special/character_00C4.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_A_ring               [] = "textures/special/character_00C5.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_AE                   [] = "textures/special/character_00C6.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_C_cedilla            [] = "textures/special/character_00C7.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_E_grave              [] = "textures/special/character_00C8.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_E_acute              [] = "textures/special/character_00C9.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_E_circumflex         [] = "textures/special/character_00CA.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_E_diaeresis          [] = "textures/special/character_00CB.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_I_grave              [] = "textures/special/character_00CC.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_I_acute              [] = "textures/special/character_00CD.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_I_circumflex         [] = "textures/special/character_00CE.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_I_diaeresis          [] = "textures/special/character_00CF.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_ETH                  [] = "textures/special/character_00D0.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_N_tilde              [] = "textures/special/character_00D1.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_O_grave              [] = "textures/special/character_00D2.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_O_acute              [] = "textures/special/character_00D3.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_O_circumflex         [] = "textures/special/character_00D4.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_O_tilde              [] = "textures/special/character_00D5.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_O_diaeresis          [] = "textures/special/character_00D6.ia4";
+//
+ALIGNED8 static const u8 texture_font_char_cust_O_stroke             [] = "textures/special/character_00D8.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_U_grave              [] = "textures/special/character_00D9.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_U_acute              [] = "textures/special/character_00DA.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_U_circumflex         [] = "textures/special/character_00DB.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_U_diaeresis          [] = "textures/special/character_00DC.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_Y_acute              [] = "textures/special/character_00DD.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_THORN                [] = "textures/special/character_00DE.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_ESZETT               [] = "textures/special/character_00DF.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_a_grave              [] = "textures/special/character_00E0.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_a_acute              [] = "textures/special/character_00E1.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_a_circumflex         [] = "textures/special/character_00E2.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_a_tilde              [] = "textures/special/character_00E3.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_a_diaeresis          [] = "textures/special/character_00E4.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_a_ring               [] = "textures/special/character_00E5.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_ae                   [] = "textures/special/character_00E6.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_c_cedilla            [] = "textures/special/character_00E7.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_e_grave              [] = "textures/special/character_00E8.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_e_acute              [] = "textures/special/character_00E9.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_e_circumflex         [] = "textures/special/character_00EA.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_e_diaeresis          [] = "textures/special/character_00EB.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_i_grave              [] = "textures/special/character_00EC.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_i_acute              [] = "textures/special/character_00ED.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_i_circumflex         [] = "textures/special/character_00EE.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_i_diaeresis          [] = "textures/special/character_00EF.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_eth                  [] = "textures/special/character_00F0.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_n_tilde              [] = "textures/special/character_00F1.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_o_grave              [] = "textures/special/character_00F2.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_o_acute              [] = "textures/special/character_00F3.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_o_circumflex         [] = "textures/special/character_00F4.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_o_tilde              [] = "textures/special/character_00F5.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_o_diaeresis          [] = "textures/special/character_00F6.ia4";
+//
+ALIGNED8 static const u8 texture_font_char_cust_o_stroke             [] = "textures/special/character_00F8.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_u_grave              [] = "textures/special/character_00F9.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_u_acute              [] = "textures/special/character_00FA.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_u_circumflex         [] = "textures/special/character_00FB.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_u_diaeresis          [] = "textures/special/character_00FC.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_y_acute              [] = "textures/special/character_00FD.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_thorn                [] = "textures/special/character_00FE.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_y_diaeresis          [] = "textures/special/character_00FF.ia4";
+//
+ALIGNED8 static const u8 texture_font_char_cust_A_ogonek             [] = "textures/special/character_0104.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_a_ogonek             [] = "textures/special/character_0105.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_C_acute              [] = "textures/special/character_0106.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_c_acute              [] = "textures/special/character_0107.ia4";
+//
+ALIGNED8 static const u8 texture_font_char_cust_E_ogonek             [] = "textures/special/character_0118.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_e_ogonek             [] = "textures/special/character_0119.ia4";
+//
+ALIGNED8 static const u8 texture_font_char_cust_G_breve              [] = "textures/special/character_011E.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_g_breve              [] = "textures/special/character_011F.ia4";
+//
+ALIGNED8 static const u8 texture_font_char_cust_S_cedilla            [] = "textures/special/character_0130.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_s_cedilla            [] = "textures/special/character_0131.ia4";
+//
+ALIGNED8 static const u8 texture_font_char_cust_L_stroke             [] = "textures/special/character_0141.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_l_stroke             [] = "textures/special/character_0142.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_N_acute              [] = "textures/special/character_0143.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_n_acute              [] = "textures/special/character_0144.ia4";
+//
+ALIGNED8 static const u8 texture_font_char_cust_OE                   [] = "textures/special/character_0152.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_oe                   [] = "textures/special/character_0153.ia4";
+//
+ALIGNED8 static const u8 texture_font_char_cust_S_acute              [] = "textures/special/character_015A.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_s_acute              [] = "textures/special/character_015B.ia4";
+//
+ALIGNED8 static const u8 texture_font_char_cust_i_dot                [] = "textures/special/character_015E.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_i_dotless            [] = "textures/special/character_015F.ia4";
+//
+ALIGNED8 static const u8 texture_font_char_cust_Y_diaeresis          [] = "textures/special/character_0178.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_Z_acute              [] = "textures/special/character_0179.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_z_acute              [] = "textures/special/character_017A.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_Z_dot                [] = "textures/special/character_017B.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_z_dot                [] = "textures/special/character_017C.ia4";
+//
+ALIGNED8 static const u8 texture_font_char_cust_eszett               [] = "textures/special/character_1E9E.ia4";
 
 // Main HUD print table 0x02008250-0x02008337
-const u8 *const main_hud_lut[] = {            
-    texture_hud_char_0            , texture_hud_char_1            , texture_hud_char_2            , texture_hud_char_3            ,
-    texture_hud_char_4            , texture_hud_char_5            , texture_hud_char_6            , texture_hud_char_7            ,
-    texture_hud_char_8            , texture_hud_char_9            , texture_hud_char_A            , texture_hud_char_B            ,
-    texture_hud_char_C            , texture_hud_char_D            , texture_hud_char_E            , texture_hud_char_F            ,
-    texture_hud_char_G            , texture_hud_char_H            , texture_hud_char_I            , texture_hud_char_J            ,
-    texture_hud_char_K            , texture_hud_char_L            , texture_hud_char_M            , texture_hud_char_N            ,
-    texture_hud_char_O            , texture_hud_char_P            , texture_hud_char_Q            , texture_hud_char_R            ,
-    texture_hud_char_S            , texture_hud_char_T            , texture_hud_char_U            , texture_hud_char_V            ,
-    texture_hud_char_W            , texture_hud_char_X            , texture_hud_char_Y            , texture_hud_char_Z            ,
-    0x0                           , 0x0                           , 0x0                           , 0x0                           ,
-    0x0                           , 0x0                           , 0x0                           , 0x0                           ,
-    0x0                           , 0x0                           , 0x0                           , 0x0                           ,
-    0x0                           , 0x0                           , texture_hud_char_multiply     , texture_hud_char_coin         ,
-    texture_hud_char_mario_head   , texture_hud_char_star         , texture_hud_char_decimal_point, 0x0                           ,
-    texture_hud_char_apostrophe   , texture_hud_char_double_quote ,
+const u8 *const main_hud_lut[] = {
+    texture_hud_char_0, texture_hud_char_1, texture_hud_char_2, texture_hud_char_3,
+    texture_hud_char_4, texture_hud_char_5, texture_hud_char_6, texture_hud_char_7,
+    texture_hud_char_8, texture_hud_char_9, texture_hud_char_A, texture_hud_char_B,
+    texture_hud_char_C, texture_hud_char_D, texture_hud_char_E, texture_hud_char_F,
+    texture_hud_char_G, texture_hud_char_H, texture_hud_char_I, texture_hud_char_J,
+    texture_hud_char_K, texture_hud_char_L, texture_hud_char_M, texture_hud_char_N,
+    texture_hud_char_O, texture_hud_char_P, texture_hud_char_Q, texture_hud_char_R,
+    texture_hud_char_S, texture_hud_char_T, texture_hud_char_U, texture_hud_char_V,
+    texture_hud_char_W, texture_hud_char_X, texture_hud_char_Y, texture_hud_char_Z,
+    0x0,                 0x0,                      0x0,                  0x0,
+    0x0,                 0x0,                      0x0,                  0x0,
+    0x0,                 0x0,                      0x0,                  0x0,
+    0x0,                 0x0, texture_hud_char_multiply, texture_hud_char_coin,
+    texture_hud_char_mario_head, texture_hud_char_star, texture_hud_char_decimal_point, 0x0,
+    texture_hud_char_apostrophe, texture_hud_char_double_quote,
 };
 
 // Main small font print table 0x02008338-0x02008737
@@ -266,58 +341,57 @@ const u8 *const main_font_lut[] = {
     texture_font_char_us_y                                   , texture_font_char_us_z                                   ,
     texture_font_char_us_apostrophe                          , texture_font_char_us_period                              ,
     0x0                               /* <Mario face left> */, 0x0                              /* <Mario face right> */,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
+    texture_font_char_cust_inverted_exclamation              , texture_font_char_cust_inverted_question                 ,
+    texture_font_char_cust_A_grave                           , texture_font_char_cust_A_acute                           ,
+    texture_font_char_cust_A_circumflex                      , texture_font_char_cust_A_tilde                           ,
+    texture_font_char_cust_A_diaeresis                       , texture_font_char_cust_A_ring                            ,
+    texture_font_char_cust_AE                                , texture_font_char_cust_C_cedilla                         ,
+    texture_font_char_cust_E_grave                           , texture_font_char_cust_E_acute                           ,
+    texture_font_char_cust_E_circumflex                      , texture_font_char_cust_E_diaeresis                       ,
     texture_font_char_us_button_C_up                /* '^' */, texture_font_char_us_button_C_down              /* '|' */,
     texture_font_char_us_button_C_left              /* '<' */, texture_font_char_us_button_C_right             /* '>' */,
     texture_font_char_us_button_A                 /* '[A]' */, texture_font_char_us_button_B                 /* '[B]' */,
     texture_font_char_us_button_C                 /* '[C]' */, texture_font_char_us_button_Z                 /* '[Z]' */,
-    texture_font_char_us_button_R                 /* '[R]' */, 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    texture_font_char_ae_lowercase                           , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    texture_font_char_ae_uppercase                           , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , texture_font_char_us_comma                      /* ',' */,
-// SPECIAL CHARS: Start ID - 112:0x70
-    texture_font_char_accent_a                               , texture_font_char_accent_e                               ,
-    texture_font_char_accent_i                               , texture_font_char_accent_o                               ,
-    texture_font_char_accent_u                               , texture_font_char_mayus_accent_a                         ,
-    texture_font_char_mayus_accent_e                         , texture_font_char_mayus_accent_i                         ,
-    texture_font_char_mayus_accent_o                         , texture_font_char_mayus_accent_u                         ,
-    texture_font_char_enye                                   , texture_font_char_mayus_enye                             ,
-    texture_font_char_ue_lowercase                           , texture_font_char_ue_uppercase                           ,
-    texture_font_char_question                               , texture_font_char_exclamation                            ,
-    texture_font_char_g_breve_uppercase                      , texture_font_char_g_breve_lowercase                      ,
-    texture_font_char_s_cedilla_uppercase                    , texture_font_char_s_cedilla_lowercase                    ,
-    texture_font_char_i_uppercase                            , texture_font_char_i_lowercase                            ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    texture_font_char_oe_lowercase                           , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    texture_font_char_oe_uppercase                           , 0x0                           							,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
+    texture_font_char_us_button_R                 /* '[R]' */, texture_font_char_cust_I_grave                           ,
+    texture_font_char_cust_I_acute                           , texture_font_char_cust_I_circumflex                      ,
+    texture_font_char_cust_I_diaeresis                       , texture_font_char_cust_ETH                               ,
+    texture_font_char_cust_N_tilde                           , texture_font_char_cust_O_grave                           ,
+    texture_font_char_cust_O_acute                           , texture_font_char_cust_O_circumflex                      ,
+    texture_font_char_cust_O_tilde                           , texture_font_char_cust_O_diaeresis                       ,
+    texture_font_char_cust_O_stroke                          , texture_font_char_cust_U_grave                           ,
+    texture_font_char_cust_U_acute                           , texture_font_char_cust_U_circumflex                      ,
+    texture_font_char_cust_U_diaeresis                       , texture_font_char_cust_Y_acute                           ,
+    texture_font_char_cust_THORN                             , texture_font_char_cust_ESZETT                            ,
+    texture_font_char_cust_a_grave                           , texture_font_char_cust_a_acute                           ,
+    texture_font_char_cust_a_circumflex                      , texture_font_char_us_comma                      /* ',' */,
+    texture_font_char_cust_a_tilde                           , texture_font_char_cust_a_diaeresis                       ,
+    texture_font_char_cust_a_ring                            , texture_font_char_cust_ae                                ,
+    texture_font_char_cust_c_cedilla                         , texture_font_char_cust_e_grave                           ,
+    texture_font_char_cust_e_acute                           , texture_font_char_cust_e_circumflex                      ,
+    texture_font_char_cust_e_diaeresis                       , texture_font_char_cust_i_grave                           ,
+    texture_font_char_cust_i_acute                           , texture_font_char_cust_i_circumflex                      ,
+    texture_font_char_cust_i_diaeresis                       , texture_font_char_cust_eth                               ,
+    texture_font_char_cust_n_tilde                           , texture_font_char_cust_o_grave                           ,
+    texture_font_char_cust_o_acute                           , texture_font_char_cust_o_circumflex                      ,
+    texture_font_char_cust_o_tilde                           , texture_font_char_cust_o_diaeresis                       ,
+    texture_font_char_cust_o_stroke                          , texture_font_char_cust_u_grave                           ,
+    texture_font_char_cust_u_acute                           , texture_font_char_cust_u_circumflex                      ,
+    texture_font_char_cust_u_diaeresis                       , texture_font_char_cust_y_acute                           ,
+    texture_font_char_cust_thorn                             , texture_font_char_cust_y_diaeresis                       ,
+    texture_font_char_cust_A_ogonek                          , texture_font_char_cust_a_ogonek                          ,
+    texture_font_char_cust_C_acute                           , texture_font_char_cust_c_acute                           ,
+    texture_font_char_cust_E_ogonek                          , texture_font_char_cust_e_ogonek                          ,
+    texture_font_char_cust_G_breve                           , texture_font_char_cust_g_breve                           ,
+    texture_font_char_cust_S_cedilla                         , texture_font_char_cust_s_cedilla                         ,
+    texture_font_char_cust_L_stroke                          , texture_font_char_cust_l_stroke                          ,
+    texture_font_char_cust_N_acute                           , texture_font_char_cust_n_acute                           ,
+    texture_font_char_cust_OE                                , texture_font_char_cust_oe                                ,
+    texture_font_char_cust_S_acute                           , texture_font_char_cust_s_acute                           ,
     0x0                                         /* <space> */, texture_font_char_us_slash                      /* '-' */,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
+    texture_font_char_cust_i_dot                             , texture_font_char_cust_i_dotless                         ,
+    texture_font_char_cust_Y_diaeresis                       , texture_font_char_cust_Z_acute                           ,
+    texture_font_char_cust_z_acute                           , texture_font_char_cust_Z_dot                             ,
+    texture_font_char_cust_z_dot                             , texture_font_char_cust_eszett                            ,
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
@@ -352,7 +426,7 @@ const u8 *const main_font_lut[] = {
     texture_font_char_us_ellipsis                   /* ':' */, 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
-    texture_font_char_sz                                     , 0x0                                                      ,
+    0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
     0x0                 /* leftover <JP voiced sound mark> */, 0x0            /* leftover <JP semi-voiced sound mark> */,
     texture_font_char_us_exclamation                /* '!' */, texture_font_char_us_percent                    /* '%' */,
@@ -366,15 +440,15 @@ const u8 *const main_font_lut[] = {
 
 // credits font LUT 0x02008738-0x020087CB
 const u8 *const main_credits_font_lut[] = {
-    0x0                        , 0x0                        , 0x0                        , texture_credits_char_3     ,
-    texture_credits_char_4     , 0x0                        , texture_credits_char_6     , 0x0                        ,
-    0x0                        , 0x0                        , texture_credits_char_A     , texture_credits_char_B     ,
-    texture_credits_char_C     , texture_credits_char_D     , texture_credits_char_E     , texture_credits_char_F     ,
-    texture_credits_char_G     , texture_credits_char_H     , texture_credits_char_I     , texture_credits_char_J     ,
-    texture_credits_char_K     , texture_credits_char_L     , texture_credits_char_M     , texture_credits_char_N     ,
-    texture_credits_char_O     , texture_credits_char_P     , texture_credits_char_Q     , texture_credits_char_R     ,
-    texture_credits_char_S     , texture_credits_char_T     , texture_credits_char_U     , texture_credits_char_V     ,
-    texture_credits_char_W     , texture_credits_char_X     , texture_credits_char_Y     , texture_credits_char_Z     ,
+                       0x0,                    0x0,                    0x0, texture_credits_char_3,
+    texture_credits_char_4,                    0x0, texture_credits_char_6,                    0x0,
+                       0x0,                    0x0, texture_credits_char_A, texture_credits_char_B,
+    texture_credits_char_C, texture_credits_char_D, texture_credits_char_E, texture_credits_char_F,
+    texture_credits_char_G, texture_credits_char_H, texture_credits_char_I, texture_credits_char_J,
+    texture_credits_char_K, texture_credits_char_L, texture_credits_char_M, texture_credits_char_N,
+    texture_credits_char_O, texture_credits_char_P, texture_credits_char_Q, texture_credits_char_R,
+    texture_credits_char_S, texture_credits_char_T, texture_credits_char_U, texture_credits_char_V,
+    texture_credits_char_W, texture_credits_char_X, texture_credits_char_Y, texture_credits_char_Z,
     texture_credits_char_period,
 };
 
@@ -1471,161 +1545,161 @@ const s16 seg2_painting_triangle_mesh[] = {
  * The nth entry corresponds to the nth vertex in seg2_painting_triangle_mesh
  */
 const s16 seg2_painting_mesh_neighbor_tris[] = {
-    3,   1,   2,   3,
-    1,   1,
-    4,   1,   2,   4,   5,
-    6,   2,   3,   5,  14,  59,  62,
-    3,   3,  58,  59,
-    6,   4,   5,  13,  14,  15,  16,
-    2,   4,  13,
-    2,   6,   7,
-    6,   0,   6,   7,   8,   9,  10,
-    4,   6,  10,  11,  12,
-    4,   7,   8, 154, 155,
-    6,   8,   9,  77, 154, 163, 194,
-    6,   0,   9,  72,  73,  75,  77,
-    6,   0,  10,  11,  19,  70,  72,
-    6,  11,  12,  17,  18,  19,  20,
-    4,  13,  16,  17,  18,
-    6,  14,  15,  53,  61,  62,  64,
-    6,  15,  16,  18,  20,  64,  67,
-    6,  19,  20,  66,  67,  69,  70,
-    8,  21,  22,  27,  31,  80,  81, 149, 150,
-    3,  21,  22,  26,
-    6,  23,  24,  25,  28,  57,  60,
-    3,  24,  25,  26,
-    6,  22,  24,  26,  27,  28,  29,
-    6,  27,  29,  30,  31,  32,  33,
-    8,  30,  33,  39,  40,  78,  79, 146, 147,
-    6,  34,  35,  37,  44,  63,  65,
-    6,  23,  28,  29,  32,  34,  35,
-    6,  23,  35,  53,  60,  61,  63,
-    6,  38,  39,  40,  41,  42,  43,
-    6,  32,  33,  34,  37,  38,  39,
-    8,  41,  42,  48,  52,  76,  82, 148, 151,
-    6,  44,  46,  65,  66,  68,  69,
-    6,  45,  46,  47,  56,  68,  71,
-    6,  37,  38,  43,  44,  45,  46,
-    6,  42,  43,  45,  47,  48,  49,
-    6,  36,  48,  49,  50,  51,  52,
-    8,  50,  51, 152, 153, 170, 174, 214, 215,
-    6,  36,  47,  49,  54,  55,  56,
-    6,  54,  55,  74, 169, 178, 196,
-    6,  54,  56,  71,  73,  74,  75,
-    3,  25,  57,  58,
-    6,  57,  58,  59,  60,  61,  62,
-    6,  53,  63,  64,  65,  66,  67,
-    6,  68,  69,  70,  71,  72,  73,
-    6,  74,  75,  77, 194, 195, 196,
-    6,  79,  82, 125, 137, 146, 148,
-    6,  78,  80, 129, 130, 147, 149,
-    6,  76, 144, 145, 151, 152, 153,
-    3,  84,  85,  86,
-    1,  85,
-    4,  85,  86,  91,  95,
-    6,  83,  87,  88,  90, 119, 124,
-    3,  84,  87,  88,
-    6,  89,  91,  92,  93,  94,  95,
-    6,  84,  86,  87,  89,  90,  91,
-    4,  93,  94, 101, 105,
-    2,  94,  95,
-    6,  96,  97, 100, 108, 126, 131,
-    6,  83,  89,  90,  92,  96,  97,
-    6,  83,  97, 123, 124, 126, 127,
-    6,  99, 101, 102, 103, 104, 105,
-    6,  92,  93,  96,  99, 100, 101,
-    4,  98, 103, 104, 110,
-    2, 104, 105,
-    6,  99, 100, 102, 106, 107, 108,
-    6, 106, 107, 111, 117, 134, 138,
-    6, 106, 108, 131, 132, 134, 135,
-    6,  98, 109, 110, 112, 113, 114,
-    6, 102, 103, 107, 109, 110, 111,
-    4, 113, 114, 221, 223,
-    2,  98, 114,
-    6, 115, 116, 142, 213, 226, 236,
-    6, 109, 111, 112, 115, 116, 117,
-    6, 116, 117, 138, 140, 141, 142,
-    3,  88, 118, 119,
-    6, 120, 121, 122, 130, 149, 150,
-    3, 118, 120, 121,
-    6, 118, 119, 120, 122, 123, 124,
-    6, 125, 128, 129, 133, 146, 147,
-    6, 122, 123, 127, 128, 129, 130,
-    6, 126, 127, 128, 131, 132, 133,
-    6, 136, 137, 139, 145, 148, 151,
-    6, 125, 132, 133, 135, 136, 137,
-    6, 134, 135, 136, 138, 139, 140,
-    6, 143, 144, 153, 215, 246, 252,
-    6, 139, 140, 141, 143, 144, 145,
-    6, 154, 155, 162, 163, 164, 165,
-    1, 157,
-    3, 157, 158, 159,
-    4, 157, 159, 160, 161,
-    6, 158, 159, 160, 167, 205, 206,
-    6, 156, 160, 161, 166, 167, 168,
-    6, 162, 163, 194, 195, 197, 199,
-    6, 162, 164, 166, 168, 199, 202,
-    4, 156, 164, 165, 166,
-    6, 167, 168, 201, 202, 204, 205,
-    6,  36,  50,  55, 169, 170, 171,
-    6, 170, 171, 172, 173, 174, 175,
-    8, 172, 173, 180, 184, 209, 210, 211, 212,
-    6, 176, 177, 179, 188, 198, 200,
-    6, 169, 171, 175, 176, 177, 178,
-    6, 177, 178, 195, 196, 197, 198,
-    6, 172, 175, 176, 179, 180, 181,
-    6, 180, 181, 182, 183, 184, 185,
-    8, 182, 183, 189, 192, 216, 217, 218, 219,
-    6, 186, 187, 190, 193, 203, 207,
-    6, 179, 181, 185, 186, 187, 188,
-    6, 187, 188, 200, 201, 203, 204,
-    6, 182, 185, 186, 189, 190, 191,
-    3, 189, 191, 192,
-    3, 193, 207, 208,
-    6, 197, 198, 199, 200, 201, 202,
-    6, 203, 204, 205, 206, 207, 208,
-    6, 209, 210, 250, 251, 253, 258,
-    6, 210, 211, 217, 219, 247, 258,
-    6, 209, 212, 214, 215, 251, 252,
-    3, 216, 218, 263,
-    6, 218, 219, 247, 259, 261, 263,
-    6, 220, 221, 222, 223, 224, 225,
-    6, 112, 113, 115, 213, 220, 221,
-    2, 223, 224,
-    4, 224, 225, 230, 235,
-    6, 226, 227, 236, 245, 248, 249,
-    6, 213, 220, 222, 226, 227, 228,
-    6, 227, 228, 231, 239, 249, 255,
-    6, 229, 230, 232, 233, 234, 235,
-    6, 222, 225, 228, 229, 230, 231,
-    2, 233, 235,
-    4, 233, 234, 241, 243,
-    6, 237, 238, 242, 244, 257, 262,
-    6, 229, 231, 232, 237, 238, 239,
-    6, 238, 239, 254, 255, 256, 257,
-    3, 240, 241, 243,
-    6, 232, 234, 237, 240, 241, 242,
-    3, 244, 260, 262,
-    6, 141, 142, 143, 236, 245, 246,
-    6, 245, 246, 248, 250, 251, 252,
-    6, 248, 249, 250, 253, 254, 255,
-    6, 247, 253, 254, 256, 258, 259,
-    6, 256, 257, 259, 260, 261, 262,
-    2,  12,  17,
-    2,  21,  81,
-    3,  81, 121, 150,
-    4,  30,  31,  78,  80,
-    4,  40,  41,  79,  82,
-    4,  51,  52,  76, 152,
-    2, 155, 165,
-    3, 158, 206, 208,
-    2, 156, 161,
-    4, 173, 174, 212, 214,
-    4, 183, 184, 211, 217,
-    3, 190, 191, 193,
-    2, 192, 216,
-    3, 260, 261, 263,
-    3, 240, 242, 244,
-    1, 243,
+      3,   1,   2,   3,
+      1,   1,
+      4,   1,   2,   4,   5,
+      6,   2,   3,   5,  14,  59,  62,
+      3,   3,  58,  59,
+      6,   4,   5,  13,  14,  15,  16,
+      2,   4,  13,
+      2,   6,   7,
+      6,   0,   6,   7,   8,   9,  10,
+      4,   6,  10,  11,  12,
+      4,   7,   8, 154, 155,
+      6,   8,   9,  77, 154, 163, 194,
+      6,   0,   9,  72,  73,  75,  77,
+      6,   0,  10,  11,  19,  70,  72,
+      6,  11,  12,  17,  18,  19,  20,
+      4,  13,  16,  17,  18,
+      6,  14,  15,  53,  61,  62,  64,
+      6,  15,  16,  18,  20,  64,  67,
+      6,  19,  20,  66,  67,  69,  70,
+      8,  21,  22,  27,  31,  80,  81, 149, 150,
+      3,  21,  22,  26,
+      6,  23,  24,  25,  28,  57,  60,
+      3,  24,  25,  26,
+      6,  22,  24,  26,  27,  28,  29,
+      6,  27,  29,  30,  31,  32,  33,
+      8,  30,  33,  39,  40,  78,  79, 146, 147,
+      6,  34,  35,  37,  44,  63,  65,
+      6,  23,  28,  29,  32,  34,  35,
+      6,  23,  35,  53,  60,  61,  63,
+      6,  38,  39,  40,  41,  42,  43,
+      6,  32,  33,  34,  37,  38,  39,
+      8,  41,  42,  48,  52,  76,  82, 148, 151,
+      6,  44,  46,  65,  66,  68,  69,
+      6,  45,  46,  47,  56,  68,  71,
+      6,  37,  38,  43,  44,  45,  46,
+      6,  42,  43,  45,  47,  48,  49,
+      6,  36,  48,  49,  50,  51,  52,
+      8,  50,  51, 152, 153, 170, 174, 214, 215,
+      6,  36,  47,  49,  54,  55,  56,
+      6,  54,  55,  74, 169, 178, 196,
+      6,  54,  56,  71,  73,  74,  75,
+      3,  25,  57,  58,
+      6,  57,  58,  59,  60,  61,  62,
+      6,  53,  63,  64,  65,  66,  67,
+      6,  68,  69,  70,  71,  72,  73,
+      6,  74,  75,  77, 194, 195, 196,
+      6,  79,  82, 125, 137, 146, 148,
+      6,  78,  80, 129, 130, 147, 149,
+      6,  76, 144, 145, 151, 152, 153,
+      3,  84,  85,  86,
+      1,  85,
+      4,  85,  86,  91,  95,
+      6,  83,  87,  88,  90, 119, 124,
+      3,  84,  87,  88,
+      6,  89,  91,  92,  93,  94,  95,
+      6,  84,  86,  87,  89,  90,  91,
+      4,  93,  94, 101, 105,
+      2,  94,  95,
+      6,  96,  97, 100, 108, 126, 131,
+      6,  83,  89,  90,  92,  96,  97,
+      6,  83,  97, 123, 124, 126, 127,
+      6,  99, 101, 102, 103, 104, 105,
+      6,  92,  93,  96,  99, 100, 101,
+      4,  98, 103, 104, 110,
+      2, 104, 105,
+      6,  99, 100, 102, 106, 107, 108,
+      6, 106, 107, 111, 117, 134, 138,
+      6, 106, 108, 131, 132, 134, 135,
+      6,  98, 109, 110, 112, 113, 114,
+      6, 102, 103, 107, 109, 110, 111,
+      4, 113, 114, 221, 223,
+      2,  98, 114,
+      6, 115, 116, 142, 213, 226, 236,
+      6, 109, 111, 112, 115, 116, 117,
+      6, 116, 117, 138, 140, 141, 142,
+      3,  88, 118, 119,
+      6, 120, 121, 122, 130, 149, 150,
+      3, 118, 120, 121,
+      6, 118, 119, 120, 122, 123, 124,
+      6, 125, 128, 129, 133, 146, 147,
+      6, 122, 123, 127, 128, 129, 130,
+      6, 126, 127, 128, 131, 132, 133,
+      6, 136, 137, 139, 145, 148, 151,
+      6, 125, 132, 133, 135, 136, 137,
+      6, 134, 135, 136, 138, 139, 140,
+      6, 143, 144, 153, 215, 246, 252,
+      6, 139, 140, 141, 143, 144, 145,
+      6, 154, 155, 162, 163, 164, 165,
+      1, 157,
+      3, 157, 158, 159,
+      4, 157, 159, 160, 161,
+      6, 158, 159, 160, 167, 205, 206,
+      6, 156, 160, 161, 166, 167, 168,
+      6, 162, 163, 194, 195, 197, 199,
+      6, 162, 164, 166, 168, 199, 202,
+      4, 156, 164, 165, 166,
+      6, 167, 168, 201, 202, 204, 205,
+      6,  36,  50,  55, 169, 170, 171,
+      6, 170, 171, 172, 173, 174, 175,
+      8, 172, 173, 180, 184, 209, 210, 211, 212,
+      6, 176, 177, 179, 188, 198, 200,
+      6, 169, 171, 175, 176, 177, 178,
+      6, 177, 178, 195, 196, 197, 198,
+      6, 172, 175, 176, 179, 180, 181,
+      6, 180, 181, 182, 183, 184, 185,
+      8, 182, 183, 189, 192, 216, 217, 218, 219,
+      6, 186, 187, 190, 193, 203, 207,
+      6, 179, 181, 185, 186, 187, 188,
+      6, 187, 188, 200, 201, 203, 204,
+      6, 182, 185, 186, 189, 190, 191,
+      3, 189, 191, 192,
+      3, 193, 207, 208,
+      6, 197, 198, 199, 200, 201, 202,
+      6, 203, 204, 205, 206, 207, 208,
+      6, 209, 210, 250, 251, 253, 258,
+      6, 210, 211, 217, 219, 247, 258,
+      6, 209, 212, 214, 215, 251, 252,
+      3, 216, 218, 263,
+      6, 218, 219, 247, 259, 261, 263,
+      6, 220, 221, 222, 223, 224, 225,
+      6, 112, 113, 115, 213, 220, 221,
+      2, 223, 224,
+      4, 224, 225, 230, 235,
+      6, 226, 227, 236, 245, 248, 249,
+      6, 213, 220, 222, 226, 227, 228,
+      6, 227, 228, 231, 239, 249, 255,
+      6, 229, 230, 232, 233, 234, 235,
+      6, 222, 225, 228, 229, 230, 231,
+      2, 233, 235,
+      4, 233, 234, 241, 243,
+      6, 237, 238, 242, 244, 257, 262,
+      6, 229, 231, 232, 237, 238, 239,
+      6, 238, 239, 254, 255, 256, 257,
+      3, 240, 241, 243,
+      6, 232, 234, 237, 240, 241, 242,
+      3, 244, 260, 262,
+      6, 141, 142, 143, 236, 245, 246,
+      6, 245, 246, 248, 250, 251, 252,
+      6, 248, 249, 250, 253, 254, 255,
+      6, 247, 253, 254, 256, 258, 259,
+      6, 256, 257, 259, 260, 261, 262,
+      2,  12,  17,
+      2,  21,  81,
+      3,  81, 121, 150,
+      4,  30,  31,  78,  80,
+      4,  40,  41,  79,  82,
+      4,  51,  52,  76, 152,
+      2, 155, 165,
+      3, 158, 206, 208,
+      2, 156, 161,
+      4, 173, 174, 212, 214,
+      4, 183, 184, 211, 217,
+      3, 190, 191, 193,
+      2, 192, 216,
+      3, 260, 261, 263,
+      3, 240, 242, 244,
+      1, 243,
 };
