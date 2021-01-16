@@ -43,7 +43,6 @@ struct CheatList {
     bool         NoBounds;
     bool         FLJ;
     bool         TimeStop;
-    bool         TimeSlow;
 };
 
 extern struct CheatList Cheats;
