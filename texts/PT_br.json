@@ -1203,7 +1203,7 @@
                 "fazer batidas suaves com a perna.",
                 "Pressione para cima no anal{00243}gico",
                 "para mergulhar, e puxe",
-                "de volta o anal{00243}gica para",
+                "de volta o anal{00243}gico para",
                 "a superf{00237}cie.",
                 "Para saltar fora da {00225}gua,",
                 "Seguro baixo no anal{00243}gico",
@@ -1307,7 +1307,7 @@
             "leftOffset": 30,
             "width": 200,
             "lines": [
-                "Voc{00234} poder retornar",
+                "Voc{00234} pode retornar",
                 "para o hall do castelo a",
                 "qualquer momento dentro de",
                 "um n{00237}vel onde inimigos",
@@ -1716,7 +1716,7 @@
                 "que estou me divertindo",
                 "com brincadeiras",
                 "com os meus lacaios?",
-                "Devolva as estrelhas!",
+                "Devolva as estrelas!",
                 "Minha gangue nas paredes",
                 "precisa! Bwa ha ha!"
             ]
@@ -1846,7 +1846,7 @@
             "lines": [
                 "Ackk! Solte...",
                 "Voc{00234} est{00225} me sufocando...",
-                "Cough...Eu fui enquadrado!",
+                "Tosse...Eu fui enquadrado!",
                 "Esta Cap? Oh, certo,",
                 "tome. {00201} uma Cap legal,",
                 "mas te darei novamente.",
@@ -1890,7 +1890,7 @@
             "leftOffset": 30,
             "width": 200,
             "lines": [
-                "The estrela sombreada na",
+                "A estrela sombreada na",
                 "frente {00233} uma {12302}Star",
                 "Marker.{12303} Quandro voc{00234} coletar",
                 "todas as 8 Red Coins, a Power Star",
@@ -1948,8 +1948,8 @@
             "width": 200,
             "lines": [
                 "Boooooo-m! A{00237} vem ele",
-                "the mestre do teroor,",
-                "a torre do terro,",
+                "the mestre do terror,",
+                "a torre do terror,",
                 "o Big Boo!",
                 "Ka ha ha ha..."
             ]
@@ -1966,7 +1966,7 @@
                 "foi cozido!",
                 "Voc{00234} encontrou algum",
                 "Headhunter ultimamente??",
-                "I poderia usar um novo",
+                "Eu poderia usar um novo",
                 "corpo!",
                 "Brrr! Minha cara pode",
                 "congelar como isso!"
@@ -2572,7 +2572,7 @@
             "width": 200,
             "lines": [
                 "Voc{00234} restaurou tr{00234}s",
-                "Power Stars! Now voc{00234} pode",
+                "Power Stars! Agora voc{00234} pode",
                 "abrir qualquer porta com",
                 "n{00250}mero 3.",
                 "",
@@ -2929,7 +2929,7 @@
             "width": 200,
             "lines": [
                 "Mario!!!",
-                "Realmete {00233} voc{00234}???",
+                "Realmente {00233} voc{00234}???",
                 "Quanto tempo desde a",
                 "nossa {00250}ltima aventura!",
                 "Eles me disseram que poderia",
@@ -3458,7 +3458,7 @@
         "TEXT_NEW": "NOVO",
         "TEXT_4DASHES": "----",
         "TEXT_PAUSE": "PAUSE",
-        "TEXT_HUD_CONGRATULATIONS": "PARAB{00201}NS",
+        "TEXT_HUD_CONGRATULATIONS": "CONGRATULATIONS",
         "TEXT_MARIO": "MARIO",
         "TEXT_SELECT_FILE": "SELECIONAR ARQUIVO",
         "TEXT_CHECK_FILE": "CHECAR ARQUIVO",
