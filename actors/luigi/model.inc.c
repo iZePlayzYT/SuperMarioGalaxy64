@@ -54,7 +54,7 @@ Gfx luigi_button_rgba16_aligner[] = {gsSPEndDisplayList()};
 ALIGNED8 static const u8 luigi_button_rgba16[] = "actors/luigi/button.rgba16";
 
 Gfx luigi_mario_metal_rgba16_aligner[] = {gsSPEndDisplayList()};
-ALIGNED8 static const u8 luigi_mario_metal_rgba16[] = "actors/mario/mario_metal.rgba16";
+ALIGNED8 static const u8 luigi_mario_metal_rgba16[] = "actors/luigi/mario_metal_new.rgba32";
 
 Gfx luigi_logo_rgba16_aligner[] = {gsSPEndDisplayList()};
 ALIGNED8 static const u8 luigi_logo_rgba16[] = "actors/luigi/logo.rgba16";
@@ -3437,15 +3437,15 @@ Gfx mat_luigi_metal[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, ENVIRONMENT, 0, 0, 0, TEXEL0, 0, 0, 0, ENVIRONMENT),
 	gsSPSetGeometryMode(G_TEXTURE_GEN),
-	gsSPTexture(4031, 1983, 0, 0, 1),
+	gsSPTexture(32703, 32703, 0, 0, 1),
 	gsDPTileSync(),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, luigi_mario_metal_rgba16),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_32b, 512, mario_mario_metal_new_rgba32),
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_32b, 128, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 9, 0, G_TX_WRAP | G_TX_NOMIRROR, 9, 0),
 	gsDPLoadSync(),
-	gsDPLoadTile(7, 0, 0, 252, 124),
+	gsDPLoadTile(7, 0, 0, 2044, 2044),
 	gsDPPipeSync(),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0),
-	gsDPSetTileSize(0, 0, 0, 252, 124),
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_32b, 128, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 9, 0, G_TX_WRAP | G_TX_NOMIRROR, 9, 0),
+	gsDPSetTileSize(0, 0, 0, 2044, 2044),
 	gsSPEndDisplayList(),
 };
 
