@@ -3298,7 +3298,7 @@
         "TEXT_OPT_SFXVOLUME": "Effekt Lautstärke",
         "TEXT_OPT_ENVVOLUME": "Umwelt Lautstärke",
         "TEXT_OPT_VSYNC": "Vertikale Synchronisation",
-        "TEXT_OPT_DRAWDIST": "Draw Distance",
+        "TEXT_OPT_DRAWDIST": "Sichtweite",
         "TEXT_OPT_AUTO": "Auto",
         "TEXT_OPT_HUD": "HUD",
         "TEXT_OPT_THREEPT": "Drei-Punkt",
