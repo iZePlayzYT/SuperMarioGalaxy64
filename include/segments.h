@@ -1,9 +1,7 @@
 #ifndef SEGMENTS_H
 #define SEGMENTS_H
 
-#ifdef BETTERCAMERA
 #define USE_EXT_RAM
-#endif
 
 /*
  * Memory addresses for segments. Ideally, this header file would not be

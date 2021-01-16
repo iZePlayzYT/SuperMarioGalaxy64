@@ -35,8 +35,6 @@ OSX_BUILD ?= 0
 TARGET_ARCH ?= native
 TARGET_BITS ?= 0
 
-# Disable better camera by default
-BETTERCAMERA ?= 0
 # Disable 60 fps by default
 HIGHFPS ?= 0
 # Disable HD Model code (Like billboard removal) by default
@@ -535,13 +533,6 @@ else
 endif
 
 # Check for enhancement options
-
-# Check for Puppycam option
-ifeq ($(BETTERCAMERA),1)
-  CC_CHECK += -DBETTERCAMERA
-  CFLAGS += -DBETTERCAMERA
-  EXT_OPTIONS_MENU := 1
-endif
 
 # Check for Model Pack option
 ifeq ($(MODELPACK),1)

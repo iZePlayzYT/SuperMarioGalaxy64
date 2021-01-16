@@ -34,9 +34,7 @@
 int mouse_x;
 int mouse_y;
 
-#ifdef BETTERCAMERA
 extern u8 newcam_mouse;
-#endif
 
 static bool init_ok;
 static bool haptics_enabled;
@@ -113,12 +111,10 @@ static void controller_sdl_init(void) {
         free(gcdata);
     }
     #endif
-    
-#ifdef BETTERCAMERA
+
     if (newcam_mouse == 1)
         SDL_SetRelativeMouseMode(SDL_TRUE);
     SDL_GetRelativeMouseState(&mouse_x, &mouse_y);
-#endif
 
     controller_sdl_bind();
 
@@ -167,7 +163,6 @@ static void controller_sdl_read(OSContPad *pad) {
         return;
     }
 
-#ifdef BETTERCAMERA
     if (newcam_mouse == 1 && sCurrPlayMode != 2)
         SDL_SetRelativeMouseMode(SDL_TRUE);
     else
@@ -182,7 +177,6 @@ static void controller_sdl_read(OSContPad *pad) {
     // remember buttons that changed from 0 to 1
     last_mouse = (mouse_buttons ^ mouse) & mouse;
     mouse_buttons = mouse;
-#endif
 
     SDL_GameControllerUpdate();
 

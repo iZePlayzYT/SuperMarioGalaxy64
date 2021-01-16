@@ -44,7 +44,6 @@ extern unsigned int configKeyStickRight[];
 extern unsigned int configStickDeadzone;
 extern unsigned int configRumbleStrength;
 extern bool         configPrecacheRes;
-#ifdef BETTERCAMERA
 extern unsigned int configCameraXSens;
 extern unsigned int configCameraYSens;
 extern unsigned int configCameraAggr;
@@ -55,7 +54,6 @@ extern bool         configCameraInvertY;
 extern bool         configEnableCamera;
 extern bool         configCameraMouse;
 extern bool         configCameraAnalog;
-#endif
 extern bool         configHUD;
 extern unsigned int configDrawDistance;
 extern bool         configSkipIntro;
