@@ -174,6 +174,36 @@ ALIGNED8 static const u8 texture_font_char_us_button_C_down          [] = "textu
 ALIGNED8 static const u8 texture_font_char_us_button_C_left          [] = "textures/segment2/font_graphics.06F80.ia4";
 ALIGNED8 static const u8 texture_font_char_us_button_C_right         [] = "textures/segment2/font_graphics.06FC0.ia4";
 
+// Small Font - Custom Characters
+ALIGNED8 static const u8 texture_font_char_mayus_accent_a            [] = "textures/special/mayus_accent_a.rgba16";
+ALIGNED8 static const u8 texture_font_char_mayus_accent_e            [] = "textures/special/mayus_accent_e.rgba16";
+ALIGNED8 static const u8 texture_font_char_mayus_accent_i            [] = "textures/special/mayus_accent_i.rgba16";
+ALIGNED8 static const u8 texture_font_char_mayus_accent_o            [] = "textures/special/mayus_accent_o.rgba16";
+ALIGNED8 static const u8 texture_font_char_mayus_accent_u            [] = "textures/special/mayus_accent_u.rgba16";
+ALIGNED8 static const u8 texture_font_char_exclamation               [] = "textures/special/exclamation.rgba16";
+ALIGNED8 static const u8 texture_font_char_mayus_enye                [] = "textures/special/mayus_enye.rgba16";
+ALIGNED8 static const u8 texture_font_char_accent_a                  [] = "textures/special/accent_a.rgba16";
+ALIGNED8 static const u8 texture_font_char_accent_e                  [] = "textures/special/accent_e.rgba16";
+ALIGNED8 static const u8 texture_font_char_accent_i                  [] = "textures/special/accent_i.rgba16";
+ALIGNED8 static const u8 texture_font_char_accent_o                  [] = "textures/special/accent_o.rgba16";
+ALIGNED8 static const u8 texture_font_char_accent_u                  [] = "textures/special/accent_u.rgba16";
+ALIGNED8 static const u8 texture_font_char_question                  [] = "textures/special/question.rgba16";
+ALIGNED8 static const u8 texture_font_char_enye                      [] = "textures/special/enye.rgba16";
+ALIGNED8 static const u8 texture_font_char_sz   		  			 [] = "textures/special/sz.rgba16";
+ALIGNED8 static const u8 texture_font_char_ae_lowercase   			 [] = "textures/special/ae_lowercase.rgba16";
+ALIGNED8 static const u8 texture_font_char_ae_uppercase   			 [] = "textures/special/ae_uppercase.rgba16";
+ALIGNED8 static const u8 texture_font_char_oe_lowercase   			 [] = "textures/special/oe_lowercase.rgba16";
+ALIGNED8 static const u8 texture_font_char_oe_uppercase   			 [] = "textures/special/oe_uppercase.rgba16";
+ALIGNED8 static const u8 texture_font_char_ue_uppercase 			 [] = "textures/special/ue_uppercase.rgba16";
+ALIGNED8 static const u8 texture_font_char_ue_lowercase 			 [] = "textures/special/ue_lowercase.rgba16";
+
+ALIGNED8 static const u8 texture_font_char_g_breve_uppercase   		 [] = "textures/special/character_011E.rgba16";
+ALIGNED8 static const u8 texture_font_char_g_breve_lowercase   		 [] = "textures/special/character_011F.rgba16";
+ALIGNED8 static const u8 texture_font_char_s_cedilla_uppercase   	 [] = "textures/special/character_015E.rgba16";
+ALIGNED8 static const u8 texture_font_char_s_cedilla_lowercase   	 [] = "textures/special/character_015F.rgba16";
+ALIGNED8 static const u8 texture_font_char_i_uppercase 			     [] = "textures/special/character_0130.rgba16";
+ALIGNED8 static const u8 texture_font_char_i_lowercase 			     [] = "textures/special/character_0131.rgba16";
+
 // HUD Font - Custom Characters
 ALIGNED8 static const u8 texture_hud_char_J                          [] = "textures/special/hud_j.rgba16";
 ALIGNED8 static const u8 texture_hud_char_Q                          [] = "textures/special/hud_q.rgba16";
@@ -252,33 +282,34 @@ const u8 *const main_font_lut[] = {
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
+    texture_font_char_ae_lowercase                           , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
+    texture_font_char_ae_uppercase                           , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , texture_font_char_us_comma                      /* ',' */,
+// SPECIAL CHARS: Start ID - 112:0x70
+    texture_font_char_accent_a                               , texture_font_char_accent_e                               ,
+    texture_font_char_accent_i                               , texture_font_char_accent_o                               ,
+    texture_font_char_accent_u                               , texture_font_char_mayus_accent_a                         ,
+    texture_font_char_mayus_accent_e                         , texture_font_char_mayus_accent_i                         ,
+    texture_font_char_mayus_accent_o                         , texture_font_char_mayus_accent_u                         ,
+    texture_font_char_enye                                   , texture_font_char_mayus_enye                             ,
+    texture_font_char_ue_lowercase                           , texture_font_char_ue_uppercase                           ,
+    texture_font_char_question                               , texture_font_char_exclamation                            ,
+    texture_font_char_g_breve_uppercase                      , texture_font_char_g_breve_lowercase                      ,
+    texture_font_char_s_cedilla_uppercase                    , texture_font_char_s_cedilla_lowercase                    ,
+    texture_font_char_i_uppercase                            , texture_font_char_i_lowercase                            ,
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
+    texture_font_char_oe_lowercase                           , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
+    texture_font_char_oe_uppercase                           , 0x0                           							,
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
@@ -321,7 +352,7 @@ const u8 *const main_font_lut[] = {
     texture_font_char_us_ellipsis                   /* ':' */, 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
+    texture_font_char_sz                                     , 0x0                                                      ,
     0x0                                                      , 0x0                                                      ,
     0x0                 /* leftover <JP voiced sound mark> */, 0x0            /* leftover <JP semi-voiced sound mark> */,
     texture_font_char_us_exclamation                /* '!' */, texture_font_char_us_percent                    /* '%' */,
