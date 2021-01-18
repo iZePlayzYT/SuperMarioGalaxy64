@@ -41,7 +41,7 @@ struct Character charmap[512] = {
     {"{00201}",  {77, NULL}},    // LATIN CAPITAL LETTER E WITH ACUTE
     {"{00202}",  {78, NULL}},    // LATIN CAPITAL LETTER E WITH CIRCUMFLEX
     {"{00203}",  {79, NULL}},    // LATIN CAPITAL LETTER E WITH DIAERESIS
-                 ////////////
+    ////////////
     {"{00204}",  {89, NULL}},    // LATIN CAPITAL LETTER I WITH GRAVE
     {"{00205}",  {90, NULL}},    // LATIN CAPITAL LETTER I WITH ACUTE
     {"{00206}",  {91, NULL}},    // LATIN CAPITAL LETTER I WITH CIRCUMFLEX
@@ -65,7 +65,7 @@ struct Character charmap[512] = {
     {"{00224}", {108, NULL}},    // LATIN SMALL LETTER A WITH GRAVE
     {"{00225}", {109, NULL}},    // LATIN SMALL LETTER A WITH ACUTE
     {"{00226}", {110, NULL}},    // LATIN SMALL LETTER A WITH CIRCUMFLEX
-                /////////////
+    /////////////
     {"{00227}", {112, NULL}},    // LATIN SMALL LETTER A WITH TILDE
     {"{00228}", {113, NULL}},    // LATIN SMALL LETTER A WITH DIAERESIS
     {"{00229}", {114, NULL}},    // LATIN SMALL LETTER A WITH RING ABOVE
@@ -128,10 +128,83 @@ struct Character charmap[512] = {
     {"{00377}", {163, NULL}},    // LATIN CAPITAL LETTER Z WITH ACUTE
     {"{00378}", {164, NULL}},    // LATIN SMALL LETTER Z WITH ACUTE
     {"{00379}", {165, NULL}},    // LATIN CAPITAL LETTER Z WITH DOT ABOVE
-                /////////////
+    /////////////
     {"{00380}", {166, NULL}},    // LATIN SMALL LETTER Z WITH DOT ABOVE
     ///////////
     {"{07838}", {167, NULL}},    // LATIN EXTENDED ADDITIONAL = small eszett
+    ///////////
+    {"{00928}", {168, NULL}},    // Greek Capital Letter Pi
+    {"{00929}", {169, NULL}},    // Greek Capital Letter Rho
+    {"{00931}", {170, NULL}},    // Greek Capital Letter Sigma
+    {"{00932}", {171, NULL}},    // Greek Capital Letter Tau
+    {"{00933}", {172, NULL}},    // Greek Capital Letter Upsilon
+    {"{00934}", {173, NULL}},    // Greek Capital Letter Phi
+    {"{00935}", {174, NULL}},    // Greek Capital Letter Chi
+    {"{00936}", {175, NULL}},    // Greek Capital Letter Psi
+    {"{00937}", {176, NULL}},    // Greek Capital Letter Omega
+    {"{00938}", {177, NULL}},    // Imagine the rest are documented
+    {"{00939}", {178, NULL}},    // 
+    {"{00940}", {179, NULL}},    // 
+    {"{00941}", {180, NULL}},    // 
+    {"{00942}", {181, NULL}},    // 
+    {"{00943}", {182, NULL}},    // 
+    {"{00944}", {183, NULL}},    // 
+    {"{00945}", {184, NULL}},    // 
+    {"{00946}", {185, NULL}},    // 
+    {"{00947}", {186, NULL}},    // 
+    {"{00948}", {187, NULL}},    // 
+    {"{00949}", {188, NULL}},    // 
+    {"{00950}", {189, NULL}},    // 
+    {"{00951}", {190, NULL}},    // 
+    {"{00952}", {191, NULL}},    // 
+    {"{00953}", {192, NULL}},    // 
+    {"{00954}", {193, NULL}},    // 
+    {"{00955}", {194, NULL}},    // 
+    {"{00956}", {195, NULL}},    // 
+    {"{00957}", {196, NULL}},    // 
+    {"{00958}", {197, NULL}},    // 
+    {"{00959}", {198, NULL}},    // 
+    {"{00960}", {199, NULL}},    // 
+    {"{00961}", {200, NULL}},    // 
+    {"{00962}", {201, NULL}},    // 
+    {"{00963}", {202, NULL}},    // 
+    {"{00964}", {203, NULL}},    // 
+    {"{00965}", {204, NULL}},    // 
+    {"{00966}", {205, NULL}},    // 
+    {"{00967}", {206, NULL}},    // 
+    {"{00968}", {207, NULL}},    // 
+    ///////////
+    {"{00969}", {211, NULL}},    // 
+    {"{00970}", {212, NULL}},    // 
+    {"{00971}", {213, NULL}},    // 
+    {"{00972}", {214, NULL}},    // 
+    {"{00973}", {215, NULL}},    // 
+    {"{00974}", {216, NULL}},    // 
+    {"{00922}", {217, NULL}},    // 
+    {"{00923}", {218, NULL}},    // 
+    {"{00924}", {219, NULL}},    // 
+    {"{00925}", {220, NULL}},    // 
+    {"{00926}", {221, NULL}},    // 
+    {"{00927}", {222, NULL}},    // 
+    {"{00913}", {223, NULL}},    // 
+    ///////////
+    {"{00914}", {231, NULL}},    // 
+    {"{00915}", {232, NULL}},    // 
+    {"{00916}", {233, NULL}},    // 
+    {"{00917}", {234, NULL}},    // 
+    {"{00918}", {235, NULL}},    // 
+    {"{00919}", {236, NULL}},    // 
+    {"{00920}", {237, NULL}},    //
+    {"{00921}", {238, NULL}},    //  
+    ///////////
+    {"{00906}", {255, NULL}},    // 
+    {"{00908}", {256, NULL}},    // 
+    {"{00910}", {257, NULL}},    // 
+    {"{00911}", {258, NULL}},    // 
+    {"{00902}", {259, NULL}},    // 
+    {"{00904}", {260, NULL}},    // 
+    {"{00905}", {261, NULL}},    // 
+    {"{00912}", {262, NULL}},    // 
     ////////////////////////
 };
 

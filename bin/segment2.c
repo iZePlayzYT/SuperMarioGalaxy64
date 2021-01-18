@@ -286,6 +286,77 @@ ALIGNED8 static const u8 texture_font_char_cust_Z_dot                [] = "textu
 ALIGNED8 static const u8 texture_font_char_cust_z_dot                [] = "textures/special/character_017C.ia4";
 //
 ALIGNED8 static const u8 texture_font_char_cust_eszett               [] = "textures/special/character_1E9E.ia4";
+// GREEK
+ALIGNED8 static const u8 texture_font_char_cust_pi_capital           [] = "textures/special/character_03A0.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_rho_capital          [] = "textures/special/character_03A1.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_sigma_capital        [] = "textures/special/character_03A3.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_tau_capital          [] = "textures/special/character_03A4.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_upsilon_capital      [] = "textures/special/character_03A5.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_phi_capital          [] = "textures/special/character_03A6.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_chi_capital          [] = "textures/special/character_03A7.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_psi_capital          [] = "textures/special/character_03A8.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_omega_capital        [] = "textures/special/character_03A9.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_iota_dot_capital     [] = "textures/special/character_03AA.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_upsilon_dot_capital  [] = "textures/special/character_03AB.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_alpha_tonos          [] = "textures/special/character_03AC.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_epsilon_tonos        [] = "textures/special/character_03AD.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_eta_tonos            [] = "textures/special/character_03AE.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_iota_tonos           [] = "textures/special/character_03AF.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_upsilon_dot_tonos    [] = "textures/special/character_03B0.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_alpha                [] = "textures/special/character_03B1.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_beta                 [] = "textures/special/character_03B2.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_gamma                [] = "textures/special/character_03B3.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_delta                [] = "textures/special/character_03B4.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_epsilon              [] = "textures/special/character_03B5.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_zeta                 [] = "textures/special/character_03B6.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_eta                  [] = "textures/special/character_03B7.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_theta                [] = "textures/special/character_03B8.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_iota                 [] = "textures/special/character_03B9.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_kappa                [] = "textures/special/character_03BA.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_lamda                [] = "textures/special/character_03BB.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_mu                   [] = "textures/special/character_03BC.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_nu                   [] = "textures/special/character_03BD.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_xi                   [] = "textures/special/character_03BE.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_omicron              [] = "textures/special/character_03BF.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_pi                   [] = "textures/special/character_03C0.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_rho                  [] = "textures/special/character_03C1.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_final_sigma          [] = "textures/special/character_03C2.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_sigma                [] = "textures/special/character_03C3.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_tau                  [] = "textures/special/character_03C4.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_upsilon              [] = "textures/special/character_03C5.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_phi                  [] = "textures/special/character_03C6.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_chi                  [] = "textures/special/character_03C7.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_psi                  [] = "textures/special/character_03C8.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_omega                [] = "textures/special/character_03C9.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_iota_dot             [] = "textures/special/character_03CA.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_upsilon_dot          [] = "textures/special/character_03CB.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_omicron_tonos        [] = "textures/special/character_03CC.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_upsilon_tonos        [] = "textures/special/character_03CD.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_omega_tonos          [] = "textures/special/character_03CE.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_kappa_capital        [] = "textures/special/character_039A.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_lamda_capital        [] = "textures/special/character_039B.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_mu_capital           [] = "textures/special/character_039C.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_nu_capital           [] = "textures/special/character_039D.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_xi_capital           [] = "textures/special/character_039E.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_omicron_capital      [] = "textures/special/character_039F.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_alpha_capital        [] = "textures/special/character_0391.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_beta_capital         [] = "textures/special/character_0392.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_gamma_capital        [] = "textures/special/character_0393.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_delta_capital        [] = "textures/special/character_0394.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_epsilon_capital      [] = "textures/special/character_0395.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_zeta_capital         [] = "textures/special/character_0396.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_eta_capital          [] = "textures/special/character_0397.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_theta_capital        [] = "textures/special/character_0398.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_iota_capital         [] = "textures/special/character_0399.ia4";
+
+ALIGNED8 static const u8 texture_font_char_cust_iota_tonos_capital   [] = "textures/special/character_038A.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_omicron_tonos_capital[] = "textures/special/character_038C.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_upsilon_tonos_capital[] = "textures/special/character_038E.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_omega_tonos_capital  [] = "textures/special/character_038F.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_alpha_tonos_capital  [] = "textures/special/character_0386.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_epsilon_tonos_capital[] = "textures/special/character_0388.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_eta_tonos_capital    [] = "textures/special/character_0389.ia4";
+ALIGNED8 static const u8 texture_font_char_cust_iota_tonos_dot       [] = "textures/special/character_0390.ia4";
 
 // Main HUD print table 0x02008250-0x02008337
 const u8 *const main_hud_lut[] = {
@@ -392,42 +463,42 @@ const u8 *const main_font_lut[] = {
     texture_font_char_cust_Y_diaeresis                       , texture_font_char_cust_Z_acute                           ,
     texture_font_char_cust_z_acute                           , texture_font_char_cust_Z_dot                             ,
     texture_font_char_cust_z_dot                             , texture_font_char_cust_eszett                            ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
+    texture_font_char_cust_pi_capital                        , texture_font_char_cust_rho_capital                       ,
+    texture_font_char_cust_sigma_capital                     , texture_font_char_cust_tau_capital                       ,
+    texture_font_char_cust_upsilon_capital                   , texture_font_char_cust_phi_capital                       ,
+    texture_font_char_cust_chi_capital                       , texture_font_char_cust_psi_capital                       ,
+    texture_font_char_cust_omega_capital                     , texture_font_char_cust_iota_dot_capital                  ,
+    texture_font_char_cust_upsilon_dot_capital               , texture_font_char_cust_alpha_tonos                       ,
+    texture_font_char_cust_epsilon_tonos                     , texture_font_char_cust_eta_tonos                         ,
+    texture_font_char_cust_iota_tonos                        , texture_font_char_cust_upsilon_dot_tonos                 ,
+    texture_font_char_cust_alpha                             , texture_font_char_cust_beta                              ,
+    texture_font_char_cust_gamma                             , texture_font_char_cust_delta                             ,
+    texture_font_char_cust_epsilon                           , texture_font_char_cust_zeta                              ,
+    texture_font_char_cust_eta                               , texture_font_char_cust_theta                             ,
+    texture_font_char_cust_iota                              , texture_font_char_cust_kappa                             ,
+    texture_font_char_cust_lamda                             , texture_font_char_cust_mu                                ,
+    texture_font_char_cust_nu                                , texture_font_char_cust_xi                                ,
+    texture_font_char_cust_omicron                           , texture_font_char_cust_pi                                ,
+    texture_font_char_cust_rho                               , texture_font_char_cust_final_sigma                       ,
+    texture_font_char_cust_sigma                             , texture_font_char_cust_tau                               ,
+    texture_font_char_cust_upsilon                           , texture_font_char_cust_phi                               ,
+    texture_font_char_cust_chi                               , texture_font_char_cust_psi                               ,
     0x0                                           /* <tab> */, 0x0                                           /* 'the' */,
-    0x0                                           /* 'you' */, 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
+    0x0                                           /* 'you' */, texture_font_char_cust_omega                             ,
+    texture_font_char_cust_iota_dot                          , texture_font_char_cust_upsilon_dot                       ,
+    texture_font_char_cust_omicron_tonos                     , texture_font_char_cust_upsilon_tonos                     ,
+    texture_font_char_cust_omega_tonos                       , texture_font_char_cust_kappa_capital                     ,
+    texture_font_char_cust_lamda_capital                     , texture_font_char_cust_mu_capital                        ,
+    texture_font_char_cust_nu_capital                        , texture_font_char_cust_xi_capital                        ,
+    texture_font_char_cust_omicron_capital                   , texture_font_char_cust_alpha_capital                     ,
     0x0                                 /* <digit counter> */, texture_font_char_us_open_parentheses           /* '(' */,
     texture_font_char_us_close_open_parentheses     /* ')' */, texture_font_char_us_close_parentheses         /* ')(' */,
     texture_font_char_us_left_right_arrow           /* '+' */, texture_font_char_us_ampersand                  /* '&' */,
-    texture_font_char_us_ellipsis                   /* ':' */, 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
-    0x0                                                      , 0x0                                                      ,
+    texture_font_char_us_ellipsis                   /* ':' */, texture_font_char_cust_beta_capital                      ,
+    texture_font_char_cust_gamma_capital                     , texture_font_char_cust_delta_capital                     ,
+    texture_font_char_cust_epsilon_capital                   , texture_font_char_cust_zeta_capital                      ,
+    texture_font_char_cust_eta_capital                       , texture_font_char_cust_theta_capital                     ,
+    texture_font_char_cust_iota_capital                      , 0x0                                                      ,
     0x0                 /* leftover <JP voiced sound mark> */, 0x0            /* leftover <JP semi-voiced sound mark> */,
     texture_font_char_us_exclamation                /* '!' */, texture_font_char_us_percent                    /* '%' */,
     texture_font_char_us_question                   /* '?' */, texture_font_char_us_double_quote_open          /* '"' */,
@@ -435,7 +506,13 @@ const u8 *const main_font_lut[] = {
     0x0                                      /* <ellipses> */, texture_font_char_us_coin                    /* <coin> */,
     texture_font_char_us_star_filled      /* <filled star> */, texture_font_char_us_multiply /* <multiplication sign> */,
     texture_font_char_us_interpunct        /* <interpunct> */, texture_font_char_us_star_hollow      /* <hollow star> */,
-    0x0                                       /* <newline> */, 0x0                                                      ,
+    0x0                                       /* <newline> */, texture_font_char_cust_iota_tonos_capital                ,
+    texture_font_char_cust_omicron_tonos_capital             , texture_font_char_cust_upsilon_tonos_capital             ,
+    texture_font_char_cust_omega_tonos_capital               , texture_font_char_cust_alpha_tonos_capital               ,
+    texture_font_char_cust_epsilon_tonos_capital             , texture_font_char_cust_eta_tonos_capital                 ,
+    texture_font_char_cust_iota_tonos_dot                    , 0x0                                                      ,
+    0x0                                                      , 0x0                                                      ,
+    0x0                                                      , 0x0                                                      ,
 };
 
 // credits font LUT 0x02008738-0x020087CB
