@@ -68,38 +68,26 @@ enum DialogMark { DIALOG_MARK_NONE = 0, DIALOG_MARK_DAKUTEN = 1, DIALOG_MARK_HAN
 #define DEFAULT_DIALOG_BOX_ANGLE 90.0f
 #define DEFAULT_DIALOG_BOX_SCALE 19.0f
 
-#if !defined(VERSION_JP) && !defined(VERSION_SH)
-u8 gDialogCharWidths[256] = { // TODO: Is there a way to auto generate this?
+u8 gDialogCharWidths[512] = { // TODO: Is there a way to auto generate this?
     7,  7,  7,  7,  7,  7,  7,  7,  7,  7,  6,  6,  6,  6,  6,  6,
     6,  6,  5,  6,  6,  5,  8,  8,  6,  6,  6,  6,  6,  5,  6,  6,
     8,  7,  6,  6,  6,  5,  5,  6,  5,  5,  6,  5,  4,  5,  5,  3,
     7,  5,  5,  5,  6,  5,  5,  5,  5,  5,  7,  7,  5,  5,  4,  4,
     8,  6,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     8,  8,  8,  8,  7,  7,  6,  7,  7,  0,  0,  0,  0,  0,  0,  0,
-#ifdef VERSION_EU
-    6,  6,  6,  0,  6,  6,  6,  0,  0,  0,  0,  0,  0,  0,  0,  4,
-    5,  5,  5,  5,  6,  6,  6,  6,  0,  0,  0,  0,  0,  0,  0,  0,
-    5,  5,  5,  0,  6,  6,  6,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-    0,  5,  5,  0,  0,  6,  6,  0,  0,  0,  0,  0,  0,  0,  5,  6,
-    0,  4,  4,  0,  0,  5,  5,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-#else
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  4,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
     0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  5,  6,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-#endif
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-    0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-#ifdef VERSION_EU
-    7,  5, 10,  5,  9,  8,  4,  0,  0,  0,  0,  5,  5,  6,  5,  0,
-#else
-    7,  5, 10,  5,  9,  8,  4,  0,  0,  0,  0,  0,  0,  0,  0,  0,
-#endif
-    0,  0,  5,  7,  7,  6,  6,  8,  0,  8, 10,  6,  4, 10,  0,  0
+    
+    0,  0,  0,  0,  0,  0,  0,  0,  1,  1,  1,  1,  1,  1,  1,  1,
+    1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+    1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0,
+    0,  0,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  1,  0,
+    7,  5, 10,  5,  9,  8,  4,  1,  1,  1,  1,  1,  1,  1,  1,  1,
+    0,  0,  5,  7,  7,  6,  6,  8,  0,  8, 10,  6,  4, 10,  1,  1,
+    1,  1,  1,  1,  1,  1
 };
-#endif
 
 s8 gDialogBoxState = DIALOG_STATE_OPENING;
 f32 gDialogBoxOpenTimer = DEFAULT_DIALOG_BOX_ANGLE;
@@ -1567,7 +1555,7 @@ void render_dialog_triangle_choice(void) {
     gSPDisplayList(gDisplayListHead++, dl_draw_triangle);
 }
 
-#define X_VAL5 118.0f
+#define X_VAL5 178.0f
 #define Y_VAL5_1 -16
 #define Y_VAL5_2 5
 #define X_Y_VAL6 0.8f
@@ -1655,7 +1643,7 @@ s8 gDialogCourseActNum = 1;
 #define DIAG_VAL4 4
 #else
 #define DIAG_VAL1 16
-#define DIAG_VAL3 132 // US & EU
+#define DIAG_VAL3 190 // US & EU
 #define DIAG_VAL4 5
 #endif
 #ifdef VERSION_EU
