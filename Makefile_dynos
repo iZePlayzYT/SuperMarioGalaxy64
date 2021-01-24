@@ -14,20 +14,29 @@ DYNOS_INIT := \
 DYNOS_DO := $(shell $(call DYNOS_INIT))
 INCLUDE_CFLAGS += -DDYNOS
 
-# ---------------
-# Render96 v1.4.2
-# ---------------
+# ----------------
+# Render96 - Luigi
+# ----------------
 
 ifeq ($(findstring src/sgi/utils,$(SRC_DIRS)),src/sgi/utils)
-INCLUDE_CFLAGS += -DRENDER96
+INCLUDE_CFLAGS += -DRENDER_96_LUIGI
 endif
 
-# ---------------
-# Render96 v2.1.a
-# ---------------
+# ----------------
+# Render96 - Alpha
+# ----------------
 
 ifeq ($(findstring src/text/libs,$(SRC_DIRS)),src/text/libs)
-INCLUDE_CFLAGS += -DRENDER96_2
+INCLUDE_CFLAGS += -DRENDER_96_ALPHA
 else
 $(BUILD_DIR)/data/dynos_opt_vanilla_c.o: $(BUILD_DIR)/include/text_strings.h
+endif
+
+# -------------------
+# PC-Ported Rom Hacks
+# -------------------
+
+IS_ROM_HACK ?= 0
+ifeq ($(IS_ROM_HACK),1)
+INCLUDE_CFLAGS += -DIS_ROM_HACK
 endif

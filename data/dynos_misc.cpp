@@ -2,9 +2,11 @@
 extern "C" {
 #include "course_table.h"
 #include "object_fields.h"
+#include "object_constants.h"
 #include "game/object_helpers.h"
 #include "game/segment2.h"
 #include "game/level_geo.h"
+#include "game/level_update.h"
 #include "game/moving_texture.h"
 #include "game/paintings.h"
 #include "game/geo_misc.h"
@@ -34,7 +36,7 @@ extern "C" {
 #include "actors/group15.h"
 #include "actors/group16.h"
 #include "actors/group17.h"
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
 #include "text/text-loader.h"
 #endif
 }
@@ -250,7 +252,7 @@ static const Array<Pair<const char *, void *>> sActors = {
     define_actor(koopa_shell_geo),
 
     define_actor(lakitu_geo),
-#ifdef RENDER96
+#ifdef RENDER_96_LUIGI
     define_actor(luigi_geo),
     define_actor(luigis_cap_geo),
     define_actor(luigis_metal_cap_geo),
@@ -475,7 +477,7 @@ void *DynOS_Geo_GetGraphNode(const void *aGeoLayout, bool aKeepInMemory) {
         }
     }
 
-    // Process the geo layout on a large _Pool of memory (16 MB)
+    // Process the geo layout on a large pool of memory (16 MB)
     struct AllocOnlyPool *_Pool = (struct AllocOnlyPool *) calloc(1, 0x1000000);
     _Pool->totalSpace = 0x1000000    - sizeof(struct AllocOnlyPool);
     _Pool->usedSpace  = 0;
@@ -538,6 +540,11 @@ static const u8 sBowser1[]      = { 11, 24, 32, 28, 14, 27, 158, 1, 255 };
 static const u8 sBowser2[]      = { 11, 24, 32, 28, 14, 27, 158, 2, 255 };
 static const u8 sBowser3[]      = { 11, 24, 32, 28, 14, 27, 158, 3, 255 };
 static const u8 s100CoinsStar[] = { 1, 0, 0, 158, 12, 24, 18, 23, 28, 158, 28, 29, 10, 27, 255 };
+static const u8 sRedCoinsStar[] = { 27, 14, 13, 158, 12, 24, 18, 23, 28, 158, 28, 29, 10, 27, 255 };
+static const u8 *sOneSecretStar = NULL;
+#ifdef IS_ROM_HACK
+static const u8 sStar_[]        = { 28, 29, 10, 27, 158, 158, 255 };
+#endif
 
 static s32 _GetCourse(s32 aLevel) {
     for (const auto &lcs : sLevelCourseScript) {
@@ -572,8 +579,16 @@ static void _SetLevelName(u8 *aBuffer, s32 aLevel) {
 
 static void _SetActName(u8 *aBuffer, s32 aLevel, s32 aAct) {
     s32 _Course = _GetCourse(aLevel);
-    if (_Course > COURSE_STAGES_MAX) { memcpy(aBuffer, sEmpty,        DynOS_String_Length(sEmpty));        return; }
-    if (aAct >= 7)                   { memcpy(aBuffer, s100CoinsStar, DynOS_String_Length(s100CoinsStar)); return; }
+    if (_Course < COURSE_BOB)        { memcpy(aBuffer, sOneSecretStar, DynOS_String_Length(sOneSecretStar)); return; }
+#ifdef IS_ROM_HACK
+    if (_Course > COURSE_STAGES_MAX) { memcpy(aBuffer, sStar_,         DynOS_String_Length(sStar_)); aBuffer[5] = aAct; return; }
+#else
+    if (aLevel == LEVEL_BITDW)       { memcpy(aBuffer, sRedCoinsStar,  DynOS_String_Length(sRedCoinsStar));  return; }
+    if (aLevel == LEVEL_BITFS)       { memcpy(aBuffer, sRedCoinsStar,  DynOS_String_Length(sRedCoinsStar));  return; }
+    if (aLevel == LEVEL_BITS)        { memcpy(aBuffer, sRedCoinsStar,  DynOS_String_Length(sRedCoinsStar));  return; }
+    if (_Course > COURSE_STAGES_MAX) { memcpy(aBuffer, sEmpty,         DynOS_String_Length(sEmpty));         return; }
+#endif
+    if (aAct >= 7)                   { memcpy(aBuffer, s100CoinsStar,  DynOS_String_Length(s100CoinsStar));  return; }
 
     const u8 *actName = ((const u8 **) seg2_act_name_table)[(_Course - COURSE_BOB) * 6 + (aAct - 1)];
     memcpy(aBuffer, actName, DynOS_String_Length(actName));
@@ -661,6 +676,9 @@ static void DynOS_Level_Init() {
             sLevelScripts[i] = _GetScript(i);
         }
 
+        // One of the castle secret stars!
+        sOneSecretStar = ((const u8 **) seg2_act_name_table)[COURSE_STAGES_MAX * 6];
+
         // Done
         sInited = true;
     }
@@ -732,4 +750,87 @@ u8 *DynOS_Level_GetActName(s32 aLevel, s32 aAct, bool aDecaps, bool aAddStarNumb
     }
 
     return sBuffer;
+}
+
+//
+// Level Params
+//
+
+s32 DynOS_Level_GetParamValue(s32 aLevel, u32 aIndex) {
+#ifndef IS_ROM_HACK
+    static const s32 sLevelParams[][4] = {
+        { 0b00, 0b10, 0b01, 0b11 },
+        { 31, 1024, 1792, 2816 },
+        { 0b10, 0b11, 0b00, 0b01 },
+        { TTC_SPEED_STOPPED, TTC_SPEED_SLOW, TTC_SPEED_FAST, TTC_SPEED_RANDOM }
+    };
+    switch (aLevel) {
+        case LEVEL_DDD: return sLevelParams[0][MIN(3, aIndex)];
+        case LEVEL_WDW: return sLevelParams[1][MIN(3, aIndex)];
+        case LEVEL_THI: return sLevelParams[2][MIN(3, aIndex)];
+        case LEVEL_TTC: return sLevelParams[3][MIN(3, aIndex)];
+    }
+#endif
+    return 0;
+}
+
+const char *DynOS_Level_GetParamName(s32 aLevel, u32 aIndex) {
+    static const char *sLevelParams[][4] = {
+#ifdef RENDER_96_ALPHA
+        { "DYNOS_WARP_PARAM_DDD_NOTHING", "DYNOS_WARP_PARAM_DDD_SUB_ONLY", "DYNOS_WARP_PARAM_DDD_POLES_ONLY", "DYNOS_WARP_PARAM_DDD_SUB_AND_POLES" },
+        { "DYNOS_WARP_PARAM_WDW_LOWEST", "DYNOS_WARP_PARAM_WDW_LOW", "DYNOS_WARP_PARAM_WDW_HIGH", "DYNOS_WARP_PARAM_WDW_HIGHEST" },
+        { "DYNOS_WARP_PARAM_THI_TINY_FLOODED", "DYNOS_WARP_PARAM_THI_TINY_DRAINED", "DYNOS_WARP_PARAM_THI_HUGE_FLOODED", "DYNOS_WARP_PARAM_THI_HUGE_DRAINED" },
+        { "DYNOS_WARP_PARAM_TTC_CLOCK_STOP", "DYNOS_WARP_PARAM_TTC_CLOCK_SLOW", "DYNOS_WARP_PARAM_TTC_CLOCK_FAST", "DYNOS_WARP_PARAM_TTC_CLOCK_RANDOM" },
+        { "DYNOS_WARP_PARAM_NONE", "DYNOS_WARP_PARAM_NONE", "DYNOS_WARP_PARAM_NONE", "DYNOS_WARP_PARAM_NONE" }
+#else
+        { "No Submarine, No Poles", "Submarine Only", "Poles Only", "Submarine And Poles" },
+        { "Water Level: Lowest", "Water Level: Low", "Water Level: High", "Water Level: Highest" },
+        { "Tiny Island: Top Flooded", "Tiny Island: Top Drained", "Huge Island: Top Flooded", "Huge Island: Top Drained" },
+        { "Clock Speed: Stopped", "Clock Speed: Slow", "Clock Speed: Fast", "Clock Speed: Random" },
+        { "", "", "", "" }
+#endif
+    };
+#ifndef IS_ROM_HACK
+    switch (aLevel) {
+        case LEVEL_DDD: return sLevelParams[0][MIN(3, aIndex)];
+        case LEVEL_WDW: return sLevelParams[1][MIN(3, aIndex)];
+        case LEVEL_THI: return sLevelParams[2][MIN(3, aIndex)];
+        case LEVEL_TTC: return sLevelParams[3][MIN(3, aIndex)];
+    }
+#endif
+    return sLevelParams[4][MIN(3, aIndex)];
+}
+
+// -1: Use default
+//  0: Never spawn
+//  1: Always spawn
+s32 gDDDBowsersSub = -1;
+s32 gDDDPoles = -1;
+void DynOS_Level_SetParam(s32 aLevel, s32 aParamValue) {
+#ifndef IS_ROM_HACK
+    switch (aLevel) {
+        case LEVEL_DDD:
+            gDDDBowsersSub = ((aParamValue >> 1) & 1);
+            gDDDPoles = ((aParamValue >> 0) & 1);
+            break;
+
+        case LEVEL_WDW:
+            gEnvironmentRegions[6] = aParamValue;
+            *gEnvironmentLevels = aParamValue;
+            break;
+
+        case LEVEL_THI:
+            sWarpDest.type = 2;
+            sWarpDest.levelNum = gCurrLevelNum;
+            sWarpDest.areaIdx = 1 + ((aParamValue >> 1) & 1);
+            sWarpDest.nodeId = 0x0A;
+            sWarpDest.arg = 0;
+            gTHIWaterDrained = ((aParamValue >> 0) & 1);
+            break;
+
+        case LEVEL_TTC:
+            gTTCSpeedSetting = aParamValue;
+            break;
+    }
+#endif
 }

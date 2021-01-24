@@ -406,17 +406,16 @@ static bool preload_texture(void *user, const char *path) {
 }
 
 static void import_texture(int tile) {
+    extern int dynos_gfx_import_texture(void **, void *, int, void *, void **, void *, int *, int);
+    if (dynos_gfx_import_texture((void **) &rendering_state.textures[tile], (void *) rdp.loaded_texture[tile].addr, tile, gfx_rapi, (void **) gfx_texture_cache.hashmap, (void *) gfx_texture_cache.pool, (int *) &gfx_texture_cache.pool_pos, MAX_CACHED_TEXTURES)) {
+        return;
+    }
     uint8_t fmt = rdp.texture_tile.fmt;
     uint8_t siz = rdp.texture_tile.siz;
 
     if (!rdp.loaded_texture[tile].addr) {
         fprintf(stderr, "NULL texture: tile %d, format %d/%d, size %d\n",
                 tile, (int)fmt, (int)siz, (int)rdp.loaded_texture[tile].size_bytes);
-        return;
-    }
-
-    extern int dynos_gfx_import_texture(void **, void *, int, void *, void **, void *, int *, int);
-    if (dynos_gfx_import_texture((void **) &rendering_state.textures[tile], (void *) rdp.loaded_texture[tile].addr, tile, gfx_rapi, (void **) gfx_texture_cache.hashmap, (void *) gfx_texture_cache.pool, (int *) &gfx_texture_cache.pool_pos, MAX_CACHED_TEXTURES)) {
         return;
     }
 

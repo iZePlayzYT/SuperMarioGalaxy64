@@ -143,8 +143,8 @@ s32 dynos_is_level_exit() {
     return DynOS_IsLevelExit();
 }
 
-void dynos_update_gfx() {
-    return DynOS_UpdateGfx();
+void dynos_update_gfx(void **pLevelCmd) {
+    return DynOS_UpdateGfx(pLevelCmd);
 }
 
 //
@@ -263,8 +263,8 @@ s32 dynos_gfx_import_texture(void **output, void *ptr, s32 tile, void *grapi, vo
     return DynOS_Gfx_ImportTexture(output, ptr, tile, grapi, hashmap, pool, (u32 *) poolpos, (u32) poolsize);
 }
 
-void dynos_gfx_update_animation(void *ptr) {
-    return DynOS_Gfx_UpdateAnimation(ptr);
+void dynos_gfx_swap_animations(void *ptr) {
+    return DynOS_Gfx_SwapAnimations(ptr);
 }
 
 //

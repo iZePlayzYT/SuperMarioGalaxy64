@@ -42,11 +42,11 @@ static s32 RetrieveCurrentMarioAnimationIndex() {
 // Retrieve the current animation index
 // As we don't know the length of the table, let's hope that we'll always find the animation...
 static s32 RetrieveCurrentAnimationIndex(struct Object *aObject) {
-    if (!aObject->oAnimations || !aObject->header.gfx.unk38.curAnim) {
+    if (!aObject->oAnimations || !aObject->header.gfx.mAnimInfo.curAnim) {
         return -1;
     }
     for (s32 i = 0; aObject->oAnimations[i] != NULL; ++i) {
-        if (aObject->oAnimations[i] == aObject->header.gfx.unk38.curAnim) {
+        if (aObject->oAnimations[i] == aObject->header.gfx.mAnimInfo.curAnim) {
             return i;
         }
     }
@@ -54,7 +54,7 @@ static s32 RetrieveCurrentAnimationIndex(struct Object *aObject) {
 }
 
 // Must be called twice, before and after geo_set_animation_globals
-void DynOS_Gfx_UpdateAnimation(void *aPtr) {
+void DynOS_Gfx_SwapAnimations(void *aPtr) {
     static Animation *pDefaultAnimation = NULL;
     static Animation  sGfxDataAnimation;
 
@@ -66,7 +66,7 @@ void DynOS_Gfx_UpdateAnimation(void *aPtr) {
 
     // Swap the current animation with the one from the Gfx data
     if (!pDefaultAnimation) {
-        pDefaultAnimation = _Object->header.gfx.unk38.curAnim;
+        pDefaultAnimation = _Object->header.gfx.mAnimInfo.curAnim;
 
         // Actor index
         s32 _ActorIndex = DynOS_Geo_GetActorIndex(_Object->header.gfx.sharedChild->georef);
@@ -94,21 +94,21 @@ void DynOS_Gfx_UpdateAnimation(void *aPtr) {
         // Animation data
         const AnimData *_AnimData = (const AnimData *) _GfxData->mAnimationTable[_AnimIndex].second;
         if (_AnimData) {
-            sGfxDataAnimation.flags  = _AnimData->mFlags;
-            sGfxDataAnimation.unk02  = _AnimData->mUnk02;
-            sGfxDataAnimation.unk04  = _AnimData->mUnk04;
-            sGfxDataAnimation.unk06  = _AnimData->mUnk06;
-            sGfxDataAnimation.unk08  = _AnimData->mUnk08;
-            sGfxDataAnimation.unk0A  = _AnimData->mUnk0A.second;
+            sGfxDataAnimation.flags = _AnimData->mFlags;
+            sGfxDataAnimation.mAnimYTransDivisor = _AnimData->mUnk02;
+            sGfxDataAnimation.mStartFrame = _AnimData->mUnk04;
+            sGfxDataAnimation.mLoopStart = _AnimData->mUnk06;
+            sGfxDataAnimation.mLoopEnd = _AnimData->mUnk08;
+            sGfxDataAnimation.mUnusedBoneCount = _AnimData->mUnk0A.second;
             sGfxDataAnimation.values = _AnimData->mValues.second.begin();
-            sGfxDataAnimation.index  = _AnimData->mIndex.second.begin();
+            sGfxDataAnimation.index = _AnimData->mIndex.second.begin();
             sGfxDataAnimation.length = _AnimData->mLength;
-            _Object->header.gfx.unk38.curAnim = &sGfxDataAnimation;
+            _Object->header.gfx.mAnimInfo.curAnim = &sGfxDataAnimation;
         }
 
     // Restore the default animation
     } else {
-        _Object->header.gfx.unk38.curAnim = pDefaultAnimation;
+        _Object->header.gfx.mAnimInfo.curAnim = pDefaultAnimation;
         pDefaultAnimation = NULL;
     }
 }

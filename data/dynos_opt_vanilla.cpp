@@ -53,7 +53,7 @@ static bool DynOS_Opt_CallVanillaAction(const char *aOptName) {
 static DynosOption *DynOS_Opt_ConvertOption(const u8 *aLabel, const u8 *aTitle) {
     static u32 sOptIdx = 0;
     DynosOption *_Opt   = New<DynosOption>();
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
     _Opt->mName         = (const char *) aLabel;
     _Opt->mConfigName   = "";
     _Opt->mLabel        = { (const char *) aLabel, NULL };
@@ -122,7 +122,7 @@ static void DynOS_Opt_ConvertScroll(const u8 *aLabel, s32 aMin, s32 aMax, s32 aS
 
 static void DynOS_Opt_ConvertChoice(const u8 *aLabel, const u8 **aChoices, s32 aCount, u32 *pValue) {
     DynosOption *_Opt    = DynOS_Opt_ConvertOption(aLabel, aLabel);
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
     if (!aChoices) {
     _Opt->mType          = DOPT_LANGUAGE;
     _Opt->mChoice.mIndex = (s32 *) pValue;
