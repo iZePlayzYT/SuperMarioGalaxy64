@@ -21,9 +21,7 @@
 #include "segment_symbols.h"
 #include "thread6.h"
 #include <prevent_bss_reordering.h>
-#ifdef BETTERCAMERA
 #include "bettercamera.h"
-#endif
 
 // FIXME: I'm not sure all of these variables belong in this file, but I don't
 // know of a good way to split them
@@ -528,11 +526,8 @@ void init_controllers(void) {
             gControllers[cont++].controllerData = &gControllerPads[port];
         }
     }
-
-#ifdef BETTERCAMERA
     // load bettercam settings from the config file
     newcam_init_settings();
-#endif
 }
 
 void setup_game_memory(void) {

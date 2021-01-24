@@ -51,52 +51,52 @@ Lights1 mario_shoe_lights = gdSPDefLights1(
 	0xFE, 0xFE, 0xFE, 0x28, 0x28, 0x28);
 
 Gfx mario_button_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_button_rgba16[] = "actors/mario/button.rgba16";
+ALIGNED8 static const u8 mario_button_rgba16[] = "actors/mario/button.rgba16";
 
-Gfx mario_mario_metal_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_mario_metal_rgba16[] = "actors/mario/mario_metal.rgba16";
+Gfx mario_mario_metal_new_rgba32_aligner[] = {gsSPEndDisplayList()};
+ALIGNED8 static const u8 mario_mario_metal_new_rgba32[] = "actors/mario/mario_metal_new.rgba32";
 
 Gfx mario_logo_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_logo_rgba16[] = "actors/mario/logo.rgba16";
+ALIGNED8 static const u8 mario_logo_rgba16[] = "actors/mario/logo.rgba16";
 
 Gfx mario_eye_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_eye_rgba16[] = "actors/mario/eye.rgba16";
+ALIGNED8 static const u8 mario_eye_rgba16[] = "actors/mario/eye.rgba16";
 
 Gfx mario_sideburn_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_sideburn_rgba16[] = "actors/mario/sideburn.rgba16";
+ALIGNED8 static const u8 mario_sideburn_rgba16[] = "actors/mario/sideburn.rgba16";
 
 Gfx mario_mustache_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_mustache_rgba16[] = "actors/mario/mustache.rgba16";
+ALIGNED8 static const u8 mario_mustache_rgba16[] = "actors/mario/mustache.rgba16";
 
 Gfx mario_ear_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_ear_rgba16[] = "actors/mario/ear.rgba16";
+ALIGNED8 static const u8 mario_ear_rgba16[] = "actors/mario/ear.rgba16";
 
 Gfx mario_eyehalf_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_eyehalf_rgba16[] = "actors/mario/eyehalf.rgba16";
+ALIGNED8 static const u8 mario_eyehalf_rgba16[] = "actors/mario/eyehalf.rgba16";
 
 Gfx mario_eyeclosed_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_eyeclosed_rgba16[] = "actors/mario/eyeclosed.rgba16";
+ALIGNED8 static const u8 mario_eyeclosed_rgba16[] = "actors/mario/eyeclosed.rgba16";
 
 Gfx mario_eyedead_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_eyedead_rgba16[] = "actors/mario/eyedead.rgba16";
+ALIGNED8 static const u8 mario_eyedead_rgba16[] = "actors/mario/eyedead.rgba16";
 
 Gfx mario_mario_wing_tip_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_mario_wing_tip_rgba16[] = "actors/mario/mario_wing_tip.rgba16";
+ALIGNED8 static const u8 mario_mario_wing_tip_rgba16[] = "actors/mario/mario_wing_tip.rgba16";
 
 Gfx mario_mario_wing_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_mario_wing_rgba16[] = "actors/mario/mario_wing.rgba16";
+ALIGNED8 static const u8 mario_mario_wing_rgba16[] = "actors/mario/mario_wing.rgba16";
 
 Gfx mario_fist_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_fist_rgba16[] = "actors/mario/fist.rgba16";
+ALIGNED8 static const u8 mario_fist_rgba16[] = "actors/mario/fist.rgba16";
 
 Gfx mario_openhand_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_openhand_rgba16[] = "actors/mario/openhand.rgba16";
+ALIGNED8 static const u8 mario_openhand_rgba16[] = "actors/mario/openhand.rgba16";
 
 Gfx mario_peace_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_peace_rgba16[] = "actors/mario/peace.rgba16";
+ALIGNED8 static const u8 mario_peace_rgba16[] = "actors/mario/peace.rgba16";
 
 Gfx mario_shoe_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 mario_shoe_rgba16[] = "actors/mario/shoe.rgba16";
+ALIGNED8 static const u8 mario_shoe_rgba16[] = "actors/mario/shoe.rgba16";
 
 Vtx mario_000_offset_mesh_vtx_0[75] = {
 	{{{32, -69, 75},0, {926, 71},{0x11, 0xA4, 0x55, 0xFF}}},
@@ -3388,15 +3388,15 @@ Gfx mat_mario_metal[] = {
 	gsDPPipeSync(),
 	gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, ENVIRONMENT, 0, 0, 0, TEXEL0, 0, 0, 0, ENVIRONMENT),
 	gsSPSetGeometryMode(G_TEXTURE_GEN),
-	gsSPTexture(4031, 1983, 0, 0, 1),
+	gsSPTexture(32703, 32703, 0, 0, 1),
 	gsDPTileSync(),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 64, mario_mario_metal_rgba16),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_32b, 512, mario_mario_metal_new_rgba32),
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_32b, 128, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 9, 0, G_TX_WRAP | G_TX_NOMIRROR, 9, 0),
 	gsDPLoadSync(),
-	gsDPLoadTile(7, 0, 0, 252, 124),
+	gsDPLoadTile(7, 0, 0, 2044, 2044),
 	gsDPPipeSync(),
-	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0),
-	gsDPSetTileSize(0, 0, 0, 252, 124),
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_32b, 128, 0, 0, 0, G_TX_WRAP | G_TX_NOMIRROR, 9, 0, G_TX_WRAP | G_TX_NOMIRROR, 9, 0),
+	gsDPSetTileSize(0, 0, 0, 2044, 2044),
 	gsSPEndDisplayList(),
 };
 

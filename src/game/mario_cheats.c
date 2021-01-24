@@ -1193,18 +1193,11 @@ void cheats_mario_inputs(struct MarioState *m) {
             gTimeStopState &= ~(TIME_STOP_ENABLED);
         }
         /* Time Stop DynOS emhancements*/
-        if (Cheats.TimeSlow && Cheats.TimeStop == false && !(m->controller->buttonDown & TIME_BUTTON)) {
-            Cheats.TimeStop = true;
-        }
-        if (Cheats.TimeSlow == false && Cheats.TimeStop && !(m->controller->buttonDown & TIME_BUTTON)) {
-            Cheats.TimeStop = false;
-        }
         if (m->controller->buttonDown & TIME_BUTTON) {
-            if (!Cheats.TimeSlow) {
-                Cheats.TimeSlow = true;
-            } else
-            if (Cheats.TimeSlow) {
-                Cheats.TimeSlow = false;
+            if (!Cheats.TimeStop) {
+                enable_time_stop();
+            } else {
+                gTimeStopState &= ~(TIME_STOP_ENABLED);
             }
         }
 

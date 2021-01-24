@@ -14,6 +14,7 @@
 #include "area.h"
 #include "save_file.h"
 #include "print.h"
+#include "engine/surface_load.h"
 #include "pc/configfile.h"
 
 #ifdef TARGET_SWITCH
@@ -580,7 +581,6 @@ void render_hud_camera_status(void) {
     if (sCameraHUD.status == CAM_STATUS_NONE) {
         return;
     }
-    #ifdef BETTERCAMERA
     if (configEnableCamera == false) {
     gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
     render_hud_tex_lut(x, y, (*cameraLUT)[GLYPH_CAM_CAMERA]);
@@ -611,37 +611,6 @@ void render_hud_camera_status(void) {
             break;
     }
   }
-    #else
-    gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
-    render_hud_tex_lut(x, y, (*cameraLUT)[GLYPH_CAM_CAMERA]);
-
-    switch (sCameraHUD.status & CAM_STATUS_MODE_GROUP) {
-        case CAM_STATUS_MARIO:
-            if(isLuigi()){
-                render_hud_tex_lut(x + 16, y, "textures/segment2/luigi_normal.rgba32");
-            }
-            else{
-                render_hud_tex_lut(x + 16, y, "textures/segment2/mario_normal.rgba32");
-            }
-            break;
-        case CAM_STATUS_LAKITU:
-            render_hud_tex_lut(x + 16, y, (*cameraLUT)[GLYPH_CAM_LAKITU_HEAD]);
-            break;
-        case CAM_STATUS_FIXED:
-            render_hud_tex_lut(x + 16, y, (*cameraLUT)[GLYPH_CAM_FIXED]);
-            break;
-    }
-
-    switch (sCameraHUD.status & CAM_STATUS_C_MODE_GROUP) {
-        case CAM_STATUS_C_DOWN:
-            render_hud_small_tex_lut(x + 4, y + 16, (*cameraLUT)[GLYPH_CAM_ARROW_DOWN]);
-            break;
-        case CAM_STATUS_C_UP:
-            render_hud_small_tex_lut(x + 4, y - 8, (*cameraLUT)[GLYPH_CAM_ARROW_UP]);
-            break;
-    }
-  #endif
-
     gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
 }
 
@@ -730,6 +699,15 @@ void render_hud(void) {
 
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_TIMER && configHUD) {
             render_hud_timer();
+        }
+
+        if (gSurfacePoolError & NOT_ENOUGH_ROOM_FOR_SURFACES)
+        {
+            print_text(10, 40, "SURFACE POOL FULL");
+        }
+        if (gSurfacePoolError & NOT_ENOUGH_ROOM_FOR_NODES)
+        {
+            print_text(10, 60, "SURFACE NODE POOL FULL");
         }
 
         if( configHUD ) {

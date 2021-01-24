@@ -83,7 +83,6 @@ unsigned int configKeyStickRight[MAX_BINDS] = { 0x0020,   VK_INVALID, VK_INVALID
 unsigned int configStickDeadzone = 16; // 16*DEADZONE_STEP=4960 (the original default deadzone)
 unsigned int configRumbleStrength = 50;
 
-#ifdef BETTERCAMERA
 // BetterCamera settings
 unsigned int configCameraXSens   = 50;
 unsigned int configCameraYSens   = 50;
@@ -95,7 +94,6 @@ bool         configCameraInvertY = false;
 bool         configEnableCamera  = false;
 bool         configCameraAnalog  = true;
 bool         configCameraMouse   = false;
-#endif
 bool         configSkipIntro     = 0;
 bool         configHUD           = true;
 unsigned int configDrawDistance  = 100;
@@ -137,7 +135,6 @@ static const struct ConfigOption options[] = {
     #ifdef TARGET_SWITCH
     {.name = "nx_hud",               .type = CONFIG_TYPE_BOOL, .boolValue = &configSwitchHud},
     #endif
-    #ifdef BETTERCAMERA
     {.name = "bettercam_enable",     .type = CONFIG_TYPE_BOOL, .boolValue = &configEnableCamera},
     {.name = "bettercam_analog",     .type = CONFIG_TYPE_BOOL, .boolValue = &configCameraAnalog},
     {.name = "bettercam_mouse_look", .type = CONFIG_TYPE_BOOL, .boolValue = &configCameraMouse},
@@ -148,7 +145,6 @@ static const struct ConfigOption options[] = {
     {.name = "bettercam_aggression", .type = CONFIG_TYPE_UINT, .uintValue = &configCameraAggr},
     {.name = "bettercam_pan_level",  .type = CONFIG_TYPE_UINT, .uintValue = &configCameraPan},
     {.name = "bettercam_degrade",    .type = CONFIG_TYPE_UINT, .uintValue = &configCameraDegrade},
-    #endif
     {.name = "skip_intro",           .type = CONFIG_TYPE_BOOL, .boolValue = &configSkipIntro},
     {.name = "enable_cheats",        .type = CONFIG_TYPE_BOOL, .boolValue = &Cheats.EnableCheats },
     {.name = "moonjump",             .type = CONFIG_TYPE_BOOL, .boolValue = &Cheats.MoonJump },

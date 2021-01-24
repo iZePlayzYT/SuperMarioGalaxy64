@@ -9,9 +9,7 @@
 #include "game/segment2.h"
 #include "game/save_file.h"
 #include "game/hud.h"
-#ifdef BETTERCAMERA
 #include "game/bettercamera.h"
-#endif
 #include "game/mario_misc.h"
 #include "game/game_init.h"
 #include "game/cheats_menu.h"
@@ -257,7 +255,6 @@ static void setJBC(UNUSED struct Option *self, s32 arg) {
 
 /* submenu option lists */
 
-#ifdef BETTERCAMERA
 static struct Option optsCamera[] = {
     DEF_OPT_TOGGLE( optsCameraStr[9], &configEnableCamera ),
     DEF_OPT_TOGGLE( optsCameraStr[6], &configCameraAnalog ),
@@ -270,7 +267,6 @@ static struct Option optsCamera[] = {
     DEF_OPT_SCROLL( optsCameraStr[5], &configCameraPan, 0, 100, 1 ),
     DEF_OPT_SCROLL( optsCameraStr[8], &configCameraDegrade, 0, 100, 1 ),
 };
-#endif
 
 static struct Option optsControls[] = {
     DEF_OPT_BIND( bindStr[ 2], configKeyA ),
@@ -367,9 +363,7 @@ static struct Option optsCheats[] = {
 
 /* submenu definitions */
 
-#ifdef BETTERCAMERA
 static struct SubMenu menuCamera   = DEF_SUBMENU( menuStr[4], optsCamera );
-#endif
 static struct SubMenu menuGame     = DEF_SUBMENU( menuStr[10], optsGame );
 static struct SubMenu menuControls = DEF_SUBMENU( menuStr[5], optsControls );
 static struct SubMenu menuVideo    = DEF_SUBMENU( menuStr[6], optsVideo );
@@ -380,9 +374,7 @@ static struct SubMenu menuCheats   = DEF_SUBMENU( menuStr[9], optsCheats );
 
 static struct Option optsMain[] = {
     DEF_OPT_SUBMENU( menuStr[10], &menuGame ),
-#ifdef BETTERCAMERA
     DEF_OPT_SUBMENU( menuStr[4], &menuCamera ),
-#endif
     DEF_OPT_SUBMENU( menuStr[5], &menuControls ),
     DEF_OPT_SUBMENU( menuStr[6], &menuVideo ),
     DEF_OPT_SUBMENU( menuStr[7], &menuAudio ),
@@ -620,9 +612,7 @@ void optmenu_toggle(void) {
         play_sound(SOUND_MENU_MARIO_CASTLE_WARP2, gDefaultSoundArgs);
         #endif
         optmenu_open = 0;
-        #ifdef BETTERCAMERA
         newcam_init_settings(); // load bettercam settings from config vars
-        #endif
         controller_reconfigure(); // rebind using new config values
         configfile_save(configfile_name());
     }
