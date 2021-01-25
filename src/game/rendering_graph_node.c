@@ -1603,10 +1603,10 @@ static void geo_process_object(struct Object *node) {
 
         // FIXME: correct types
         if (node->header.gfx.unk38.curAnim != NULL) {
-            extern void dynos_gfx_update_animation(void *);
-            dynos_gfx_update_animation(node);
+            extern void dynos_gfx_swap_animations(void *);
+            dynos_gfx_swap_animations(node);
             geo_set_animation_globals(&node->header.gfx.unk38, hasAnimation);
-            dynos_gfx_update_animation(node);
+            dynos_gfx_swap_animations(node);
         }
         if (obj_is_in_view(&node->header.gfx, gMatStack[gMatStackIndex])) {
             Mtx *mtx = alloc_display_list(sizeof(*mtx));
@@ -1667,10 +1667,10 @@ static void geo_process_object(struct Object *node) {
 
         // FIXME: correct types
         if (node->header.gfx.unk38.curAnim != NULL) {
-            extern void dynos_gfx_update_animation(void *);
-            dynos_gfx_update_animation(node);
+            extern void dynos_gfx_swap_animations(void *);
+            dynos_gfx_swap_animations(node);
             geo_set_animation_globals(&node->header.gfx.unk38, hasAnimation);
-            dynos_gfx_update_animation(node);
+            dynos_gfx_swap_animations(node);
         }
         if (obj_is_in_view(&node->header.gfx, gMatStack[gMatStackIndex])) {
             Mtx *mtx = alloc_display_list(sizeof(*mtx));
@@ -1778,10 +1778,10 @@ void geo_process_held_object(struct GraphNodeHeldObject *node) {
         gCurAnimType = 0;
         gCurGraphNodeHeldObject = (void *) node;
         if (node->objNode->header.gfx.unk38.curAnim != NULL) {
-            extern void dynos_gfx_update_animation(void *);
-            dynos_gfx_update_animation(node->objNode);
+            extern void dynos_gfx_swap_animations(void *);
+            dynos_gfx_swap_animations(node->objNode);
             geo_set_animation_globals(&node->objNode->header.gfx.unk38, hasAnimation);
-            dynos_gfx_update_animation(node->objNode);
+            dynos_gfx_swap_animations(node->objNode);
         }
 
         geo_process_node_and_siblings(node->objNode->header.gfx.sharedChild);
@@ -1844,10 +1844,10 @@ void geo_process_held_object(struct GraphNodeHeldObject *node) {
         gCurAnimType = 0;
         gCurGraphNodeHeldObject = (void *) node;
         if (node->objNode->header.gfx.unk38.curAnim != NULL) {
-            extern void dynos_gfx_update_animation(void *);
-            dynos_gfx_update_animation(node->objNode);
+            extern void dynos_gfx_swap_animations(void *);
+            dynos_gfx_swap_animations(node->objNode);
             geo_set_animation_globals(&node->objNode->header.gfx.unk38, hasAnimation);
-            dynos_gfx_update_animation(node->objNode);
+            dynos_gfx_swap_animations(node->objNode);
         }
 
         geo_process_node_and_siblings(node->objNode->header.gfx.sharedChild);
@@ -1976,8 +1976,6 @@ void geo_process_node_and_siblings(struct GraphNode *firstNode) {
  */
 #ifdef HIGHFPS
 void geo_process_root(struct GraphNodeRoot *node, Vp *b, Vp *c, s32 clearColor) {
-    extern void dynos_update_gfx();
-    dynos_update_gfx();
     UNUSED s32 unused;
 
     if (node->node.flags & GRAPH_RENDER_ACTIVE) {
@@ -2033,8 +2031,6 @@ void geo_process_root(struct GraphNodeRoot *node, Vp *b, Vp *c, s32 clearColor) 
 }
 #else
 void geo_process_root(struct GraphNodeRoot *node, Vp *b, Vp *c, s32 clearColor) {
-    extern void dynos_update_gfx();
-    dynos_update_gfx();
     UNUSED s32 unused;
 
     if (node->node.flags & GRAPH_RENDER_ACTIVE) {

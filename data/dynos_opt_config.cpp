@@ -15,6 +15,8 @@ void DynOS_Opt_LoadConfig(DynosOption *aMenu) {
     }
 
     while (true) {
+
+        // Type and name
         Pair<u8, String> _ConfigTypeAndName = { DOPT_NONE, "" };
         _ConfigTypeAndName.first = ReadBytes<u8>(_File);
         _ConfigTypeAndName.second.Read(_File);
@@ -22,15 +24,21 @@ void DynOS_Opt_LoadConfig(DynosOption *aMenu) {
             break;
         }
 
+        // Values
+        s32 _Value0 = ReadBytes<s32>(_File);
+        s32 _Value1 = ReadBytes<s32>(_File);
+        s32 _Value2 = ReadBytes<s32>(_File);
+
+        // Option
         DynosOption *_Opt = DynOS_Opt_Loop(aMenu, DynOS_Opt_GetConfig, (void *) &_ConfigTypeAndName);
         if (_Opt != NULL) {
             switch (_Opt->mType) {
-                case DOPT_TOGGLE: *_Opt->mToggle.mTog    = ReadBytes<bool>(_File); break;
-                case DOPT_CHOICE: *_Opt->mChoice.mIndex  = ReadBytes<s32> (_File); break;
-                case DOPT_SCROLL: *_Opt->mScroll.mValue  = ReadBytes<s32> (_File); break;
-                case DOPT_BIND:    _Opt->mBind.mBinds[0] = ReadBytes<u32>(_File);
-                                   _Opt->mBind.mBinds[1] = ReadBytes<u32>(_File);
-                                   _Opt->mBind.mBinds[2] = ReadBytes<u32>(_File); break;
+                case DOPT_TOGGLE: *_Opt->mToggle.mTog    = (bool) _Value0; break;
+                case DOPT_CHOICE: *_Opt->mChoice.mIndex  = (s32) _Value0; break;
+                case DOPT_SCROLL: *_Opt->mScroll.mValue  = (s32) _Value0; break;
+                case DOPT_BIND:    _Opt->mBind.mBinds[0] = (u32) _Value0;
+                                   _Opt->mBind.mBinds[1] = (u32) _Value1;
+                                   _Opt->mBind.mBinds[2] = (u32) _Value2; break;
             }
         }
     }
@@ -42,33 +50,28 @@ static bool DynOS_Opt_SetConfig(DynosOption *aOpt, void *aData) {
         aOpt->mConfigName          != "null" &&
         aOpt->mConfigName          != "NULL") {
         FILE *_File = (FILE *) aData;
+        s32 _Value0 = 0;
+        s32 _Value1 = 0;
+        s32 _Value2 = 0;
+
+        // Option
         switch (aOpt->mType) {
-            case DOPT_TOGGLE:
-                WriteBytes<u8>(_File, DOPT_TOGGLE);
-                aOpt->mConfigName.Write(_File);
-                WriteBytes<bool>(_File, *aOpt->mToggle.mTog);
-                break;
-
-            case DOPT_CHOICE:
-                WriteBytes<u8>(_File, DOPT_CHOICE);
-                aOpt->mConfigName.Write(_File);
-                WriteBytes<s32>(_File, *aOpt->mChoice.mIndex);
-                break;
-
-            case DOPT_SCROLL:
-                WriteBytes<u8>(_File, DOPT_SCROLL);
-                aOpt->mConfigName.Write(_File);
-                WriteBytes<s32>(_File, *aOpt->mScroll.mValue);
-                break;
-
-            case DOPT_BIND:
-                WriteBytes<u8>(_File, DOPT_BIND);
-                aOpt->mConfigName.Write(_File);
-                WriteBytes<u32>(_File, aOpt->mBind.mBinds[0]);
-                WriteBytes<u32>(_File, aOpt->mBind.mBinds[1]);
-                WriteBytes<u32>(_File, aOpt->mBind.mBinds[2]);
-                break;
+            case DOPT_TOGGLE: _Value0 = (s32) *aOpt->mToggle.mTog; break;
+            case DOPT_CHOICE: _Value0 = (s32) *aOpt->mChoice.mIndex; break;
+            case DOPT_SCROLL: _Value0 = (s32) *aOpt->mScroll.mValue; break;
+            case DOPT_BIND:   _Value0 = (s32) aOpt->mBind.mBinds[0];
+                              _Value1 = (s32) aOpt->mBind.mBinds[1];
+                              _Value2 = (s32) aOpt->mBind.mBinds[2]; break;
         }
+
+        // Type and name
+        WriteBytes<u8>(_File, aOpt->mType);
+        aOpt->mConfigName.Write(_File);
+
+        // Values
+        WriteBytes<s32>(_File, _Value0);
+        WriteBytes<s32>(_File, _Value1);
+        WriteBytes<s32>(_File, _Value2);
     }
     return 0;
 }

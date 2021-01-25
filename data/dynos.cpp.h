@@ -4,7 +4,9 @@
 
 #include "dynos.h"
 
-#define expand(...)         __VA_ARGS__
+#undef STATIC_ASSERT
+#define STATIC_ASSERT(...)
+
 #define FUNCTION_CODE       (u32) 0x434E5546
 #define POINTER_CODE        (u32) 0x52544E50
 #define METAL_BITS          (G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR)
@@ -14,8 +16,7 @@
 // The input is the button internal name (not label)
 // The output is the result of the action
 #define DYNOS_DEFINE_ACTION(func) \
-__attribute__((constructor)) \
-static void DynOS_Opt_AddAction_##func() { \
+AT_STARTUP static void DynOS_Opt_AddAction_##func() { \
     DynOS_Opt_AddAction(#func, func, false); \
 }
 
@@ -56,8 +57,9 @@ enum {
     // These ones are used by the Warp to Level built-in submenu
     DOPT_CHOICELEVEL,
     DOPT_CHOICESTAR,
+    DOPT_CHOICEPARAM,
 
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
     DOPT_LANGUAGE,
 #endif
 };
@@ -484,7 +486,7 @@ struct DynosOption : NoCopy {
     DynosOption *mNext;
     DynosOption *mParent;
     bool mDynos; // true from create, false from convert
-    u8 mType = 0;
+    u8 mType;
 
     // TOGGLE
     struct Toggle : NoCopy {
@@ -641,7 +643,7 @@ bool DynOS_IsLevelExit     ();
 
 void DynOS_Init            ();
 void DynOS_UpdateOpt       (void *aPad);
-void DynOS_UpdateGfx       ();
+void DynOS_UpdateGfx       (void **pLevelCmd);
 
 //
 // Opt
@@ -694,10 +696,10 @@ void               DynOS_Gfx_UnloadTexture          (DataNode<TexData> *aNode);
 bool               DynOS_Gfx_ImportTexture          (void **aOutput, void *aPtr, s32 aTile, void *aGfxRApi, void **aHashMap, void *aPool, u32 *aPoolPos, u32 aPoolSize);
 
 Array<ActorGfx>   &DynOS_Gfx_GetActorList           ();
-Array<SysPath>    &DynOS_Gfx_GetPackFolders            ();
+Array<SysPath>    &DynOS_Gfx_GetPackFolders         ();
 Array<String>      DynOS_Gfx_Init                   ();
 void               DynOS_Gfx_Update                 ();
-void               DynOS_Gfx_UpdateAnimation        (void *aPtr);
+void               DynOS_Gfx_SwapAnimations         (void *aPtr);
 
 bool               DynOS_Gfx_IsCappyEyesDisplayList (GfxData *aGfxData, const String &aNodeName);
 void               DynOS_Gfx_PushDynCmd             (GfxData *aGfxData, DataNode<Gfx> *aNode, Gfx *&aHead, u8 aCmd);
@@ -756,12 +758,15 @@ void *DynOS_Geo_SpawnObject                 (const void *aGeoLayout, void *aPare
 // Levels
 //
 
-s32   DynOS_Level_GetCount   (bool aNoCastle);
-s32  *DynOS_Level_GetList    (bool aNoCastle, bool aOrdered);
-s32   DynOS_Level_GetCourse  (s32 aLevel);
-void *DynOS_Level_GetScript  (s32 aLevel);
-u8   *DynOS_Level_GetName    (s32 aLevel, bool aDecaps, bool aAddCourseNumber);
-u8   *DynOS_Level_GetActName (s32 aLevel, s32 aAct, bool aDecaps, bool aAddStarNumber);
+s32   DynOS_Level_GetCount      (bool aNoCastle);
+s32  *DynOS_Level_GetList       (bool aNoCastle, bool aOrdered);
+s32   DynOS_Level_GetCourse     (s32 aLevel);
+void *DynOS_Level_GetScript     (s32 aLevel);
+u8   *DynOS_Level_GetName       (s32 aLevel, bool aDecaps, bool aAddCourseNumber);
+u8   *DynOS_Level_GetActName    (s32 aLevel, s32 aAct, bool aDecaps, bool aAddStarNumber);
+s32   DynOS_Level_GetParamValue (s32 aLevel, u32 aIndex);
+const char *DynOS_Level_GetParamName(s32 aLevel, u32 aIndex);
+void  DynOS_Level_SetParam      (s32 aLevel, s32 aParamValue);
 
 #endif
 #endif

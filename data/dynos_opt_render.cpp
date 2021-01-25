@@ -1,11 +1,12 @@
 #include "dynos.cpp.h"
 extern "C" {
+#include "course_table.h"
 #include "game/game_init.h"
 #include "game/ingame_menu.h"
 #include "game/segment2.h"
 #include "pc/controller/controller_api.h"
 #include "gfx_dimensions.h"
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
 #include "text/text-loader.h"
 #include "text/txtconv.h"
 #endif
@@ -13,7 +14,7 @@ extern "C" {
 
 extern s32 sBindingState;
 
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
 #define DYNOS_TEXT_DYNOS_MENU   { "DYNOS_TEXT_DYNOS_MENU",   NULL }
 #define DYNOS_TEXT_A            { "DYNOS_TEXT_A",            NULL }
 #define DYNOS_TEXT_OPEN_LEFT    { "DYNOS_TEXT_OPEN_LEFT",    NULL }
@@ -55,7 +56,7 @@ static void RenderString(const u8 *aStr64, s32 aX, s32 aY) {
 }
 
 static void PrintString(const Label& aLabel, s32 aX, s32 aY, u32 aFrontColorRGBA, u32 aBackColorRGBA, bool aAlignLeft) {
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
     const u8 *_Str64 = (aLabel.second ? aLabel.second : get_key_string(aLabel.first.begin()));
 #else
     const u8 *_Str64 = (aLabel.second ? aLabel.second : DynOS_String_Convert(aLabel.first.begin(), false));
@@ -113,6 +114,7 @@ static const char *IntToString(const char *fmt, s32 x) {
 #define get_hex_number(n)   { "", DynOS_String_Convert(IntToString("%04X", n), false) }
 #define get_level(opt)      { "", DynOS_Level_GetName(DynOS_Level_GetList(true, true)[*opt->mChoice.mIndex], true, true) }
 #define get_star(opt)       { "", DynOS_Level_GetActName(DynOS_Level_GetList(true, true)[DynOS_Opt_GetValue("dynos_warp_level")], *opt->mChoice.mIndex + 1, true, true) }
+#define get_param(opt)      { DynOS_Level_GetParamName(DynOS_Level_GetList(true, true)[DynOS_Opt_GetValue("dynos_warp_level")], *opt->mChoice.mIndex), NULL }
 
 static s32 GetCurrentOptionCount(DynosOption *aCurrentOpt) {
     s32 _Count = 0;
@@ -199,36 +201,42 @@ static void DynOS_Opt_DrawOption(DynosOption *aOpt, DynosOption *aCurrentOpt, s3
     }
 
     // Values
-    s32 aWidth;
     switch (aOpt->mType) {
-        case DOPT_TOGGLE:
+        case DOPT_TOGGLE: {
             if (*aOpt->mToggle.mTog) {
                 PrintString(DYNOS_TEXT_ENABLED, OFFSET_FROM_RIGHT_EDGE, aY, COLOR_ENABLED, COLOR_BLACK, 0);
             } else {
                 PrintString(DYNOS_TEXT_DISABLED, OFFSET_FROM_RIGHT_EDGE, aY, COLOR_DISABLED, COLOR_BLACK, 0);
             }
-            break;
+        } break;
 
-        case DOPT_CHOICE:
+        case DOPT_CHOICE: {
             PrintString(get_choice(aOpt), OFFSET_FROM_RIGHT_EDGE, aY, aOpt == aCurrentOpt ? COLOR_SELECT : COLOR_WHITE, COLOR_BLACK, 0);
-            break;
+        } break;
 
-        case DOPT_CHOICELEVEL:
+        case DOPT_CHOICELEVEL: {
             PrintString(get_level(aOpt), OFFSET_FROM_RIGHT_EDGE, aY, aOpt == aCurrentOpt ? COLOR_SELECT : COLOR_WHITE, COLOR_BLACK, 0);
-            break;
+        } break;
 
-        case DOPT_CHOICESTAR:
-            PrintString(get_star(aOpt), OFFSET_FROM_RIGHT_EDGE, aY, aOpt == aCurrentOpt ? COLOR_SELECT : COLOR_WHITE, COLOR_BLACK, 0);
-            break;
+        case DOPT_CHOICESTAR: {
+            s32 _Course = DynOS_Level_GetCourse(DynOS_Level_GetList(true, true)[DynOS_Opt_GetValue("dynos_warp_level")]);
+            if (_Course >= COURSE_MIN && _Course <= COURSE_STAGES_MAX) {
+                PrintString(get_star(aOpt), OFFSET_FROM_RIGHT_EDGE, aY, aOpt == aCurrentOpt ? COLOR_SELECT : COLOR_WHITE, COLOR_BLACK, 0);
+            }
+        } break;
 
-        case DOPT_SCROLL:
-            aWidth = (s32) (SCROLL_BAR_SIZE * (f32) (*aOpt->mScroll.mValue - aOpt->mScroll.mMin) / (f32) (aOpt->mScroll.mMax - aOpt->mScroll.mMin));
+        case DOPT_CHOICEPARAM: {
+            PrintString(get_param(aOpt), OFFSET_FROM_RIGHT_EDGE, aY, aOpt == aCurrentOpt ? COLOR_SELECT : COLOR_WHITE, COLOR_BLACK, 0);
+        } break;
+
+        case DOPT_SCROLL: {
+            s32 _Width = (s32) (SCROLL_BAR_SIZE * (f32) (*aOpt->mScroll.mValue - aOpt->mScroll.mMin) / (f32) (aOpt->mScroll.mMax - aOpt->mScroll.mMin));
             PrintString(get_dec_number(*aOpt->mScroll.mValue), OFFSET_FROM_RIGHT_EDGE, aY, aOpt == aCurrentOpt ? COLOR_SELECT : COLOR_WHITE, COLOR_BLACK, 0);
             PrintBox(OFFSET_FROM_RIGHT_EDGE + 28, aY + 4, SCROLL_BAR_SIZE + 2, 8, COLOR_DARK_GRAY, 0);
-            PrintBox(OFFSET_FROM_RIGHT_EDGE + 29 + SCROLL_BAR_SIZE - aWidth, aY + 5, aWidth, 6, aOpt == aCurrentOpt ? COLOR_SELECT : COLOR_WHITE, 0);
-            break;
+            PrintBox(OFFSET_FROM_RIGHT_EDGE + 29 + SCROLL_BAR_SIZE - _Width, aY + 5, _Width, 6, aOpt == aCurrentOpt ? COLOR_SELECT : COLOR_WHITE, 0);
+        } break;
 
-        case DOPT_BIND:
+        case DOPT_BIND: {
             for (s32 i = 0; i != 3; ++i) {
                 u32 _Bind = aOpt->mBind.mBinds[i];
                 if (aOpt == aCurrentOpt && i == aOpt->mBind.mIndex) {
@@ -247,22 +255,22 @@ static void DynOS_Opt_DrawOption(DynosOption *aOpt, DynosOption *aCurrentOpt, s3
                     }
                 }
             }
-            break;
+        } break;
 
-        case DOPT_BUTTON:
-            break;
+        case DOPT_BUTTON: {
+        } break;
 
-        case DOPT_SUBMENU:
+        case DOPT_SUBMENU: {
             if (aOpt == aCurrentOpt) {
                 PrintString(DYNOS_TEXT_A, OFFSET_FROM_RIGHT_EDGE, aY, COLOR_SELECT, COLOR_BLACK, 0);
             }
-            break;
+        } break;
 
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
         case DOPT_LANGUAGE: {
             u8 *_Lang = getTranslatedText(languages[*aOpt->mChoice.mIndex]->name);
             PrintString({ "", _Lang }, OFFSET_FROM_RIGHT_EDGE, aY, aOpt == aCurrentOpt ? COLOR_SELECT : COLOR_WHITE, COLOR_BLACK, 0);
-          } break;
+        } break;
 #endif
     }
 }
@@ -283,7 +291,7 @@ void DynOS_Opt_DrawMenu(DynosOption *aCurrentOption, DynosOption *aCurrentMenu, 
     }
     gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
     if (!_Title.second) _Title.second = get_key_string(_Title.first.begin());
 #else
     if (!_Title.second) _Title.second = DynOS_String_Convert(_Title.first.begin(), false);

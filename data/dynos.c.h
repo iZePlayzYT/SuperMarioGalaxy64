@@ -10,7 +10,6 @@ inline static void *make_copy(const void *p, u64 s) {
     return q;
 }
 
-#define expand(...)                     __VA_ARGS__
 #define va_string(str, size, fmt, ...)  char str[size]; snprintf(str, size, fmt, __VA_ARGS__);
 #define str_eq(str1, str2)              (strcmp(str1, str2) == 0)
 
@@ -18,8 +17,7 @@ inline static void *make_copy(const void *p, u64 s) {
 // The input is the button internal name (not label)
 // The output is the result of the action
 #define DYNOS_DEFINE_ACTION(func) \
-__attribute__((constructor)) \
-static void dynos_opt_add_action_##func() { \
+AT_STARTUP static void dynos_opt_add_action_##func() { \
     dynos_opt_add_action(#func, func, false); \
 }
 
@@ -56,7 +54,7 @@ bool dynos_warp_to_castle(s32 level);
 bool dynos_return_to_main_menu();
 void dynos_add_routine(u8 type, DynosRoutine routine, void *data);
 s32  dynos_is_level_exit();
-void dynos_update_gfx();
+void dynos_update_gfx(void **pLevelCmd);
 
 //
 // Opt
@@ -96,7 +94,7 @@ void *dynos_gfx_load_texture_from_dynos_folder(const char *texname);
 void dynos_gfx_bind_texture(void *node, void *bind);
 void dynos_gfx_unload_texture(void *node);
 s32  dynos_gfx_import_texture(void **output, void *ptr, s32 tile, void *grapi, void **hashmap, void *pool, s32 *poolpos, s32 poolsize);
-void dynos_gfx_update_animation(void *ptr);
+void dynos_gfx_swap_animations(void *ptr);
 
 //
 // Audio

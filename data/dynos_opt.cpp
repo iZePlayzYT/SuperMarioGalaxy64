@@ -1,15 +1,15 @@
 #include "dynos.cpp.h"
 extern "C" {
-#include "audio_defines.h"
 #include "audio/external.h"
+#include "game/area.h"
 #include "game/game_init.h"
 #include "pc/controller/controller_keyboard.h"
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
 #include "text/text-loader.h"
 #endif
 }
 
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
 //
 // Render96 Text-loader
 // Because DynOS loading is executed before the main, we can't
@@ -18,7 +18,7 @@ extern "C" {
 // we load them into the struct during the first DynOS update
 //
 
-STATIC_STORAGE(expand(Array<Pair<String, Array<Pair<String, String>>>>), LangStrings);
+STATIC_STORAGE(EXPAND(Array<Pair<String, Array<Pair<String, String>>>>), LangStrings);
 #define sLangStrings __LangStrings()
 
 static String sCurrentLanguage = "";
@@ -132,7 +132,7 @@ static DynosOption *DynOS_Opt_GetExistingOption(DynosOption *aOpt, const String 
 }
 
 static DynosOption *DynOS_Opt_NewOption(const String &aName, const String &aConfigName, const String &aLabel, const String &aTitle) {
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
     Label _Label = { aName, NULL };
     Label _Title = { String("%s_title", aName.begin()), NULL };
     if (!aLabel.Empty()) AddLangString(_Label.first, aLabel);
@@ -147,7 +147,7 @@ static DynosOption *DynOS_Opt_NewOption(const String &aName, const String &aConf
 
     // Create a new option
     DynosOption *_Opt = New<DynosOption>();
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
     _Opt->mName       = aName;
     _Opt->mConfigName = aConfigName;
     _Opt->mLabel      = _Label;
@@ -221,7 +221,7 @@ static void DynOS_Opt_CreateChoice(const String &aName, const String &aConfigNam
     _Opt->mType            = DOPT_CHOICE;
     _Opt->mChoice.mIndex   = New<s32>();
     *_Opt->mChoice.mIndex  = aValue;
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
     DynosOption *_Opt2     = DynOS_Opt_GetExistingOption(sDynosMenu, aName);
     if (_Opt2 && _Opt != _Opt2) {
         for (s32 i = 0; i != aChoices.Count(); ++i) {
@@ -277,7 +277,7 @@ static void DynOS_Opt_ReadFile(const SysPath &aFolder, const SysPath &aFilename)
             continue;
         }
 
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
         // LANGUAGE [Name]
         if (_Tokens[0] == "LANGUAGE" && _Tokens.Count() >= 2) {
             sCurrentLanguage = _Tokens[1];
@@ -382,6 +382,7 @@ s32 DynOS_Opt_GetValue(const String &aName) {
             case DOPT_CHOICE:      return *_Opt->mChoice.mIndex;
             case DOPT_CHOICELEVEL: return *_Opt->mChoice.mIndex;
             case DOPT_CHOICESTAR:  return *_Opt->mChoice.mIndex;
+            case DOPT_CHOICEPARAM: return *_Opt->mChoice.mIndex;
             case DOPT_SCROLL:      return *_Opt->mScroll.mValue;
             default:               break;
         }
@@ -397,6 +398,7 @@ void DynOS_Opt_SetValue(const String &aName, s32 aValue) {
             case DOPT_CHOICE:      *_Opt->mChoice.mIndex = aValue; break;
             case DOPT_CHOICELEVEL: *_Opt->mChoice.mIndex = aValue; break;
             case DOPT_CHOICESTAR:  *_Opt->mChoice.mIndex = aValue; break;
+            case DOPT_CHOICEPARAM: *_Opt->mChoice.mIndex = aValue; break;
             case DOPT_SCROLL:      *_Opt->mScroll.mValue = aValue; break;
             default:               break;
         }
@@ -475,6 +477,17 @@ static s32 DynOS_Opt_ProcessInput(DynosOption *aOpt, s32 input) {
             }
             break;
 
+        case DOPT_CHOICEPARAM:
+            if (input == INPUT_LEFT) {
+                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + 3) % (4);
+                return RESULT_OK;
+            }
+            if (input == INPUT_RIGHT || input == INPUT_A) {
+                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + 1) % (4);
+                return RESULT_OK;
+            }
+            break;
+
         case DOPT_SCROLL:
             if (input == INPUT_LEFT) {
                 *aOpt->mScroll.mValue = MAX(aOpt->mScroll.mMin, *aOpt->mScroll.mValue - aOpt->mScroll.mStep * (gPlayer1Controller->buttonDown & A_BUTTON ? 5 : 1));
@@ -527,7 +540,7 @@ static s32 DynOS_Opt_ProcessInput(DynosOption *aOpt, s32 input) {
             }
             break;
 
-#ifdef RENDER96_2
+#ifdef RENDER_96_ALPHA
         case DOPT_LANGUAGE:
             if (input == INPUT_LEFT) {
                 *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + get_num_languages() - 1) % (get_num_languages());
@@ -546,14 +559,14 @@ static s32 DynOS_Opt_ProcessInput(DynosOption *aOpt, s32 input) {
 }
 
 static void DynOS_Opt_Open(DynosOption *aMenu) {
-    play_sound(SOUND_DYNOS_SELECT, gDefaultSoundArgs);
+    play_sound(SOUND_DYNOS_SELECT, gGlobalSoundArgs);
     sCurrentMenu = aMenu;
     sCurrentOpt = aMenu;
 }
 
 static void DynOS_Opt_Close() {
     if (sCurrentMenu != NULL) {
-        play_sound(SOUND_DYNOS_SAVED, gDefaultSoundArgs);
+        play_sound(SOUND_DYNOS_SAVED, gGlobalSoundArgs);
         controller_reconfigure();
         configfile_save(configfile_name());
         DynOS_Opt_SaveConfig(sDynosMenu);
@@ -586,7 +599,7 @@ static void DynOS_Opt_ProcessInputs() {
     if (sBindingState != 0) {
         u32 _Key = (sCurrentOpt->mDynos ? (u32) DynOS_Opt_ControllerGetKeyPressed() : controller_get_raw_key());
         if (_Key != VK_INVALID) {
-            play_sound(SOUND_DYNOS_SELECT, gDefaultSoundArgs);
+            play_sound(SOUND_DYNOS_SELECT, gGlobalSoundArgs);
             sCurrentOpt->mBind.mBinds[sCurrentOpt->mBind.mIndex] = _Key;
             sBindingState = false;
         }
@@ -602,7 +615,7 @@ static void DynOS_Opt_ProcessInputs() {
             } else {
                 while (sCurrentOpt->mNext) sCurrentOpt = sCurrentOpt->mNext;
             }
-            play_sound(SOUND_DYNOS_SELECT, gDefaultSoundArgs);
+            play_sound(SOUND_DYNOS_SELECT, gGlobalSoundArgs);
             return;
         }
 
@@ -613,15 +626,15 @@ static void DynOS_Opt_ProcessInputs() {
             } else {
                 while (sCurrentOpt->mPrev) sCurrentOpt = sCurrentOpt->mPrev;
             }
-            play_sound(SOUND_DYNOS_SELECT, gDefaultSoundArgs);
+            play_sound(SOUND_DYNOS_SELECT, gGlobalSoundArgs);
             return;
         }
 
         // Left
         if (_StickX < -60) {
             switch (DynOS_Opt_ProcessInput(sCurrentOpt, INPUT_LEFT)) {
-                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gDefaultSoundArgs); break;
-                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gDefaultSoundArgs); break;
+                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gGlobalSoundArgs); break;
+                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gGlobalSoundArgs); break;
                 case RESULT_NONE:   break;
             }
             return;
@@ -630,8 +643,8 @@ static void DynOS_Opt_ProcessInputs() {
         // Right
         if (_StickX > +60) {
             switch (DynOS_Opt_ProcessInput(sCurrentOpt, INPUT_RIGHT)) {
-                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gDefaultSoundArgs); break;
-                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gDefaultSoundArgs); break;
+                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gGlobalSoundArgs); break;
+                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gGlobalSoundArgs); break;
                 case RESULT_NONE:   break;
             }
             return;
@@ -640,8 +653,8 @@ static void DynOS_Opt_ProcessInputs() {
         // A
         if (gPlayer1Controller->buttonPressed & A_BUTTON) {
             switch (DynOS_Opt_ProcessInput(sCurrentOpt, INPUT_A)) {
-                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gDefaultSoundArgs); break;
-                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gDefaultSoundArgs); break;
+                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gGlobalSoundArgs); break;
+                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gGlobalSoundArgs); break;
                 case RESULT_NONE:   break;
             }
             return;
@@ -651,7 +664,7 @@ static void DynOS_Opt_ProcessInputs() {
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
             if (sCurrentOpt->mParent != NULL) {
                 sCurrentOpt = sCurrentOpt->mParent;
-                play_sound(SOUND_DYNOS_SELECT, gDefaultSoundArgs);
+                play_sound(SOUND_DYNOS_SELECT, gGlobalSoundArgs);
             } else {
                 DynOS_Opt_Close();
             }
@@ -661,8 +674,8 @@ static void DynOS_Opt_ProcessInputs() {
         // Z
         if (gPlayer1Controller->buttonPressed & Z_TRIG) {
             switch (DynOS_Opt_ProcessInput(sCurrentOpt, INPUT_Z)) {
-                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gDefaultSoundArgs); break;
-                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gDefaultSoundArgs); break;
+                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gGlobalSoundArgs); break;
+                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gGlobalSoundArgs); break;
                 case RESULT_NONE:
                     if (sCurrentMenu == sDynosMenu) {
                         DynOS_Opt_Close();
@@ -718,6 +731,16 @@ static void DynOS_Opt_CreateWarpToLevelSubMenu() {
     *aOpt->mChoice.mIndex = 0;
     }
 
+#ifndef IS_ROM_HACK
+    // Param select
+    {
+    DynosOption *aOpt = DynOS_Opt_NewOption("dynos_warp_param", "", LABEL_NAME("Param Select"), "");
+    aOpt->mType           = DOPT_CHOICEPARAM;
+    aOpt->mChoice.mIndex  = New<s32>();
+    *aOpt->mChoice.mIndex = 0;
+    }
+#endif
+
     DynOS_Opt_CreateButton("dynos_warp_to_level", LABEL_NAME("Warp"), "DynOS_Opt_WarpToLevel");
     DynOS_Opt_EndSubMenu();
 }
@@ -743,7 +766,9 @@ static void DynOS_Opt_CreateModelPacksSubMenu() {
         return;
     }
 
+#ifdef RENDER_96_ALPHA
     sCurrentLanguage = "";
+#endif
     DynOS_Opt_CreateSubMenu("dynos_model_loader_submenu", LABEL_NAME("Model Packs"), LABEL_NAME("MODEL PACKS"));
     for (s32 i = 0; i != _Packs.Count(); ++i) {
         DynOS_Opt_CreateToggle(String("dynos_pack_%d", i), "", _Packs[i], false);
@@ -791,10 +816,16 @@ void DynOS_Opt_Init() {
 // Update
 //
 
+extern s32 gDDDBowsersSub;
+extern s32 gDDDPoles;
 void DynOS_Opt_Update(OSContPad *aPad) {
     controller_read(aPad);
     DynOS_Opt_Loop(sDynosMenu, DynOS_Opt_ControllerUpdate, (void *) aPad);
-#ifdef RENDER96_2
+    if (gCurrCourseNum == 0) {
+        gDDDBowsersSub = -1;
+        gDDDPoles = -1;
+    }
+#ifdef RENDER_96_ALPHA
     LoadLangStrings();
 #endif
 }

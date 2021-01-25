@@ -17,11 +17,11 @@ extern "C" {
 // Volume ranges from 0 to 1
 // As lower bytes are treated as signed, this gives a 1/256 margin error
 // on the mixed sample, but it's faster than treating endianess
-extern u16 D_80332028[];
+extern u16 sAcousticReachPerLevel[];
 void DynOS_Audio_Mix(u8 *aOutput, const u8 *aInput, s32 aLength, f32 aVolume, f32 aDistance) {
-    f32 _MixVolume = aVolume * (aDistance == 0.f ? 1.f : sqr(1.f - MIN(1.f, absx(aDistance) / D_80332028[gCurrLevelNum])));
+    f32 _MixVolume = aVolume * (aDistance == 0.f ? 1.f : sqr(1.f - MIN(1.f, absx(aDistance) / sAcousticReachPerLevel[gCurrLevelNum])));
     for (s32 i = 0; i != aLength; ++i) {
-        aOutput[i] = (u8)((s8)((f32) ((s8)(aInput[i])) * _MixVolume));
+        aOutput[i] = (u8) ((s8) ((f32) ((s8) (aInput[i])) * _MixVolume));
     }
 }
 
