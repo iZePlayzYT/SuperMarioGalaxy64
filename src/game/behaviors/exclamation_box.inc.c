@@ -142,6 +142,9 @@ void exclamation_box_act_4(void) {
 	if(isLuigi()==1) {
 		exclamation_box_spawn_contents(sExclamationBoxContentsLuigi, o->oBehParams2ndByte);
 	}
+	else if(isWario()==1) {
+		exclamation_box_spawn_contents(sExclamationBoxContentsWario, o->oBehParams2ndByte);
+	}
 	else { 
 		exclamation_box_spawn_contents(sExclamationBoxContents, o->oBehParams2ndByte);
 	}

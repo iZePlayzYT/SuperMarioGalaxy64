@@ -664,6 +664,7 @@
     #define UKIKI_ANIM_STATE_EYE_CLOSED 1
     #define UKIKI_ANIM_STATE_HAT_ON     2
     #define UKIKI_ANIM_STATE_HAT_ON_LUIGI 4
+    #define UKIKI_ANIM_STATE_HAT_ON_WARIO 5
 
     /* oUkikiHasHat */
     #define UKIKI_HAT_ON 1
@@ -881,6 +882,7 @@
     #define KLEPTO_ANIM_STATE_HOLDING_CAP 1
     #define KLEPTO_ANIM_STATE_HOLDING_STAR 2
     #define KLEPTO_ANIM_STATE_HOLDING_CAP_LUIGI 4
+    #define KLEPTO_ANIM_STATE_HOLDING_CAP_WARIO 5
 
 /* Bird */
     /* oAction */

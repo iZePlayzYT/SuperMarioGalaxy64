@@ -475,6 +475,7 @@
 #define MODEL_BREAKABLE_BOX_SMALL         0x82        // breakable_box_small_geo
 #define MODEL_EXCLAMATION_BOX_OUTLINE     0x83        // exclamation_box_outline_geo
 #define MODEL_EXCLAMATION_POINT           0x84        // exclamation_point_seg8_dl_08025F08
+
 #define MODEL_MARIOS_WINGED_METAL_CAP     0x85        // marios_winged_metal_cap_geo
 #define MODEL_MARIOS_METAL_CAP            0x86        // marios_metal_cap_geo
 #define MODEL_MARIOS_WING_CAP             0x87        // marios_wing_cap_geo
@@ -484,6 +485,11 @@
 #define MODEL_LUIGIS_METAL_CAP            0x9B        // luigis_metal_cap_geo
 #define MODEL_LUIGIS_WING_CAP             0x9C        // luigis_wing_cap_geo
 #define MODEL_LUIGIS_WINGED_METAL_CAP     0x9D        // luigis_winged_metal_cap_geo
+
+#define MODEL_WARIOS_CAP                  0x9A        // warios_cap_geo
+#define MODEL_WARIOS_METAL_CAP            0x9B        // warios_metal_cap_geo
+#define MODEL_WARIOS_WING_CAP             0x9C        // warios_wing_cap_geo
+#define MODEL_WARIOS_WINGED_METAL_CAP     0x9D        // warios_winged_metal_cap_geo
 
 #define MODEL_EXCLAMATION_BOX             0x89        // exclamation_box_geo
 #define MODEL_DIRT_ANIMATION              0x8A        // dirt_animation_geo

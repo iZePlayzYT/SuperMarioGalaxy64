@@ -69,6 +69,7 @@ const LevelScript level_main_scripts_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_PLAYER,                  mario_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_MARIO,                   mario_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_LUIGI,                   luigi_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_WARIO,                   wario_geo),
 
     LOAD_MODEL_FROM_GEO(MODEL_SMOKE,                   smoke_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SPARKLES,                sparkles_geo),
@@ -110,6 +111,11 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_LUIGIS_METAL_CAP,        luigis_metal_cap_geo),
     LOAD_MODEL_FROM_GEO(MODEL_LUIGIS_WING_CAP,         luigis_wing_cap_geo),
     LOAD_MODEL_FROM_GEO(MODEL_LUIGIS_CAP,              luigis_cap_geo),
+
+    LOAD_MODEL_FROM_GEO(MODEL_WARIOS_WINGED_METAL_CAP, warios_winged_metal_cap_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WARIOS_METAL_CAP,        warios_metal_cap_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WARIOS_WING_CAP,         warios_wing_cap_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WARIOS_CAP,              warios_cap_geo),
 	
     LOAD_MODEL_FROM_GEO(MODEL_BOWSER_KEY_CUTSCENE,     bowser_key_cutscene_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BOWSER_KEY,              bowser_key_geo),

@@ -359,6 +359,9 @@ void mario_blow_off_cap(struct MarioState *m, f32 capSpeed) {
 		if(isLuigi()==1) {
 			capObject = spawn_object(m->marioObj, MODEL_LUIGIS_CAP, bhvNormalCap);
 		}
+		else if(isWario()==1) {
+			capObject = spawn_object(m->marioObj, MODEL_WARIOS_CAP, bhvNormalCap);
+		}
 		else {
 			capObject = spawn_object(m->marioObj, MODEL_MARIOS_CAP, bhvNormalCap);
 		}
@@ -902,6 +905,9 @@ u32 interact_warp(struct MarioState *m, UNUSED u32 interactType, struct Object *
                     save_file_update_player_model(gCurrSaveFileNum - 1, characterModel);
                     if (isLuigi()==1)
                         gMarioState->animation = &Data_LuigiAnims;
+		            else if(isWario()==1) {
+			            gMarioState->animation = &D_80339D10;
+		            }
                     else
                         gMarioState->animation = &D_80339D10;
                     

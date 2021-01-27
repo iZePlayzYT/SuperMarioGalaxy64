@@ -220,6 +220,9 @@ static void mr_blizzard_act_death(void) {
 				if(isLuigi()==1) {
 					cap = spawn_object_relative(0, 5, 105, 0, o, MODEL_LUIGIS_CAP, bhvNormalCap);
 				}
+				else if(isWario()==1) {
+					cap = spawn_object_relative(0, 5, 105, 0, o, MODEL_WARIOS_CAP, bhvNormalCap);
+				}
 				else { 
 					cap = spawn_object_relative(0, 5, 105, 0, o, MODEL_MARIOS_CAP, bhvNormalCap);
 				}

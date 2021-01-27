@@ -15,5 +15,6 @@ void playCharacterSound(s32 actionSound, s32 characterSound);
 void triggerLuigiNotification();
 //Todo: To be removed
 s32 isLuigi();
+s32 isWario();
 
 #endif
