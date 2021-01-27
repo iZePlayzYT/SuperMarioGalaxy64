@@ -51,7 +51,9 @@ const LevelScript level_castle_courtyard_entry[] = {
         OBJECT(/*model*/ MODEL_BOO,  /*pos*/ -2360, -100, -2712, /*angle*/ 0,   0, 0, /*behParam*/ 0x01050000, /*beh*/ bhvBooWithCage),
         OBJECT(/*model*/ MODEL_NONE, /*pos*/     0,   51, -1000, /*angle*/ 0, 180, 0, /*behParam*/ 0x000A0000, /*beh*/ bhvLaunchStarCollectWarp),
         OBJECT(/*model*/ MODEL_NONE, /*pos*/     0,   51, -1000, /*angle*/ 0, 180, 0, /*behParam*/ 0x000B0000, /*beh*/ bhvLaunchDeathWarp),
-		OBJECT(/*model*/ MODEL_PLAYER_LOCK_SWITCH_PIPE, /*pos*/     0,          0,      -3592, /*angle*/ 0, 0, 0, /*behParam*/ 0x000B0000, /*beh*/ bhvCharacterSwitchPipe),
+		OBJECT(/*model*/ MODEL_PLAYER_LOCK_SWITCH_PIPE, /*pos*/     0,          0,      -3592, /*angle*/ 0, 0, 0, /*behParam*/ 0, /*beh*/ bhvCharacterSwitchPipe),
+		OBJECT(/*model*/ MODEL_PLAYER_LOCK_SWITCH_PIPE, /*pos*/     0,          0,      -2712, /*angle*/ 0, 0, 0, /*behParam*/ 1, /*beh*/ bhvCharacterSwitchPipe),
+
         WARP_NODE(/*id*/ 0x05, /*destLevel*/ LEVEL_BBH, /*destArea*/ 0x01, /*destNode*/ 0x0A, /*flags*/ WARP_NO_CHECKPOINT),
         WARP_NODE(/*id*/ 0x0A, /*destLevel*/ LEVEL_CASTLE_COURTYARD, /*destArea*/ 0x01, /*destNode*/ 0x0A, /*flags*/ WARP_NO_CHECKPOINT),
         WARP_NODE(/*id*/ 0x0B, /*destLevel*/ LEVEL_CASTLE_COURTYARD, /*destArea*/ 0x01, /*destNode*/ 0x0B, /*flags*/ WARP_NO_CHECKPOINT),

@@ -636,7 +636,7 @@ void bhv_ukiki_loop(void) {
     if (o->oUkikiHasHat & UKIKI_HAT_ON) {
 		if(isLuigi()==1)
             o->oAnimState = UKIKI_ANIM_STATE_HAT_ON_LUIGI;
-		else if(isWario()==1)
+		else if(isWario()==2)
             o->oAnimState = UKIKI_ANIM_STATE_HAT_ON_WARIO;
 		else
             o->oAnimState = UKIKI_ANIM_STATE_HAT_ON;

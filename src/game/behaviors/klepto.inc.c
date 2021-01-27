@@ -84,7 +84,7 @@ void bhv_klepto_init(void) {
         if (save_file_get_flags() & SAVE_FLAG_CAP_ON_KLEPTO) {
 			if(isLuigi()==1)
 				o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_CAP_LUIGI;
-	        else if(isWario()==1) {
+	        else if(isWario()==2) {
 		        o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_CAP_WARIO;
 	        }
 			else
@@ -250,7 +250,7 @@ static void klepto_act_dive_at_mario(void) {
                 if (mario_lose_cap_to_enemy(1)) {
 					if(isLuigi()==1)
 						o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_CAP_LUIGI;
-                    else if(isWario()==1) {
+                    else if(isWario()==2) {
 						o->oAnimState = KLEPTO_ANIM_STATE_HOLDING_CAP_WARIO;
 				    }
 					else
@@ -377,7 +377,7 @@ void bhv_klepto_update(void) {
 				if(isLuigi()==1) {
 					spawn_object(o, MODEL_LUIGIS_CAP, bhvNormalCap);
 				}
-				else if(isWario()==1) {
+				else if(isWario()==2) {
 					spawn_object(o, MODEL_WARIOS_CAP, bhvNormalCap);
 				}
 				else { 

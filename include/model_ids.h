@@ -25,6 +25,7 @@
 
 #define MODEL_MARIO                       0x01        // mario_geo
 #define MODEL_LUIGI                       0x99       // unused
+#define MODEL_WARIO                       0xFF       // unused
 #define MODEL_PLAYER                      0x02
 
 /* Various static level geometry, the geo layout differs but terrain object presets treat them the same.*/
@@ -486,10 +487,10 @@
 #define MODEL_LUIGIS_WING_CAP             0x9C        // luigis_wing_cap_geo
 #define MODEL_LUIGIS_WINGED_METAL_CAP     0x9D        // luigis_winged_metal_cap_geo
 
-#define MODEL_WARIOS_CAP                  0x9A        // warios_cap_geo
-#define MODEL_WARIOS_METAL_CAP            0x9B        // warios_metal_cap_geo
-#define MODEL_WARIOS_WING_CAP             0x9C        // warios_wing_cap_geo
-#define MODEL_WARIOS_WINGED_METAL_CAP     0x9D        // warios_winged_metal_cap_geo
+#define MODEL_WARIOS_CAP                  0x9F        // warios_cap_geo
+#define MODEL_WARIOS_METAL_CAP            0xA0        // warios_metal_cap_geo
+#define MODEL_WARIOS_WING_CAP             0xA1        // warios_wing_cap_geo
+#define MODEL_WARIOS_WINGED_METAL_CAP     0xA2        // warios_winged_metal_cap_geo
 
 #define MODEL_EXCLAMATION_BOX             0x89        // exclamation_box_geo
 #define MODEL_DIRT_ANIMATION              0x8A        // dirt_animation_geo

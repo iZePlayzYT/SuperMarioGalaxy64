@@ -28,3 +28,4 @@
 #include "warp_pipe_boo/geo.inc.c"
 #include "boo_key/geo.inc.c"
 #include "luigi_cap/geo.inc.c"
+#include "wario_cap/geo.inc.c"

@@ -1963,7 +1963,7 @@ void init_mario_from_save_file(void) {
 
     if (isLuigi()==1)
         gMarioState->animation = &Data_LuigiAnims;
-	else if(isWario()==1) {
+	else if(isWario()==2) {
 	    gMarioState->animation = &D_80339D10;
 	}
     else

@@ -87,3 +87,4 @@ UNUSED static const u64 binid_22 = 22;
 #include "warp_pipe_boo/model.inc.c"
 #include "boo_key/model.inc.c"
 #include "luigi_cap/model.inc.c"
+#include "wario_cap/model.inc.c"

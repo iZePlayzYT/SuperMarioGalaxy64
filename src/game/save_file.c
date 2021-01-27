@@ -734,5 +734,5 @@ void save_file_update_player_model(s32 fileIndex, s32 character){
 
 s32 save_file_get_player_model(s32 fileIndex){
     s32 current = gSaveBuffer.files[fileIndex][0].currentPlayerModel;
-    return (current < 0 || current > 1) ? 0 : current;
+    return (current < 0) ? 0 : current;
 }

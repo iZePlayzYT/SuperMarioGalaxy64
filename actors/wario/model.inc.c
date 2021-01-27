@@ -83,8 +83,8 @@ u8 wario_hair_rgba32[] = "actors/wario/hair.rgba32";
 Gfx wario_nose_rgba32_aligner[] = {gsSPEndDisplayList()};
 u8 wario_nose_rgba32[] = "actors/wario/nose.rgba32";
 
-Gfx wario_mario_moustache_rgba16_aligner[] = {gsSPEndDisplayList()};
-u8 wario_mario_moustache_rgba16[] = "actors/wario/mario_moustache.rgba16";
+Gfx wario_mario_moustache__rgba16_rgba16_aligner[] = {gsSPEndDisplayList()};
+u8 wario_mario_moustache__rgba16_rgba16[] = "actors/wario/mario_moustache.rgba16";
 
 Gfx wario_w_logo_rgba32_aligner[] = {gsSPEndDisplayList()};
 u8 wario_w_logo_rgba32[] = "actors/wario/w_logo.rgba32";
@@ -66133,7 +66133,7 @@ Gfx mat_wario_mustache_001[] = {
 	gsSPSetGeometryMode(G_TEXTURE_GEN),
 	gsSPTexture(1983, 4031, 0, 0, 1),
 	gsDPTileSync(),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, wario_mario_moustache_rgba16),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, wario_mario_moustache__rgba16_rgba16),
 	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 6, 0, G_TX_WRAP | G_TX_NOMIRROR, 5, 0),
 	gsDPLoadSync(),
 	gsDPLoadTile(7, 0, 0, 124, 252),
@@ -66336,6 +66336,7 @@ Gfx mat_revert_wario_nose_001[] = {
 	gsSPClearGeometryMode(G_TEXTURE_GEN),
 	gsSPEndDisplayList(),
 };
+
 
 Gfx mat_wario_eye_001[] = {
 	gsDPPipeSync(),
