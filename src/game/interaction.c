@@ -903,10 +903,13 @@ u32 interact_warp(struct MarioState *m, UNUSED u32 interactType, struct Object *
                     s32 warpid = o->oBehParams;
                     s32 characterModel = 0;
                     if (warpid == 0){
-                        characterModel = getCharacterType() == MARIO ? LUIGI : MARIO;
+                        characterModel = getCharacterType() == MARIO ? LUIGI : LUIGI;
                     }
                     if (warpid == 1) { 
-                        characterModel = getCharacterType() == MARIO ? WARIO : MARIO;
+                        characterModel = getCharacterType() == MARIO ? MARIO : MARIO;
+                    }
+                    if (warpid == 2) { 
+                        characterModel = getCharacterType() == MARIO ? WARIO : WARIO;
                     }
                     setCharacterModel(characterModel);
                     save_file_update_player_model(gCurrSaveFileNum - 1, characterModel);

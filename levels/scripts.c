@@ -129,6 +129,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_CARTOON_STAR,            cartoon_star_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_BETA_BOO_KEY,            boo_key_geo),
     LOAD_MODEL_FROM_GEO(MODEL_MOTOS, 				   motos_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_PLAYER_LOCK_SWITCH_PIPE,    warp_pipe_boo_geo), 
     FREE_LEVEL_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),
     LOOP_BEGIN(),
@@ -209,7 +210,7 @@ const LevelScript script_func_global_1[] = {
     LOAD_MODEL_FROM_GEO(MODEL_HEART,                   heart_geo),
     LOAD_MODEL_FROM_GEO(MODEL_FLYGUY,                  flyguy_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CHUCKYA,                 chuckya_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_TRAJECTORY_MARKER_BALL,      bowling_ball_track_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_TRAJECTORY_MARKER_BALL,  bowling_ball_track_geo),
     RETURN(),
 };
 
