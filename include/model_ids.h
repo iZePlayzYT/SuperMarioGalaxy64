@@ -398,6 +398,9 @@
 #define MODEL_HAUNTED_CAGE                0x5A        // haunted_cage_geo
 #define MODEL_PLAYER_SWITCH_PIPE          0xE1
 #define MODEL_PLAYER_LOCK_SWITCH_PIPE     0xE2
+#define MODEL_PLAYER_LOCK_SWITCH_RED_PIPE     0xE3
+#define MODEL_PLAYER_LOCK_SWITCH_GREEN_PIPE     0xE4
+#define MODEL_PLAYER_LOCK_SWITCH_YELLOW_PIPE     0xE5
 
 // group 10
 #define MODEL_BIRDS                       0x54        // birds_geo
