@@ -58,6 +58,17 @@ enum {
 typedef void (*DynosRoutine)(void *);
 
 //
+// Level Script
+//
+
+enum {
+    DYNOS_LEVEL_SCRIPT_CONTINUE,
+    DYNOS_LEVEL_SCRIPT_NEXT_CMD,
+    DYNOS_LEVEL_SCRIPT_RETURN,
+    DYNOS_LEVEL_SCRIPT_STOP,
+};
+
+//
 // Repo/Branch compatibility macros
 // There are different function/struct names and values between Ex-Alo, Ex-Nightly and Render96
 //
@@ -220,6 +231,12 @@ extern "C" {
 #define MODEL_ID_LUIGIS_METAL_CAP       0xFF
 #define MODEL_ID_LUIGIS_WING_CAP        0xFF
 #define MODEL_ID_LUIGIS_WING_METAL_CAP  0xFF
+
+#define IS_PLAYER_WARIO                 (0)
+#define MODEL_ID_WARIOS_CAP             0xFF
+#define MODEL_ID_WARIOS_METAL_CAP       0xFF
+#define MODEL_ID_WARIOS_WING_CAP        0xFF
+#define MODEL_ID_WARIOS_WING_METAL_CAP  0xFF
 
 #endif
 

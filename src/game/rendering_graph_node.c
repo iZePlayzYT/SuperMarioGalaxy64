@@ -1603,7 +1603,6 @@ static void geo_process_object(struct Object *node) {
 
         // FIXME: correct types
         if (node->header.gfx.unk38.curAnim != NULL) {
-            extern void dynos_gfx_swap_animations(void *);
             dynos_gfx_swap_animations(node);
             geo_set_animation_globals(&node->header.gfx.unk38, hasAnimation);
             dynos_gfx_swap_animations(node);
@@ -1667,7 +1666,6 @@ static void geo_process_object(struct Object *node) {
 
         // FIXME: correct types
         if (node->header.gfx.unk38.curAnim != NULL) {
-            extern void dynos_gfx_swap_animations(void *);
             dynos_gfx_swap_animations(node);
             geo_set_animation_globals(&node->header.gfx.unk38, hasAnimation);
             dynos_gfx_swap_animations(node);
@@ -1778,7 +1776,6 @@ void geo_process_held_object(struct GraphNodeHeldObject *node) {
         gCurAnimType = 0;
         gCurGraphNodeHeldObject = (void *) node;
         if (node->objNode->header.gfx.unk38.curAnim != NULL) {
-            extern void dynos_gfx_swap_animations(void *);
             dynos_gfx_swap_animations(node->objNode);
             geo_set_animation_globals(&node->objNode->header.gfx.unk38, hasAnimation);
             dynos_gfx_swap_animations(node->objNode);
@@ -1844,7 +1841,6 @@ void geo_process_held_object(struct GraphNodeHeldObject *node) {
         gCurAnimType = 0;
         gCurGraphNodeHeldObject = (void *) node;
         if (node->objNode->header.gfx.unk38.curAnim != NULL) {
-            extern void dynos_gfx_swap_animations(void *);
             dynos_gfx_swap_animations(node->objNode);
             geo_set_animation_globals(&node->objNode->header.gfx.unk38, hasAnimation);
             dynos_gfx_swap_animations(node->objNode);
@@ -1871,6 +1867,7 @@ void geo_process_held_object(struct GraphNodeHeldObject *node) {
  * Processes the children of the given GraphNode if it has any
  */
 void geo_try_process_children(struct GraphNode *node) {
+    DYNOS_SANITY_CHECK(geo, node->type, return);
     if (node->children != NULL) {
         geo_process_node_and_siblings(node->children);
     }
@@ -1882,6 +1879,7 @@ void geo_try_process_children(struct GraphNode *node) {
  * be iterated over.
  */
 void geo_process_node_and_siblings(struct GraphNode *firstNode) {
+    DYNOS_SANITY_CHECK(geo, firstNode->type, return);
     s16 iterateChildren = TRUE;
     struct GraphNode *curGraphNode = firstNode;
     struct GraphNode *parent = curGraphNode->parent;

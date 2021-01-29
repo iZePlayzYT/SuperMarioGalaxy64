@@ -6,6 +6,7 @@
 #include "heap.h"
 #include "load.h"
 #include "seqplayer.h"
+#include "data/dynos.c.h"
 
 #define PORTAMENTO_IS_SPECIAL(x) ((x).mode & 0x80)
 #define PORTAMENTO_MODE(x) ((x).mode & ~0x80)
@@ -1444,6 +1445,7 @@ void sequence_channel_process_script(struct SequenceChannel *seqChannel) {
                 // #define loBits (cmd & 0xf)
                 switch (cmd & 0xf0) {
                     case 0x00: // chan_testlayerfinished
+                        DYNOS_SANITY_CHECK(seq, loBits, break);
                         if (seqChannel->layers[loBits] != NULL) {
                             value = seqChannel->layers[loBits]->finished;
                         }

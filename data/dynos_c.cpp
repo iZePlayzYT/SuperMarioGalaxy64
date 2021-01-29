@@ -115,36 +115,16 @@ void *__da_do(s32 func, void **pda, s32 index, void *item, bool (*eq)(void *, vo
 // Main
 //
 
-bool dynos_warp_to_level(s32 level, s32 act) {
-    return DynOS_WarpToLevel(level, act);
-}
-
-bool dynos_restart_level() {
-    return DynOS_RestartLevel();
-}
-
-bool dynos_exit_level(s32 delay) {
-    return DynOS_ExitLevel(delay);
-}
-
-bool dynos_warp_to_castle(s32 level) {
-    return DynOS_WarpToCastle(level);
-}
-
-bool dynos_return_to_main_menu() {
-    return DynOS_ReturnToMainMenu();
-}
-
 void dynos_add_routine(u8 type, DynosRoutine routine, void *data) {
     return DynOS_AddRoutine(type, routine, data);
 }
 
-s32 dynos_is_level_exit() {
-    return DynOS_IsLevelExit();
+void *dynos_update_cmd(void *cmd) {
+    return DynOS_UpdateCmd(cmd);
 }
 
-void dynos_update_gfx(void **pLevelCmd) {
-    return DynOS_UpdateGfx(pLevelCmd);
+void dynos_update_gfx() {
+    return DynOS_UpdateGfx();
 }
 
 //
@@ -403,28 +383,80 @@ void *dynos_geo_spawn_object(const void *geolayout, void *parent, const void *be
 // Levels
 //
 
-s32 dynos_level_get_count(bool noCastle) {
-    return DynOS_Level_GetCount(noCastle);
+s32 dynos_level_get_count() {
+    return DynOS_Level_GetCount();
 }
 
-s32 *dynos_level_get_list(bool noCastle, bool ordered) {
-    return DynOS_Level_GetList(noCastle, ordered);
+const s32 *dynos_level_get_list() {
+    return DynOS_Level_GetList();
 }
 
 s32 dynos_level_get_course(s32 level) {
     return DynOS_Level_GetCourse(level);
 }
 
-void *dynos_level_get_script(s32 level) {
+const void *dynos_level_get_script(s32 level) {
     return DynOS_Level_GetScript(level);
 }
 
-u8 *dynos_level_get_name(s32 level, bool decaps, bool addCourseNum) {
-    return DynOS_Level_GetName(level, decaps, addCourseNum);
+const u8 *dynos_level_get_name(s32 level, bool decaps, bool addCourseNumber) {
+    return DynOS_Level_GetName(level, decaps, addCourseNumber);
 }
 
-u8 *dynos_level_get_act_name(s32 level, s32 act, bool decaps, bool addStarNum) {
-    return DynOS_Level_GetActName(level, act, decaps, addStarNum);
+const u8 *dynos_level_get_act_name(s32 level, s32 act, bool decaps, bool addStarNumber) {
+    return DynOS_Level_GetActName(level, act, decaps, addStarNumber);
+}
+
+u64 dynos_level_cmd_get(void *cmd, u64 offset) {
+    return DynOS_Level_CmdGet(cmd, offset);
+}
+
+void *dynos_level_cmd_next(void *cmd, u64 size) {
+    return DynOS_Level_CmdNext(cmd, size);
+}
+
+void dynos_level_parse_script(const void *script, s32 (*func)(u8, void *)) {
+    return DynOS_Level_ParseScript(script, func);
+}
+
+s16 *dynos_level_get_warp(s32 level, s32 area, u8 warpId) {
+    return DynOS_Level_GetWarp(level, area, warpId);
+}
+
+s16 *dynos_level_get_warp_entry(s32 level, s32 area) {
+    return DynOS_Level_GetWarpEntry(level, area);
+}
+
+s16 *dynos_level_get_warp_star_collect(s32 level, s32 area) {
+    return DynOS_Level_GetWarpStarCollect(level, area);
+}
+
+s16 *dynos_level_get_warp_death(s32 level, s32 area) {
+    return DynOS_Level_GetWarpDeath(level, area);
+}
+
+//
+// Warps
+//
+
+bool dynos_warp_to_level(s32 level, s32 area, s32 act) {
+    return DynOS_Warp_ToLevel(level, area, act);
+}
+
+bool dynos_warp_restart_level() {
+    return DynOS_Warp_RestartLevel();
+}
+
+bool dynos_warp_exit_level(s32 delay) {
+    return DynOS_Warp_ExitLevel(delay);
+}
+
+bool dynos_warp_to_castle(s32 level) {
+    return DynOS_Warp_ToCastle(level);
+}
+
+bool dynos_warp_return_to_main_menu() {
+    return DynOS_Warp_ReturnToMainMenu();
 }
 
 }
