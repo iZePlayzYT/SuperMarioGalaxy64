@@ -87,6 +87,9 @@ static const LevelScript script_func_local_1[] = {
     WARP_NODE(/*id*/ 0x65, /*destLevel*/ LEVEL_CASTLE, /*destArea*/ 0x01, /*destNode*/ 0x65, /*flags*/ WARP_NO_CHECKPOINT),
     WARP_NODE(/*id*/ 0x66, /*destLevel*/ LEVEL_CASTLE, /*destArea*/ 0x01, /*destNode*/ 0x66, /*flags*/ WARP_NO_CHECKPOINT),
     WARP_NODE(/*id*/ 0x67, /*destLevel*/ LEVEL_CASTLE, /*destArea*/ 0x01, /*destNode*/ 0x67, /*flags*/ WARP_NO_CHECKPOINT),
+
+    OBJECT(/*model*/ MODEL_PLAYER_LOCK_SWITCH_PIPE, /*pos*/  1635,  614, -2483, /*angle*/ 0, -45, 0, /*behParam*/ 0x00FF0000, /*beh*/ bhvWarpPipe),
+    WARP_NODE(/*id*/ 0xFF, /*destLevel*/ LEVEL_FOURTH_FLOOR, /*destArea*/ 0x01, /*destNode*/ 0x0A, /*flags*/ WARP_NO_CHECKPOINT),
     RETURN(),
 };
 

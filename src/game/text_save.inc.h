@@ -181,7 +181,7 @@ static s32 write_text_save(s32 fileIndex) {
     fprintf(file, "\n[sgi]\n");
     for (int id = 0; id < NUM_KEYS; id++) {
         sprintf(&keys[strlen(keys)], "%d", save_file_taken_key(fileIndex, id));
-        printf("id : %d, key: %d\n", id, keys[id] == '1');
+        //printf("id : %d, key: %d\n", id, keys[id] == '1');
     }    
 
     fprintf(file, "keys = \"%s\"\n", keys);

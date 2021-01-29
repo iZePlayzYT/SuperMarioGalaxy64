@@ -25,6 +25,7 @@
 
 #define MODEL_MARIO                       0x01        // mario_geo
 #define MODEL_LUIGI                       0x99       // unused
+#define MODEL_WARIO                       0xFF       // unused
 #define MODEL_PLAYER                      0x02
 
 /* Various static level geometry, the geo layout differs but terrain object presets treat them the same.*/
@@ -397,6 +398,9 @@
 #define MODEL_HAUNTED_CAGE                0x5A        // haunted_cage_geo
 #define MODEL_PLAYER_SWITCH_PIPE          0xE1
 #define MODEL_PLAYER_LOCK_SWITCH_PIPE     0xE2
+#define MODEL_PLAYER_LOCK_SWITCH_RED_PIPE     0xE3
+#define MODEL_PLAYER_LOCK_SWITCH_GREEN_PIPE     0xE4
+#define MODEL_PLAYER_LOCK_SWITCH_YELLOW_PIPE     0xE5
 
 // group 10
 #define MODEL_BIRDS                       0x54        // birds_geo
@@ -475,6 +479,7 @@
 #define MODEL_BREAKABLE_BOX_SMALL         0x82        // breakable_box_small_geo
 #define MODEL_EXCLAMATION_BOX_OUTLINE     0x83        // exclamation_box_outline_geo
 #define MODEL_EXCLAMATION_POINT           0x84        // exclamation_point_seg8_dl_08025F08
+
 #define MODEL_MARIOS_WINGED_METAL_CAP     0x85        // marios_winged_metal_cap_geo
 #define MODEL_MARIOS_METAL_CAP            0x86        // marios_metal_cap_geo
 #define MODEL_MARIOS_WING_CAP             0x87        // marios_wing_cap_geo
@@ -484,6 +489,11 @@
 #define MODEL_LUIGIS_METAL_CAP            0x9B        // luigis_metal_cap_geo
 #define MODEL_LUIGIS_WING_CAP             0x9C        // luigis_wing_cap_geo
 #define MODEL_LUIGIS_WINGED_METAL_CAP     0x9D        // luigis_winged_metal_cap_geo
+
+#define MODEL_WARIOS_CAP                  0x9F        // warios_cap_geo
+#define MODEL_WARIOS_METAL_CAP            0xA0        // warios_metal_cap_geo
+#define MODEL_WARIOS_WING_CAP             0xA1        // warios_wing_cap_geo
+#define MODEL_WARIOS_WINGED_METAL_CAP     0xA2        // warios_winged_metal_cap_geo
 
 #define MODEL_EXCLAMATION_BOX             0x89        // exclamation_box_geo
 #define MODEL_DIRT_ANIMATION              0x8A        // dirt_animation_geo
@@ -574,7 +584,7 @@
 #define MODEL_PEACH                       0xDE        // peach_geo
 #define MODEL_CHUCKYA                     0xDF        // chuckya_geo
 #define MODEL_WHITE_PUFF                  0xE0        // white_puff_geo
-#define MODEL_TRAJECTORY_MARKER_BALL          0xE1        // bowling_ball_track_geo - duplicate used in SSL Pyramid small sized and as a track ball
+#define MODEL_TRAJECTORY_MARKER_BALL      0xE1        // bowling_ball_track_geo - duplicate used in SSL Pyramid small sized and as a track ball
 
 // Menu Models (overwrites Level Geometry IDs)
 #define MODEL_MAIN_MENU_MARIO_SAVE_BUTTON         MODEL_LEVEL_GEOMETRY_03   // main_menu_geo_0001D0

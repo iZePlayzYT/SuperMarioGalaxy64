@@ -4,6 +4,7 @@
 
 #define MARIO 0
 #define LUIGI 1
+#define WARIO 2
 
 void set_notification_status(s8 newState);
 s8 get_notification_status();
@@ -15,5 +16,6 @@ void playCharacterSound(s32 actionSound, s32 characterSound);
 void triggerLuigiNotification();
 //Todo: To be removed
 s32 isLuigi();
+s32 isWario();
 
 #endif

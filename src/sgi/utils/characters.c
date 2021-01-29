@@ -18,6 +18,9 @@ void setCharacterModel(s32 characterType){
         case LUIGI:
             type = MODEL_LUIGI;
             break;
+        case WARIO:
+            type = MODEL_WARIO;
+            break;
     }
 
     gLoadedGraphNodes[MODEL_PLAYER] = gLoadedGraphNodes[type];
@@ -29,6 +32,8 @@ s32 getCharacterType(){
         type = MARIO;
     }else if(gLoadedGraphNodes[MODEL_PLAYER] == gLoadedGraphNodes[MODEL_LUIGI]){
         type = LUIGI;
+    }else if(gLoadedGraphNodes[MODEL_PLAYER] == gLoadedGraphNodes[MODEL_WARIO]){
+        type = WARIO;
     }else{
         type = MARIO;
     }
@@ -44,12 +49,19 @@ f32 getCharacterMultiplier(){
         case LUIGI:
             mul = 1.07f;
             break;
+        case WARIO:
+            mul = 1.0f;
+            break;
     }
     return mul;
 }
 
 s32 isLuigi(){
     return getCharacterType() == LUIGI;
+}
+
+s32 isWario(){
+    return getCharacterType() == WARIO;
 }
 
 void playCharacterSound(s32 actionSound, s32 characterSound){

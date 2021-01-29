@@ -69,6 +69,7 @@ const LevelScript level_main_scripts_entry[] = {
 	LOAD_MODEL_FROM_GEO(MODEL_PLAYER,                  mario_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_MARIO,                   mario_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_LUIGI,                   luigi_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_WARIO,                   wario_geo),
 
     LOAD_MODEL_FROM_GEO(MODEL_SMOKE,                   smoke_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SPARKLES,                sparkles_geo),
@@ -110,6 +111,11 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_LUIGIS_METAL_CAP,        luigis_metal_cap_geo),
     LOAD_MODEL_FROM_GEO(MODEL_LUIGIS_WING_CAP,         luigis_wing_cap_geo),
     LOAD_MODEL_FROM_GEO(MODEL_LUIGIS_CAP,              luigis_cap_geo),
+
+    LOAD_MODEL_FROM_GEO(MODEL_WARIOS_WINGED_METAL_CAP, warios_winged_metal_cap_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WARIOS_METAL_CAP,        warios_metal_cap_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WARIOS_WING_CAP,         warios_wing_cap_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_WARIOS_CAP,              warios_cap_geo),
 	
     LOAD_MODEL_FROM_GEO(MODEL_BOWSER_KEY_CUTSCENE,     bowser_key_cutscene_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BOWSER_KEY,              bowser_key_geo),
@@ -123,6 +129,10 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_CARTOON_STAR,            cartoon_star_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_BETA_BOO_KEY,            boo_key_geo),
     LOAD_MODEL_FROM_GEO(MODEL_MOTOS, 				   motos_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_PLAYER_LOCK_SWITCH_PIPE, warp_pipe_boo_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_PLAYER_LOCK_SWITCH_RED_PIPE, warp_pipe_boo_red_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_PLAYER_LOCK_SWITCH_GREEN_PIPE, warp_pipe_boo_green_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_PLAYER_LOCK_SWITCH_YELLOW_PIPE, warp_pipe_boo_yellow_geo),  
     FREE_LEVEL_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),
     LOOP_BEGIN(),
@@ -203,7 +213,7 @@ const LevelScript script_func_global_1[] = {
     LOAD_MODEL_FROM_GEO(MODEL_HEART,                   heart_geo),
     LOAD_MODEL_FROM_GEO(MODEL_FLYGUY,                  flyguy_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CHUCKYA,                 chuckya_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_TRAJECTORY_MARKER_BALL,      bowling_ball_track_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_TRAJECTORY_MARKER_BALL,  bowling_ball_track_geo),
     RETURN(),
 };
 

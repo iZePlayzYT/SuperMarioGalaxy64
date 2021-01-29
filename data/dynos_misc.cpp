@@ -61,7 +61,7 @@ static const struct { const char *mStr; u8 mChar64; s32 mWidth; } sSm64CharMap[]
     { "[R]", 0x58, 7 }, { ",",  0x6F,  4 }, { " ",   0x9E, 5 }, { "-",   0x9F, 6 }, { "/",   0xD0, 10 }, { "[%]", 0xE0,  7 },
     { "(",   0xE1, 5 }, { ")(", 0xE2, 10 }, { ")",   0xE3, 5 }, { "+",   0xE4, 9 }, { "&",   0xE5,  8 }, { ":",   0xE6,  4 },
     { "!",   0xF2, 5 }, { "%",  0xF3,  7 }, { "?",   0xF4, 7 }, { "~",   0xF7, 8 }, { "$",   0xF9,  8 }, { "@",   0xFA, 10 },
-    { "*",   0xFB, 6 }, { "¤",  0xFD, 10 }, { "\n",  0xFE, 0 },
+    { "*",   0xFB, 6 }, { "ï¿½",  0xFD, 10 }, { "\n",  0xFE, 0 },
 };
 
 static const char *DynOS_String_AddChar64(u8 *aStr64, const char *pStr, s32 &aIndex) {
@@ -258,6 +258,12 @@ static const Array<Pair<const char *, void *>> sActors = {
     define_actor(luigis_metal_cap_geo),
     define_actor(luigis_wing_cap_geo),
     define_actor(luigis_winged_metal_cap_geo),
+
+    define_actor(wario_geo),
+    define_actor(warios_cap_geo),
+    define_actor(warios_metal_cap_geo),
+    define_actor(warios_wing_cap_geo),
+    define_actor(warios_winged_metal_cap_geo),
 #endif
 
     define_actor(mad_piano_geo),

@@ -1317,6 +1317,8 @@ void cheats_mario_inputs(struct MarioState *m) {
                 m->marioObj->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_PLAYER];
                 if (isLuigi() == 1) {
                     gMarioState->animation = &Data_LuigiAnims;
+		        } else if(isWario()==2) {
+			        gMarioState->animation = &D_80339D10;
                 } else {
                     gMarioState->animation = &D_80339D10;
                 }
