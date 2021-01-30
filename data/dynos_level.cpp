@@ -47,10 +47,10 @@ extern const BehaviorScript *sWarpBhvSpawnTable[];
 static void SetConvertedTextToBuffer(u8 *aBuffer, const char *aText) {
 #ifdef RENDER_96_ALPHA
     u8 *_TranslatedText = get_key_string((char *) aText);
-    memcpy(aBuffer, _TranslatedText, DynOS_String_Length(_TranslatedText));
+    memcpy(aBuffer, _TranslatedText, DynOS_String_Length(_TranslatedText) + 1);
 #else
     u8 *_ConvertedText = DynOS_String_Convert(aText, false);
-    memcpy(aBuffer, _ConvertedText, DynOS_String_Length(_ConvertedText));
+    memcpy(aBuffer, _ConvertedText, DynOS_String_Length(_ConvertedText) + 1);
 #endif
 }
 
