@@ -13,6 +13,9 @@ inline static void *make_copy(const void *p, u64 s) {
 #define va_string(str, size, fmt, ...)  char str[size]; snprintf(str, size, fmt, __VA_ARGS__);
 #define str_eq(str1, str2)              (strcmp(str1, str2) == 0)
 
+#define DYNOS_COURSE_NO_WARP(level)                 (dynos_level_get_course(level) == COURSE_NONE)
+#define DYNOS_SANITY_CHECK(type, value, failsafe)   if (!dynos_sanity_check_##type(value)) { failsafe; }
+
 // The action signature is "bool (*) (const char *)"
 // The input is the button internal name (not label)
 // The output is the result of the action
@@ -47,14 +50,9 @@ void *__da_do(s32, void **, s32, void *, bool (*eq)(void *, void *));
 // Main
 //
 
-bool dynos_warp_to_level(s32 level, s32 act);
-bool dynos_restart_level();
-bool dynos_exit_level(s32 delay);
-bool dynos_warp_to_castle(s32 level);
-bool dynos_return_to_main_menu();
-void dynos_add_routine(u8 type, DynosRoutine routine, void *data);
-s32  dynos_is_level_exit();
-void dynos_update_gfx(void **pLevelCmd);
+void  dynos_add_routine(u8 type, DynosRoutine routine, void *data);
+void *dynos_update_cmd(void *cmd);
+void  dynos_update_gfx();
 
 //
 // Opt
@@ -144,12 +142,36 @@ void *dynos_geo_spawn_object(const void *geolayout, void *parent, const void *be
 // Levels
 //
 
-s32 dynos_level_get_count(bool noCastle);
-s32 *dynos_level_get_list(bool noCastle, bool ordered);
+s32 dynos_level_get_count();
+const s32 *dynos_level_get_list();
 s32 dynos_level_get_course(s32 level);
-void *dynos_level_get_script(s32 level);
-u8 *dynos_level_get_name(s32 level, bool decaps, bool addCourseNum);
-u8 *dynos_level_get_act_name(s32 level, s32 act, bool decaps, bool addStarNum);
+const void *dynos_level_get_script(s32 level);
+const u8 *dynos_level_get_name(s32 level, bool decaps, bool addCourseNumber);
+const u8 *dynos_level_get_act_name(s32 level, s32 act, bool decaps, bool addStarNumber);
+u64 dynos_level_cmd_get(void *cmd, u64 offset);
+void *dynos_level_cmd_next(void *cmd, u64 size);
+void dynos_level_parse_script(const void *script, s32 (*func)(u8, void *));
+s16 *dynos_level_get_warp(s32 level, s32 area, u8 warpId);
+s16 *dynos_level_get_warp_entry(s32 level, s32 area);
+s16 *dynos_level_get_warp_star_collect(s32 level, s32 area);
+s16 *dynos_level_get_warp_death(s32 level, s32 area);
+
+//
+// Warps
+//
+
+bool dynos_warp_to_level(s32 level, s32 area, s32 act);
+bool dynos_warp_restart_level();
+bool dynos_warp_exit_level(s32 delay);
+bool dynos_warp_to_castle(s32 level);
+bool dynos_warp_return_to_main_menu();
+
+//
+// Sanity checks
+//
+
+bool dynos_sanity_check_geo(s16 graphNodeType);
+bool dynos_sanity_check_seq(u8 loBits);
 
 #endif
 #endif

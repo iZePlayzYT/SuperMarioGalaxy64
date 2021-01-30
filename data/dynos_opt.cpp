@@ -457,11 +457,11 @@ static s32 DynOS_Opt_ProcessInput(DynosOption *aOpt, s32 input) {
 
         case DOPT_CHOICELEVEL:
             if (input == INPUT_LEFT) {
-                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + DynOS_Level_GetCount(true) - 1) % (DynOS_Level_GetCount(true));
+                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + DynOS_Level_GetCount() - 1) % (DynOS_Level_GetCount());
                 return RESULT_OK;
             }
             if (input == INPUT_RIGHT || input == INPUT_A) {
-                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + 1) % (DynOS_Level_GetCount(true));
+                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + 1) % (DynOS_Level_GetCount());
                 return RESULT_OK;
             }
             break;
@@ -564,9 +564,11 @@ static void DynOS_Opt_Open(DynosOption *aMenu) {
     sCurrentOpt = aMenu;
 }
 
-static void DynOS_Opt_Close() {
+static void DynOS_Opt_Close(bool aPlaySavedSfx) {
     if (sCurrentMenu != NULL) {
-        play_sound(SOUND_DYNOS_SAVED, gGlobalSoundArgs);
+        if (aPlaySavedSfx) {
+            play_sound(SOUND_DYNOS_SAVED, gGlobalSoundArgs);
+        }
         controller_reconfigure();
         configfile_save(configfile_name());
         DynOS_Opt_SaveConfig(sDynosMenu);
@@ -666,7 +668,7 @@ static void DynOS_Opt_ProcessInputs() {
                 sCurrentOpt = sCurrentOpt->mParent;
                 play_sound(SOUND_DYNOS_SELECT, gGlobalSoundArgs);
             } else {
-                DynOS_Opt_Close();
+                DynOS_Opt_Close(true);
             }
             return;
         }
@@ -678,7 +680,7 @@ static void DynOS_Opt_ProcessInputs() {
                 case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gGlobalSoundArgs); break;
                 case RESULT_NONE:
                     if (sCurrentMenu == sDynosMenu) {
-                        DynOS_Opt_Close();
+                        DynOS_Opt_Close(true);
                     } else {
                         DynOS_Opt_Open(sDynosMenu);
                     } break;
@@ -689,7 +691,7 @@ static void DynOS_Opt_ProcessInputs() {
         // R
         if (gPlayer1Controller->buttonPressed & R_TRIG) {
             if (sCurrentMenu == sOptionsMenu) {
-                DynOS_Opt_Close();
+                DynOS_Opt_Close(true);
             } else {
                 DynOS_Opt_Open(sOptionsMenu);
             }
@@ -698,7 +700,7 @@ static void DynOS_Opt_ProcessInputs() {
 
         // Start
         if (gPlayer1Controller->buttonPressed & START_BUTTON) {
-            DynOS_Opt_Close();
+            DynOS_Opt_Close(true);
             return;
         }
     } else if (gPlayer1Controller->buttonPressed & R_TRIG) {
@@ -731,7 +733,7 @@ static void DynOS_Opt_CreateWarpToLevelSubMenu() {
     *aOpt->mChoice.mIndex = 0;
     }
 
-#ifndef IS_ROM_HACK
+#if defined(SUPER_MARIO_74) || !defined(IS_ROM_HACK)
     // Param select
     {
     DynosOption *aOpt = DynOS_Opt_NewOption("dynos_warp_param", "", LABEL_NAME("Param Select"), "");
@@ -816,14 +818,15 @@ void DynOS_Opt_Init() {
 // Update
 //
 
-extern s32 gDDDBowsersSub;
-extern s32 gDDDPoles;
 void DynOS_Opt_Update(OSContPad *aPad) {
     controller_read(aPad);
     DynOS_Opt_Loop(sDynosMenu, DynOS_Opt_ControllerUpdate, (void *) aPad);
-    if (gCurrCourseNum == 0) {
-        gDDDBowsersSub = -1;
-        gDDDPoles = -1;
+    if (gWarpTransition.isActive) {
+        aPad->button = 0;
+        aPad->stick_x = 0;
+        aPad->stick_y = 0;
+        aPad->ext_stick_x = 0;
+        aPad->ext_stick_y = 0;
     }
 #ifdef RENDER_96_ALPHA
     LoadLangStrings();
@@ -840,7 +843,7 @@ extern "C" {
 u8 optmenu_open = 0;
 
 void optmenu_toggle(void) {
-    DynOS_Opt_Close();
+    DynOS_Opt_Close(false);
     optmenu_open = 0;
 }
 
@@ -864,27 +867,31 @@ void optmenu_check_buttons(void) {
 //
 
 static bool DynOS_Opt_ReturnToMainMenu(UNUSED const char *optName) {
-    return DynOS_ReturnToMainMenu();
+    return DynOS_Warp_ReturnToMainMenu();
 }
 DYNOS_DEFINE_ACTION(DynOS_Opt_ReturnToMainMenu);
 
 static bool DynOS_Opt_WarpToLevel(UNUSED const char *optName) {
-    return DynOS_WarpToLevel(DynOS_Level_GetList(true, true)[DynOS_Opt_GetValue("dynos_warp_level")], DynOS_Opt_GetValue("dynos_warp_act") + 1);
+#ifdef SUPER_MARIO_74
+    return DynOS_Warp_ToLevel(DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_level")], gCurrAreaIndex, DynOS_Opt_GetValue("dynos_warp_act") + 1);
+#else
+    return DynOS_Warp_ToLevel(DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_level")], 1, DynOS_Opt_GetValue("dynos_warp_act") + 1);
+#endif
 }
 DYNOS_DEFINE_ACTION(DynOS_Opt_WarpToLevel);
 
 static bool DynOS_Opt_WarpToCastle(UNUSED const char *optName) {
-    return DynOS_WarpToCastle(DynOS_Level_GetList(true, true)[DynOS_Opt_GetValue("dynos_warp_castle")]);
+    return DynOS_Warp_ToCastle(DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_castle")]);
 }
 DYNOS_DEFINE_ACTION(DynOS_Opt_WarpToCastle);
 
 static bool DynOS_Opt_RestartLevel(UNUSED const char *optName) {
-    return DynOS_RestartLevel();
+    return DynOS_Warp_RestartLevel();
 }
 DYNOS_DEFINE_ACTION(DynOS_Opt_RestartLevel);
 
 static bool DynOS_Opt_ExitLevel(UNUSED const char *optName) {
-    return DynOS_ExitLevel(30);
+    return DynOS_Warp_ExitLevel(30);
 }
 DYNOS_DEFINE_ACTION(DynOS_Opt_ExitLevel);
 

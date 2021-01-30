@@ -112,9 +112,9 @@ static const char *IntToString(const char *fmt, s32 x) {
 #define get_choice(opt)     (opt->mChoice.mChoices[*opt->mChoice.mIndex])
 #define get_dec_number(n)   { "", DynOS_String_Convert(IntToString("%d", n), false) }
 #define get_hex_number(n)   { "", DynOS_String_Convert(IntToString("%04X", n), false) }
-#define get_level(opt)      { "", DynOS_Level_GetName(DynOS_Level_GetList(true, true)[*opt->mChoice.mIndex], true, true) }
-#define get_star(opt)       { "", DynOS_Level_GetActName(DynOS_Level_GetList(true, true)[DynOS_Opt_GetValue("dynos_warp_level")], *opt->mChoice.mIndex + 1, true, true) }
-#define get_param(opt)      { DynOS_Level_GetParamName(DynOS_Level_GetList(true, true)[DynOS_Opt_GetValue("dynos_warp_level")], *opt->mChoice.mIndex), NULL }
+#define get_level(opt)      { "", DynOS_Level_GetName(DynOS_Level_GetList()[*opt->mChoice.mIndex], true, true) }
+#define get_star(opt)       { "", DynOS_Level_GetActName(DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_level")], *opt->mChoice.mIndex + 1, true, true) }
+#define get_param(opt)      { DynOS_Warp_GetParamName(DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_level")], *opt->mChoice.mIndex), NULL }
 
 static s32 GetCurrentOptionCount(DynosOption *aCurrentOpt) {
     s32 _Count = 0;
@@ -219,7 +219,7 @@ static void DynOS_Opt_DrawOption(DynosOption *aOpt, DynosOption *aCurrentOpt, s3
         } break;
 
         case DOPT_CHOICESTAR: {
-            s32 _Course = DynOS_Level_GetCourse(DynOS_Level_GetList(true, true)[DynOS_Opt_GetValue("dynos_warp_level")]);
+            s32 _Course = DynOS_Level_GetCourse(DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_level")]);
             if (_Course >= COURSE_MIN && _Course <= COURSE_STAGES_MAX) {
                 PrintString(get_star(aOpt), OFFSET_FROM_RIGHT_EDGE, aY, aOpt == aCurrentOpt ? COLOR_SELECT : COLOR_WHITE, COLOR_BLACK, 0);
             }

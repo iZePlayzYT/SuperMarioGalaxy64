@@ -865,13 +865,15 @@ struct LevelCommand *level_script_execute(struct LevelCommand *cmd) {
     sCurrentCmd = cmd;
 
     while (sScriptStatus == SCRIPT_RUNNING) {
+        void *currCmd = sCurrentCmd;
         LevelScriptJumpTable[sCurrentCmd->type]();
+        void *nextCmd = dynos_update_cmd(currCmd);
+        if (nextCmd) sCurrentCmd = nextCmd;
     }
 
     profiler_log_thread5_time(LEVEL_SCRIPT_EXECUTE);
     init_render_image();
-    extern void dynos_update_gfx(void **);
-    dynos_update_gfx((void **) &sCurrentCmd);
+    dynos_update_gfx();
     render_game();
     end_master_display_list();
     alloc_display_list(0);

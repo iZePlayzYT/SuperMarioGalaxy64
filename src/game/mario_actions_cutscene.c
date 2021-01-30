@@ -2692,10 +2692,6 @@ static s32 check_for_instant_quicksand(struct MarioState *m) {
 
 s32 mario_execute_cutscene_action(struct MarioState *m) {
     s32 cancel;
-    extern int dynos_is_level_exit();
-    if (dynos_is_level_exit()) {
-        return FALSE;
-    }
 
     if (check_for_instant_quicksand(m)) {
         return TRUE;

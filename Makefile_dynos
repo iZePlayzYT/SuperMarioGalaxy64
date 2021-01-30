@@ -40,3 +40,30 @@ IS_ROM_HACK ?= 0
 ifeq ($(IS_ROM_HACK),1)
 INCLUDE_CFLAGS += -DIS_ROM_HACK
 endif
+
+# --------------
+# Super Mario 74
+# --------------
+
+SUPER_MARIO_74 ?= 0
+ifeq ($(SUPER_MARIO_74),1)
+INCLUDE_CFLAGS += -DIS_ROM_HACK -DSUPER_MARIO_74
+endif
+
+# --------------
+# Star Revenge 1
+# --------------
+
+STAR_REVENGE_1 ?= 0
+ifeq ($(STAR_REVENGE_1),1)
+INCLUDE_CFLAGS += -DIS_ROM_HACK -DSTAR_REVENGE_1
+endif
+
+# ---------------
+# The Green Stars
+# ---------------
+
+THE_GREEN_STARS ?= 0
+ifeq ($(THE_GREEN_STARS),1)
+INCLUDE_CFLAGS += -DIS_ROM_HACK -DTHE_GREEN_STARS
+endif

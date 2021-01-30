@@ -2414,7 +2414,7 @@ void render_pause_castle_main_strings(s16 x, s16 y) {
         int_to_str(save_file_get_course_coin_score(gCurrSaveFileNum - 1, gDialogLineNum), strVal);
         print_generic_string(x + 54, y - 5, strVal);
     } else {        
-        courseName = segmented_to_virtual(courseNameTbl[COURSE_MAX]);
+        courseName = segmented_to_virtual(courseNameTbl[COURSE_CAKE_END]); // That's where the "CASTLE SECRET STARS" is located
         print_generic_string(x + 40, y + 13, get_key_string("TEXT_STAR_X"));
         int_to_str(save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_BONUS_STAGES - 1, COURSE_MAX - 1), strVal);
         print_generic_string(x + 60, y + 13, strVal);

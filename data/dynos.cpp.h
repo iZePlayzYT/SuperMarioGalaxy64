@@ -12,6 +12,8 @@
 #define METAL_BITS          (G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR)
 #define GFX_DYN_CMD_ID      "GFXDYNCMD_"
 
+#define DYNOS_COURSE_NO_WARP(level)     (DynOS_Level_GetCourse(level) == COURSE_NONE)
+
 // The action signature is "bool (*) (const char *)"
 // The input is the button internal name (not label)
 // The output is the result of the action
@@ -633,17 +635,11 @@ SysPath fstring(const char *aFmt, Args... aArgs) {
 // Main
 //
 
-bool DynOS_WarpToLevel     (s32 aLevel, s32 aAct);
-bool DynOS_RestartLevel    ();
-bool DynOS_ExitLevel       (s32 aDelay);
-bool DynOS_WarpToCastle    (s32 aLevel);
-bool DynOS_ReturnToMainMenu();
-void DynOS_AddRoutine      (u8 aType, DynosRoutine aRoutine, void *aData);
-bool DynOS_IsLevelExit     ();
-
-void DynOS_Init            ();
-void DynOS_UpdateOpt       (void *aPad);
-void DynOS_UpdateGfx       (void **pLevelCmd);
+void  DynOS_AddRoutine (u8 aType, DynosRoutine aRoutine, void *aData);
+void  DynOS_Init       ();
+void  DynOS_UpdateOpt  (void *aPad);
+void *DynOS_UpdateCmd  (void *aCmd);
+void  DynOS_UpdateGfx  ();
 
 //
 // Opt
@@ -758,15 +754,33 @@ void *DynOS_Geo_SpawnObject                 (const void *aGeoLayout, void *aPare
 // Levels
 //
 
-s32   DynOS_Level_GetCount      (bool aNoCastle);
-s32  *DynOS_Level_GetList       (bool aNoCastle, bool aOrdered);
-s32   DynOS_Level_GetCourse     (s32 aLevel);
-void *DynOS_Level_GetScript     (s32 aLevel);
-u8   *DynOS_Level_GetName       (s32 aLevel, bool aDecaps, bool aAddCourseNumber);
-u8   *DynOS_Level_GetActName    (s32 aLevel, s32 aAct, bool aDecaps, bool aAddStarNumber);
-s32   DynOS_Level_GetParamValue (s32 aLevel, u32 aIndex);
-const char *DynOS_Level_GetParamName(s32 aLevel, u32 aIndex);
-void  DynOS_Level_SetParam      (s32 aLevel, s32 aParamValue);
+s32         DynOS_Level_GetCount           ();
+const s32  *DynOS_Level_GetList            ();
+s32         DynOS_Level_GetCourse          (s32 aLevel);
+const void *DynOS_Level_GetScript          (s32 aLevel);
+const u8   *DynOS_Level_GetName            (s32 aLevel, bool aDecaps, bool aAddCourseNumber);
+const u8   *DynOS_Level_GetActName         (s32 aLevel, s32 aAct, bool aDecaps, bool aAddStarNumber);
+u64         DynOS_Level_CmdGet             (void *aCmd, u64 aOffset);
+void       *DynOS_Level_CmdNext            (void *aCmd, u64 aCmdSize);
+void        DynOS_Level_ParseScript        (const void *aScript, s32 (*aPreprocessFunction)(u8, void *));
+s16        *DynOS_Level_GetWarp            (s32 aLevel, s32 aArea, u8 aWarpId);
+s16        *DynOS_Level_GetWarpEntry       (s32 aLevel, s32 aArea);
+s16        *DynOS_Level_GetWarpStarCollect (s32 aLevel, s32 aArea);
+s16        *DynOS_Level_GetWarpDeath       (s32 aLevel, s32 aArea);
+
+//
+// Warps
+//
+
+void *DynOS_Warp_Update(void *aCmd, bool aIsLevelInitDone);
+
+bool DynOS_Warp_ToLevel             (s32 aLevel, s32 aArea, s32 aAct);
+bool DynOS_Warp_RestartLevel        ();
+bool DynOS_Warp_ExitLevel           (s32 aDelay);
+bool DynOS_Warp_ToCastle            (s32 aLevel);
+bool DynOS_Warp_ReturnToMainMenu    ();
+void DynOS_Warp_SetParam            (s32 aLevel, s32 aIndex);
+const char *DynOS_Warp_GetParamName (s32 aLevel, s32 aIndex);
 
 #endif
 #endif
