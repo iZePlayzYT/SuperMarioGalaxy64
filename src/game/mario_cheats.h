@@ -4,12 +4,7 @@
 #include <PR/ultratypes.h>
 
 #include "macros.h"
-#include "model_ids.h"
 #include "types.h"
-
-#if defined(MODEL_PLAYER) && defined(MODEL_LUIGIS_CAP)
-#define R96
-#endif
 
 void cheats_set_model(struct MarioState *m);
 void cheats_swimming_speed(struct MarioState *m);

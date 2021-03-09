@@ -28,6 +28,7 @@
 #include "game/interaction.h"
 #include "game/ingame_menu.h"
 #include "game/mario.h"
+#include "game/mario_cheats.h"
 #include "game/mario_step.h"
 #include "game/print.h"
 #include "game/save_file.h"
@@ -43,6 +44,7 @@
 #include "audio/external.h"
 
 /* pc */
+#include "pc/cheats.h"
 #include "pc/configfile.h"
 #include "pc/controller/controller_api.h"
 

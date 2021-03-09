@@ -324,6 +324,45 @@ const char *r96_get_intended_level_music() {
 
     s32 gCurrLevelArea = gCurrLevelNum * 16 + gCurrentArea->index;
 
+// R96 Jukebox Cheat
+    if (Cheats.EnableCheats && Cheats.JBC) {
+        switch (Cheats.JB) {
+            case 0:
+                return R96_LEVEL_BOB;
+                break;
+            case 1:
+                return R96_LEVEL_INSIDE_CASTLE;
+                break;
+            case 2:
+                return R96_LEVEL_JRB;
+                break;
+            case 3:
+                return R96_LEVEL_LLL_OUTSIDE;
+                break;
+            case 4:
+                return R96_LEVEL_BOWSER_1;
+                break;
+            case 5:
+                return R96_LEVEL_CCM;
+                break;
+            case 6:
+                return R96_LEVEL_PSS;
+                break;
+            case 7:
+                return R96_LEVEL_BBH;
+                break;
+            case 8:
+                return R96_LEVEL_HMC;
+                break;
+            case 9:
+                return R96_LEVEL_BITDW;
+                break;
+            case 10:
+                return R96_LEVEL_BOWSER_3;
+                break;
+        }
+    }
+
 // Inside Castle
     if (gCurrLevelNum == LEVEL_CASTLE)
         return R96_LEVEL_INSIDE_CASTLE;

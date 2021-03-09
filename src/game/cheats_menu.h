@@ -29,14 +29,6 @@ static const u8 optsSeqStr[][64] = {
     "TEXT_OPT_SEQ9",
     "TEXT_OPT_SEQ10",
     "TEXT_OPT_SEQ11",
-    "TEXT_OPT_SEQ12",
-    "TEXT_OPT_SEQ13",
-    "TEXT_OPT_SEQ14",
-    "TEXT_OPT_SEQ15",
-    "TEXT_OPT_SEQ16",
-    "TEXT_OPT_SEQ17",
-    "TEXT_OPT_SEQ18",
-    "TEXT_OPT_SEQ19",
 };
 
 static const u8 *SeqChoices[] = {
@@ -51,14 +43,6 @@ static const u8 *SeqChoices[] = {
     optsSeqStr[8],
     optsSeqStr[9],
     optsSeqStr[10],
-    optsSeqStr[11],
-    optsSeqStr[12],
-    optsSeqStr[13],
-    optsSeqStr[14],
-    optsSeqStr[15],
-    optsSeqStr[16],
-    optsSeqStr[17],
-    optsSeqStr[18],
 };
 
 static const u8 optsSpeedStr[][16] = {

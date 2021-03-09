@@ -247,10 +247,6 @@ static void setCap_Normal(UNUSED struct Option *self, s32 arg) {
     Cheats.RemoveCap = false;
     if (!arg) Cheats.NormalCap = true;
 }
-static void setJBC(UNUSED struct Option *self, s32 arg) {
-    if (!arg)
-        Cheats.JBC = true;
-}
 
 
 
@@ -338,7 +334,7 @@ static struct Option optsCheats[] = {
     DEF_OPT_TOGGLE(optsCheatsStr2[6], &Cheats.SPD),
     DEF_OPT_TOGGLE(optsCheatsStr2[7], &Cheats.TPF),
     DEF_OPT_CHOICE(optsCheatsStr2[8], &Cheats.JB, SeqChoices),
-    DEF_OPT_BUTTON(optsCheatsStr2[9], setJBC),
+    DEF_OPT_TOGGLE(optsCheatsStr2[9], &Cheats.JBC),
     DEF_OPT_TOGGLE(optsCheatsStr2[10], &Cheats.QuikEnd),
     DEF_OPT_CHOICE(optsCheatsStr2[11], &Cheats.Hurt, HurtCheatChoices),
     DEF_OPT_TOGGLE(optsCheatsStr2[12], &Cheats.Cann),

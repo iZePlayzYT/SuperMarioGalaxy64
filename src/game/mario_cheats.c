@@ -62,9 +62,11 @@
 #include "thread6.h"
 #include "pc/configfile.h"
 #include "pc/cheats.h"
-#ifdef R96
+
 #include "data/r96/r96_c_includes.h"
-#endif // R96
+#include "data/r96/r96_defines.h"
+#include "data/r96/r96_includes.h"
+#include "data/r96/system/r96_system.h"
 
 #pragma GCC diagnostic ignored "-Wunused-but-set-variable"
 #pragma GCC diagnostic ignored "-Wincompatible-pointer-types"
@@ -1313,7 +1315,6 @@ void cheats_mario_inputs(struct MarioState *m) {
         switch(Cheats.PAC) {
             /*Model Choices*/
             case 0:
-#ifdef R96
                 m->marioObj->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_PLAYER];
                 if (isLuigi())
                     gMarioState->animation = &Data_LuigiAnims;
@@ -1322,11 +1323,6 @@ void cheats_mario_inputs(struct MarioState *m) {
                 else if(!isLuigi() && !isWario())
                     gMarioState->animation = &Data_MarioAnims;
                 break;
-#else
-                m->marioObj->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_MARIO]; //Use MODEL_PLAYER
-                m->animation = &Data_MarioAnims; //Only Mario's animations
-                break;
-#endif // R96
             case 1:
                 m->marioObj->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_BLACK_BOBOMB];
                 m->marioObj->header.gfx.curAnim.curAnim = bobomb_seg8_anims_0802396C[0];
@@ -1525,7 +1521,7 @@ void cheats_mario_inputs(struct MarioState *m) {
                 if ((m->action & ACT_GROUP_MASK) == (!(ACT_GROUP_AIRBORNE) && !(ACT_GROUP_SUBMERGED))) {
                     set_mario_action(m, ACT_PUTTING_ON_CAP, 0);
                 }
-                play_cap_music(SEQ_EVENT_POWERUP);
+                r96_play_cap_music(R96_EVENT_POWERUP);
                 Cheats.WingCap = false;
             }
 
@@ -1534,7 +1530,7 @@ void cheats_mario_inputs(struct MarioState *m) {
                 if ((m->action & ACT_GROUP_MASK) == (!(ACT_GROUP_AIRBORNE) && !(ACT_GROUP_SUBMERGED))) {
                     set_mario_action(m, ACT_PUTTING_ON_CAP, 0);
                 }
-                play_cap_music(SEQ_EVENT_METAL_CAP);
+                r96_play_cap_music(R96_EVENT_CAP_METAL);
                 Cheats.MetalCap = false;
             }
 
@@ -1543,7 +1539,7 @@ void cheats_mario_inputs(struct MarioState *m) {
                 if ((m->action & ACT_GROUP_MASK) == (!(ACT_GROUP_AIRBORNE) && !(ACT_GROUP_SUBMERGED))) {
                     set_mario_action(m, ACT_PUTTING_ON_CAP, 0);
                 }
-                play_cap_music(SEQ_EVENT_POWERUP);
+                r96_play_music(R96_EVENT_POWERUP);
                 Cheats.VanishCap = false;
             }
 
@@ -1566,7 +1562,6 @@ void cheats_mario_inputs(struct MarioState *m) {
                     m->flags &= ~MARIO_CAP_IN_HAND;
                     m->flags |= MARIO_CAP_ON_HEAD;
                 }
-                stop_cap_music();
                 r96_stop_cap_music();
                 Cheats.NormalCap = false;
             }
@@ -1699,89 +1694,6 @@ void cheats_mario_inputs(struct MarioState *m) {
                     break;
                 }
                 break;
-        }
-
-        /*Jukebox*/
-        if (Cheats.JBC) {
-            /*JBC is the bool, acting like the on/off*/
-            switch(Cheats.JB) {
-                case 0:
-                    play_cap_music(SEQ_EVENT_CUTSCENE_INTRO);
-                    Cheats.JBC = false;
-                    break;
-                case 1:
-                    play_cap_music(SEQ_LEVEL_GRASS);
-                    Cheats.JBC = false;
-                    break;
-                case 2:
-                    play_cap_music(SEQ_LEVEL_INSIDE_CASTLE);
-                    Cheats.JBC = false;
-                    break;
-                case 3:
-                    play_cap_music(SEQ_LEVEL_WATER);
-                    Cheats.JBC = false;
-                    break;
-                case 4:
-                    play_cap_music(SEQ_LEVEL_HOT);
-                    Cheats.JBC = false;
-                    break;
-                case 5:
-                    play_cap_music(SEQ_LEVEL_BOSS_KOOPA);
-                    Cheats.JBC = false;
-                    break;
-                case 6:
-                    play_cap_music(SEQ_LEVEL_SNOW);
-                    Cheats.JBC = false;
-                    break;
-                case 7:
-                    play_cap_music(SEQ_LEVEL_SLIDE);
-                    Cheats.JBC = false;
-                    break;
-                case 8:
-                    play_cap_music(SEQ_LEVEL_SPOOKY);
-                    Cheats.JBC = false;
-                    break;
-                case 9:
-                    play_cap_music(SEQ_LEVEL_UNDERGROUND);
-                    Cheats.JBC = false;
-                    break;
-                case 10:
-                    play_cap_music(SEQ_LEVEL_KOOPA_ROAD);
-                    Cheats.JBC = false;
-                    break;
-                case 11:
-                    play_cap_music(SEQ_LEVEL_BOSS_KOOPA_FINAL);
-                    Cheats.JBC = false;
-                    break;
-                case 12:
-                    play_cap_music(SEQ_MENU_TITLE_SCREEN);
-                    Cheats.JBC = false;
-                    break;
-                case 13:
-                    play_cap_music(SEQ_MENU_FILE_SELECT);
-                    Cheats.JBC = false;
-                    break;
-                case 14:
-                    play_cap_music(SEQ_EVENT_POWERUP);
-                    Cheats.JBC = false;
-                    break;
-                case 15:
-                    play_cap_music(SEQ_EVENT_METAL_CAP);
-                    Cheats.JBC = false;
-                    break;
-                case 16:
-                    play_cap_music(SEQ_EVENT_BOSS);
-                    Cheats.JBC = false;
-                    break;
-                case 17:
-                    play_cap_music(SEQ_EVENT_MERRY_GO_ROUND);
-                    Cheats.JBC = false;
-                    break;
-                case 18:
-                    play_cap_music(SEQ_EVENT_CUTSCENE_CREDITS);
-                    Cheats.JBC = false;
-                    break;
-            }
         }
         break;
     }
