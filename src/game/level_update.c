@@ -447,12 +447,6 @@ void init_mario_after_warp(void) {
             r96_play_cap_music(R96_EVENT_POWERUP);
         }
 
-        if (gCurrLevelNum == LEVEL_BOB
-            && get_current_background_music() != SEQUENCE_ARGS(4, SEQ_LEVEL_SLIDE)
-            && sTimerRunning != 0) {
-            play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LEVEL_SLIDE), 0);
-        }
-
         if (sWarpDest.levelNum == LEVEL_CASTLE && sWarpDest.areaIdx == 1
             && (sWarpDest.nodeId == 31 || sWarpDest.nodeId == 32)
         ) {

@@ -1841,7 +1841,6 @@ s32 execute_mario_action(UNUSED struct Object *o) {
             play_sound(SOUND_ENV_WIND2, gMarioState->marioObj->header.gfx.cameraToObject);
         }
 
-        r96_play_infinite_stairs_music();
         gMarioState->marioObj->oInteractStatus = 0;
         func_sh_8025574C();
 

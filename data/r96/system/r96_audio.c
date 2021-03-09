@@ -267,8 +267,8 @@ void r96_level_music_update() {
             dynos_jingle_stop();
     }
 
-    if (!dynos_jingle_is_playing(R96_EVENT_CREDITS)) {
-
+    if (!dynos_jingle_is_playing(R96_EVENT_CREDITS) && !dynos_jingle_is_playing(R96_EVENT_TITLE_SCREEN) && !dynos_jingle_is_playing(R96_EVENT_GAME_OVER)) {
+        r96_play_infinite_stairs_music();
         // Stops wing cap from playing inside the castle
         if (gCurrLevelNum == LEVEL_CASTLE && dynos_music_is_playing(R96_EVENT_POWERUP))
             r96_stop_music();
@@ -446,8 +446,10 @@ const char *r96_get_intended_level_music() {
         return R96_LEVEL_BITFS;
 
 // Bowser in the Sky
-    if (gCurrLevelNum == LEVEL_BITS)
+    if (gCurrLevelNum == LEVEL_BITS) {
+        r96_stop_jingle();
         return R96_LEVEL_BITS;
+    }
 
 // Secret Aquarium
     if (gCurrLevelNum == LEVEL_SA)
