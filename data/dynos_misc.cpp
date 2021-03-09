@@ -282,6 +282,7 @@ static const Array<Pair<const char *, void *>> sActors = {
     define_actor(moneybag_geo),
     define_actor(monty_mole_geo),
     define_actor(mr_blizzard_geo),
+    define_actor(mr_blizzard_hidden_geo),
     define_actor(mr_i_geo),
     define_actor(mr_i_iris_geo),
     define_actor(mushroom_1up_geo),
