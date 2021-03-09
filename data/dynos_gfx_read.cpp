@@ -1884,8 +1884,8 @@ void DynOS_Gfx_GeneratePack(const SysPath &aPackFolder) {
             SysPath _AnimsFolder = fstring("%s/%s/anims", aPackFolder.c_str(), _ActorFolder.begin());
             ScanAnimationFolder(_GfxData, _AnimsFolder);
 
-            // Create table for mario_geo animations or luigi_geo animations
-            if ((_GeoRootName == "mario_geo" || _GeoRootName == "luigi_geo") && !_GfxData->mAnimations.Empty()) {
+            // Create table for mario_geo animations or luigi_geo animations or wario_geo animations
+            if ((_GeoRootName == "mario_geo" || _GeoRootName == "luigi_geo" || _GeoRootName == "wario_geo") && !_GfxData->mAnimations.Empty()) {
                 _GfxData->mAnimationTable.Resize(256);
                 for (s32 i = 0; i != 256; ++i) {
                     String _AnimName("anim_%02X", i);

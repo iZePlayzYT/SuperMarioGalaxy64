@@ -11,6 +11,7 @@ extern "C" {
 #include "game/sound_init.h"
 #include "game/object_list_processor.h"
 #include "game/options_menu.h"
+#include "r96/system/r96_system.h"
 }
 
 //
@@ -81,9 +82,10 @@ bool DynOS_Warp_ExitLevel(s32 aDelay) {
     for (u16 seqid = 0; seqid != SEQ_COUNT; ++seqid) {
     stop_background_music(seqid);
     }
-    play_shell_music();
-    stop_shell_music();
+    r96_play_shell_music();
+    r96_stop_shell_music();
     stop_cap_music();
+    r96_stop_cap_music();
     func_80321080(0);
     fadeout_music(0);
     fadeout_level_music(0);
@@ -114,9 +116,10 @@ bool DynOS_Warp_ToCastle(s32 aLevel) {
     for (u16 seqid = 0; seqid != SEQ_COUNT; ++seqid) {
     stop_background_music(seqid);
     }
-    play_shell_music();
-    stop_shell_music();
+    r96_play_shell_music();
+    r96_stop_shell_music();
     stop_cap_music();
+    r96_stop_cap_music();
     func_80321080(0);
     fadeout_music(0);
     fadeout_level_music(0);
@@ -261,9 +264,10 @@ static void *DynOS_Warp_UpdateWarp(void *aCmd, bool aIsLevelInitDone) {
         for (u16 seqid = 0; seqid != SEQ_COUNT; ++seqid) {
         stop_background_music(seqid);
         }
-        play_shell_music();
-        stop_shell_music();
+        r96_play_shell_music();
+        r96_stop_shell_music();
         stop_cap_music();
+        r96_stop_cap_music();
         func_80321080(0);
         fadeout_music(0);
         fadeout_level_music(0);
@@ -340,10 +344,12 @@ static void *DynOS_Warp_UpdateWarp(void *aCmd, bool aIsLevelInitDone) {
             }
 
             // Set music
+            DynOS_Jingle_Stop();
+            DynOS_Music_Stop();
             set_background_music(gCurrentArea->musicParam, gCurrentArea->musicParam2, 0);
-            if (gMarioState->flags & MARIO_METAL_CAP)  play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_METAL_CAP));
-            if (gMarioState->flags & MARIO_VANISH_CAP) play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
-            if (gMarioState->flags & MARIO_WING_CAP)   play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
+            if (gMarioState->flags & MARIO_METAL_CAP)  r96_play_cap_music(R96_EVENT_CAP_METAL);
+            if (gMarioState->flags & MARIO_VANISH_CAP) r96_play_cap_music(R96_EVENT_POWERUP);
+            if (gMarioState->flags & MARIO_WING_CAP)   r96_play_cap_music(R96_EVENT_POWERUP);
             if (gCurrLevelNum == LEVEL_BOWSER_1 ||
                 gCurrLevelNum == LEVEL_BOWSER_2 ||
                 gCurrLevelNum == LEVEL_BOWSER_3) {
@@ -489,6 +495,8 @@ static void *DynOS_Warp_UpdateExit(void *aCmd, bool aIsLevelInitDone) {
             play_sound(SOUND_MENU_MARIO_CASTLE_WARP, gGlobalSoundArgs);
 
             // Set music
+            DynOS_Jingle_Stop();
+            DynOS_Music_Stop();
             set_background_music(gCurrentArea->musicParam, gCurrentArea->musicParam2, 0);
             sDynosExitTargetWarp = NULL;
         }

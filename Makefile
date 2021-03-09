@@ -260,7 +260,7 @@ LEVEL_DIRS := $(patsubst levels/%,%,$(dir $(wildcard levels/*/header.h)))
 # Directories containing source files
 
 # Hi, I'm a PC
-SRC_DIRS := src src/engine src/game src/audio src/menu src/buffers actors levels bin data assets src/text src/text/libs src/pc src/pc/gfx src/pc/audio src/pc/controller src/pc/fs src/pc/fs/packtypes src/sgi src/sgi/utils src/nx
+SRC_DIRS := src src/engine src/game src/audio src/menu src/buffers actors levels bin data assets src/text src/text/libs src/pc src/pc/gfx src/pc/audio src/pc/controller src/pc/fs src/pc/fs/packtypes src/sgi src/sgi/utils src/nx data/r96 data/r96/system
 
 ifeq ($(DISCORDRPC),1)
   ifneq ($(TARGET_SWITCH)$(TARGET_WEB)$(TARGET_RPI),000)
@@ -331,7 +331,7 @@ CXX_FILES := $(foreach dir,$(SRC_DIRS),$(wildcard $(dir)/*.cpp))
 S_FILES := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
 GODDARD_C_FILES := $(foreach dir,$(GODDARD_SRC_DIRS),$(wildcard $(dir)/*.c))
 
-GENERATED_C_FILES := $(BUILD_DIR)/assets/mario_anim_data.c $(BUILD_DIR)/assets/luigi_anim_data.c $(BUILD_DIR)/assets/demo_data.c
+GENERATED_C_FILES := $(BUILD_DIR)/assets/mario_anim_data.c $(BUILD_DIR)/assets/luigi_anim_data.c $(BUILD_DIR)/assets/wario_anim_data.c $(BUILD_DIR)/assets/demo_data.c
 
 ULTRA_C_FILES := \
   alBnkfNew.c \
@@ -750,6 +750,9 @@ $(BUILD_DIR)/assets/mario_anim_data.c: $(wildcard assets/anims/*.inc.c)
 
 $(BUILD_DIR)/assets/luigi_anim_data.c: $(wildcard assets/luigi_anims/*.inc.c)
 	$(PYTHON) tools/luigi_anims_converter.py > $@
+
+$(BUILD_DIR)/assets/wario_anim_data.c: $(wildcard assets/wario_anims/*.inc.c)
+	$(PYTHON) tools/wario_anims_converter.py > $@
 
 $(BUILD_DIR)/assets/demo_data.c: assets/demo_data.json $(wildcard assets/demos/*.bin)
 	$(PYTHON) tools/demo_data_converter.py assets/demo_data.json $(VERSION_CFLAGS) > $@

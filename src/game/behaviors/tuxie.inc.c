@@ -100,11 +100,7 @@ void tuxies_mother_act_1(void) {
                 // or 1, which is not affected by the bitwise AND.
                 o->prevObj->OBJECT_FIELD_S32(o->oInteractionSubtype) &= ~INT_SUBTYPE_DROP_IMMEDIATELY;
                 obj_set_behavior(o->prevObj, bhvUnused20E0);
-#ifndef VERSION_JP
                 cur_obj_spawn_star_at_y_offset(3167.0f, -4300.0f, 5108.0f, 200.0f);
-#else
-                spawn_default_star(3500.0f, -4300.0f, 4650.0f);
-#endif
                 o->oAction = 2;
             }
             break;
@@ -289,11 +285,7 @@ void bhv_small_penguin_loop(void) {
                 obj_set_behavior(o, bhvSmallPenguin);
             obj_copy_pos(o, gMarioObject);
             if (gGlobalTimer % 30 == 0)
-#ifndef VERSION_JP
                 play_sound(SOUND_OBJ2_BABY_PENGUIN_YELL, gMarioObject->header.gfx.cameraToObject);
-#else
-                play_sound(SOUND_OBJ2_BABY_PENGUIN_YELL, o->header.gfx.cameraToObject);
-#endif
             break;
         case HELD_THROWN:
             cur_obj_get_thrown_or_placed(0, 0, 0);

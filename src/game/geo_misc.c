@@ -205,6 +205,12 @@ Gfx *geo_exec_cake_end_screen(s32 callContext, struct GraphNode *node, UNUSED f3
         u32 w = SCREEN_HEIGHT * 2560 / 1920;
         u32 h = SCREEN_HEIGHT;
         u8 *texture = "levels/ending/cake";
+        if(isWario())
+            texture = "levels/ending/cake_wario";
+        if(isLuigi())
+            texture = "levels/ending/cake_luigi";
+        if (save_file_get_total_star_count(gCurrSaveFileNum - 1, 0, 24) < 120)
+            texture = "levels/ending/cake_bowser";
 
         gSPDisplayList(displayListHead++, dl_proj_mtx_fullscreen);
 

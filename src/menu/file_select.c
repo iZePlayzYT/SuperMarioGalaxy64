@@ -1162,20 +1162,15 @@ void bhv_menu_button_manager_init(void) {
     sTextBaseAlpha = 0;
 }
 
-#if defined(VERSION_JP) || defined(VERSION_SH)
-    #define SAVE_FILE_SOUND SOUND_MENU_STAR_SOUND
-#else
-    #define SAVE_FILE_SOUND SOUND_MENU_STAR_SOUND_OKEY_DOKEY
-#endif
+#define SAVE_FILE_MARIO_SOUND R96_MARIO_OKEY_DOKEY
+#define SAVE_FILE_LUIGI_SOUND R96_LUIGI_OKEY_DOKEY
+#define SAVE_FILE_WARIO_SOUND R96_WARIO_OKEY_DOKEY
 
 /**
  * In the main menu, check if a button was clicked to play it's button growing state.
  * Also play a sound and/or render buttons depending of the button ID selected.
  */
 void check_main_menu_clicked_buttons(void) {
-#ifdef VERSION_EU
-    if (sMainMenuTimer >= 5) {
-#endif
         // Sound mode menu is handled separately because the button ID for it
         // is not grouped with the IDs of the other submenus.
         if (check_clicked_button(sMainMenuButtons[MENU_BUTTON_SOUND_MODE]->oPosX,
@@ -1198,28 +1193,25 @@ void check_main_menu_clicked_buttons(void) {
                 }
             }
         }
-#ifdef VERSION_EU
-        // Open Options Menu if sOpenLangSettings is TRUE (It's TRUE when there's no saves)
-        if (sOpenLangSettings == TRUE) {
-            sMainMenuButtons[MENU_BUTTON_SOUND_MODE]->oMenuButtonState = MENU_BUTTON_STATE_GROWING;
-            sSelectedButtonID = MENU_BUTTON_SOUND_MODE;
-            sOpenLangSettings = FALSE;
-        }
-#endif
 
         // Play sound of the save file clicked
         switch (sSelectedButtonID) {
             case MENU_BUTTON_PLAY_FILE_A:
-                play_sound(SAVE_FILE_SOUND, gDefaultSoundArgs);
+                dynos_sound_play(SAVE_FILE_MARIO_SOUND, gDefaultSoundArgs);
+                // File select to castle grounds
+                r96_jingle_fade_out();
                 break;
             case MENU_BUTTON_PLAY_FILE_B:
-                play_sound(SAVE_FILE_SOUND, gDefaultSoundArgs);
+                dynos_sound_play(SAVE_FILE_LUIGI_SOUND, gDefaultSoundArgs);
+                r96_jingle_fade_out();
                 break;
             case MENU_BUTTON_PLAY_FILE_C:
-                play_sound(SAVE_FILE_SOUND, gDefaultSoundArgs);
+                dynos_sound_play(SAVE_FILE_WARIO_SOUND, gDefaultSoundArgs);
+                r96_jingle_fade_out();
                 break;
             case MENU_BUTTON_PLAY_FILE_D:
-                play_sound(SAVE_FILE_SOUND, gDefaultSoundArgs);
+                dynos_sound_play(SAVE_FILE_MARIO_SOUND, gDefaultSoundArgs);
+                r96_jingle_fade_out();
                 break;
             // Play sound of the button clicked and render buttons of that menu.
             case MENU_BUTTON_SCORE:
@@ -1239,11 +1231,10 @@ void check_main_menu_clicked_buttons(void) {
                 render_sound_mode_menu_buttons(sMainMenuButtons[MENU_BUTTON_SOUND_MODE]);
                 break;
         }
-#ifdef VERSION_EU
-    }
-#endif
 }
-#undef SAVE_FILE_SOUND
+#undef SAVE_FILE_MARIO_SOUND
+#undef SAVE_FILE_LUIGI_SOUND
+#undef SAVE_FILE_WARIO_SOUND
 
 /**
  * Menu Buttons Menu Manager Loop Action
@@ -1810,7 +1801,7 @@ void print_erase_menu_prompt(s16 x, s16 y) {
     if (sCursorClickingTimer == 2) {
         // ..and is hovering "YES", delete file
         if (sEraseYesNoHoverState == MENU_ERASE_HOVER_YES) {
-            play_sound(SOUND_MARIO_WAAAOOOW, gDefaultSoundArgs);
+            r96_play_character_sound_no_arg(R96_MARIO_FALLING, R96_LUIGI_FALLING, R96_WARIO_FALLING);
             sMainMenuButtons[MENU_BUTTON_ERASE]->oMenuButtonActionPhase = ERASE_PHASE_MARIO_ERASED;
             sFadeOutText = TRUE;
             sMainMenuTimer = 0;
@@ -2257,6 +2248,11 @@ s32 lvl_init_menu_values_and_cursor_pos(UNUSED s32 arg, UNUSED s32 unused) {
     sSoundMode = save_file_get_sound_mode();
     
     return 0;
+}
+
+s32 lvl_file_select(){
+    dynos_music_stop();
+    r96_play_menu_jingle(R96_MENU_FILE_SELECT);
 }
 
 /**

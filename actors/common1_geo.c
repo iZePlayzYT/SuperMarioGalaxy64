@@ -29,3 +29,5 @@
 #include "boo_key/geo.inc.c"
 #include "luigi_cap/geo.inc.c"
 #include "wario_cap/geo.inc.c"
+#include "wario_coin/geo.inc.c"
+#include "milk_bottle/geo.inc.c"

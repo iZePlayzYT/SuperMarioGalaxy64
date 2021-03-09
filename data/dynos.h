@@ -32,11 +32,14 @@ extern "C" {
 // DynOS specs
 //
 
-#define DYNOS_FOLDER            "dynos"
-#define DYNOS_GFX_FOLDER        DYNOS_FOLDER "/gfx"
-#define DYNOS_AUDIO_FOLDER      DYNOS_FOLDER "/audio"
-#define DYNOS_PACKS_FOLDER      DYNOS_FOLDER "/packs"
-#define DYNOS_CONFIG_FILENAME   "DynOSconfig.cfg"
+#define DYNOS_VERSION           "0.7"
+#define DYNOS_EXE_FOLDER        sys_exe_path()
+#define DYNOS_USER_FOLDER       sys_user_path()
+#define DYNOS_RES_FOLDER        "dynos"
+#define DYNOS_GFX_FOLDER        DYNOS_RES_FOLDER "/gfx"
+#define DYNOS_AUDIO_FOLDER      DYNOS_RES_FOLDER "/audio"
+#define DYNOS_PACKS_FOLDER      DYNOS_RES_FOLDER "/packs"
+#define DYNOS_CONFIG_FILENAME   "DynOS." DYNOS_VERSION ".config.txt"
 
 //
 // Utils
@@ -55,7 +58,6 @@ enum {
     DYNOS_ROUTINE_GFX_UPDATE,  // Executed once per frame, before rendering the scene
     DYNOS_ROUTINE_LEVEL_ENTRY, // Executed at the very start of a level
 };
-typedef void (*DynosRoutine)(void *);
 
 //
 // Level Script
@@ -138,7 +140,7 @@ extern "C" {
 #define AnimInfoStruct                  GraphNodeObject_sub
 #define mAreaIndex                      unk18
 #define mActiveAreaIndex                unk19
-#define mAnimInfo                       unk38
+#define mAnimInfo                       curAnim
 #define mAnimYTransDivisor              unk02
 #define mStartFrame                     unk04
 #define mLoopStart                      unk06

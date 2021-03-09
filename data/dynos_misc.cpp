@@ -259,6 +259,13 @@ static const Array<Pair<const char *, void *>> sActors = {
     define_actor(warios_metal_cap_geo),
     define_actor(warios_wing_cap_geo),
     define_actor(warios_winged_metal_cap_geo),
+
+    define_actor(warp_pipe_boo_geo),
+    define_actor(warp_pipe_boo_red_geo),
+    define_actor(warp_pipe_boo_green_locked_geo),
+    define_actor(warp_pipe_boo_green_unlocked_geo),
+    define_actor(warp_pipe_boo_yellow_locked_geo),
+    define_actor(warp_pipe_boo_yellow_unlocked_geo),
 #endif
 
     define_actor(mad_piano_geo),

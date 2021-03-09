@@ -12,6 +12,7 @@
 #define NUM_FLAGS 21
 #define NUM_CAP_ON 4
 #define NUM_KEYS 10
+#define NUM_WARIO_COINS 6
 
 const char *sav_flags[NUM_FLAGS] = {
     "file_exists", "wing_cap", "metal_cap", "vanish_cap", "key_1", "key_2",
@@ -203,6 +204,14 @@ static s32 write_text_save(s32 fileIndex) {
 
     fprintf(file, "character = \"%d\"\n", save_file_get_player_model(fileIndex));
 
+    char wario_coins[NUM_WARIO_COINS+1] = "";
+
+    for (int id = 0; id < NUM_WARIO_COINS; id++) {
+        sprintf(&wario_coins[strlen(wario_coins)], "%d", save_file_taken_wario_coin(fileIndex, id));
+    }    
+
+    fprintf(file, "coins = \"%s\"\n", wario_coins);
+
     if (savedata->capLevel) {
         fprintf(file, "area = %d\n", savedata->capArea);
     }
@@ -228,6 +237,7 @@ static s32 read_text_save(s32 fileIndex) {
     u32 playerModel;
 
     char keys[NUM_KEYS];
+    char wario_coins[NUM_WARIO_COINS];
     
     if (snprintf(filename, sizeof(filename), FILENAME_FORMAT, fs_writepath, fileIndex) < 0)
         return -1;
@@ -348,12 +358,20 @@ static s32 read_text_save(s32 fileIndex) {
             gSaveBuffer.files[fileIndex][0].courseKeys[i] = (keys[i] == '1');
         }
     }
-    
+
     value = ini_get(savedata, "sgi", "character");
     if (value) {
         sscanf(value, "%d", &playerModel);
         gSaveBuffer.files[fileIndex][0].currentPlayerModel = playerModel;
-    }
+    } 
+
+    value = ini_get(savedata, "sgi", "coins");
+    if (value) {
+        sscanf(value, "%s", wario_coins);
+        for(i = 0; i < NUM_WARIO_COINS; i++){
+            gSaveBuffer.files[fileIndex][0].courseWarioCoins[i] = (wario_coins[i] == '1');
+        }
+    }   
 
     // Good, file exists for gSaveBuffer
     gSaveBuffer.files[fileIndex][0].flags |= SAVE_FLAG_FILE_EXISTS;

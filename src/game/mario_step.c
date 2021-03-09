@@ -215,10 +215,6 @@ u32 mario_update_windy_ground(struct MarioState *m) {
 
         m->vel[0] += pushSpeed * sins(pushAngle);
         m->vel[2] += pushSpeed * coss(pushAngle);
-
-#if VERSION_JP
-        play_sound(SOUND_ENV_WIND2, m->marioObj->header.gfx.cameraToObject);
-#endif
         return 1;
     }
 

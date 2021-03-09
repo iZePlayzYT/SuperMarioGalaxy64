@@ -725,6 +725,27 @@ s32 save_file_get_keys(s32 fileIndex) {
     return keyAmount;
 }
 
+s32 save_file_taken_wario_coin(s32 fileIndex, s32 coinId){
+    return gSaveBuffer.files[fileIndex][0].courseWarioCoins[coinId];
+}
+
+void save_file_register_wario_coin(s32 fileIndex, s32 coinId) {
+    gSaveBuffer.files[fileIndex][0].courseWarioCoins[coinId] = TRUE;
+
+    gSaveFileModified = TRUE;
+    save_file_do_save(fileIndex);
+}
+
+s32 save_file_get_wario_coins(s32 fileIndex) {
+    s32 keyAmount = 0;
+
+    for(s32 tmp = 0; tmp < 6; tmp++){
+        if(gSaveBuffer.files[fileIndex][0].courseWarioCoins[tmp]) keyAmount++;
+    }
+
+    return keyAmount;
+}
+
 void save_file_update_player_model(s32 fileIndex, s32 character){
     gSaveBuffer.files[fileIndex][0].currentPlayerModel = character;
 

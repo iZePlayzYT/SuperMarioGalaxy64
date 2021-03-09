@@ -73,9 +73,16 @@ void heave_ho_act_3(void) {
         o->oAction = 1;
 }
 
+void heave_ho_act_4(void) {
+    if (o->oMoveFlags & (OBJ_MOVE_HIT_WALL | OBJ_MOVE_MASK_IN_WATER | OBJ_MOVE_LANDED)) {
+        moto_spawn_coin();
+        obj_mark_for_deletion(o);
+        spawn_mist_particles_with_sound(SOUND_GENERAL_BREAK_BOX);
+    }
+}
+
 void heave_ho_act_0(void) {
     if (find_water_level(o->oPosX, o->oPosZ) < o->oPosY && o->oDistanceToMario < 40 * configDrawDistance) {
-    //if (find_water_level(o->oPosX, o->oPosZ) < (o->oPosY - 50.0f)) {
         cur_obj_set_pos_to_home();
         cur_obj_become_tangible();
         cur_obj_unhide();
@@ -86,7 +93,7 @@ void heave_ho_act_0(void) {
     }
 }
 
-void (*sHeaveHoActions[])(void) = { heave_ho_act_0, heave_ho_act_1, heave_ho_act_2, heave_ho_act_3 };
+void (*sHeaveHoActions[])(void) = { heave_ho_act_0, heave_ho_act_1, heave_ho_act_2, heave_ho_act_3, heave_ho_act_4 };
 
 void heave_ho_move(void) {
     cur_obj_update_floor_and_walls();
@@ -109,19 +116,39 @@ void heave_ho_move(void) {
 
 void bhv_heave_ho_loop(void) {
     cur_obj_scale(2.0f);
+    if (isWario())
+        o->oInteractionSubtype = INT_SUBTYPE_GRABS_MARIO;
+
     switch (o->oHeldState) {
         case HELD_FREE:
             heave_ho_move();
             break;
         case HELD_HELD:
-            cur_obj_unrender_and_reset_state(0, 0);
+            cur_obj_unrender_and_reset_state(2, 0);
             break;
         case HELD_THROWN:
-            cur_obj_get_dropped();
-            break;
         case HELD_DROPPED:
-            cur_obj_get_dropped();
+            cur_obj_get_thrown_or_placed(20.0f, 50.0f, 4);
             break;
+    }
+    if (obj_check_if_collided_with_object(o, gMarioObject) == 1 && gMarioState->milk == 1) {
+        moto_spawn_coin();
+        obj_mark_for_deletion(o);
+        spawn_mist_particles_with_sound(SOUND_GENERAL_BREAK_BOX);
+        create_respawner(MODEL_HEAVE_HO, bhvHeaveHo, 1000);
+        if(gMarioState->milk == 1) {
+                if(gMarioState->defeatEnemy != 5) {
+                    gMarioState->defeatEnemy++;
+                    spawn_orange_number(gMarioState->defeatEnemy, 0, 0, 0);
+                }
+                else  {
+                    spawn_orange_number(10, 0, 0, 0);
+                    gMarioState->numLives++;
+                    play_sound(SOUND_GENERAL_COLLECT_1UP, gDefaultSoundArgs);
+                    //1up
+                }
+            }
+        o->activeFlags = ACTIVE_FLAG_DEACTIVATED;
     }
     o->oInteractStatus = 0;
 }

@@ -338,66 +338,102 @@ void render_debug_info(void) {
  */
 
 void render_hud_mario_lives(void) {
-    if(isLuigi() && is_metal_cap(gMarioState) && is_vanish_cap(gMarioState)){
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
-        render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/luigi_metal_invis.rgba32"); // 'Luigi metal vanish Head' glyph
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+
+    if (isLuigi()) {
+        if(is_metal_cap(gMarioState) && is_vanish_cap(gMarioState)){
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/luigi_metal_invis.rgba32"); // 'Luigi metal vanish Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
+        else if(is_metal_cap(gMarioState)) {
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/luigi_metal.rgba32"); // 'Luigi metal Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
+        else if(is_vanish_cap(gMarioState)) {
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/luigi_invis.rgba32"); // 'Luigi vanish Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
+        else if(is_wing_cap(gMarioState)) {
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_texture(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(12), 15, 32, 16, "textures/segment2/luigi_wings.rgba32"); // 'Luigi wing Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
+        else if(is_hatless(gMarioState)) {
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/luigi_capless.rgba32"); // 'Luigi hatless Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
+        else {
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/luigi_normal.rgba32"); // 'Luigi Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
     }
-    else if(isLuigi() && is_metal_cap(gMarioState)){
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
-        render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/luigi_metal.rgba32"); // 'Luigi metal Head' glyph
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+    if(isWario()) {
+        if(is_metal_cap(gMarioState) && is_vanish_cap(gMarioState)){
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/wario_metal_invis.rgba32"); // 'Wario metal vanish Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
+        else if(is_metal_cap(gMarioState)) {
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/wario_metal.rgba32"); // 'Wario metal Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
+        else if(is_vanish_cap(gMarioState)) {
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/wario_invis.rgba32"); // 'Wario vanish Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
+        else if(is_wing_cap(gMarioState)) {
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_texture(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(12), 15, 32, 16, "textures/segment2/wario_wings.rgba32"); // 'Wario wing Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
+        else if(is_hatless(gMarioState)) {
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/wario_capless.rgba32"); // 'Wario hatless Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
+        else {
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/wario_normal.rgba32"); // 'Wario Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
     }
-    else if(isLuigi() && is_vanish_cap(gMarioState)){
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
-        render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/luigi_invis.rgba32"); // 'Luigi vanish Head' glyph
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
-    }
-    else if(isLuigi() && is_wing_cap(gMarioState)){
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
-        render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/luigi_wings.rgba32"); // 'Luigi wing Head' glyph
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
-    }
-    else if(isLuigi() && is_hatless(gMarioState)){
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
-        render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/luigi_capless.rgba32"); // 'Luigi hatless Head' glyph
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
-    }
-    else if(isLuigi()){
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
-        render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/luigi_normal.rgba32"); // 'Luigi Head' glyph
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
-    }
-    else if(!isLuigi() && is_metal_cap(gMarioState) && is_vanish_cap(gMarioState)){
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
-        render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/mario_metal_invis.rgba32"); // 'mario metal vanish Head' glyph
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
-    }
-    else if(!isLuigi() && is_metal_cap(gMarioState)){
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
-        render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/mario_metal.rgba32"); // 'mario metal Head' glyph
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
-    }
-    else if(!isLuigi() && is_vanish_cap(gMarioState)){
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
-        render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/mario_invis.rgba32"); // 'mario vanish Head' glyph
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
-    }
-    else if(!isLuigi() && is_wing_cap(gMarioState)){
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
-        render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/mario_wings.rgba32"); // 'mario wing Head' glyph
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
-    }
-    else if(!isLuigi() && is_hatless(gMarioState)){
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
-        render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/mario_capless.rgba32"); // 'mario hatless Head' glyph
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
-    }
-    else{
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
-        render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/mario_normal.rgba32"); // 'Mario Head' glyph
-        gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
-        //print_text(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), HUD_TOP_Y, ","); // 'Mario Head' glyph
+    if (!isLuigi() && !isWario()) {
+        if(is_metal_cap(gMarioState) && is_vanish_cap(gMarioState)){
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/mario_metal_invis.rgba32"); // 'Mario metal vanish Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
+        else if(is_metal_cap(gMarioState)) {
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/mario_metal.rgba32"); // 'Mario metal Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
+        else if(is_vanish_cap(gMarioState)) {
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/mario_invis.rgba32"); // 'Mario vanish Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
+        else if(is_wing_cap(gMarioState)) {
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_texture(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(12), 15, 32, 16, "textures/segment2/mario_wings.rgba32"); // 'Mario wing Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
+        else if(is_hatless(gMarioState)) {
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/mario_capless.rgba32"); // 'Mario hatless Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
+        else {
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+            render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 15, "textures/segment2/mario_normal.rgba32"); // 'Mario Head' glyph
+            gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        }
     }
     print_text(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(38), HUD_TOP_Y, "*"); // 'X' glyph
     print_text_fmt_int(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(54), HUD_TOP_Y, "%d", gHudDisplay.lives);
@@ -465,6 +501,16 @@ void render_hud_keys(void) {
         gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
         print_text(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(38), HUD_TOP_Y - 20, "*"); // 'X' glyph
         print_text_fmt_int(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(54), HUD_TOP_Y - 20, "%d", gHudDisplay.keys);
+    }
+}
+
+void render_hud_wario_coins(void) {
+    if(gHudDisplay.wario_coins > 0 && gHudDisplay.wario_coins < 6){
+        gSPDisplayList(gDisplayListHead++, dl_hud_img_begin);
+        render_hud_tex_lut(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(22), 55, "textures/segment2/wario_coin.rgba16");
+        gSPDisplayList(gDisplayListHead++, dl_hud_img_end);
+        print_text(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(38), HUD_TOP_Y - 40, "*"); // 'X' glyph
+        print_text_fmt_int(GFX_DIMENSIONS_RECT_FROM_LEFT_EDGE(54), HUD_TOP_Y - 40, "%d", gHudDisplay.wario_coins);
     }
 }
 
@@ -684,6 +730,8 @@ void render_hud(void) {
 
 		render_hud_keys();
 
+        render_hud_wario_coins();
+
         if (hudDisplayFlags & HUD_DISPLAY_FLAG_COIN_COUNT && configHUD) {
             render_hud_coins();
         }
@@ -719,6 +767,6 @@ void render_hud(void) {
 
         }
 
-        render_notification();
+        //render_notification();
     }
 }

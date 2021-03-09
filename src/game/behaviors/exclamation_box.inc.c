@@ -1,4 +1,4 @@
-#include "sgi/utils/characters.h"
+#include "../../../data/r96/r96_c_includes.h"
 // exclamation_box.c.inc
 
 struct ObjectHitbox sExclamationBoxHitbox = {
@@ -157,13 +157,13 @@ void exclamation_box_spawn_contents(struct Struct802C0DF0 *a0, u8 a1) {
 }
 
 void exclamation_box_act_4(void) {
-	if(isLuigi()==1) {
+	if(isLuigi()) {
 		exclamation_box_spawn_contents(sExclamationBoxContentsLuigi, o->oBehParams2ndByte);
 	}
-	else if(isWario()==2) {
+	else if(isWario()) {
 		exclamation_box_spawn_contents(sExclamationBoxContentsWario, o->oBehParams2ndByte);
 	}
-	else { 
+	else if(!isLuigi() && !isWario()) { 
 		exclamation_box_spawn_contents(sExclamationBoxContents, o->oBehParams2ndByte);
 	}
     spawn_mist_particles_variable(0, 0, 46.0f);

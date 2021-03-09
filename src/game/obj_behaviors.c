@@ -620,7 +620,11 @@ void obj_spawn_yellow_coins(struct Object *obj, s8 nCoins) {
     s8 count;
 
     for (count = 0; count < nCoins; count++) {
-        coin = spawn_object(obj, MODEL_YELLOW_COIN, bhvMovingYellowCoin);
+        if (isWario())
+            coin = spawn_object(obj, MODEL_YELLOW_COIN, bhvMovingYellowCoinWario);
+        else
+            coin = spawn_object(obj, MODEL_YELLOW_COIN, bhvMovingYellowCoin);
+        
         coin->oForwardVel = random_float() * 20;
         coin->oVelY = random_float() * 40 + 20;
         coin->oMoveAngleYaw = random_u16();
@@ -855,3 +859,4 @@ s32 UNUSED debug_sequence_tracker(s16 debugInputSequence[]) {
 #include "behaviors/yoshi.inc.c"
 #include "behaviors/blargg.inc.c"
 #include "behaviors/motos.inc.c"
+#include "behaviors/got_milk.inc.c"

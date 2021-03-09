@@ -2,87 +2,61 @@
 
 extern DynosOption *DynOS_Opt_Loop(DynosOption *aOpt, DynosLoopFunc aFunc, void *aData);
 
-static bool DynOS_Opt_GetConfig(DynosOption *aOpt, void *aData) {
-    Pair<u8, String> _TypeAndName = *((Pair<u8, String> *) aData);
-    return (aOpt->mType == _TypeAndName.first && aOpt->mConfigName == _TypeAndName.second);
+static bool DynOS_Opt_ReadConfig(DynosOption *aOpt, void *aData) {
+    return (aOpt->mConfigName == (const char *) aData);
 }
 
 void DynOS_Opt_LoadConfig(DynosOption *aMenu) {
-    SysPath _Filename = fstring("%s/%s", sys_user_path(), DYNOS_CONFIG_FILENAME);
-    FILE *_File = fopen(_Filename.c_str(), "rb");
-    if (_File == NULL) {
-        return;
-    }
+    SysPath _Filename = fstring("%s/%s", DYNOS_USER_FOLDER, DYNOS_CONFIG_FILENAME);
+    FILE *_File = fopen(_Filename.c_str(), "r");
+    if (_File) {
+        char _Buffer[1024];
+        while (fgets(_Buffer, 1024, _File)) {
+            
+            // Option strings
+            char *_NameBegin = _Buffer;
+            char *_DataBegin = strchr(_NameBegin, '=');
+            if (_NameBegin && _DataBegin) {
+                *(_DataBegin++) = 0;
 
-    while (true) {
+                // Option name
+                String _OptName = String(_NameBegin);
+                DynosOption *_Opt = DynOS_Opt_Loop(aMenu, DynOS_Opt_ReadConfig, (void *) _OptName.begin());
+                if (_Opt) {
 
-        // Type and name
-        Pair<u8, String> _ConfigTypeAndName = { DOPT_NONE, "" };
-        _ConfigTypeAndName.first = ReadBytes<u8>(_File);
-        _ConfigTypeAndName.second.Read(_File);
-        if (_ConfigTypeAndName.first == DOPT_NONE) {
-            break;
-        }
-
-        // Values
-        s32 _Value0 = ReadBytes<s32>(_File);
-        s32 _Value1 = ReadBytes<s32>(_File);
-        s32 _Value2 = ReadBytes<s32>(_File);
-
-        // Option
-        DynosOption *_Opt = DynOS_Opt_Loop(aMenu, DynOS_Opt_GetConfig, (void *) &_ConfigTypeAndName);
-        if (_Opt != NULL) {
-            switch (_Opt->mType) {
-                case DOPT_TOGGLE: *_Opt->mToggle.mTog    = (bool) _Value0; break;
-                case DOPT_CHOICE: *_Opt->mChoice.mIndex  = (s32) _Value0; break;
-                case DOPT_SCROLL: *_Opt->mScroll.mValue  = (s32) _Value0; break;
-                case DOPT_BIND:    _Opt->mBind.mBinds[0] = (u32) _Value0;
-                                   _Opt->mBind.mBinds[1] = (u32) _Value1;
-                                   _Opt->mBind.mBinds[2] = (u32) _Value2; break;
+                    // Option values
+                    switch (_Opt->mType) {
+                        case DOPT_TOGGLE: sscanf(_DataBegin, "%hhu\n",           &_Opt->mToggle.mTog[0]); break;
+                        case DOPT_CHOICE: sscanf(_DataBegin, "%d\n",             &_Opt->mChoice.mIndex[0]); break;
+                        case DOPT_SCROLL: sscanf(_DataBegin, "%d\n",             &_Opt->mScroll.mValue[0]); break;
+                        case DOPT_BIND:   sscanf(_DataBegin, "%04X;%04X;%04X\n", &_Opt->mBind.mBinds[0], &_Opt->mBind.mBinds[1], &_Opt->mBind.mBinds[2]); break;
+                    }
+                }
             }
         }
+        fclose(_File);
     }
-    fclose(_File);
 }
 
-static bool DynOS_Opt_SetConfig(DynosOption *aOpt, void *aData) {
+static bool DynOS_Opt_WriteConfig(DynosOption *aOpt, void *aData) {
     if (aOpt->mConfigName.Length() != 0 &&
         aOpt->mConfigName          != "null" &&
         aOpt->mConfigName          != "NULL") {
-        FILE *_File = (FILE *) aData;
-        s32 _Value0 = 0;
-        s32 _Value1 = 0;
-        s32 _Value2 = 0;
-
-        // Option
         switch (aOpt->mType) {
-            case DOPT_TOGGLE: _Value0 = (s32) *aOpt->mToggle.mTog; break;
-            case DOPT_CHOICE: _Value0 = (s32) *aOpt->mChoice.mIndex; break;
-            case DOPT_SCROLL: _Value0 = (s32) *aOpt->mScroll.mValue; break;
-            case DOPT_BIND:   _Value0 = (s32) aOpt->mBind.mBinds[0];
-                              _Value1 = (s32) aOpt->mBind.mBinds[1];
-                              _Value2 = (s32) aOpt->mBind.mBinds[2]; break;
+            case DOPT_TOGGLE: fprintf((FILE *) aData, "%s=%hhu\n",           aOpt->mName.begin(), aOpt->mToggle.mTog[0]); break;
+            case DOPT_CHOICE: fprintf((FILE *) aData, "%s=%d\n",             aOpt->mName.begin(), aOpt->mChoice.mIndex[0]); break;
+            case DOPT_SCROLL: fprintf((FILE *) aData, "%s=%d\n",             aOpt->mName.begin(), aOpt->mScroll.mValue[0]); break;
+            case DOPT_BIND:   fprintf((FILE *) aData, "%s=%04X;%04X;%04X\n", aOpt->mName.begin(), aOpt->mBind.mBinds[0], aOpt->mBind.mBinds[1], aOpt->mBind.mBinds[2]); break;
         }
-
-        // Type and name
-        WriteBytes<u8>(_File, aOpt->mType);
-        aOpt->mConfigName.Write(_File);
-
-        // Values
-        WriteBytes<s32>(_File, _Value0);
-        WriteBytes<s32>(_File, _Value1);
-        WriteBytes<s32>(_File, _Value2);
     }
-    return 0;
+    return false;
 }
 
 void DynOS_Opt_SaveConfig(DynosOption *aMenu) {
-    SysPath _Filename = fstring("%s/%s", sys_user_path(), DYNOS_CONFIG_FILENAME);
-    FILE *_File = fopen(_Filename.c_str(), "wb");
-    if (!_File) {
-        return;
+    SysPath _Filename = fstring("%s/%s", DYNOS_USER_FOLDER, DYNOS_CONFIG_FILENAME);
+    FILE *_File = fopen(_Filename.c_str(), "w");
+    if (_File) {
+        DynOS_Opt_Loop(aMenu, DynOS_Opt_WriteConfig, (void *) _File);
+        fclose(_File);
     }
-
-    DynOS_Opt_Loop(aMenu, DynOS_Opt_SetConfig, (void *) _File);
-    fclose(_File);
 }

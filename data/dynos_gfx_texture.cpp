@@ -220,7 +220,7 @@ bool DynOS_Gfx_IsTexturePointer(void *aPtr) {
     return DynOS_Gfx_IsLoadedTexturePointer(aPtr);
 }
 
-DataNode<TexData> *DynOS_Gfx_LoadTextureRAW(const u8 *aRGBA32Buffer, s32 aWidth, s32 aHeight, const String &aTextureName) {
+DataNode<TexData> *DynOS_Gfx_LoadTextureRaw(const u8 *aRGBA32Buffer, s32 aWidth, s32 aHeight, const String &aTextureName) {
 
     // Check if the texture is already loaded
     DataNode<TexData> *_Node = DynOS_Gfx_GetTexture(aTextureName);
@@ -250,7 +250,7 @@ DataNode<TexData> *DynOS_Gfx_LoadTextureRAW(const u8 *aRGBA32Buffer, s32 aWidth,
     return _Node;
 }
 
-DataNode<TexData> *DynOS_Gfx_LoadTexturePNG(const u8 *aPngData, u32 aPngLength, const String &aTextureName) {
+DataNode<TexData> *DynOS_Gfx_LoadTexturePng(const u8 *aPngData, u32 aPngLength, const String &aTextureName) {
 
     // Check if the texture is already loaded
     DataNode<TexData> *_Node = DynOS_Gfx_GetTexture(aTextureName);
@@ -309,7 +309,7 @@ DataNode<TexData> *DynOS_Gfx_LoadTextureFile(const SysPath &aFilename, const Str
     fread(_PngData, sizeof(u8), _PngLength, _File);
     fclose(_File);
 
-    _Node = DynOS_Gfx_LoadTexturePNG(_PngData, _PngLength, aTextureName);
+    _Node = DynOS_Gfx_LoadTexturePng(_PngData, _PngLength, aTextureName);
     free(_PngData);
     return _Node;
 }

@@ -37,7 +37,7 @@
 #include "pc/configfile.h"
 #include "pc/cheats.h"
 #include "bettercamera.h"
-#include "sgi/utils/characters.h"
+#include "data/r96/r96_c_includes.h"
 
 u32 unused80339F10;
 s8 filler80339F1C[20];
@@ -52,7 +52,7 @@ s8 filler80339F1C[20];
 s32 is_anim_at_end(struct MarioState *m) {
     struct Object *o = m->marioObj;
 
-    return (o->header.gfx.unk38.animFrame + 1) == o->header.gfx.unk38.curAnim->unk08;
+    return (o->header.gfx.curAnim.animFrame + 1) == o->header.gfx.curAnim.curAnim->unk08;
 }
 
 /**
@@ -61,7 +61,7 @@ s32 is_anim_at_end(struct MarioState *m) {
 s32 is_anim_past_end(struct MarioState *m) {
     struct Object *o = m->marioObj;
 
-    return o->header.gfx.unk38.animFrame >= (o->header.gfx.unk38.curAnim->unk08 - 2);
+    return o->header.gfx.curAnim.animFrame >= (o->header.gfx.curAnim.curAnim->unk08 - 2);
 }
 s32 is_metal_cap(struct MarioState *m){
     return (m->flags & MARIO_METAL_CAP);
@@ -91,24 +91,24 @@ s16 set_mario_animation(struct MarioState *m, s32 targetAnimID) {
         targetAnim->index = (void *) VIRTUAL_TO_PHYSICAL((u8 *) targetAnim + (uintptr_t) targetAnim->index);
     }
 
-    if (o->header.gfx.unk38.animID != targetAnimID) {
-        o->header.gfx.unk38.animID = targetAnimID;
-        o->header.gfx.unk38.curAnim = targetAnim;
-        o->header.gfx.unk38.animAccel = 0;
-        o->header.gfx.unk38.animYTrans = m->unkB0;
+    if (o->header.gfx.curAnim.animID != targetAnimID) {
+        o->header.gfx.curAnim.animID = targetAnimID;
+        o->header.gfx.curAnim.curAnim = targetAnim;
+        o->header.gfx.curAnim.animAccel = 0;
+        o->header.gfx.curAnim.animYTrans = m->unkB0;
 
         if (targetAnim->flags & ANIM_FLAG_2) {
-            o->header.gfx.unk38.animFrame = targetAnim->unk04;
+            o->header.gfx.curAnim.animFrame = targetAnim->unk04;
         } else {
             if (targetAnim->flags & ANIM_FLAG_FORWARD) {
-                o->header.gfx.unk38.animFrame = targetAnim->unk04 + 1;
+                o->header.gfx.curAnim.animFrame = targetAnim->unk04 + 1;
             } else {
-                o->header.gfx.unk38.animFrame = targetAnim->unk04 - 1;
+                o->header.gfx.curAnim.animFrame = targetAnim->unk04 - 1;
             }
         }
     }
 
-    return o->header.gfx.unk38.animFrame;
+    return o->header.gfx.curAnim.animFrame;
 }
 
 /**
@@ -124,34 +124,34 @@ s16 set_mario_anim_with_accel(struct MarioState *m, s32 targetAnimID, s32 accel)
         targetAnim->index = (void *) VIRTUAL_TO_PHYSICAL((u8 *) targetAnim + (uintptr_t) targetAnim->index);
     }
 
-    if (o->header.gfx.unk38.animID != targetAnimID) {
-        o->header.gfx.unk38.animID = targetAnimID;
-        o->header.gfx.unk38.curAnim = targetAnim;
-        o->header.gfx.unk38.animYTrans = m->unkB0;
+    if (o->header.gfx.curAnim.animID != targetAnimID) {
+        o->header.gfx.curAnim.animID = targetAnimID;
+        o->header.gfx.curAnim.curAnim = targetAnim;
+        o->header.gfx.curAnim.animYTrans = m->unkB0;
 
         if (targetAnim->flags & ANIM_FLAG_2) {
-            o->header.gfx.unk38.animFrameAccelAssist = (targetAnim->unk04 << 0x10);
+            o->header.gfx.curAnim.animFrameAccelAssist = (targetAnim->unk04 << 0x10);
         } else {
             if (targetAnim->flags & ANIM_FLAG_FORWARD) {
-                o->header.gfx.unk38.animFrameAccelAssist = (targetAnim->unk04 << 0x10) + accel;
+                o->header.gfx.curAnim.animFrameAccelAssist = (targetAnim->unk04 << 0x10) + accel;
             } else {
-                o->header.gfx.unk38.animFrameAccelAssist = (targetAnim->unk04 << 0x10) - accel;
+                o->header.gfx.curAnim.animFrameAccelAssist = (targetAnim->unk04 << 0x10) - accel;
             }
         }
 
-        o->header.gfx.unk38.animFrame = (o->header.gfx.unk38.animFrameAccelAssist >> 0x10);
+        o->header.gfx.curAnim.animFrame = (o->header.gfx.curAnim.animFrameAccelAssist >> 0x10);
     }
 
-    o->header.gfx.unk38.animAccel = accel;
+    o->header.gfx.curAnim.animAccel = accel;
 
-    return o->header.gfx.unk38.animFrame;
+    return o->header.gfx.curAnim.animFrame;
 }
 
 /**
  * Sets the animation to a specific "next" frame from the frame given.
  */
 void set_anim_to_frame(struct MarioState *m, s16 animFrame) {
-    struct GraphNodeObject_sub *animInfo = &m->marioObj->header.gfx.unk38;
+    struct GraphNodeObject_sub *animInfo = &m->marioObj->header.gfx.curAnim;
     struct Animation *curAnim = animInfo->curAnim;
 
     if (animInfo->animAccel) {
@@ -172,7 +172,7 @@ void set_anim_to_frame(struct MarioState *m, s16 animFrame) {
 s32 is_anim_past_frame(struct MarioState *m, s16 animFrame) {
     s32 isPastFrame;
     s32 acceleratedFrame = animFrame << 0x10;
-    struct GraphNodeObject_sub *animInfo = &m->marioObj->header.gfx.unk38;
+    struct GraphNodeObject_sub *animInfo = &m->marioObj->header.gfx.curAnim;
     struct Animation *curAnim = animInfo->curAnim;
 
     if (animInfo->animAccel) {
@@ -204,8 +204,8 @@ s16 find_mario_anim_flags_and_translation(struct Object *obj, s32 yaw, Vec3s tra
     f32 dx;
     f32 dz;
 
-    struct Animation *curAnim = (void *) obj->header.gfx.unk38.curAnim;
-    s16 animFrame = geo_update_animation_frame(&obj->header.gfx.unk38, NULL);
+    struct Animation *curAnim = (void *) obj->header.gfx.curAnim.curAnim;
+    s16 animFrame = geo_update_animation_frame(&obj->header.gfx.curAnim, NULL);
     u16 *animIndex = segmented_to_virtual((void *) curAnim->index);
     s16 *animValues = segmented_to_virtual((void *) curAnim->values);
 
@@ -270,17 +270,13 @@ void play_sound_if_no_flag(struct MarioState *m, u32 soundBits, u32 flags) {
  */
 void play_mario_jump_sound(struct MarioState *m) {
     if (!(m->flags & MARIO_MARIO_SOUND_PLAYED)) {
-#ifndef VERSION_JP
         if (m->action == ACT_TRIPLE_JUMP) {
             play_sound(SOUND_MARIO_YAHOO_WAHA_YIPPEE + ((gAudioRandom % 5) << 16),
                        m->marioObj->header.gfx.cameraToObject);
         } else {
-#endif
             play_sound(SOUND_MARIO_YAH_WAH_HOO + ((gAudioRandom % 3) << 16),
                        m->marioObj->header.gfx.cameraToObject);
-#ifndef VERSION_JP
         }
-#endif
 
         m->flags |= MARIO_MARIO_SOUND_PLAYED;
     }
@@ -813,7 +809,7 @@ static u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actio
             break;
 
         case ACT_BACKFLIP:
-            m->marioObj->header.gfx.unk38.animID = -1;
+            m->marioObj->header.gfx.curAnim.animID = -1;
             m->forwardVel = -16.0f;
             set_mario_y_vel_based_on_fspeed(m, 62.0f * getCharacterMultiplier(), 0.0f);
             break;
@@ -821,6 +817,11 @@ static u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actio
         case ACT_TRIPLE_JUMP:
             set_mario_y_vel_based_on_fspeed(m, 69.0f, 0.0f);
             m->forwardVel *= 0.8f;
+            break;
+
+        case ACT_WARIO_TRIPLE_JUMP:
+            set_mario_y_vel_based_on_fspeed(m, 62.0f, 0.0f);
+            m->forwardVel *= 1.3f;
             break;
 
         case ACT_FLYING_TRIPLE_JUMP:
@@ -845,8 +846,13 @@ static u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actio
 
         case ACT_JUMP:
         case ACT_HOLD_JUMP:
-            m->marioObj->header.gfx.unk38.animID = -1;
-            set_mario_y_vel_based_on_fspeed(m, 42.0f * getCharacterMultiplier(), 0.25f);
+            m->marioObj->header.gfx.curAnim.animID = -1;
+            if(m->milk == 1) {
+                set_mario_y_vel_based_on_fspeed(m, 82.0f * getCharacterMultiplier(), 0.25f);
+            }
+            else {
+                set_mario_y_vel_based_on_fspeed(m, 42.0f * getCharacterMultiplier(), 0.25f);
+            }
             m->forwardVel *= 0.8f;
             break;
 
@@ -866,7 +872,7 @@ static u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actio
             break;
 
         case ACT_STEEP_JUMP:
-            m->marioObj->header.gfx.unk38.animID = -1;
+            m->marioObj->header.gfx.curAnim.animID = -1;
             set_mario_y_vel_based_on_fspeed(m, 42.0f * getCharacterMultiplier(), 0.25f);
             m->faceAngle[0] = -0x2000;
             break;
@@ -886,7 +892,7 @@ static u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actio
             break;
 
         case ACT_LONG_JUMP:
-            m->marioObj->header.gfx.unk38.animID = -1;
+            m->marioObj->header.gfx.curAnim.animID = -1;
             set_mario_y_vel_based_on_fspeed(m, 30.0f, 0.0f);
             m->marioObj->oMarioLongJumpIsSlow = m->forwardVel > 16.0f ? FALSE : TRUE;
 
@@ -935,8 +941,17 @@ static u32 set_mario_action_moving(struct MarioState *m, u32 action, UNUSED u32 
             break;
 
         case ACT_HOLD_WALKING:
-            if (0.0f <= forwardVel && forwardVel < mag / 2.0f) {
-                m->forwardVel = mag / 2.0f;
+            if(isWario()) {
+                if (floorClass != SURFACE_CLASS_VERY_SLIPPERY) {
+                    if (0.0f <= forwardVel && forwardVel < mag) {
+                        m->forwardVel = mag;
+                    }
+                }
+            }
+            else {
+                if (0.0f <= forwardVel && forwardVel < mag / 2.0f) {
+                    m->forwardVel = mag / 2.0f;
+                }
             }
             break;
 
@@ -1638,7 +1653,7 @@ u32 update_and_return_cap_flags(struct MarioState *m) {
 
         if (m->capTimer == 0) {
             stop_cap_music();
-
+            r96_stop_cap_music();
             m->flags &= ~(MARIO_VANISH_CAP | MARIO_METAL_CAP | MARIO_WING_CAP);
             if ((m->flags & (MARIO_NORMAL_CAP | MARIO_VANISH_CAP | MARIO_METAL_CAP | MARIO_WING_CAP))
                 == 0) {
@@ -1647,6 +1662,7 @@ u32 update_and_return_cap_flags(struct MarioState *m) {
         }
 
         if (m->capTimer == 0x3C) {
+            r96_fadeout_cap_music();
             fadeout_cap_music();
         }
 
@@ -1720,26 +1736,6 @@ void mario_update_hitbox_and_cap_model(struct MarioState *m) {
     if ((m->flags & MARIO_TELEPORTING) && (m->fadeWarpOpacity != 0xFF)) {
         bodyState->modelState &= ~0xFF;
         bodyState->modelState |= (0x100 | m->fadeWarpOpacity);
-    }
-}
-
-/**
- * An unused and possibly a debug function. Z + another button input
- * sets Mario with a different cap.
- */
-static void debug_update_mario_cap(u16 button, s32 flags, u16 capTimer, u16 capMusic) {
-    // This checks for Z_TRIG instead of Z_DOWN flag
-    // (which is also what other debug functions do),
-    // so likely debug behavior rather than unused behavior.
-    if ((gPlayer1Controller->buttonDown & Z_TRIG) && (gPlayer1Controller->buttonPressed & button)
-        && ((gMarioState->flags & flags) == 0)) {
-        gMarioState->flags |= (flags + MARIO_CAP_ON_HEAD);
-
-        if (capTimer > gMarioState->capTimer) {
-            gMarioState->capTimer = capTimer;
-        }
-
-        play_cap_music(capMusic);
     }
 }
 
@@ -1837,19 +1833,15 @@ s32 execute_mario_action(UNUSED struct Object *o) {
         // non-Japanese releases.
         if (gMarioState->floor->type == SURFACE_HORIZONTAL_WIND) {
             spawn_wind_particles(0, (gMarioState->floor->force << 8));
-#ifndef VERSION_JP
             play_sound(SOUND_ENV_WIND2, gMarioState->marioObj->header.gfx.cameraToObject);
-#endif
         }
 
         if (gMarioState->floor->type == SURFACE_VERTICAL_WIND) {
             spawn_wind_particles(1, 0);
-#ifndef VERSION_JP
             play_sound(SOUND_ENV_WIND2, gMarioState->marioObj->header.gfx.cameraToObject);
-#endif
         }
 
-        play_infinite_stairs_music();
+        r96_play_infinite_stairs_music();
         gMarioState->marioObj->oInteractStatus = 0;
         func_sh_8025574C();
 
@@ -1901,7 +1893,7 @@ void init_mario(void) {
 
     gMarioState->area = gCurrentArea;
     gMarioState->marioObj = gMarioObject;
-    gMarioState->marioObj->header.gfx.unk38.animID = -1;
+    gMarioState->marioObj->header.gfx.curAnim.animID = -1;
     vec3s_copy(gMarioState->faceAngle, gMarioSpawnInfo->startAngle);
     vec3s_set(gMarioState->angleVel, 0, 0, 0);
     vec3s_to_vec3f(gMarioState->pos, gMarioSpawnInfo->startPos);
@@ -1959,15 +1951,16 @@ void init_mario_from_save_file(void) {
         save_file_get_total_star_count(gCurrSaveFileNum - 1, COURSE_MIN - 1, COURSE_MAX - 1);
     gMarioState->numKeys = save_file_get_keys(gCurrSaveFileNum - 1);
 
+    gMarioState->numWarioCoins = save_file_get_wario_coins(gCurrSaveFileNum - 1);
+
     setCharacterModel(save_file_get_player_model(gCurrSaveFileNum - 1));
 
-    if (isLuigi()==1)
+    if (isLuigi())
         gMarioState->animation = &Data_LuigiAnims;
-	else if(isWario()==2) {
-	    gMarioState->animation = &D_80339D10;
-	}
-    else
-        gMarioState->animation = &D_80339D10;
+	else if(isWario())
+	    gMarioState->animation = &Data_WarioAnims;
+    else if(!isLuigi() && !isWario())
+        gMarioState->animation = &Data_MarioAnims;
 
     set_notification_status(save_file_get_keys(gCurrSaveFileNum - 1) >= 10);
 

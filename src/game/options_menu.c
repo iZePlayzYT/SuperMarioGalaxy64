@@ -610,6 +610,8 @@ void optmenu_toggle(void) {
         l_counter = 0;
     } else {
         #ifndef nosound
+        dynos_jingle_stop();
+        dynos_music_stop();
         play_sound(SOUND_MENU_MARIO_CASTLE_WARP2, gDefaultSoundArgs);
         #endif
         optmenu_open = 0;

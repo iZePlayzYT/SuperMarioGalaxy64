@@ -374,6 +374,10 @@ Gfx *geo_act_selector_strings(s16 callContext, UNUSED struct GraphNode *node) {
     return NULL;
 }
 
+s32 lvl_star_select() {
+    r96_play_menu_jingle(R96_EVENT_STAR_SELECT);
+}
+
 /**
  * Initiates act selector values before entering a main course.
  * Also load how much stars a course has, without counting the 100 coin star.
@@ -407,18 +411,10 @@ s32 lvl_init_act_selector_values_and_stars(UNUSED s32 arg, UNUSED s32 unused) {
 s32 lvl_update_obj_and_load_act_button_actions(UNUSED s32 arg, UNUSED s32 unused) {
     if (sActSelectorMenuTimer >= 11) {
         // If any of these buttons are pressed, play sound and go to course act
-#ifndef VERSION_EU
         if ((gPlayer3Controller->buttonPressed & A_BUTTON)
          || (gPlayer3Controller->buttonPressed & START_BUTTON)
          || (gPlayer3Controller->buttonPressed & B_BUTTON)) {
-#else
-        if ((gPlayer3Controller->buttonPressed & (A_BUTTON | START_BUTTON | B_BUTTON | Z_TRIG))) {
-#endif
-#if defined(VERSION_JP) || defined(VERSION_SH)
-            play_sound(SOUND_MENU_STAR_SOUND, gDefaultSoundArgs);
-#else
-            play_sound(SOUND_MENU_STAR_SOUND_LETS_A_GO, gDefaultSoundArgs);
-#endif
+            r96_play_character_sound_no_arg(R96_MARIO_SOUND_LETS_A_GO, R96_LUIGI_SOUND_LETS_A_GO, R96_WARIO_SOUND_LETS_A_GO);
             if (sInitSelectedActNum >= sSelectedActIndex + 1) {
                 sLoadedActNum = sSelectedActIndex + 1;
             } else {

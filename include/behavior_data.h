@@ -322,6 +322,7 @@ extern const BehaviorScript bhvMenuButtonManager[];
 extern const BehaviorScript bhvActSelectorStarType[];
 extern const BehaviorScript bhvActSelector[];
 extern const BehaviorScript bhvMovingYellowCoin[];
+extern const BehaviorScript bhvMovingYellowCoinWario[];
 extern const BehaviorScript bhvBlueCoinMotos[];
 extern const BehaviorScript bhvMovingBlueCoin[];
 extern const BehaviorScript bhvBlueCoinSliding[];
@@ -548,5 +549,11 @@ extern const BehaviorScript bhvYoshiEgg[];
 extern const BehaviorScript bhvBlargg[];
 extern const BehaviorScript bhvFriendlyBlargg[];
 extern const BehaviorScript bhvCharacterSwitchPipe[];
+extern const BehaviorScript bhvCharacterSwitchPipeWarioLocked[];
+extern const BehaviorScript bhvCharacterSwitchPipeWarioUnlocked[];
+extern const BehaviorScript bhvCharacterSwitchPipeLuigiLocked[];
+extern const BehaviorScript bhvCharacterSwitchPipeLuigiUnlocked[];
+extern const BehaviorScript bhvWarioCoin[];
+extern const BehaviorScript bhvMilk[];
 
 #endif // BEHAVIOR_DATA_H

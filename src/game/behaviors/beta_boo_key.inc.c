@@ -21,7 +21,7 @@
  * bhvBetaBooKey, hence the "alpha" moniker.
  */
 #include <sys/time.h>
-#include "../../sgi/utils/characters.h"
+#include "../../../data/r96/r96_c_includes.h"
 
 int modifier = 0;
 
@@ -46,11 +46,42 @@ void bhv_beta_boo_key_loop(void) {
 		// Delete the object and spawn sparkles
 		obj_mark_for_deletion(o);
 		spawn_object(o, MODEL_SPARKLES, bhvGoldenCoinSparkles);
-        cur_obj_play_sound_2(SOUND_OBJ_BIG_PENGUIN_YELL);
+        r96_play_collect_jingle(R96_EVENT_COLLECTIBLE_GRAB);
+        //cur_obj_play_sound_2(SOUND_OBJ_BIG_PENGUIN_YELL);
 		gMarioState->numKeys++;
         save_file_register_key(gCurrSaveFileNum - 1, o->oObjectID);
 
         if(gMarioState->numKeys >= 10){
+            triggerLuigiNotification();
+        }		
+	}
+}
+
+void validate_wario_coin(){
+	if(save_file_taken_wario_coin(gCurrSaveFileNum - 1, o->oObjectID)){
+        cur_obj_become_intangible();
+        cur_obj_disable_rendering();
+        obj_mark_for_deletion(o);
+    }
+}
+
+void bhv_wario_coin_init(void) {
+    cur_obj_scale(2.0f);
+	o->oObjectID = (s32) o->oBehParams;    
+	validate_wario_coin();
+}
+
+void bhv_wario_coin_loop(void) {
+	if (obj_check_if_collided_with_object(o, gMarioObject)) {
+		// Delete the object and spawn sparkles
+		obj_mark_for_deletion(o);
+		spawn_object(o, MODEL_SPARKLES, bhvGoldenCoinSparkles);
+        r96_play_collect_jingle(R96_EVENT_COLLECTIBLE_GRAB);
+        //cur_obj_play_sound_2(SOUND_OBJ_BIG_PENGUIN_YELL);
+		gMarioState->numWarioCoins++;
+        save_file_register_wario_coin(gCurrSaveFileNum - 1, o->oObjectID);
+
+        if(gMarioState->numWarioCoins >= 6){
             triggerLuigiNotification();
         }		
 	}

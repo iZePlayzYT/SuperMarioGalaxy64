@@ -3439,7 +3439,7 @@ Gfx mat_luigi_metal[] = {
 	gsSPSetGeometryMode(G_TEXTURE_GEN),
 	gsSPTexture(32703, 32703, 0, 0, 1),
 	gsDPTileSync(),
-	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_32b, 512, mario_mario_metal_new_rgba32),
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_32b, 512, luigi_mario_metal_rgba16),
 	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_32b, 128, 0, 7, 0, G_TX_WRAP | G_TX_NOMIRROR, 9, 0, G_TX_WRAP | G_TX_NOMIRROR, 9, 0),
 	gsDPLoadSync(),
 	gsDPLoadTile(7, 0, 0, 2044, 2044),

@@ -136,7 +136,7 @@ struct GraphNodeObject
     /*0x1A*/ Vec3s angle;
     /*0x20*/ Vec3f pos;
     /*0x2C*/ Vec3f scale;
-    /*0x38*/ struct GraphNodeObject_sub unk38;
+    /*0x38*/ struct GraphNodeObject_sub curAnim;
     /*0x4C*/ struct SpawnInfo *unk4C;
     /*0x50*/ Mat4 *throwMatrix; // matrix ptr
     /*0x54*/ Vec3f cameraToObject;
@@ -324,6 +324,20 @@ struct LuigiAnimation
     u8 padding[4];
 };
 
+struct WarioAnimDmaRelatedThing
+{
+    u32 count;
+    u8 *srcAddr;
+    struct OffsetSizePair anim[1]; // dynamic size
+};
+
+struct WarioAnimation
+{
+    struct WarioAnimDmaRelatedThing *animDmaTable;
+    u8 *currentAnimAddr;
+    struct Animation *targetAnim;
+    u8 padding[4];
+};
 
 struct MarioState
 {
@@ -387,6 +401,9 @@ struct MarioState
     /*0xBC*/ f32 peakHeight;
     /*0xC0*/ f32 quicksandDepth;
     /*0xC4*/ f32 unkC4;
+             s8 numWarioCoins;
+             s16 milk;
+             s16 defeatEnemy;
 };
 
 #endif // _SM64_TYPES_H_

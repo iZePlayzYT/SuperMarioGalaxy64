@@ -41,7 +41,9 @@ s32 piranha_plant_check_interactions(void) {
     s32 i;
     s32 interacted = 1;
     if (o->oInteractStatus & INT_STATUS_INTERACTED) {
-        func_80321080(50);
+        if (dynos_jingle_is_playing(R96_EVENT_PIRANHA_PLANT))
+            dynos_jingle_stop();
+
         if (o->oInteractStatus & INT_STATUS_WAS_ATTACKED) {
             cur_obj_play_sound_2(SOUND_OBJ2_PIRANHA_PLANT_DYING);
 
@@ -94,11 +96,11 @@ void piranha_plant_act_sleeping(void) {
             o->oAction = PIRANHA_PLANT_ACT_WOKEN_UP;
         }
     } else if (o->oDistanceToMario < 1000.0f) {
-        play_secondary_music(SEQ_EVENT_PIRANHA_PLANT, 0, 255, 1000);
+        r96_play_jingle(R96_EVENT_PIRANHA_PLANT);
         o->oPiranhaPlantSleepMusicState = PIRANHA_PLANT_SLEEP_MUSIC_PLAYING;
     } else if (o->oPiranhaPlantSleepMusicState == PIRANHA_PLANT_SLEEP_MUSIC_PLAYING) {
         o->oPiranhaPlantSleepMusicState++;
-        func_80321080(50);
+        r96_stop_jingle();
     }
     piranha_plant_check_interactions();
 }
@@ -117,7 +119,8 @@ void piranha_plant_act_woken_up(void) {
     o->oDamageOrCoinValue = 3;
 #endif
     if (o->oTimer == 0)
-        func_80321080(50);
+        if (dynos_jingle_is_playing(R96_EVENT_PIRANHA_PLANT))
+            dynos_jingle_stop();
 
     if (piranha_plant_check_interactions() == 0)
         if (o->oTimer > 10)
@@ -242,7 +245,7 @@ static s8 sPiranhaPlantBiteSoundFrames[] = { 12, 28, 50, 64, -1 };
  * Piranha Plant will move to the attacked state.
  */
 void piranha_plant_act_biting(void) {
-    s32 frame = o->header.gfx.unk38.animFrame;
+    s32 frame = o->header.gfx.curAnim.animFrame;
 
     cur_obj_become_tangible();
 

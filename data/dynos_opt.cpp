@@ -330,7 +330,7 @@ static void DynOS_Opt_ReadFile(const SysPath &aFolder, const SysPath &aFilename)
 }
 
 static void DynOS_Opt_LoadOptions() {
-    SysPath _DynosFolder = fstring("%s/%s", sys_exe_path(), DYNOS_FOLDER);
+    SysPath _DynosFolder = fstring("%s/%s", DYNOS_EXE_FOLDER, DYNOS_RES_FOLDER);
     DIR *_DynosDir = opendir(_DynosFolder.c_str());
     sPrevOpt = NULL;
     if (_DynosDir) {

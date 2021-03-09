@@ -88,3 +88,6 @@ UNUSED static const u64 binid_22 = 22;
 #include "boo_key/model.inc.c"
 #include "luigi_cap/model.inc.c"
 #include "wario_cap/model.inc.c"
+#include "wario_coin/model.inc.c"
+
+#include "milk_bottle/model.inc.c"

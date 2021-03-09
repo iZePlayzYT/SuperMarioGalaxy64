@@ -635,152 +635,152 @@ SysPath fstring(const char *aFmt, Args... aArgs) {
 // Main
 //
 
-void  DynOS_AddRoutine (u8 aType, DynosRoutine aRoutine, void *aData);
-void  DynOS_Init       ();
-void  DynOS_UpdateOpt  (void *aPad);
-void *DynOS_UpdateCmd  (void *aCmd);
-void  DynOS_UpdateGfx  ();
+void               DynOS_AddRoutine                      (u8 aType, void *aRoutine);
+void               DynOS_Init                            ();
+void               DynOS_UpdateOpt                       (void *aPad);
+void              *DynOS_UpdateCmd                       (void *aCmd);
+void               DynOS_UpdateGfx                       ();
 
 //
 // Opt
 //
 
-s32  DynOS_Opt_GetValue                (const String &aName);
-void DynOS_Opt_SetValue                (const String &aName, s32 aValue);
-void DynOS_Opt_AddAction               (const String &aFuncName, bool (*aFuncPtr)(const char *), bool aOverwrite);
-
-void DynOS_Opt_Init                    ();
-void DynOS_Opt_InitVanilla             (DynosOption *&aOptionsMenu);
-void DynOS_Opt_Update                  (OSContPad *aPad);
-
-bool DynOS_Opt_ControllerUpdate        (DynosOption *aOpt, void *aData);
-s32  DynOS_Opt_ControllerGetKeyPressed ();
-
-void DynOS_Opt_LoadConfig              (DynosOption *aMenu);
-void DynOS_Opt_SaveConfig              (DynosOption *aMenu);
-
-void DynOS_Opt_DrawMenu                (DynosOption *aCurrentOption, DynosOption *aCurrentMenu, DynosOption *aOptionsMenu, DynosOption *aDynosMenu);
-void DynOS_Opt_DrawPrompt              (DynosOption *aCurrentMenu, DynosOption *aOptionsMenu, DynosOption *aDynosMenu);
+s32                DynOS_Opt_GetValue                    (const String &aName);
+void               DynOS_Opt_SetValue                    (const String &aName, s32 aValue);
+void               DynOS_Opt_AddAction                   (const String &aFuncName, bool (*aFuncPtr)(const char *), bool aOverwrite);
+void               DynOS_Opt_Init                        ();
+void               DynOS_Opt_InitVanilla                 (DynosOption *&aOptionsMenu);
+void               DynOS_Opt_Update                      (OSContPad *aPad);
+bool               DynOS_Opt_ControllerUpdate            (DynosOption *aOpt, void *aData);
+s32                DynOS_Opt_ControllerGetKeyPressed     ();
+void               DynOS_Opt_LoadConfig                  (DynosOption *aMenu);
+void               DynOS_Opt_SaveConfig                  (DynosOption *aMenu);
+void               DynOS_Opt_DrawMenu                    (DynosOption *aCurrentOption, DynosOption *aCurrentMenu, DynosOption *aOptionsMenu, DynosOption *aDynosMenu);
+void               DynOS_Opt_DrawPrompt                  (DynosOption *aCurrentMenu, DynosOption *aOptionsMenu, DynosOption *aDynosMenu);
 
 //
 // Conversion
 //
 
-u8 *RGBA16_RGBA32  (const u8 *aData, u64 aLength);
-u8 *RGBA32_RGBA32  (const u8 *aData, u64 aLength);
-u8 *IA4_RGBA32     (const u8 *aData, u64 aLength);
-u8 *IA8_RGBA32     (const u8 *aData, u64 aLength);
-u8 *IA16_RGBA32    (const u8 *aData, u64 aLength);
-u8 *CI4_RGBA32     (const u8 *aData, u64 aLength, const u8 *aPalette);
-u8 *CI8_RGBA32     (const u8 *aData, u64 aLength, const u8 *aPalette);
-u8 *I4_RGBA32      (const u8 *aData, u64 aLength);
-u8 *I8_RGBA32      (const u8 *aData, u64 aLength);
-u8 *ConvertToRGBA32(const u8 *aData, u64 aLength, s32 aFormat, s32 aSize, const u8 *aPalette);
+u8                *RGBA16_RGBA32                         (const u8 *aData, u64 aLength);
+u8                *RGBA32_RGBA32                         (const u8 *aData, u64 aLength);
+u8                *IA4_RGBA32                            (const u8 *aData, u64 aLength);
+u8                *IA8_RGBA32                            (const u8 *aData, u64 aLength);
+u8                *IA16_RGBA32                           (const u8 *aData, u64 aLength);
+u8                *CI4_RGBA32                            (const u8 *aData, u64 aLength, const u8 *aPalette);
+u8                *CI8_RGBA32                            (const u8 *aData, u64 aLength, const u8 *aPalette);
+u8                *I4_RGBA32                             (const u8 *aData, u64 aLength);
+u8                *I8_RGBA32                             (const u8 *aData, u64 aLength);
+u8                *ConvertToRGBA32                       (const u8 *aData, u64 aLength, s32 aFormat, s32 aSize, const u8 *aPalette);
 
 //
 // Gfx
 //
 
-bool               DynOS_Gfx_IsLoadedTexturePointer (void *aPtr);
-bool               DynOS_Gfx_IsTexturePointer       (void *aPtr);
-DataNode<TexData> *DynOS_Gfx_GetTexture             (const String &aTextureName);
-DataNode<TexData> *DynOS_Gfx_LoadTextureRAW         (const u8 *aRGBA32Buffer, s32 aWidth, s32 aHeight, const String &aTextureName);
-DataNode<TexData> *DynOS_Gfx_LoadTexturePNG         (const u8 *aPngData, u32 aPngLength, const String &aTextureName);
-DataNode<TexData> *DynOS_Gfx_LoadTextureFile        (const SysPath &aFilename, const String &aTextureName);
-void               DynOS_Gfx_BindTexture            (DataNode<TexData> *aNode, void *aBind);
-void               DynOS_Gfx_UnloadTexture          (DataNode<TexData> *aNode);
-bool               DynOS_Gfx_ImportTexture          (void **aOutput, void *aPtr, s32 aTile, void *aGfxRApi, void **aHashMap, void *aPool, u32 *aPoolPos, u32 aPoolSize);
-
-Array<ActorGfx>   &DynOS_Gfx_GetActorList           ();
-Array<SysPath>    &DynOS_Gfx_GetPackFolders         ();
-Array<String>      DynOS_Gfx_Init                   ();
-void               DynOS_Gfx_Update                 ();
-void               DynOS_Gfx_SwapAnimations         (void *aPtr);
-
-bool               DynOS_Gfx_IsCappyEyesDisplayList (GfxData *aGfxData, const String &aNodeName);
-void               DynOS_Gfx_PushDynCmd             (GfxData *aGfxData, DataNode<Gfx> *aNode, Gfx *&aHead, u8 aCmd);
-bool               DynOS_Gfx_WriteBinary            (const SysPath &aOutputFilename, GfxData *aGfxData);
-GfxData           *DynOS_Gfx_LoadFromBinary         (const SysPath &aFilename);
-void               DynOS_Gfx_Free                   (GfxData *aGfxData);
-void               DynOS_Gfx_GeneratePack           (const SysPath &aPackFolder);
+bool               DynOS_Gfx_IsLoadedTexturePointer      (void *aPtr);
+bool               DynOS_Gfx_IsTexturePointer            (void *aPtr);
+DataNode<TexData> *DynOS_Gfx_GetTexture                  (const String &aTextureName);
+DataNode<TexData> *DynOS_Gfx_LoadTextureRaw              (const u8 *aRGBA32Buffer, s32 aWidth, s32 aHeight, const String &aTextureName);
+DataNode<TexData> *DynOS_Gfx_LoadTexturePng              (const u8 *aPngData, u32 aPngLength, const String &aTextureName);
+DataNode<TexData> *DynOS_Gfx_LoadTextureFile             (const SysPath &aFilename, const String &aTextureName);
+void               DynOS_Gfx_BindTexture                 (DataNode<TexData> *aNode, void *aBind);
+void               DynOS_Gfx_UnloadTexture               (DataNode<TexData> *aNode);
+bool               DynOS_Gfx_ImportTexture               (void **aOutput, void *aPtr, s32 aTile, void *aGfxRApi, void **aHashMap, void *aPool, u32 *aPoolPos, u32 aPoolSize);
+Array<ActorGfx>   &DynOS_Gfx_GetActorList                ();
+Array<SysPath>    &DynOS_Gfx_GetPackFolders              ();
+Array<String>      DynOS_Gfx_Init                        ();
+void               DynOS_Gfx_Update                      ();
+void               DynOS_Gfx_SwapAnimations              (void *aPtr);
+bool               DynOS_Gfx_IsCappyEyesDisplayList      (GfxData *aGfxData, const String &aNodeName);
+void               DynOS_Gfx_PushDynCmd                  (GfxData *aGfxData, DataNode<Gfx> *aNode, Gfx *&aHead, u8 aCmd);
+bool               DynOS_Gfx_WriteBinary                 (const SysPath &aOutputFilename, GfxData *aGfxData);
+GfxData           *DynOS_Gfx_LoadFromBinary              (const SysPath &aFilename);
+void               DynOS_Gfx_Free                        (GfxData *aGfxData);
+void               DynOS_Gfx_GeneratePack                (const SysPath &aPackFolder);
 
 //
 // Audio
 //
 
-void DynOS_Audio_Mix       (u8 *aOutput, const u8 *aInput, s32 aLength, f32 aVolume, f32 aDistance);
-
-bool DynOS_Music_LoadRAW   (const String &aName, const u8 *aData, s32 aLength, s32 aLoop, f32 aVolume);
-bool DynOS_Music_LoadWAV   (const String &aName, const SysPath &aFilename, s32 aLoop, f32 aVolume);
-void DynOS_Music_Play      (const String &aName);
-void DynOS_Music_Stop      ();
-void DynOS_Music_Pause     ();
-void DynOS_Music_Resume    ();
-bool DynOS_Music_IsPlaying (const String &aName);
-
-bool DynOS_Sound_LoadRAW   (const String &aName, const u8 *aData, s32 aLength, f32 aVolume, u8 aPriority);
-bool DynOS_Sound_LoadWAV   (const String &aName, const SysPath &aFilename, f32 aVolume, u8 aPriority);
-void DynOS_Sound_Play      (const String &aName, f32 *aPos);
-void DynOS_Sound_Stop      ();
-bool DynOS_Sound_IsPlaying (const String &aName);
+void               DynOS_Audio_Mix                       (u8 *aOutput, const u8 *aInput, s32 aLength, f32 aVolume, f32 aDistance);
+bool               DynOS_Music_LoadRaw                   (const String &aName, const u8 *aData, s32 aLength, s32 aLoop, f32 aVolume);
+bool               DynOS_Music_LoadWav                   (const String &aName, const SysPath &aFilename, s32 aLoop, f32 aVolume);
+bool               DynOS_Music_LoadPresets               (const SysPath &aFilename, const SysPath &aFolder);
+void               DynOS_Music_Play                      (const String &aName);
+void               DynOS_Music_Stop                      ();
+void               DynOS_Music_Pause                     ();
+void               DynOS_Music_Resume                    ();
+bool               DynOS_Music_IsPlaying                 (const String &aName);
+bool               DynOS_Sound_LoadRaw                   (const String &aName, u8 aBank, const u8 *aData, s32 aLength, f32 aVolume, u8 aPriority);
+bool               DynOS_Sound_LoadWav                   (const String &aName, u8 aBank, const SysPath &aFilename, f32 aVolume, u8 aPriority);
+bool               DynOS_Sound_LoadPresets               (const SysPath &aFilename, const SysPath &aFolder);
+void               DynOS_Sound_Play                      (const String &aName, f32 *aPos);
+void               DynOS_Sound_Stop                      (u8 aBank);
+bool               DynOS_Sound_IsPlaying                 (const String &aName);
+bool               DynOS_Sound_IsPlaying                 (u8 aBank);
+bool               DynOS_Jingle_LoadRaw                  (const String &aName, const u8 *aData, s32 aLength, s32 aLoop, f32 aVolume);
+bool               DynOS_Jingle_LoadWav                  (const String &aName, const SysPath &aFilename, s32 aLoop, f32 aVolume);
+bool               DynOS_Jingle_LoadPresets              (const SysPath &aFilename, const SysPath &aFolder);
+void               DynOS_Jingle_Play                     (const String &aName);
+void               DynOS_Jingle_Stop                     ();
+void               DynOS_Jingle_Pause                    ();
+void               DynOS_Jingle_Resume                   ();
+bool               DynOS_Jingle_IsPlaying                (const String &aName);
 
 //
 // String
 //
 
-u8 *DynOS_String_Convert      (const char *aString, bool aHeapAlloc);
-u8 *DynOS_String_Decapitalize (u8 *aStr64);
-s32 DynOS_String_Length       (const u8 *aStr64);
-s32 DynOS_String_WidthChar64  (u8 aChar64);
-s32 DynOS_String_Width        (const u8 *aStr64);
+u8                *DynOS_String_Convert                  (const char *aString, bool aHeapAlloc);
+u8                *DynOS_String_Decapitalize             (u8 *aStr64);
+s32                DynOS_String_Length                   (const u8 *aStr64);
+s32                DynOS_String_WidthChar64              (u8 aChar64);
+s32                DynOS_String_Width                    (const u8 *aStr64);
 
 //
 // Geo
 //
 
-s32   DynOS_Geo_GetActorCount               ();
-const char *DynOS_Geo_GetActorName          (s32 aIndex);
-void *DynOS_Geo_GetActorLayout              (s32 aIndex);
-s32   DynOS_Geo_GetActorIndex               (const void *aGeoLayout);
-
-void *DynOS_Geo_GetFunctionPointerFromName  (const String &aName);
-void *DynOS_Geo_GetFunctionPointerFromIndex (s32 aIndex);
-s32   DynOS_Geo_GetFunctionIndex            (const void *aPtr);
-
-void *DynOS_Geo_GetGraphNode                (const void *aGeoLayout, bool aKeepInMemory);
-void *DynOS_Geo_SpawnObject                 (const void *aGeoLayout, void *aParent, const void *aBehavior);
+s32                DynOS_Geo_GetActorCount               ();
+const char        *DynOS_Geo_GetActorName                (s32 aIndex);
+void              *DynOS_Geo_GetActorLayout              (s32 aIndex);
+s32                DynOS_Geo_GetActorIndex               (const void *aGeoLayout);
+void              *DynOS_Geo_GetFunctionPointerFromName  (const String &aName);
+void              *DynOS_Geo_GetFunctionPointerFromIndex (s32 aIndex);
+s32                DynOS_Geo_GetFunctionIndex            (const void *aPtr);
+void              *DynOS_Geo_GetGraphNode                (const void *aGeoLayout, bool aKeepInMemory);
+void              *DynOS_Geo_SpawnObject                 (const void *aGeoLayout, void *aParent, const void *aBehavior);
 
 //
 // Levels
 //
 
-s32         DynOS_Level_GetCount           ();
-const s32  *DynOS_Level_GetList            ();
-s32         DynOS_Level_GetCourse          (s32 aLevel);
-const void *DynOS_Level_GetScript          (s32 aLevel);
-const u8   *DynOS_Level_GetName            (s32 aLevel, bool aDecaps, bool aAddCourseNumber);
-const u8   *DynOS_Level_GetActName         (s32 aLevel, s32 aAct, bool aDecaps, bool aAddStarNumber);
-u64         DynOS_Level_CmdGet             (void *aCmd, u64 aOffset);
-void       *DynOS_Level_CmdNext            (void *aCmd, u64 aCmdSize);
-void        DynOS_Level_ParseScript        (const void *aScript, s32 (*aPreprocessFunction)(u8, void *));
-s16        *DynOS_Level_GetWarp            (s32 aLevel, s32 aArea, u8 aWarpId);
-s16        *DynOS_Level_GetWarpEntry       (s32 aLevel, s32 aArea);
-s16        *DynOS_Level_GetWarpStarCollect (s32 aLevel, s32 aArea);
-s16        *DynOS_Level_GetWarpDeath       (s32 aLevel, s32 aArea);
+s32                DynOS_Level_GetCount                  ();
+const s32         *DynOS_Level_GetList                   ();
+s32                DynOS_Level_GetCourse                 (s32 aLevel);
+const void        *DynOS_Level_GetScript                 (s32 aLevel);
+const u8          *DynOS_Level_GetName                   (s32 aLevel, bool aDecaps, bool aAddCourseNumber);
+const u8          *DynOS_Level_GetActName                (s32 aLevel, s32 aAct, bool aDecaps, bool aAddStarNumber);
+s16               *DynOS_Level_GetWarp                   (s32 aLevel, s32 aArea, u8 aWarpId);
+s16               *DynOS_Level_GetWarpEntry              (s32 aLevel, s32 aArea);
+s16               *DynOS_Level_GetWarpStarCollect        (s32 aLevel, s32 aArea);
+s16               *DynOS_Level_GetWarpDeath              (s32 aLevel, s32 aArea);
+u64                DynOS_Level_CmdGet                    (void *aCmd, u64 aOffset);
+void              *DynOS_Level_CmdNext                   (void *aCmd, u64 aCmdSize);
+void               DynOS_Level_ParseScript               (const void *aScript, s32 (*aPreprocessFunction)(u8, void *));
 
 //
 // Warps
 //
 
-void *DynOS_Warp_Update(void *aCmd, bool aIsLevelInitDone);
-
-bool DynOS_Warp_ToLevel             (s32 aLevel, s32 aArea, s32 aAct);
-bool DynOS_Warp_RestartLevel        ();
-bool DynOS_Warp_ExitLevel           (s32 aDelay);
-bool DynOS_Warp_ToCastle            (s32 aLevel);
-bool DynOS_Warp_ReturnToMainMenu    ();
-void DynOS_Warp_SetParam            (s32 aLevel, s32 aIndex);
-const char *DynOS_Warp_GetParamName (s32 aLevel, s32 aIndex);
+void              *DynOS_Warp_Update                     (void *aCmd, bool aIsLevelInitDone);
+bool               DynOS_Warp_ToLevel                    (s32 aLevel, s32 aArea, s32 aAct);
+bool               DynOS_Warp_RestartLevel               ();
+bool               DynOS_Warp_ExitLevel                  (s32 aDelay);
+bool               DynOS_Warp_ToCastle                   (s32 aLevel);
+bool               DynOS_Warp_ReturnToMainMenu           ();
+void               DynOS_Warp_SetParam                   (s32 aLevel, s32 aIndex);
+const char        *DynOS_Warp_GetParamName               (s32 aLevel, s32 aIndex);
 
 #endif
 #endif

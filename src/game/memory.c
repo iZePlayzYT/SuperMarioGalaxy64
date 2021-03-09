@@ -485,3 +485,43 @@ s32 load_patchable_luigi_table(struct LuigiAnimation *a, u32 index) {
     }
     return ret;
 }
+
+static struct WarioAnimDmaRelatedThing *func_warioDMAunk(u8 *srcAddr) {
+    struct WarioAnimDmaRelatedThing *sp1C = dynamic_dma_read(srcAddr, srcAddr + sizeof(u32),
+                                                             MEMORY_POOL_LEFT);
+    u32 size = sizeof(u32) + (sizeof(u8 *) - sizeof(u32)) + sizeof(u8 *) +
+               sp1C->count * sizeof(struct OffsetSizePair);
+    main_pool_free(sp1C);
+
+    sp1C = dynamic_dma_read(srcAddr, srcAddr + size, MEMORY_POOL_LEFT);
+    sp1C->srcAddr = srcAddr;
+    return sp1C;
+}
+
+void func_wariounk(struct WarioAnimation *a, void *b, struct Animation *target) {
+    if (b != NULL) {
+        a->animDmaTable = func_warioDMAunk(b);
+    }
+    a->currentAnimAddr = NULL;
+    a->targetAnim = target;
+}
+
+s32 load_patchable_wario_table(struct WarioAnimation *a, u32 index) {
+    s32 ret = FALSE;
+    struct WarioAnimDmaRelatedThing *sp20 = a->animDmaTable;
+    u8 *addr;
+    u32 size;
+
+    if (index < sp20->count) {
+        do {
+            addr = sp20->srcAddr + sp20->anim[index].offset;
+            size = sp20->anim[index].size;
+        } while (0);
+        if (a->currentAnimAddr != addr) {
+            dma_read((u8 *) a->targetAnim, addr, addr + size);
+            a->currentAnimAddr = addr;
+            ret = TRUE;
+        }
+    }
+    return ret;
+}

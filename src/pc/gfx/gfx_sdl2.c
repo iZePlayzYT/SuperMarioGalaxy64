@@ -41,12 +41,7 @@
 extern int appletGetOperationMode(void);
 #endif
 
-// TODO: figure out if this shit even works
-#ifdef VERSION_EU
-# define FRAMERATE 25
-#else
 # define FRAMERATE 30
-#endif
 
 static SDL_Window *wnd;
 static SDL_GLContext ctx = NULL;

@@ -18,32 +18,26 @@ static s32  sDynosEndingTimer  = -1;
 // Routines
 //
 
-struct DynosRoutineParams {
-    DynosRoutine mRoutine;
-    void *mData;
-};
-
-static Array<DynosRoutineParams> &DynOS_GetRoutines(u8 aType) {
-    static Array<DynosRoutineParams> sDynosRoutines[3];
+static Array<void (*)(void)> &DynOS_GetRoutines(u8 aType) {
+    static Array<void (*)(void)> sDynosRoutines[3];
     return sDynosRoutines[aType];
 }
 
 static void DynOS_ExecuteRoutines(u8 aType) {
-    Array<DynosRoutineParams> &_Routines = DynOS_GetRoutines(aType);
-    for (auto& _Routine : _Routines) {
-        _Routine.mRoutine(_Routine.mData);
+    Array<void (*)(void)> &_Routines = DynOS_GetRoutines(aType);
+    for (auto _Routine : _Routines) {
+        _Routine();
     }
 }
 
-void DynOS_AddRoutine(u8 aType, DynosRoutine aRoutine, void *aData) {
-    Array<DynosRoutineParams> &_Routines = DynOS_GetRoutines(aType);
-    for (auto &_Routine : _Routines) {
-        if (_Routine.mRoutine == aRoutine) {
-            _Routine.mData = aData;
+void DynOS_AddRoutine(u8 aType, void *aRoutine) {
+    Array<void (*)(void)> &_Routines = DynOS_GetRoutines(aType);
+    for (auto _Routine : _Routines) {
+        if (_Routine == aRoutine) {
             return;
         }
     }
-    _Routines.Add({ aRoutine, aData });
+    _Routines.Add((void (*)(void)) aRoutine);
 }
 
 //
@@ -92,13 +86,13 @@ AT_STARTUP void DynOS_Init() {
 //
 
 void DynOS_UpdateOpt(void *aPad) {
-    DynOS_Opt_Update((OSContPad *) aPad);
-    DynOS_ExecuteRoutines(DYNOS_ROUTINE_OPT_UPDATE);
     if (sDynosIsLevelEntry) {
         DynOS_Warp_SetParam(gCurrLevelNum, -1);
         DynOS_ExecuteRoutines(DYNOS_ROUTINE_LEVEL_ENTRY);
         sDynosIsLevelEntry = false;
     }
+    DynOS_Opt_Update((OSContPad *) aPad);
+    DynOS_ExecuteRoutines(DYNOS_ROUTINE_OPT_UPDATE);
     gPrevFrameObjectCount = 0;
 }
 

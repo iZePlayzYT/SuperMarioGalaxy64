@@ -431,7 +431,7 @@ struct v3f {
 };
 
 bool DynOS_Gfx_IsCappyEyesDisplayList(GfxData* aGfxData, const String& aNodeName) {
-    SysPath _Filename = fstring("%s/%s/%s__ID%X.txt", sys_exe_path(), DYNOS_FOLDER, aNodeName.begin(), aGfxData->mModelIdentifier);
+    SysPath _Filename = fstring("%s/%s/%s__ID%X.txt", DYNOS_EXE_FOLDER, DYNOS_RES_FOLDER, aNodeName.begin(), aGfxData->mModelIdentifier);
     FILE *f = fopen(_Filename.c_str(), "r");
     if (f) { fclose(f); return true; }
     return false;
@@ -442,7 +442,7 @@ static bool GetDataFromFile(GfxData* aGfxData, const String& aNodeName,
     u64& aPointCount, f32& aRadius, f32& aFwdOffset) {
 
     String _NodeName = aNodeName.SubString(0, aNodeName.FindLast('.'));
-    SysPath _Filename = fstring("%s/%s/%s__ID%X.txt", sys_exe_path(), DYNOS_FOLDER, _NodeName.begin(), aGfxData->mModelIdentifier);
+    SysPath _Filename = fstring("%s/%s/%s__ID%X.txt", DYNOS_EXE_FOLDER, DYNOS_RES_FOLDER, _NodeName.begin(), aGfxData->mModelIdentifier);
     FILE* _File = fopen(_Filename.c_str(), "r");
     if (!_File) return false;
 

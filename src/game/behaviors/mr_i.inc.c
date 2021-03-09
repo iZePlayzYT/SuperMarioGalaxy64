@@ -220,13 +220,7 @@ void mr_i_act_1(void) {
 }
 
 void mr_i_act_0(void) {
-#ifndef VERSION_JP
     obj_set_angle(o, 0, 0, 0);
-#else
-    o->oMoveAnglePitch = 0;
-    o->oMoveAngleYaw = 0;
-    o->oMoveAngleRoll = 0;
-#endif
     cur_obj_scale(o->oBehParams2ndByte + 1);
     if (o->oTimer == 0)
         cur_obj_set_pos_to_home();

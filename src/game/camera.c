@@ -3362,15 +3362,11 @@ void init_camera(struct Camera *c) {
     // Set the camera's starting position or start a cutscene for certain levels
     switch (gCurrLevelNum) {
         case LEVEL_BOWSER_1:
-#ifndef VERSION_JP
             if (gCurrDemoInput == NULL) {
                 start_cutscene(c, CUTSCENE_ENTER_BOWSER_ARENA);
             } else if (gSecondCameraFocus != NULL) {
                 gSecondCameraFocus->oBowserUnk88 = 2;
             }
-#else
-            start_cutscene(c, CUTSCENE_ENTER_BOWSER_ARENA);
-#endif
             break;
         case LEVEL_BOWSER_2:
             start_cutscene(c, CUTSCENE_ENTER_BOWSER_ARENA);
@@ -4817,20 +4813,6 @@ s32 offset_yaw_outward_radial(struct Camera *c, s16 areaYaw) {
     return yaw;
 }
 
-/**
- * Plays the background music that starts while peach reads the intro message.
- */
-void cutscene_intro_peach_play_message_music(void) {
-    play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_EVENT_PEACH_MESSAGE), 0);
-}
-
-/**
- * Plays the music that starts after peach fades and Lakitu appears.
- */
-void cutscene_intro_peach_play_lakitu_flying_music(void) {
-    play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(15, SEQ_EVENT_CUTSCENE_INTRO), 0);
-}
-
 void play_camera_buzz_if_cdown(void) {
     if (gPlayer1Controller->buttonPressed & D_CBUTTONS) {
         play_sound_button_change_blocked();
@@ -4973,9 +4955,7 @@ s32 radial_camera_input(struct Camera *c, UNUSED f32 unused) {
     if (gPlayer1Controller->buttonPressed & D_CBUTTONS) {
         if (gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) {
             gCameraMovementFlags |= CAM_MOVE_ALREADY_ZOOMED_OUT;
-#ifndef VERSION_JP
             play_camera_buzz_if_cdown();
-#endif
         } else {
             gCameraMovementFlags |= CAM_MOVE_ZOOMED_OUT;
             play_sound_cbutton_down();
@@ -5027,9 +5007,7 @@ void handle_c_button_movement(struct Camera *c) {
             if (gCameraMovementFlags & CAM_MOVE_ZOOMED_OUT) {
                 gCameraMovementFlags |= CAM_MOVE_ALREADY_ZOOMED_OUT;
                 sZoomAmount = gCameraZoomDist + 400.f;
-#ifndef VERSION_JP
                 play_camera_buzz_if_cdown();
-#endif
             } else {
                 gCameraMovementFlags |= CAM_MOVE_ZOOMED_OUT;
                 sZoomAmount = gCameraZoomDist + 400.f;
@@ -5752,10 +5730,8 @@ BAD_RETURN(s32) cam_hmc_enter_maze(struct Camera *c) {
         vec3f_get_dist_and_angle(c->focus, gLakituState.goalPos, &dist, &pitch, &yaw);
         vec3f_set_dist_and_angle(c->focus, gLakituState.goalPos, 300.f, pitch, yaw);
         gLakituState.goalPos[1] = -800.f;
-#ifndef VERSION_JP
         c->pos[1] = gLakituState.goalPos[1];
         gLakituState.curPos[1] = gLakituState.goalPos[1];
-#endif
         sStatusFlags &= ~CAM_FLAG_SMOOTH_MOVEMENT;
     }
 }
@@ -7074,31 +7050,18 @@ static UNUSED void unused_cutscene_mario_dialog_looking_up(UNUSED struct Camera 
  * Lower the volume (US only) and start the peach letter background music
  */
 BAD_RETURN(s32) cutscene_intro_peach_start_letter_music(UNUSED struct Camera *c) {
-#if defined(VERSION_US) || defined(VERSION_SH)
-    func_8031FFB4(SEQ_PLAYER_LEVEL, 60, 40);
-#endif
-    cutscene_intro_peach_play_message_music();
+    r96_play_jingle(R96_EVENT_PEACH_MESSAGE);
+    softenJingleVolume = 1.0f;
 }
 
 /**
  * Raise the volume (not in JP) and start the flying music.
  */
 BAD_RETURN(s32) cutscene_intro_peach_start_flying_music(UNUSED struct Camera *c) {
-#ifndef VERSION_JP
-    sequence_player_unlower(SEQ_PLAYER_LEVEL, 60);
-#endif
-    cutscene_intro_peach_play_lakitu_flying_music();
+    r96_play_jingle(R96_EVENT_INTRO);
+    softenJingleVolume = 1.0f;
 }
 
-#ifdef VERSION_EU
-/**
- * Lower the volume for the letter background music. In US, this happens on the same frame as the music
- * starts.
- */
-BAD_RETURN(s32) cutscene_intro_peach_eu_lower_volume(UNUSED struct Camera *c) {
-    func_8031FFB4(SEQ_PLAYER_LEVEL, 60, 40);
-}
-#endif
 
 void reset_pan_distance(UNUSED struct Camera *c) {
     sPanDistance = 0;
@@ -8973,16 +8936,12 @@ BAD_RETURN(s32) cutscene_dialog_start(struct Camera *c) {
     cutscene_soften_music(c);
     set_time_stop_flags(TIME_STOP_ENABLED | TIME_STOP_DIALOG);
 
-#ifndef VERSION_JP
     if (c->mode == CAMERA_MODE_BOSS_FIGHT) {
         vec3f_copy(sCameraStoreCutscene.focus, c->focus);
         vec3f_copy(sCameraStoreCutscene.pos, c->pos);
     } else {
-#endif
         store_info_star(c);
-#ifndef VERSION_JP
     }
-#endif
 
     // Store Mario's position and faceAngle
     sCutsceneVars[8].angle[0] = 0;
@@ -9597,11 +9556,9 @@ BAD_RETURN(s32) peach_letter_text(UNUSED struct Camera *c) {
     create_dialog_box(DIALOG_020);
 }
 
-#ifndef VERSION_JP
 BAD_RETURN(s32) play_sound_peach_reading_letter(UNUSED struct Camera *c) {
     play_sound(SOUND_PEACH_DEAR_MARIO, gDefaultSoundArgs);
 }
-#endif
 
 /**
  * Move the camera from peach reading the letter all the way to Mario's warp pipe. Follow the
@@ -9667,29 +9624,19 @@ BAD_RETURN(s32) intro_pipe_exit_text(UNUSED struct Camera *c) {
     create_dialog_box(DIALOG_033);
 }
 
-#ifndef VERSION_JP
 BAD_RETURN(s32) play_sound_intro_turn_on_hud(UNUSED struct Camera *c) {
     play_sound_rbutton_changed();
 }
-#endif
 
 /**
  * Fly to the pipe. Near the end, the camera jumps to Lakitu's position and the hud turns on.
  */
 BAD_RETURN(s32) cutscene_intro_peach_fly_to_pipe(struct Camera *c) {
-#if defined(VERSION_US) || defined(VERSION_SH)
     cutscene_event(play_sound_intro_turn_on_hud, c, 818, 818);
-#elif VERSION_EU
-    cutscene_event(play_sound_intro_turn_on_hud, c, 673, 673);
-#endif
     cutscene_spawn_obj(6, 1);
     cutscene_event(cutscene_intro_peach_start_flying_music, c, 0, 0);
     cutscene_event(cutscene_intro_peach_start_to_pipe_spline, c, 0, -1);
-#ifdef VERSION_EU
-    cutscene_event(cutscene_intro_peach_clear_cutscene_status, c, 572, 572);
-#else
     cutscene_event(cutscene_intro_peach_clear_cutscene_status, c, 717, 717);
-#endif
     clamp_pitch(c->pos, c->focus, 0x3B00, -0x3B00);
     sCutsceneVars[1].point[1] = 400.f;
 }
@@ -9731,14 +9678,9 @@ BAD_RETURN(s32) cutscene_intro_peach_letter(struct Camera *c) {
     cutscene_spawn_obj(5, 0);
     cutscene_event(cutscene_intro_peach_zoom_fov, c, 0, 0);
     cutscene_event(cutscene_intro_peach_start_letter_music, c, 65, 65);
-#ifdef VERSION_EU
-    cutscene_event(cutscene_intro_peach_eu_lower_volume, c, 68, 68);
-#endif
     cutscene_event(cutscene_intro_peach_start_to_pipe_spline, c, 0, 0);
     cutscene_event(peach_letter_text, c, 65, 65);
-#ifndef VERSION_JP
     cutscene_event(play_sound_peach_reading_letter, c, 83, 83);
-#endif
 
     if ((gCutsceneTimer > 120) && (get_dialog_id() == -1)) {
         // Start the next scene
@@ -10621,11 +10563,7 @@ struct Cutscene sCutsceneUnusedExit[] = {
 struct Cutscene sCutsceneIntroPeach[] = {
     { cutscene_intro_peach_letter, CUTSCENE_LOOP },
     { cutscene_intro_peach_reset_fov, 35 },
-#ifdef VERSION_EU
-    { cutscene_intro_peach_fly_to_pipe, 675 },
-#else
     { cutscene_intro_peach_fly_to_pipe, 820 },
-#endif
     { cutscene_intro_peach_mario_appears, 270 },
     { cutscene_intro_peach_dialog, CUTSCENE_LOOP }
 };

@@ -258,4 +258,10 @@ extern const Collision wooden_signpost_seg3_collision_0302DD80[];
 
 #include "wario_cap/geo_header.h"
 
+#include "wario_coin/geo_header.h"
+
+#include "milk_bottle/geo_header.h"
+
+#include "mario_cap/geo_header.h"
+
 #endif

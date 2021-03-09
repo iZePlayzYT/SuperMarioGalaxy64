@@ -154,7 +154,8 @@ const LevelScript level_jrb_entry[] = {
         JUMP_LINK(script_func_local_3),
         TERRAIN(/*terrainData*/ jrb_seg7_area_1_collision),
         MACRO_OBJECTS(/*objList*/ jrb_seg7_area_1_macro_objs),
-        SET_BACKGROUND_MUSIC(/*settingsPreset*/ 0x0003, /*seq*/ SEQ_LEVEL_WATER),
+        //SET_BACKGROUND_MUSIC(/*settingsPreset*/ 0x0003, /*seq*/ SEQ_LEVEL_WATER),
+        //CALL(/*arg*/ 0, /*func*/ lvl_play_level_water),
         TERRAIN_TYPE(/*terrainType*/ TERRAIN_WATER),
     END_AREA(),
 
@@ -167,7 +168,7 @@ const LevelScript level_jrb_entry[] = {
         JUMP_LINK(script_func_local_5),
         TERRAIN(/*terrainData*/ jrb_seg7_area_2_collision),
         MACRO_OBJECTS(/*objList*/ jrb_seg7_area_2_macro_objs),
-        SET_BACKGROUND_MUSIC(/*settingsPreset*/ 0x0003, /*seq*/ SEQ_LEVEL_WATER),
+        //SET_BACKGROUND_MUSIC(/*settingsPreset*/ 0x0003, /*seq*/ SEQ_LEVEL_WATER),
         TERRAIN_TYPE(/*terrainType*/ TERRAIN_WATER),
     END_AREA(),
 

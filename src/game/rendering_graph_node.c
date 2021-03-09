@@ -1602,9 +1602,9 @@ static void geo_process_object(struct Object *node) {
         node->header.gfx.cameraToObject[2] = gMatStack[gMatStackIndex][3][2];
 
         // FIXME: correct types
-        if (node->header.gfx.unk38.curAnim != NULL) {
+        if (node->header.gfx.curAnim.curAnim != NULL) {
             dynos_gfx_swap_animations(node);
-            geo_set_animation_globals(&node->header.gfx.unk38, hasAnimation);
+            geo_set_animation_globals(&node->header.gfx.curAnim, hasAnimation);
             dynos_gfx_swap_animations(node);
         }
         if (obj_is_in_view(&node->header.gfx, gMatStack[gMatStackIndex])) {
@@ -1665,9 +1665,9 @@ static void geo_process_object(struct Object *node) {
         node->header.gfx.cameraToObject[2] = gMatStack[gMatStackIndex][3][2];
 
         // FIXME: correct types
-        if (node->header.gfx.unk38.curAnim != NULL) {
+        if (node->header.gfx.curAnim.curAnim != NULL) {
             dynos_gfx_swap_animations(node);
-            geo_set_animation_globals(&node->header.gfx.unk38, hasAnimation);
+            geo_set_animation_globals(&node->header.gfx.curAnim, hasAnimation);
             dynos_gfx_swap_animations(node);
         }
         if (obj_is_in_view(&node->header.gfx, gMatStack[gMatStackIndex])) {
@@ -1775,9 +1775,9 @@ void geo_process_held_object(struct GraphNodeHeldObject *node) {
         gGeoTempState.prevFrame = gPrevAnimFrame;
         gCurAnimType = 0;
         gCurGraphNodeHeldObject = (void *) node;
-        if (node->objNode->header.gfx.unk38.curAnim != NULL) {
+        if (node->objNode->header.gfx.curAnim.curAnim != NULL) {
             dynos_gfx_swap_animations(node->objNode);
-            geo_set_animation_globals(&node->objNode->header.gfx.unk38, hasAnimation);
+            geo_set_animation_globals(&node->objNode->header.gfx.curAnim, hasAnimation);
             dynos_gfx_swap_animations(node->objNode);
         }
 
@@ -1840,9 +1840,9 @@ void geo_process_held_object(struct GraphNodeHeldObject *node) {
         gGeoTempState.data = gCurAnimData;
         gCurAnimType = 0;
         gCurGraphNodeHeldObject = (void *) node;
-        if (node->objNode->header.gfx.unk38.curAnim != NULL) {
+        if (node->objNode->header.gfx.curAnim.curAnim != NULL) {
             dynos_gfx_swap_animations(node->objNode);
-            geo_set_animation_globals(&node->objNode->header.gfx.unk38, hasAnimation);
+            geo_set_animation_globals(&node->objNode->header.gfx.curAnim, hasAnimation);
             dynos_gfx_swap_animations(node->objNode);
         }
 

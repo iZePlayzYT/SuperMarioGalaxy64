@@ -26,10 +26,8 @@ static char gLevelSelect_StageNamesText[64][16] = {
 #undef DEFINE_LEVEL
 
 static u16 gDemoCountdown = 0;
-#ifndef VERSION_JP
 static s16 D_U_801A7C34 = 1;
 static s16 gameOverNotPlayed = 1;
-#endif
 
 // run the demo timer on the PRESS START screen.
 // this function will return a non-0 timer once
@@ -168,28 +166,20 @@ s16 level_select_input_loop(void) {
 int intro_default(void) {
     s32 sp1C = 0;
 
-#ifndef VERSION_JP
     if (D_U_801A7C34 == 1) {
         if (gGlobalTimer < 0x81) {
-            play_sound(SOUND_MARIO_HELLO, gDefaultSoundArgs);
+            r96_play_character_sound_no_arg(R96_MARIO_HELLO, R96_LUIGI_HELLO, R96_WARIO_HELLO);
         } else {
-            play_sound(SOUND_MARIO_PRESS_START_TO_PLAY, gDefaultSoundArgs);
+            r96_play_character_sound_no_arg(R96_MARIO_PRESS_START_TO_PLAY, R96_LUIGI_PRESS_START_TO_PLAY, R96_WARIO_PRESS_START_TO_PLAY);
         }
         D_U_801A7C34 = 0;
     }
-#endif
     print_intro_text();
 
     if (gPlayer1Controller->buttonPressed & START_BUTTON) {
-#ifdef VERSION_JP
-        play_sound(SOUND_MENU_STAR_SOUND, gDefaultSoundArgs);
-        sp1C = 100 + gDebugLevelSelect;
-
-#else
         play_sound(SOUND_MENU_STAR_SOUND, gDefaultSoundArgs);
         sp1C = 100 + gDebugLevelSelect;
         D_U_801A7C34 = 1;
-#endif
     }
     return run_press_start_demo_timer(sp1C);
 }
@@ -198,21 +188,17 @@ int intro_default(void) {
 int intro_game_over(void) {
     s32 sp1C = 0;
 
-#ifndef VERSION_JP
     if (gameOverNotPlayed == 1) {
-        play_sound(SOUND_MARIO_GAME_OVER, gDefaultSoundArgs);
+        r96_play_character_sound_no_arg(R96_MARIO_GAME_OVER, R96_LUIGI_GAME_OVER, R96_WARIO_GAME_OVER);
         gameOverNotPlayed = 0;
     }
-#endif
 
     print_intro_text();
 
     if (gPlayer1Controller->buttonPressed & START_BUTTON) {
         play_sound(SOUND_MENU_STAR_SOUND, gDefaultSoundArgs);
         sp1C = 100 + gDebugLevelSelect;
-#ifndef VERSION_JP
         gameOverNotPlayed = 1;
-#endif
     }
     return run_press_start_demo_timer(sp1C);
 }
@@ -222,6 +208,15 @@ int intro_play_its_a_me_mario(void) {
     play_sound(SOUND_MENU_COIN_ITS_A_ME_MARIO, gDefaultSoundArgs);
     return 1;
 }
+
+s32 lvl_title_theme(){
+    r96_play_menu_jingle(R96_EVENT_TITLE_SCREEN);
+}
+
+s32 lvl_gameover_theme(){
+    r96_play_menu_jingle(R96_EVENT_GAME_OVER);
+}
+
 
 s32 lvl_intro_update(s16 arg1, UNUSED s32 arg2) {
     s32 retVar;

@@ -116,7 +116,8 @@ const LevelScript level_bbh_entry[] = {
         MACRO_OBJECTS(/*objList*/ bbh_seg7_macro_objs),
         ROOMS(/*surfaceRooms*/ bbh_seg7_rooms),
         SHOW_DIALOG(/*index*/ 0x00, DIALOG_098),
-        SET_BACKGROUND_MUSIC(/*settingsPreset*/ 0x0006, /*seq*/ SEQ_LEVEL_SPOOKY),
+        //SET_BACKGROUND_MUSIC(/*settingsPreset*/ 0x0006, /*seq*/ SEQ_LEVEL_SPOOKY),
+        //CALL(/*arg*/ 0, /*func*/ lvl_play_level_spooky),
         TERRAIN_TYPE(/*terrainType*/ TERRAIN_SPOOKY),
     END_AREA(),
 

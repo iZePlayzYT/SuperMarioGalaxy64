@@ -83,18 +83,20 @@ void *__da_do(s32 func, void **pda, s32 index, void *item, bool (*eq)(void *, vo
         } break;
 
         case 7: { // find
-            void *cur = buffer_at(0);
-            void *end = buffer_at(da->count);
-            if (eq) {
-                for (s32 i = 0; cur < end; i++, cur = (void *) ((u64) cur + (u64) da->size)) {
-                    if (eq && eq(cur, item)) {
-                        return (void *) (u64) (i);
+            if (da) {
+                void *cur = buffer_at(0);
+                void *end = buffer_at(da->count);
+                if (eq) {
+                    for (s32 i = 0; cur < end; i++, cur = (void *) ((u64) cur + (u64) da->size)) {
+                        if (eq && eq(cur, item)) {
+                            return (void *) (u64) (i);
+                        }
                     }
-                }
-            } else {
-                for (s32 i = 0; cur < end; i++, cur = (void *) ((u64) cur + (u64) da->size)) {
-                    if (memcmp(cur, item, da->size) == 0) {
-                        return (void *) (u64) (i);
+                } else {
+                    for (s32 i = 0; cur < end; i++, cur = (void *) ((u64) cur + (u64) da->size)) {
+                        if (memcmp(cur, item, da->size) == 0) {
+                            return (void *) (u64) (i);
+                        }
                     }
                 }
             }
@@ -115,8 +117,8 @@ void *__da_do(s32 func, void **pda, s32 index, void *item, bool (*eq)(void *, vo
 // Main
 //
 
-void dynos_add_routine(u8 type, DynosRoutine routine, void *data) {
-    return DynOS_AddRoutine(type, routine, data);
+void dynos_add_routine(u8 type, void *routine) {
+    return DynOS_AddRoutine(type, routine);
 }
 
 void *dynos_update_cmd(void *cmd) {
@@ -214,11 +216,11 @@ void *dynos_gfx_get_texture(const char *texname) {
 }
 
 void *dynos_gfx_load_texture_raw(const u8 *rgba32buffer, s32 width, s32 height, const char *texname) {
-    return (void *) DynOS_Gfx_LoadTextureRAW(rgba32buffer, width, height, texname);
+    return (void *) DynOS_Gfx_LoadTextureRaw(rgba32buffer, width, height, texname);
 }
 
 void *dynos_gfx_load_texture_png(const u8 *pngdata, u32 pnglength, const char *texname) {
-    return (void *) DynOS_Gfx_LoadTexturePNG(pngdata, pnglength, texname);
+    return (void *) DynOS_Gfx_LoadTexturePng(pngdata, pnglength, texname);
 }
 
 void *dynos_gfx_load_texture_file(const char *filename, const char *texname) {
@@ -227,7 +229,7 @@ void *dynos_gfx_load_texture_file(const char *filename, const char *texname) {
 
 void *dynos_gfx_load_texture_from_dynos_folder(const char *texname) {
     char filename[256];
-    snprintf(filename, 256, "%s/%s/%s.png", sys_exe_path(), DYNOS_GFX_FOLDER, texname);
+    snprintf(filename, 256, "%s/%s/%s.png", DYNOS_EXE_FOLDER, DYNOS_GFX_FOLDER, texname);
     return (void *) DynOS_Gfx_LoadTextureFile(filename, texname);
 }
 
@@ -256,17 +258,29 @@ void dynos_audio_mix(u8 *output, const u8 *input, s32 length, f32 volume, f32 di
 }
 
 bool dynos_music_load_raw(const char *name, const u8 *data, s32 length, s32 loop, f32 volume) {
-    return DynOS_Music_LoadRAW(name, data, length, loop, volume);
+    return DynOS_Music_LoadRaw(name, data, length, loop, volume);
 }
 
 bool dynos_music_load_wav(const char *name, const char *filename, s32 loop, f32 volume) {
-    return DynOS_Music_LoadWAV(name, filename, loop, volume);
+    return DynOS_Music_LoadWav(name, filename, loop, volume);
 }
 
 bool dynos_music_load_from_dynos_folder(const char *name, s32 loop, f32 volume) {
     char filename[256];
-    snprintf(filename, 256, "%s/%s/%s.wav", sys_exe_path(), DYNOS_AUDIO_FOLDER, name);
-    return DynOS_Music_LoadWAV(name, filename, loop, volume);
+    snprintf(filename, 256, "%s/%s/%s.wav", DYNOS_EXE_FOLDER, DYNOS_AUDIO_FOLDER, name);
+    return DynOS_Music_LoadWav(name, filename, loop, volume);
+}
+
+bool dynos_music_load_presets(const char *filename, const char *folder) {
+    return DynOS_Music_LoadPresets(filename, folder);
+}
+
+bool dynos_music_load_presets_from_dynos_folder(const char *filename, const char *folder) {
+    char filepath[256];
+    char wavpath[256];
+    snprintf(filepath, 256, "%s/%s/%s", DYNOS_EXE_FOLDER, DYNOS_AUDIO_FOLDER, filename);
+    snprintf(wavpath, 256, "%s/%s/%s", DYNOS_EXE_FOLDER, DYNOS_AUDIO_FOLDER, folder);
+    return DynOS_Music_LoadPresets(filepath, wavpath);
 }
 
 void dynos_music_play(const char *name) {
@@ -289,30 +303,92 @@ bool dynos_music_is_playing(const char *name) {
     return DynOS_Music_IsPlaying(name);
 }
 
-bool dynos_sound_load_raw(const char *name, const u8 *data, s32 length, f32 volume, u8 priority) {
-    return DynOS_Sound_LoadRAW(name, data, length, volume, priority);
+bool dynos_sound_load_raw(const char *name, u8 bank, const u8 *data, s32 length, f32 volume, u8 priority) {
+    return DynOS_Sound_LoadRaw(name, bank, data, length, volume, priority);
 }
 
-bool dynos_sound_load_wav(const char *name, const char *filename, f32 volume, u8 priority) {
-    return DynOS_Sound_LoadWAV(name, filename, volume, priority);
+bool dynos_sound_load_wav(const char *name, u8 bank, const char *filename, f32 volume, u8 priority) {
+    return DynOS_Sound_LoadWav(name, bank, filename, volume, priority);
 }
 
-bool dynos_sound_load_from_dynos_folder(const char *name, f32 volume, u8 priority) {
+bool dynos_sound_load_from_dynos_folder(const char *name, u8 bank, f32 volume, u8 priority) {
     char filename[256];
-    snprintf(filename, 256, "%s/%s/%s.wav", sys_exe_path(), DYNOS_AUDIO_FOLDER, name);
-    return DynOS_Sound_LoadWAV(name, filename, volume, priority);
+    snprintf(filename, 256, "%s/%s/%s.wav", DYNOS_EXE_FOLDER, DYNOS_AUDIO_FOLDER, name);
+    return DynOS_Sound_LoadWav(name, bank, filename, volume, priority);
+}
+
+bool dynos_sound_load_presets(const char *filename, const char *folder) {
+    return DynOS_Sound_LoadPresets(filename, folder);
+}
+
+bool dynos_sound_load_presets_from_dynos_folder(const char *filename, const char *folder) {
+    char filepath[256];
+    char wavpath[256];
+    snprintf(filepath, 256, "%s/%s/%s", DYNOS_EXE_FOLDER, DYNOS_AUDIO_FOLDER, filename);
+    snprintf(wavpath, 256, "%s/%s/%s", DYNOS_EXE_FOLDER, DYNOS_AUDIO_FOLDER, folder);
+    return DynOS_Sound_LoadPresets(filepath, wavpath);
 }
 
 void dynos_sound_play(const char *name, f32 *pos) {
     return DynOS_Sound_Play(name, pos);
 }
 
-void dynos_sound_stop() {
-    return DynOS_Sound_Stop();
+void dynos_sound_stop(u8 bank) {
+    return DynOS_Sound_Stop(bank);
 }
 
 bool dynos_sound_is_playing(const char *name) {
     return DynOS_Sound_IsPlaying(name);
+}
+
+bool dynos_sound_is_bank_playing(u8 bank) {
+    return DynOS_Sound_IsPlaying(bank);
+}
+
+bool dynos_jingle_load_raw(const char *name, const u8 *data, s32 length, s32 loop, f32 volume) {
+    return DynOS_Jingle_LoadRaw(name, data, length, loop, volume);
+}
+
+bool dynos_jingle_load_wav(const char *name, const char *filename, s32 loop, f32 volume) {
+    return DynOS_Jingle_LoadWav(name, filename, loop, volume);
+}
+
+bool dynos_jingle_load_from_dynos_folder(const char *name, s32 loop, f32 volume) {
+    char filename[256];
+    snprintf(filename, 256, "%s/%s/%s.wav", DYNOS_EXE_FOLDER, DYNOS_AUDIO_FOLDER, name);
+    return DynOS_Jingle_LoadWav(name, filename, loop, volume);
+}
+
+bool dynos_jingle_load_presets(const char *filename, const char *folder) {
+    return DynOS_Jingle_LoadPresets(filename, folder);
+}
+
+bool dynos_jingle_load_presets_from_dynos_folder(const char *filename, const char *folder) {
+    char filepath[256];
+    char wavpath[256];
+    snprintf(filepath, 256, "%s/%s/%s", DYNOS_EXE_FOLDER, DYNOS_AUDIO_FOLDER, filename);
+    snprintf(wavpath, 256, "%s/%s/%s", DYNOS_EXE_FOLDER, DYNOS_AUDIO_FOLDER, folder);
+    return DynOS_Jingle_LoadPresets(filepath, wavpath);
+}
+
+void dynos_jingle_play(const char *name) {
+    return DynOS_Jingle_Play(name);
+}
+
+void dynos_jingle_stop() {
+    return DynOS_Jingle_Stop();
+}
+
+void dynos_jingle_pause() {
+    return DynOS_Jingle_Pause();
+}
+
+void dynos_jingle_resume() {
+    return DynOS_Jingle_Resume();
+}
+
+bool dynos_jingle_is_playing(const char *name) {
+    return DynOS_Jingle_IsPlaying(name);
 }
 
 //

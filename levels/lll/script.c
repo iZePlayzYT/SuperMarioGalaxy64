@@ -92,8 +92,7 @@ static const LevelScript script_func_local_4[] = {
     OBJECT(/*model*/ MODEL_BLARGG,            /*pos*/  6318, 0,  752, /*angle*/ 0,  90, 0, /*behParam*/ 0x00000000, /*beh*/ bhvBlargg),
     OBJECT(/*model*/ MODEL_BLARGG,            /*pos*/  5647, 0,  3426, /*angle*/ 0,  90, 0, /*behParam*/ 0x00000000, /*beh*/ bhvBlargg),
     OBJECT(/*model*/ MODEL_BLARGG,            /*pos*/  -5315, 0,  7493, /*angle*/ 0,  90, 0, /*behParam*/ 0x00000000, /*beh*/ bhvBlargg),
-    //OBJECT(/*model*/ MODEL_MOTOS_LLL,         /*pos*/ 4906,  154,  -445, /*angle*/ 0,   0, 0, /*behParam*/ 0x00000000, /*beh*/ bhvMotos),
-    //OBJECT_WITH_ACTS(/*model*/ MODEL_MOTOS_LLL,         /*pos*/ 1070,  154,  6253, /*angle*/ 0,   0, 0, /*behParam*/ 0x00000000, /*beh*/ bhvMotos, ACT_1 | ACT_2 | ACT_3 | ACT_4),
+    OBJECT_WITH_ACTS(/*model*/ MODEL_MOTOS,         /*pos*/ 1070,  154,  6253, /*angle*/ 0,   0, 0, /*behParam*/ 0x00000000, /*beh*/ bhvMotos, ACT_1 | ACT_2 | ACT_3 | ACT_4),
     
 	RETURN(),
 };
@@ -206,7 +205,8 @@ const LevelScript level_lll_entry[] = {
         TERRAIN(/*terrainData*/ lll_seg7_area_1_collision),
         MACRO_OBJECTS(/*objList*/ lll_seg7_area_1_macro_objs),
         SHOW_DIALOG(/*index*/ 0x00, DIALOG_097),
-        SET_BACKGROUND_MUSIC(/*settingsPreset*/ 0x0000, /*seq*/ SEQ_LEVEL_HOT),
+        //SET_BACKGROUND_MUSIC(/*settingsPreset*/ 0x0000, /*seq*/ SEQ_LEVEL_HOT),
+        //CALL(/*arg*/ 0, /*func*/ lvl_play_level_hot),
         TERRAIN_TYPE(/*terrainType*/ TERRAIN_STONE),
     END_AREA(),
 
@@ -219,7 +219,8 @@ const LevelScript level_lll_entry[] = {
         JUMP_LINK(script_func_local_7),
         TERRAIN(/*terrainData*/ lll_seg7_area_2_collision),
         MACRO_OBJECTS(/*objList*/ lll_seg7_area_2_macro_objs),
-        SET_BACKGROUND_MUSIC(/*settingsPreset*/ 0x0004, /*seq*/ SEQ_LEVEL_HOT),
+        //SET_BACKGROUND_MUSIC(/*settingsPreset*/ 0x0004, /*seq*/ SEQ_LEVEL_HOT),
+        //CALL(/*arg*/ 0, /*func*/ lvl_play_level_hot),
         TERRAIN_TYPE(/*terrainType*/ TERRAIN_STONE),
     END_AREA(),
 

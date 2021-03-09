@@ -25,7 +25,7 @@
 
 #define MODEL_MARIO                       0x01        // mario_geo
 #define MODEL_LUIGI                       0x99       // unused
-#define MODEL_WARIO                       0xFF       // unused
+#define MODEL_WARIO                       0xF5       // unused
 #define MODEL_PLAYER                      0x02
 
 /* Various static level geometry, the geo layout differs but terrain object presets treat them the same.*/
@@ -348,8 +348,7 @@
 #define MODEL_FRIENDLY_BLARGG             0x58		  // friendly_blargg_geo
 #define MODEL_BULLY                       0x56        // bully_geo
 #define MODEL_BULLY_BOSS                  0x57        // bully_boss_geo
-#define MODEL_MOTOS                       0x59        // motos_geo
-#define MODEL_MOTOS_LLL                   0x5A        // motos_geo
+#define MODEL_MOTOS                       0xE9        // motos_geo
 
 // group 3
 #define MODEL_WATER_BOMB                  0x54        // water_bomb_geo
@@ -398,9 +397,11 @@
 #define MODEL_HAUNTED_CAGE                0x5A        // haunted_cage_geo
 #define MODEL_PLAYER_SWITCH_PIPE          0xE1
 #define MODEL_PLAYER_LOCK_SWITCH_PIPE     0xE2
-#define MODEL_PLAYER_LOCK_SWITCH_RED_PIPE     0xE3
-#define MODEL_PLAYER_LOCK_SWITCH_GREEN_PIPE     0xE4
-#define MODEL_PLAYER_LOCK_SWITCH_YELLOW_PIPE     0xE5
+#define MODEL_PLAYER_LOCK_SWITCH_RED_PIPE 0xE3
+#define MODEL_PLAYER_LOCK_SWITCH_GREEN_LOCKED_PIPE      0xE4
+#define MODEL_PLAYER_LOCK_SWITCH_GREEN_UNLOCKED_PIPE    0xE5
+#define MODEL_PLAYER_LOCK_SWITCH_YELLOW_LOCKED_PIPE     0xE6
+#define MODEL_PLAYER_LOCK_SWITCH_YELLOW_UNLOCKED_PIPE   0xE7
 
 // group 10
 #define MODEL_BIRDS                       0x54        // birds_geo
@@ -490,10 +491,19 @@
 #define MODEL_LUIGIS_WING_CAP             0x9C        // luigis_wing_cap_geo
 #define MODEL_LUIGIS_WINGED_METAL_CAP     0x9D        // luigis_winged_metal_cap_geo
 
-#define MODEL_WARIOS_CAP                  0x9F        // warios_cap_geo
-#define MODEL_WARIOS_METAL_CAP            0xA0        // warios_metal_cap_geo
-#define MODEL_WARIOS_WING_CAP             0xA1        // warios_wing_cap_geo
-#define MODEL_WARIOS_WINGED_METAL_CAP     0xA2        // warios_winged_metal_cap_geo
+#define MODEL_WARIOS_CAP                  0xEA        // warios_cap_geo
+#define MODEL_WARIOS_METAL_CAP            0xEB        // warios_metal_cap_geo
+#define MODEL_WARIOS_WING_CAP             0xEC        // warios_wing_cap_geo
+#define MODEL_WARIOS_WINGED_METAL_CAP     0xEE        // warios_winged_metal_cap_geo
+
+#define MODEL_WARIO_COIN_PUMPKIN          0xEF
+#define MODEL_WARIO_COIN_HOUSE            0xF0
+#define MODEL_WARIO_COIN_TREE             0xF1
+#define MODEL_WARIO_COIN_KOOPA            0xF2
+#define MODEL_WARIO_COIN_LUNAR            0xF3
+#define MODEL_WARIO_COIN_MARIO            0xF4
+
+#define MODEL_MILK_BOTTLE                 0xF6
 
 #define MODEL_EXCLAMATION_BOX             0x89        // exclamation_box_geo
 #define MODEL_DIRT_ANIMATION              0x8A        // dirt_animation_geo

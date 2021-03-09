@@ -36,6 +36,7 @@ struct SaveFile
     u8 courseCoinScores[COURSE_STAGES_COUNT];
     
     s8 courseKeys[10];
+    s8 courseWarioCoins[6];
     u8 currentPlayerModel;    
 
     struct SaveBlockSignature signature;
@@ -158,6 +159,10 @@ s32 check_warp_checkpoint(struct WarpNode *warpNode);
 s32 save_file_taken_key(s32 fileIndex, s32 keyId);
 void save_file_register_key(s32 fileIndex, s32 keyId);
 s32 save_file_get_keys(s32 fileIndex);
+
+s32 save_file_taken_wario_coin(s32 fileIndex, s32 coinId);
+void save_file_register_wario_coin(s32 fileIndex, s32 coinId);
+s32 save_file_get_wario_coins(s32 fileIndex);
 
 void save_file_update_player_model(s32 fileIndex, s32 character);
 s32 save_file_get_player_model(s32 fileIndex);

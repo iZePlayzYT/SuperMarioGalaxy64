@@ -18,7 +18,7 @@ INCLUDE_CFLAGS += -DDYNOS
 # Render96 - Luigi
 # ----------------
 
-ifeq ($(findstring src/sgi/utils,$(SRC_DIRS)),src/sgi/utils)
+ifeq ($(findstring data/r96/system,$(SRC_DIRS)),data/r96/system)
 INCLUDE_CFLAGS += -DRENDER_96_LUIGI
 endif
 

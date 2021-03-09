@@ -128,11 +128,25 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_MODEL_FROM_GEO(MODEL_DIRT_ANIMATION,          dirt_animation_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CARTOON_STAR,            cartoon_star_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_BETA_BOO_KEY,            boo_key_geo),
+
+	LOAD_MODEL_FROM_GEO(MODEL_WARIO_COIN_PUMPKIN,      wario_coin_pumpkin_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_WARIO_COIN_HOUSE,        wario_coin_house_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_WARIO_COIN_TREE,         wario_coin_tree_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_WARIO_COIN_KOOPA,        wario_coin_koopa_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_WARIO_COIN_LUNAR,        wario_coin_lunar_geo),
+	LOAD_MODEL_FROM_GEO(MODEL_WARIO_COIN_MARIO,        wario_coin_mario_geo),
+
+    LOAD_MODEL_FROM_GEO(MODEL_MILK_BOTTLE,             milk_bottle_geo),
+
     LOAD_MODEL_FROM_GEO(MODEL_MOTOS, 				   motos_geo),
+
 	LOAD_MODEL_FROM_GEO(MODEL_PLAYER_LOCK_SWITCH_PIPE, warp_pipe_boo_geo),
 	LOAD_MODEL_FROM_GEO(MODEL_PLAYER_LOCK_SWITCH_RED_PIPE, warp_pipe_boo_red_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_PLAYER_LOCK_SWITCH_GREEN_PIPE, warp_pipe_boo_green_geo), 
-	LOAD_MODEL_FROM_GEO(MODEL_PLAYER_LOCK_SWITCH_YELLOW_PIPE, warp_pipe_boo_yellow_geo),  
+	LOAD_MODEL_FROM_GEO(MODEL_PLAYER_LOCK_SWITCH_GREEN_LOCKED_PIPE, warp_pipe_boo_green_locked_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_PLAYER_LOCK_SWITCH_GREEN_UNLOCKED_PIPE, warp_pipe_boo_green_unlocked_geo), 
+	LOAD_MODEL_FROM_GEO(MODEL_PLAYER_LOCK_SWITCH_YELLOW_LOCKED_PIPE, warp_pipe_boo_yellow_locked_geo),  
+	LOAD_MODEL_FROM_GEO(MODEL_PLAYER_LOCK_SWITCH_YELLOW_UNLOCKED_PIPE, warp_pipe_boo_yellow_unlocked_geo), 
+
     FREE_LEVEL_POOL(),
     CALL(/*arg*/ 0, /*func*/ lvl_init_from_save_file),
     LOOP_BEGIN(),
@@ -232,7 +246,7 @@ const LevelScript script_func_global_3[] = {
     LOAD_MODEL_FROM_GEO(MODEL_FRIENDLY_BLARGG,         friendly_blargg_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BULLY,                   bully_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BULLY_BOSS,              bully_boss_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_MOTOS_LLL, 			   motos_geo),
+    //LOAD_MODEL_FROM_GEO(MODEL_MOTOS, 			       motos_geo),
     RETURN(),
 };
 

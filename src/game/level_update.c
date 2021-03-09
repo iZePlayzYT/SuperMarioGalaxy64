@@ -30,6 +30,8 @@
 #include "pc/cliopts.h"
 #include "pc/configfile.h"
 
+#include "data/r96/r96_c_includes.h"
+
 #define PLAY_MODE_NORMAL 0
 #define PLAY_MODE_PAUSED 2
 #define PLAY_MODE_CHANGE_AREA 3
@@ -301,6 +303,8 @@ void set_mario_initial_cap_powerup(struct MarioState *m) {
 }
 
 void set_mario_initial_action(struct MarioState *m, u32 spawnType, u32 actionArg) {
+    m->milk = 0;
+    m->defeatEnemy = 0;
     switch (spawnType) {
         case MARIO_SPAWN_DOOR_WARP:
             set_mario_action(m, ACT_WARP_DOOR_SPAWN, actionArg);
@@ -327,6 +331,8 @@ void set_mario_initial_action(struct MarioState *m, u32 spawnType, u32 actionArg
             set_mario_action(m, ACT_SPAWN_SPIN_AIRBORNE, 0);
             break;
         case MARIO_SPAWN_DEATH:
+            r96_stop_jingle();
+            r96_stop_music();
             set_mario_action(m, ACT_FALLING_DEATH_EXIT, 0);
             break;
         case MARIO_SPAWN_SPIN_AIRBORNE:
@@ -339,21 +345,33 @@ void set_mario_initial_action(struct MarioState *m, u32 spawnType, u32 actionArg
             set_mario_action(m, ACT_WATER_IDLE, 1);
             break;
         case MARIO_SPAWN_PAINTING_STAR_COLLECT:
+            r96_stop_jingle();
+            r96_stop_music();
             set_mario_action(m, ACT_EXIT_AIRBORNE, 0);
             break;
         case MARIO_SPAWN_PAINTING_DEATH:
+            r96_stop_jingle();
+            r96_stop_music();
             set_mario_action(m, ACT_DEATH_EXIT, 0);
             break;
         case MARIO_SPAWN_AIRBORNE_STAR_COLLECT:
+            r96_stop_jingle();
+            r96_stop_music();
             set_mario_action(m, ACT_FALLING_EXIT_AIRBORNE, 0);
             break;
         case MARIO_SPAWN_AIRBORNE_DEATH:
+            r96_stop_jingle();
+            r96_stop_music();
             set_mario_action(m, ACT_UNUSED_DEATH_EXIT, 0);
             break;
         case MARIO_SPAWN_LAUNCH_STAR_COLLECT:
+            r96_stop_jingle();
+            r96_stop_music();
             set_mario_action(m, ACT_SPECIAL_EXIT_AIRBORNE, 0);
             break;
         case MARIO_SPAWN_LAUNCH_DEATH:
+            r96_stop_jingle();
+            r96_stop_music();
             set_mario_action(m, ACT_SPECIAL_DEATH_EXIT, 0);
             break;
     }
@@ -422,36 +440,34 @@ void init_mario_after_warp(void) {
         set_background_music(gCurrentArea->musicParam, gCurrentArea->musicParam2, 0);
 
         if (gMarioState->flags & MARIO_METAL_CAP) {
-            play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_METAL_CAP));
+            r96_play_cap_music(R96_EVENT_CAP_METAL);
         }
 
         if (gMarioState->flags & (MARIO_VANISH_CAP | MARIO_WING_CAP)) {
-            play_cap_music(SEQUENCE_ARGS(4, SEQ_EVENT_POWERUP));
+            r96_play_cap_music(R96_EVENT_POWERUP);
         }
 
-#ifndef VERSION_JP
         if (gCurrLevelNum == LEVEL_BOB
             && get_current_background_music() != SEQUENCE_ARGS(4, SEQ_LEVEL_SLIDE)
             && sTimerRunning != 0) {
             play_music(SEQ_PLAYER_LEVEL, SEQUENCE_ARGS(4, SEQ_LEVEL_SLIDE), 0);
         }
-#endif
 
         if (sWarpDest.levelNum == LEVEL_CASTLE && sWarpDest.areaIdx == 1
-#ifndef VERSION_JP
             && (sWarpDest.nodeId == 31 || sWarpDest.nodeId == 32)
-#else
-            && sWarpDest.nodeId == 31
-#endif
-        )
+        ) {
+            dynos_jingle_stop();
+            dynos_music_stop();
             play_sound(SOUND_MENU_MARIO_CASTLE_WARP, gDefaultSoundArgs);
-#ifndef VERSION_JP
+
+        }
         if (sWarpDest.levelNum == LEVEL_CASTLE_GROUNDS && sWarpDest.areaIdx == 1
             && (sWarpDest.nodeId == 7 || sWarpDest.nodeId == 10 || sWarpDest.nodeId == 20
                 || sWarpDest.nodeId == 30)) {
+            dynos_jingle_stop();
+            dynos_music_stop();
             play_sound(SOUND_MENU_MARIO_CASTLE_WARP, gDefaultSoundArgs);
         }
-#endif
     }
 }
 
@@ -750,9 +766,7 @@ s16 level_trigger_warp(struct MarioState *m, s32 warpOp) {
                 sDelayedWarpTimer = 30;
                 sSourceWarpNodeId = WARP_NODE_F2;
                 play_transition(WARP_TRANSITION_FADE_INTO_COLOR, 0x1E, 0xFF, 0xFF, 0xFF);
-#ifndef VERSION_JP
                 play_sound(SOUND_MENU_STAR_SOUND, gDefaultSoundArgs);
-#endif
                 break;
 
             case WARP_OP_UNKNOWN_02: // bbh enter
@@ -924,6 +938,7 @@ void update_hud_values(void) {
         gHudDisplay.stars = gMarioState->numStars;
         gHudDisplay.lives = gMarioState->numLives;
         gHudDisplay.keys = gMarioState->numKeys;
+        gHudDisplay.wario_coins = gMarioState->numWarioCoins;
 
         if (numHealthWedges > gHudDisplay.wedges) {
             play_sound(SOUND_MENU_POWER_METER, gDefaultSoundArgs);
@@ -1128,7 +1143,7 @@ static s32 play_mode_unused(void) {
 
 s32 update_level(void) {
     s32 changeLevel;
-
+    r96_level_music_update();
     switch (sCurrPlayMode) {
         case PLAY_MODE_NORMAL:
             changeLevel = play_mode_normal();
@@ -1317,14 +1332,13 @@ s32 lvl_set_current_level(UNUSED s16 arg0, s32 levelNum) {
  * Play the "thank you so much for to playing my game" sound.
  */
 s32 lvl_play_the_end_screen_sound(UNUSED s16 arg0, UNUSED s32 arg1) {
-    play_sound(SOUND_MENU_THANK_YOU_PLAYING_MY_GAME, gDefaultSoundArgs);
+    if (save_file_get_total_star_count(gCurrSaveFileNum - 1, 0, 24) < 120) {
+        play_sound(SOUND_OBJ_BOWSER_LAUGH, gDefaultSoundArgs);
+        r96_play_jingle(R96_EVENT_KOOPA_MESSAGE);
+    }
+    else {
+        r96_play_character_sound_no_arg(R96_MARIO_THANK_YOU_PLAYING_MY_GAME, R96_LUIGI_THANK_YOU_PLAYING_MY_GAME, R96_WARIO_THANK_YOU_PLAYING_MY_GAME);
+    }
     return 1;
 }
 
-// Added so the player can reset the game at the end screen
-s32 credits_end_wait_for_reset() {
-    if (gPlayer1Controller->buttonPressed & START_BUTTON) {
-        return 1;
-    }
-    return 0;
-}

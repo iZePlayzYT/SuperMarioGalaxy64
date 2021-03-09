@@ -550,6 +550,8 @@ void bhv_intro_scene_loop(void);
 void bhv_dust_smoke_loop(void);
 void bhv_yoshi_loop(void);
 void bhv_volcano_trap_loop(void);
+
+// R96 Headers
 void bhv_key_init(void);
 
 void bhv_blargg_init(void);
@@ -557,7 +559,21 @@ void bhv_friendly_blargg_init(void);
 void bhv_blargg_loop(void);
 void bhv_blargg_friendly_loop(void);
 void bhv_motos_loop(void);
-void bhv_motos_hand_loop(void);
+void moto_spawn_coin(void);
+
+void bhv_warp_locked_luigi_init(void);
+void bhv_warp_unlocked_luigi_init(void);
+void bhv_warp_locked_wario_init(void);
+void bhv_warp_unlocked_wario_init(void);
+
+void bhv_wario_coin_init(void);
+void bhv_wario_coin_loop(void);
+
+void bhv_milk_init(void);
+void bhv_milk_loop(void);
+void bhv_milk_interact(void);
+void bhv_milk_time_out(void);
+
 
 Gfx *geo_move_mario_part_from_parent(s32 run, UNUSED struct GraphNode *node, Mat4 mtx);
 
