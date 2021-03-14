@@ -278,7 +278,10 @@ void r96_level_music_update() {
             dynos_jingle_stop();
     }
 
-    if (!dynos_jingle_is_playing(R96_EVENT_CREDITS) && !dynos_jingle_is_playing(R96_EVENT_TITLE_SCREEN) && !dynos_jingle_is_playing(R96_EVENT_GAME_OVER)) {
+    if (!dynos_jingle_is_playing(R96_EVENT_CREDITS) 
+    && !dynos_jingle_is_playing(R96_EVENT_TITLE_SCREEN) 
+    && !dynos_jingle_is_playing(R96_EVENT_GAME_OVER)
+    && !dynos_jingle_is_playing(R96_EVENT_PEACH_ENDING)) {
         r96_play_infinite_stairs_music();
         // Keeps event music if meant to be playing
         if (music == NO_MUSIC)
