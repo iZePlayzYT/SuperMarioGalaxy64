@@ -268,20 +268,22 @@ void r96_level_music_update() {
     const char *music = r96_get_intended_level_music();
 
     if (dynos_jingle_is_playing(R96_MENU_FILE_SELECT)){
-        r96_jingle_fade_out();
-        if (softenJingleVolume == 0.20f)
+        //r96_jingle_fade_out();
+        //if (softenJingleVolume == 0.20f)
             dynos_jingle_stop();
     }
     if (dynos_jingle_is_playing(R96_EVENT_STAR_SELECT)){
-        r96_jingle_fade_out();
-        if (softenJingleVolume == 0.20f)
+        //r96_jingle_fade_out();
+        //if (softenJingleVolume == 0.20f)
             dynos_jingle_stop();
     }
 
     if (!dynos_jingle_is_playing(R96_EVENT_CREDITS) 
     && !dynos_jingle_is_playing(R96_EVENT_TITLE_SCREEN) 
     && !dynos_jingle_is_playing(R96_EVENT_GAME_OVER)
-    && !dynos_jingle_is_playing(R96_EVENT_PEACH_ENDING)) {
+    && !dynos_jingle_is_playing(R96_EVENT_PEACH_ENDING)
+    && !dynos_jingle_is_playing(R96_EVENT_PEACH_MESSAGE)
+    && !dynos_jingle_is_playing(R96_EVENT_INTRO)) {
         r96_play_infinite_stairs_music();
         // Keeps event music if meant to be playing
         if (music == NO_MUSIC)
