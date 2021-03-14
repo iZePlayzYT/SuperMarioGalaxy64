@@ -465,7 +465,7 @@ static void DynOS_Jingle_Callback(UNUSED void *, u8 *aStream, s32 aLength) {
         return;
     }
 
-    f32 _Volume = sPlayingJingle->mVolume * (configMasterVolume / 127.f) * (configMusicVolume / 127.f) * softenJingleVolume;
+    f32 _Volume = sPlayingJingle->mVolume * (configMasterVolume / 127.f) * (configMusicVolume / 127.f);
     s32 _LenTilEnd = sPlayingJingle->mLength - sPlayingJingle->mCurrent;
     if (_LenTilEnd < aLength) {
         DynOS_Audio_Mix(aStream, sPlayingJingle->mData + sPlayingJingle->mCurrent, _LenTilEnd, _Volume, 0);

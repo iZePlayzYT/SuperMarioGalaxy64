@@ -451,6 +451,10 @@ void init_mario_after_warp(void) {
             r96_play_cap_music(R96_EVENT_CAP_WING);
         }
 
+        if (gMarioState->flags & MARIO_NORMAL_CAP) {
+            r96_stop_cap_music();
+        }
+
         if (sWarpDest.levelNum == LEVEL_CASTLE && sWarpDest.areaIdx == 1
             && (sWarpDest.nodeId == 31 || sWarpDest.nodeId == 32)
         ) {

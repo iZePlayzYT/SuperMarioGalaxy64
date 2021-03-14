@@ -181,7 +181,7 @@ void r96_cap_music_boss_fix() {
 }
 
 // Jingle Functions
-
+// Disabled the fade in for now, causing ear piercing lol
 void r96_play_menu_jingle(const char* R96_JINGLE) {
     dynos_music_stop();
     if (!dynos_jingle_is_playing(R96_JINGLE)) {
@@ -379,13 +379,17 @@ const char *r96_get_intended_level_music() {
 // Castle Courtyard
     if (gCurrLevelNum == LEVEL_CASTLE_GROUNDS) {
         if (gCurrLevelArea == AREA_CASTLE_GROUNDS)
+            if (dynos_jingle_is_playing(R96_EVENT_INTRO))
+                r96_stop_music();
             return R96_LEVEL_CASTLE_GROUNDS;
     }
 
 // Inside Castle
     if (gCurrLevelNum == LEVEL_CASTLE) {
         // Stops wing cap from playing inside the castle
-        if (dynos_music_is_playing(R96_EVENT_CAP_WING))
+        if (dynos_music_is_playing(R96_EVENT_CAP_WING) 
+        || dynos_music_is_playing(R96_LEVEL_CASTLE_GROUNDS) 
+        || dynos_music_is_playing(R96_LEVEL_CASTLE_COURTYARD))
             r96_stop_music();
         if (gCurrLevelArea == AREA_CASTLE_LOBBY)
             return R96_LEVEL_INSIDE_CASTLE_LOBBY;
@@ -495,8 +499,7 @@ const char *r96_get_intended_level_music() {
 // Wet Dry World 
     if (gCurrLevelNum == LEVEL_WDW) {
         if (gCurrLevelArea == AREA_WDW_MAIN)
-            if ((((s16) gMarioStates[0].pos[1]) > -670))
-                return R96_LEVEL_WDW_TOWN;
+                return R96_LEVEL_WDW_MAIN;
         if (gCurrLevelArea == AREA_WDW_TOWN) {
             if (dynos_music_is_playing(R96_EVENT_GOT_MILK))
                 r96_stop_music();
