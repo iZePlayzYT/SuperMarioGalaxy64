@@ -466,7 +466,7 @@ s32 act_reading_automatic_dialog(struct MarioState *m) {
             disable_time_stop();
             if (gShouldNotPlayCastleMusic) {
                 gShouldNotPlayCastleMusic = FALSE;
-                r96_play_music(R96_LEVEL_INSIDE_CASTLE);
+                r96_play_music(R96_LEVEL_INSIDE_CASTLE_LOBBY);
                 //play_cutscene_music(SEQUENCE_ARGS(0, SEQ_LEVEL_INSIDE_CASTLE));
             }
             if (m->prevAction == ACT_STAR_DANCE_WATER) {
@@ -1839,8 +1839,8 @@ static void jumbo_star_cutscene_falling(struct MarioState *m) {
 
         if (perform_air_step(m, 1) == AIR_STEP_LANDED) {
             r96_stop_music();
-            softenJingleVolume = 1.0f;
             r96_play_jingle(R96_EVENT_VICTORY);
+            softenJingleVolume = 1.0f;
             play_mario_landing_sound(m, SOUND_ACTION_TERRAIN_LANDING);
             m->actionState++;
         }

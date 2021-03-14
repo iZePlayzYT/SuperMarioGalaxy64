@@ -61,6 +61,8 @@ struct MusicData {
     f32 mVolume;
 };
 
+s32 mCurrentMultiTrack = 0;
+
 STATIC_STORAGE(Array<MusicData *>, LoadedMusics);
 #define sLoadedMusics __LoadedMusics()
 
@@ -86,6 +88,7 @@ static void DynOS_Music_Callback(UNUSED void *, u8 *aStream, s32 aLength) {
     } else {
         DynOS_Audio_Mix(aStream, sPlayingMusic->mData + sPlayingMusic->mCurrent, aLength, _Volume, 0);
         sPlayingMusic->mCurrent += aLength;
+        mCurrentMultiTrack = sPlayingMusic->mCurrent;
     }
 }
 
@@ -211,8 +214,22 @@ void DynOS_Music_Play(const String& aName) {
     SDL_PauseAudioDevice(DynOS_Music_GetDevice(), false);
 }
 
+void DynOS_Music_Multi_Play(const String& aName) {
+    s32 _MusicDataIndex = sLoadedMusics.FindIf([&aName](const MusicData *aMusicData) { return aMusicData->mName == aName; });
+    if (_MusicDataIndex == -1) {
+        return;
+    }
+
+    SDL_LockAudioDevice(DynOS_Music_GetDevice());
+    sPlayingMusic = sLoadedMusics[_MusicDataIndex];
+    sPlayingMusic->mCurrent = mCurrentMultiTrack;
+    SDL_UnlockAudioDevice(DynOS_Music_GetDevice());
+    SDL_PauseAudioDevice(DynOS_Music_GetDevice(), false);
+}
+
 void DynOS_Music_Stop() {
     SDL_LockAudioDevice(DynOS_Music_GetDevice());
+    mCurrentMultiTrack = 0;
     sPlayingMusic = NULL;
     SDL_UnlockAudioDevice(DynOS_Music_GetDevice());
     SDL_PauseAudioDevice(DynOS_Music_GetDevice(), true);
