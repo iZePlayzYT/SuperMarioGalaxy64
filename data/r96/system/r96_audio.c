@@ -147,7 +147,7 @@ void r96_stop_shell_music() {
 // Cap Functions
 
 void r96_play_cap_music(const char* R96_CAP_MUSIC) {
-    if (!Cheats.EnableCheats && !Cheats.JBC) {
+    if (!Cheats.JBC) {
         if (R96_CAP_MUSIC != NO_MUSIC) {
             dynos_music_stop();
             dynos_music_play(R96_CAP_MUSIC);
