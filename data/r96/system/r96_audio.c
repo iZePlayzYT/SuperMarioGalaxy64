@@ -1,8 +1,8 @@
 #include "data/r96/r96_c_includes.h"
 #include "data/r96/system/r96_system.h"
 
-float softenVolume = 1;
-float softenJingleVolume = 1;
+float softenVolume = 1.0f;
+float softenJingleVolume = 1.0f;
 
 u32 onShell = 0;
 
@@ -136,7 +136,6 @@ void r96_play_shell_music() {
     onShell = 1;
     dynos_music_stop();
     dynos_music_play(R96_EVENT_SHELL);
-    softenVolume = 1.0f;
 }
 
 void r96_stop_shell_music() {
@@ -148,12 +147,13 @@ void r96_stop_shell_music() {
 // Cap Functions
 
 void r96_play_cap_music(const char* R96_CAP_MUSIC) {
-    if (R96_CAP_MUSIC != NO_MUSIC) {
-        dynos_music_stop();
-        dynos_music_play(R96_CAP_MUSIC);
-        softenVolume = 1.0f;
+    if (!Cheats.EnableCheats && !Cheats.JBC) {
+        if (R96_CAP_MUSIC != NO_MUSIC) {
+            dynos_music_stop();
+            dynos_music_play(R96_CAP_MUSIC);
+        }
+        sR96CurrentCapMusic = R96_CAP_MUSIC;
     }
-    sR96CurrentCapMusic = R96_CAP_MUSIC;
 }
 
 void r96_fadeout_cap_music() {
@@ -168,7 +168,6 @@ void r96_stop_cap_music() {
     && !dynos_music_is_playing(R96_EVENT_BOSS_THEME)
     ) {
         dynos_music_stop();
-        softenVolume = 1.0f;
     }
     sR96CurrentCapMusic = NO_MUSIC;
 }
@@ -181,7 +180,7 @@ void r96_cap_music_boss_fix() {
 }
 
 // Jingle Functions
-// Disabled the fade in for now, causing ear piercing lol
+
 void r96_play_menu_jingle(const char* R96_JINGLE) {
     dynos_music_stop();
     if (!dynos_jingle_is_playing(R96_JINGLE)) {
@@ -192,8 +191,8 @@ void r96_play_menu_jingle(const char* R96_JINGLE) {
 }
 
 void r96_play_jingle(const char* R96_JINGLE) {
-    if (!dynos_jingle_is_playing(R96_JINGLE)) {
-        softenJingleVolume = 0.20f;
+    if (!dynos_jingle_is_playing(R96_JINGLE) && !dynos_jingle_is_playing(R96_EVENT_STAR_COLLECT)) {
+        softenJingleVolume = 1.0f;
         dynos_jingle_stop();
         dynos_jingle_play(R96_JINGLE);
     }
@@ -212,13 +211,20 @@ void r96_stop_jingle() {
 }
 
 void r96_jingle_fade_in() {
-    if (softenJingleVolume != 1.0f) {
-        softenJingleVolume += 0.10f;
+    if (!dynos_jingle_is_playing(R96_EVENT_PIRANHA_PLANT)) {
+        if (softenJingleVolume < 1.0f) {
+            softenJingleVolume += 0.10f;
+        }
+        if (softenJingleVolume >= 1.0f) {
+            softenJingleVolume = 1.0f;
+        }
     }
 }
+
 void r96_jingle_fade_out() {
-    if (softenJingleVolume != 0.20f) {
-        softenJingleVolume -= 0.10f;
+    softenJingleVolume -= 0.10f;
+    if (softenJingleVolume <= 0.20f) {
+        softenJingleVolume = 0.20f;
     }
 }
 
@@ -226,7 +232,6 @@ void r96_jingle_fade_out() {
 
 void r96_play_music(const char* R96_MUSIC) {
     if (!dynos_music_is_playing(R96_MUSIC)) {
-        softenVolume = 0.2f;
         dynos_music_stop();
         dynos_music_play(R96_MUSIC);
     }
@@ -246,16 +251,20 @@ void r96_music_fade_in() {
     if (softenVolume < 1.0f) {
         softenVolume += 0.10f;
     }
+    if (softenVolume >= 1.0f) {
+        softenVolume = 1.0f;
+    }
 }
 
 void r96_music_fade_out() {
-    if (softenVolume > 0.20f) {
-        softenVolume -= 0.10f;
+    softenVolume -= 0.10f;
+    if (softenVolume <= 0.20f) {
+        softenVolume = 0.20f;
     }
 }
 
 // When the fanfare is playing and the pause window opens
-void r96_music_jingle_pause() {
+void r96_lower_music() {
     if (dynos_jingle_is_playing(R96_EVENT_STAR_FANFARE))
         softenJingleVolume = 1.0f;
     else
@@ -267,14 +276,9 @@ void r96_music_jingle_pause() {
 void r96_level_music_update() {
     const char *music = r96_get_intended_level_music();
 
-    if (dynos_jingle_is_playing(R96_MENU_FILE_SELECT)){
-        //r96_jingle_fade_out();
-        //if (softenJingleVolume == 0.20f)
-            dynos_jingle_stop();
-    }
-    if (dynos_jingle_is_playing(R96_EVENT_STAR_SELECT)){
-        //r96_jingle_fade_out();
-        //if (softenJingleVolume == 0.20f)
+    if (dynos_jingle_is_playing(R96_MENU_FILE_SELECT) || dynos_jingle_is_playing(R96_EVENT_STAR_SELECT)){
+        r96_jingle_fade_out();
+        if (softenJingleVolume == 0.20f)
             dynos_jingle_stop();
     }
 
