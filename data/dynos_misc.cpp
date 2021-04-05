@@ -176,7 +176,7 @@ static const Array<Pair<const char *, void *>> sActors = {
     define_actor(bowser_key_geo),
     define_actor(bowser_key_cutscene_geo),
     define_actor(breakable_box_geo),
-    define_actor(breakable_box_small_geo),
+    define_actor(breakable_box_geo),
     define_actor(bub_geo),
     define_actor(bubba_geo),
     define_actor(bubble_geo),
