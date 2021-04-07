@@ -76,7 +76,6 @@ void render_hud_rectangle(s16 x1, s16 y1, s16 x2, s16 y2, u8 r, u8 g, u8 b) {
     gDPSetCycleType(gDisplayListHead++, G_CYC_1CYCLE);
 }
 
-#ifdef HIGHFPS
 static u32 sPowerMeterLastRenderTimestamp;
 static s16 sPowerMeterLastY;
 static Gfx *sPowerMeterDisplayListPos;
@@ -90,7 +89,6 @@ void patch_interpolated_hud(void) {
         sPowerMeterDisplayListPos = NULL;
     }
 }
-#endif
 
 /**
  * Renders a rgba16 16x16 glyph texture from a table list.
@@ -158,10 +156,7 @@ void render_power_meter_health_segment(s16 numHealthWedges) {
  */
 void render_dl_power_meter(s16 numHealthWedges) {
     Mtx *mtx;
-
-#ifdef HIGHFPS
     f32 interpolatedY;
-#endif
 
     mtx = alloc_display_list(sizeof(Mtx));
 
@@ -169,7 +164,6 @@ void render_dl_power_meter(s16 numHealthWedges) {
         return;
     }
 
-#ifdef HIGHFPS
     if (gGlobalTimer == sPowerMeterLastRenderTimestamp + 1) {
         interpolatedY = (sPowerMeterLastY + sPowerMeterHUD.y) / 2.0f;
     } else {
@@ -179,9 +173,6 @@ void render_dl_power_meter(s16 numHealthWedges) {
     sPowerMeterLastY = sPowerMeterHUD.y;
     sPowerMeterLastRenderTimestamp = gGlobalTimer;
     sPowerMeterDisplayListPos = gDisplayListHead;
-#else
-    guTranslate(mtx, (f32) sPowerMeterHUD.x, (f32) sPowerMeterHUD.y, 0);
-#endif
 
     gSPMatrix(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(mtx++),
               G_MTX_MODELVIEW | G_MTX_MUL | G_MTX_PUSH);

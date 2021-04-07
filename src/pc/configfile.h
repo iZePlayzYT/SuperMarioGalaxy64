@@ -22,6 +22,12 @@ extern unsigned int configLanguage;
 #ifdef TARGET_SWITCH
 extern bool         configSwitchHud;
 #endif
+extern bool         config60FPS;
+extern bool         configInternalResolutionBool;
+extern unsigned int configCustomInternalResolution;
+extern unsigned int configInternalResolutionWidth;
+extern unsigned int configInternalResolutionHeight;
+extern unsigned int configCustomWindowResolution;
 extern unsigned int configFiltering;
 extern unsigned int configMasterVolume;
 extern unsigned int configMusicVolume;

@@ -35,11 +35,7 @@
 #include "gfx_dxgi.h"
 
 #define FRAME_INTERVAL_US_NUMERATOR 100000
-#ifdef HIGHFPS
 #define FRAME_INTERVAL_US_DENOMINATOR 6
-#else
-#define FRAME_INTERVAL_US_DENOMINATOR 3
-#endif
 
 using namespace Microsoft::WRL; // For ComPtr
 
@@ -207,6 +203,11 @@ static void update_screen_settings(void) {
     }
 }
 
+void gfx_dxgi_update_dimensions() {
+    dxgi.current_width = configInternalResolutionWidth;
+    dxgi.current_height = configInternalResolutionHeight;
+}
+
 static void gfx_dxgi_on_resize(void) {
     if (dxgi.swap_chain.Get() != nullptr) {
         gfx_get_current_rendering_api()->on_resize();
@@ -219,6 +220,8 @@ static void gfx_dxgi_on_resize(void) {
             configWindow.w = dxgi.current_width;
             configWindow.h = dxgi.current_height;
         }
+    dxgi.current_width = configInternalResolutionWidth;
+    dxgi.current_height = configInternalResolutionHeight;
     }
 }
 
@@ -560,13 +563,19 @@ void gfx_dxgi_create_factory_and_device(bool debug, int d3d_version, bool (*crea
 }
 
 ComPtr<IDXGISwapChain1> gfx_dxgi_create_swap_chain(IUnknown *device) {
-    bool win8 = IsWindows8OrGreater(); // DXGI_SCALING_NONE is only supported on Win8 and beyond
+    bool win8 = IsWindows8OrGreater() && !configInternalResolutionBool; // DXGI_SCALING_NONE is only supported on Win8 and beyond
     bool dxgi_13 = dxgi.CreateDXGIFactory2 != nullptr; // DXGI 1.3 introduced waitable object
 
     DXGI_SWAP_CHAIN_DESC1 swap_chain_desc = {};
     swap_chain_desc.BufferCount = 2;
-    swap_chain_desc.Width = 0;
-    swap_chain_desc.Height = 0;
+    if (configInternalResolutionBool) {
+        swap_chain_desc.Width = configInternalResolutionWidth;
+        swap_chain_desc.Height = configInternalResolutionHeight;
+    }
+    else {
+        swap_chain_desc.Width = 0;
+        swap_chain_desc.Height = 0;
+    }
     swap_chain_desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     swap_chain_desc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
     swap_chain_desc.Scaling = win8 ? DXGI_SCALING_NONE : DXGI_SCALING_STRETCH;

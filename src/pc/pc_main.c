@@ -89,7 +89,6 @@ void send_display_list(struct SPTask *spTask) {
 #define SAMPLES_LOW 528
 #endif
 
-#ifdef HIGHFPS
 static inline void patch_interpolations(void) {
     extern void mtx_patch_interpolated(void);
     extern void patch_screen_transition_interpolated(void);
@@ -108,8 +107,6 @@ static inline void patch_interpolations(void) {
     patch_interpolated_bubble_particles();
     patch_interpolated_snow_particles();
 }
-
-#endif
 
 void produce_one_frame(void) {
     gfx_start_frame();
@@ -142,12 +139,12 @@ void produce_one_frame(void) {
     audio_api->play((u8 *)audio_buffer, 2 * num_audio_samples * 4);
 
     gfx_end_frame();
-#ifdef HIGHFPS
     gfx_start_frame();
-    patch_interpolations();
+    if (config60FPS) {
+        patch_interpolations();
+    }
     send_display_list(gGfxSPTask);
     gfx_end_frame();
-#endif
 }
 
 void audio_shutdown(void) {

@@ -189,8 +189,6 @@ struct Painting **sPaintingGroups[] = {
 s16 gPaintingUpdateCounter = 1;
 s16 gLastPaintingUpdateCounter = 0;
 
-
-#ifdef HIGHFPS
 static Vtx sLastVertices[2 * 264 * 3];
 static u32 sLastVerticesTimestamp;
 static Vtx *sVerticesPtr[2];
@@ -216,8 +214,6 @@ void patch_interpolated_paintings(void) {
         sVerticesCount = 0;
     }
 }
-
-#endif
 
 /**
  * Stop paintings in paintingGroup from rippling if their id is different from *idptr.
@@ -920,7 +916,6 @@ Gfx *render_painting(u8 *img, s16 tWidth, s16 tHeight, s16 *textureMap, s16 mapV
         gSP1Triangle(gfx++, group * 3, group * 3 + 1, group * 3 + 2, 0);
     }
 
-#ifdef HIGHFPS
     if (sVerticesCount >= numVtx * 2) {
         sVerticesCount = 0;
     }
@@ -937,8 +932,6 @@ Gfx *render_painting(u8 *img, s16 tWidth, s16 tHeight, s16 *textureMap, s16 mapV
     }
     sVerticesPtr[sVerticesCount / numVtx] = verts;
     sVerticesCount += numVtx;
-
-#endif
 
     gSPEndDisplayList(gfx);
     return dlist;
@@ -1004,9 +997,7 @@ Gfx *painting_ripple_image(struct Painting *painting) {
         meshTris = textureMap[meshVerts * 3 + 1];
         gSPDisplayList(gfx++, render_painting(textures[i], tWidth, tHeight, textureMap, meshVerts, meshTris, painting->alpha));
     }
-#ifdef HIGHFPS
     sLastVerticesTimestamp = gGlobalTimer;
-#endif
 
     // Update the ripple, may automatically reset the painting's state.
     painting_update_ripple_state(painting);
@@ -1044,9 +1035,7 @@ Gfx *painting_ripple_env_mapped(struct Painting *painting) {
     meshVerts = textureMap[0];
     meshTris = textureMap[meshVerts * 3 + 1];
     gSPDisplayList(gfx++, render_painting(tArray[0], tWidth, tHeight, textureMap, meshVerts, meshTris, painting->alpha));
-#ifdef HIGHFPS
     sLastVerticesTimestamp = gGlobalTimer;
-#endif
 
     // Update the ripple, may automatically reset the painting's state.
     painting_update_ripple_state(painting);

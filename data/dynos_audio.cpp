@@ -80,7 +80,7 @@ static void DynOS_Music_Callback(UNUSED void *, u8 *aStream, s32 aLength) {
         return;
     }
 
-    f32 _Volume = sPlayingMusic->mVolume * (configMasterVolume / 127.f) * (configMusicVolume / 127.f) * softenVolume * sPlayingMusic->mVolMulti;
+    f32 _Volume = sPlayingMusic->mVolume * (configMasterVolume / 127.f) * (configMusicVolume / 127.f) * softenVolume; //* sPlayingMusic->mVolMulti;
     s32 _LenTilEnd = sPlayingMusic->mLength - sPlayingMusic->mCurrent;
     if (_LenTilEnd < aLength) {
         DynOS_Audio_Mix(aStream, sPlayingMusic->mData + sPlayingMusic->mCurrent, _LenTilEnd, _Volume, 0);
@@ -94,11 +94,11 @@ static void DynOS_Music_Callback(UNUSED void *, u8 *aStream, s32 aLength) {
         DynOS_Audio_Mix(aStream, sPlayingMusic->mData + sPlayingMusic->mCurrent, aLength, _Volume, 0);
         sPlayingMusic->mCurrent += aLength;
         mCurrentMultiTrack = sPlayingMusic->mCurrent;
-        if (sPlayingMusic->mFadeIn == 1) {
-            if (sPlayingMusic->mFadeTime != 0) {
-                DynOS_Music_FadeIn();
-            }
-        }
+        //if (sPlayingMusic->mFadeIn == 1) {
+        //    if (sPlayingMusic->mFadeTime != 0) {
+        //        DynOS_Music_FadeIn();
+        //    }
+        //}
         
     }
 }
@@ -228,9 +228,9 @@ void DynOS_Music_Play(const String& aName) {
     sPlayingMusic->mCurrent = 0;
     SDL_UnlockAudioDevice(DynOS_Music_GetDevice());
     SDL_PauseAudioDevice(DynOS_Music_GetDevice(), false);
-    sPlayingMusic->mFadeIn = 1;
-    sPlayingMusic->mVolMulti = 0.0f;
-    DynOS_Music_FadeIn();
+    //sPlayingMusic->mFadeIn = 1;
+    //sPlayingMusic->mVolMulti = 0.0f;
+    //DynOS_Music_FadeIn();
 }
 
 void DynOS_Music_Multi_Play(const String& aName) {
@@ -244,9 +244,9 @@ void DynOS_Music_Multi_Play(const String& aName) {
     sPlayingMusic->mCurrent = mCurrentMultiTrack;
     SDL_UnlockAudioDevice(DynOS_Music_GetDevice());
     SDL_PauseAudioDevice(DynOS_Music_GetDevice(), false);
-    sPlayingMusic->mFadeIn = 1;
-    sPlayingMusic->mVolMulti = 0.0f;
-    DynOS_Music_FadeIn();
+    //sPlayingMusic->mFadeIn = 1;
+    //sPlayingMusic->mVolMulti = 0.0f;
+    //DynOS_Music_FadeIn();
 }
 
 void DynOS_Music_Stop() {
@@ -504,7 +504,7 @@ static void DynOS_Jingle_Callback(UNUSED void *, u8 *aStream, s32 aLength) {
         return;
     }
 
-    f32 _Volume = sPlayingJingle->mVolume * (configMasterVolume / 127.f) * (configMusicVolume / 127.f) * softenJingleVolume * sPlayingJingle->mVolMulti;
+    f32 _Volume = sPlayingJingle->mVolume * (configMasterVolume / 127.f) * (configMusicVolume / 127.f) * softenJingleVolume; //* sPlayingJingle->mVolMulti;
     s32 _LenTilEnd = sPlayingJingle->mLength - sPlayingJingle->mCurrent;
     if (_LenTilEnd < aLength) {
         DynOS_Audio_Mix(aStream, sPlayingJingle->mData + sPlayingJingle->mCurrent, _LenTilEnd, _Volume, 0);
@@ -517,11 +517,11 @@ static void DynOS_Jingle_Callback(UNUSED void *, u8 *aStream, s32 aLength) {
     } else {
         DynOS_Audio_Mix(aStream, sPlayingJingle->mData + sPlayingJingle->mCurrent, aLength, _Volume, 0);
         sPlayingJingle->mCurrent += aLength;
-        if (sPlayingJingle->mFadeIn == 1) {
-            if (sPlayingJingle->mFadeTime != 0) {
-                DynOS_Jingle_FadeIn();
-            }
-        }
+        //if (sPlayingJingle->mFadeIn == 1) {
+        //    if (sPlayingJingle->mFadeTime != 0) {
+        //        DynOS_Jingle_FadeIn();
+        //    }
+        //}
     }
 }
 
@@ -651,9 +651,9 @@ void DynOS_Jingle_Play(const String& aName) {
     sPlayingJingle->mCurrent = 0;
     SDL_UnlockAudioDevice(DynOS_Jingle_GetDevice());
     SDL_PauseAudioDevice(DynOS_Jingle_GetDevice(), false);
-    sPlayingJingle->mFadeIn = 1;
-    sPlayingJingle->mVolMulti = 0.0f;
-    DynOS_Jingle_FadeIn();
+    //sPlayingJingle->mFadeIn = 1;
+    //sPlayingJingle->mVolMulti = 0.0f;
+    //DynOS_Jingle_FadeIn();
 }
 
 void DynOS_Jingle_Stop() {

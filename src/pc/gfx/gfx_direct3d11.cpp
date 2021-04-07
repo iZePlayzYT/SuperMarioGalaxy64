@@ -27,6 +27,8 @@
 
 #include "gfx_screen_config.h"
 
+#include "../configfile.h"
+
 #define THREE_POINT_FILTERING 0
 #define DEBUG_D3D 0
 
@@ -143,8 +145,14 @@ static void create_render_target_views(bool is_resize) {
         // Resize swap chain buffers
 
         ThrowIfFailed(d3d.swap_chain->GetDesc1(&desc1));
-        ThrowIfFailed(d3d.swap_chain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, desc1.Flags),
-                      gfx_dxgi_get_h_wnd(), "Failed to resize IDXGISwapChain buffers.");
+        if (configInternalResolutionBool) {
+            ThrowIfFailed(d3d.swap_chain->ResizeBuffers(0, configInternalResolutionWidth, configInternalResolutionHeight, DXGI_FORMAT_UNKNOWN, desc1.Flags),
+                    gfx_dxgi_get_h_wnd(), "Failed to resize IDXGISwapChain buffers.");
+        }
+        else {
+            ThrowIfFailed(d3d.swap_chain->ResizeBuffers(0, 0, 0, DXGI_FORMAT_UNKNOWN, desc1.Flags),
+                    gfx_dxgi_get_h_wnd(), "Failed to resize IDXGISwapChain buffers.");
+        }
     }
 
     // Get new size

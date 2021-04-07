@@ -73,4 +73,6 @@ void r96_lower_music();
 const char *r96_get_intended_level_music();
 void r96_level_music_update();
 
+extern void internal_resolution();
+
 #endif // R96_SYSTEM_H

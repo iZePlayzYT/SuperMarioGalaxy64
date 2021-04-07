@@ -6,6 +6,7 @@ extern "C" {
 #include "pc/controller/controller_keyboard.h"
 #include "game/bettercamera.h"
 #ifdef RENDER_96_ALPHA
+#include "r96/system/r96_system.h"
 #include "text/text-loader.h"
 #endif
 }
@@ -572,6 +573,7 @@ static void DynOS_Opt_Close(bool aPlaySavedSfx) {
         }
         newcam_init_settings();
         controller_reconfigure();
+        internal_resolution();
         configfile_save(configfile_name());
         DynOS_Opt_SaveConfig(sDynosMenu);
         sCurrentMenu = NULL;

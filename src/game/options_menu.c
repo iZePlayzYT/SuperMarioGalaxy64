@@ -94,7 +94,11 @@ static const u8 optsVideoStr[][32] = {
     "TEXT_OPT_HUD",
     "TEXT_OPT_THREEPT",
     "TEXT_OPT_DRAWDIST",
-    "TEXT_OPT_APPLY"
+    "TEXT_OPT_APPLY",
+    "TEXT_OPT_60FPS",
+    "TEXT_OPT_INTERNAL_BOOL",
+    "TEXT_OPT_INTERNAL",
+    "TEXT_OPT_WINDOW"
 };
 
 static const u8 optsAudioStr[][32] = {
@@ -147,6 +151,66 @@ static const u8 *vsyncChoices[] = {
     toggleStr[0],
     toggleStr[1],
     optsVideoStr[6],
+};
+
+static const u8 optsInternalRes[][32] = {
+    "TEXT_OPT_RES1", //320x240
+    "TEXT_OPT_RES2", //640x480
+    "TEXT_OPT_RES3", //960x720
+    "TEXT_OPT_RES4", //1440x1080
+    "TEXT_OPT_RES5", //1920x1440
+    "TEXT_OPT_RES6", //640x360
+    "TEXT_OPT_RES7", //848x480
+    "TEXT_OPT_RES8", //1280x720
+    "TEXT_OPT_RES9", //1600x900
+    "TEXT_OPT_RES10", //1920x1080
+    "TEXT_OPT_RES11", //2560x1440
+    "TEXT_OPT_RES12" //3840x2160
+};
+
+static const u8 *internalChoices[] = {
+    optsInternalRes[0],
+    optsInternalRes[1],
+    optsInternalRes[2],
+    optsInternalRes[3],
+    optsInternalRes[4],
+    optsInternalRes[5],
+    optsInternalRes[6],
+    optsInternalRes[7],
+    optsInternalRes[8],
+    optsInternalRes[9],
+    optsInternalRes[10],
+    optsInternalRes[11]
+};
+
+static const u8 optsWindowRes[][32] = {
+    "TEXT_OPT_WINDOW_RES1", //320x240
+    "TEXT_OPT_WINDOW_RES2", //640x480
+    "TEXT_OPT_WINDOW_RES3", //960x720
+    "TEXT_OPT_WINDOW_RES4", //1440x1080
+    "TEXT_OPT_WINDOW_RES5", //1920x1440
+    "TEXT_OPT_WINDOW_RES6", //640x360
+    "TEXT_OPT_WINDOW_RES7", //848x480
+    "TEXT_OPT_WINDOW_RES8", //1280x720
+    "TEXT_OPT_WINDOW_RES9", //1600x900
+    "TEXT_OPT_WINDOW_RES10", //1920x1080
+    "TEXT_OPT_WINDOW_RES11", //2560x1440
+    "TEXT_OPT_WINDOW_RES12" //3840x2160
+};
+
+static const u8 *windowChoices[] = {
+    optsInternalRes[0],
+    optsInternalRes[1],
+    optsInternalRes[2],
+    optsInternalRes[3],
+    optsInternalRes[4],
+    optsInternalRes[5],
+    optsInternalRes[6],
+    optsInternalRes[7],
+    optsInternalRes[8],
+    optsInternalRes[9],
+    optsInternalRes[10],
+    optsInternalRes[11]
 };
 
 enum OptType {
@@ -290,7 +354,11 @@ static struct Option optsVideo[] = {
     #ifndef TARGET_SWITCH
     DEF_OPT_TOGGLE( optsVideoStr[0], &configWindow.fullscreen ),
     DEF_OPT_TOGGLE( optsVideoStr[5], &configWindow.vsync ),
+    DEF_OPT_CHOICE( optsVideoStr[14], &configCustomWindowResolution, windowChoices ),
     #endif
+    DEF_OPT_TOGGLE( optsVideoStr[11], &config60FPS ),
+    DEF_OPT_TOGGLE( optsVideoStr[12], &configInternalResolutionBool ),
+    DEF_OPT_CHOICE( optsVideoStr[13], &configCustomInternalResolution, internalChoices ),
     DEF_OPT_CHOICE( optsVideoStr[1], &configFiltering, filterChoices ),
     DEF_OPT_SCROLL( optsVideoStr[9], &configDrawDistance, 50, 509, 10 ),
     DEF_OPT_TOGGLE( optsVideoStr[7], &configHUD ),
