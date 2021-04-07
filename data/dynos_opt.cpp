@@ -4,7 +4,6 @@ extern "C" {
 #include "game/area.h"
 #include "game/game_init.h"
 #include "pc/controller/controller_keyboard.h"
-#include "game/bettercamera.h"
 #ifdef RENDER_96_ALPHA
 #include "text/text-loader.h"
 #endif
@@ -570,7 +569,6 @@ static void DynOS_Opt_Close(bool aPlaySavedSfx) {
         if (aPlaySavedSfx) {
             play_sound(SOUND_DYNOS_SAVED, gGlobalSoundArgs);
         }
-        newcam_init_settings();
         controller_reconfigure();
         configfile_save(configfile_name());
         DynOS_Opt_SaveConfig(sDynosMenu);
