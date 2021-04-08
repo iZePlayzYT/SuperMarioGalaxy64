@@ -35,13 +35,14 @@ int internalWidth[] = {
 
 void internal_resolution() {
 
+    //Windowed
+    //configWindow.w = internalWidth[configCustomWindowResolution];
+    //configWindow.h = internalHeight[configCustomWindowResolution];
+
     //Internal
     configInternalResolutionWidth = internalWidth[configCustomInternalResolution];
     configInternalResolutionHeight = internalHeight[configCustomInternalResolution];
 
-    //Windowed
-    configWindow.w = internalWidth[configCustomWindowResolution];
-    configWindow.h = internalHeight[configCustomWindowResolution];
     gfx_get_current_rendering_api()->on_resize();
 #ifdef WAPI_DXGI
     gfx_dxgi_update_dimensions();

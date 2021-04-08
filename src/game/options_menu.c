@@ -98,7 +98,8 @@ static const u8 optsVideoStr[][32] = {
     "TEXT_OPT_60FPS",
     "TEXT_OPT_INTERNAL_BOOL",
     "TEXT_OPT_INTERNAL",
-    "TEXT_OPT_WINDOW"
+    "TEXT_OPT_WINDOW",
+    "TEXT_OPT_FORCE4BY3"
 };
 
 static const u8 optsAudioStr[][32] = {
@@ -183,35 +184,35 @@ static const u8 *internalChoices[] = {
     optsInternalRes[11]
 };
 
-static const u8 optsWindowRes[][32] = {
-    "TEXT_OPT_WINDOW_RES1", //320x240
-    "TEXT_OPT_WINDOW_RES2", //640x480
-    "TEXT_OPT_WINDOW_RES3", //960x720
-    "TEXT_OPT_WINDOW_RES4", //1440x1080
-    "TEXT_OPT_WINDOW_RES5", //1920x1440
-    "TEXT_OPT_WINDOW_RES6", //640x360
-    "TEXT_OPT_WINDOW_RES7", //848x480
-    "TEXT_OPT_WINDOW_RES8", //1280x720
-    "TEXT_OPT_WINDOW_RES9", //1600x900
-    "TEXT_OPT_WINDOW_RES10", //1920x1080
-    "TEXT_OPT_WINDOW_RES11", //2560x1440
-    "TEXT_OPT_WINDOW_RES12" //3840x2160
-};
-
-static const u8 *windowChoices[] = {
-    optsInternalRes[0],
-    optsInternalRes[1],
-    optsInternalRes[2],
-    optsInternalRes[3],
-    optsInternalRes[4],
-    optsInternalRes[5],
-    optsInternalRes[6],
-    optsInternalRes[7],
-    optsInternalRes[8],
-    optsInternalRes[9],
-    optsInternalRes[10],
-    optsInternalRes[11]
-};
+//static const u8 optsWindowRes[][32] = {
+//    "TEXT_OPT_WINDOW_RES1", //320x240
+//    "TEXT_OPT_WINDOW_RES2", //640x480
+//    "TEXT_OPT_WINDOW_RES3", //960x720
+//    "TEXT_OPT_WINDOW_RES4", //1440x1080
+//    "TEXT_OPT_WINDOW_RES5", //1920x1440
+//    "TEXT_OPT_WINDOW_RES6", //640x360
+//    "TEXT_OPT_WINDOW_RES7", //848x480
+//    "TEXT_OPT_WINDOW_RES8", //1280x720
+//    "TEXT_OPT_WINDOW_RES9", //1600x900
+//    "TEXT_OPT_WINDOW_RES10", //1920x1080
+//    "TEXT_OPT_WINDOW_RES11", //2560x1440
+//    "TEXT_OPT_WINDOW_RES12" //3840x2160
+//};
+//
+//static const u8 *windowChoices[] = {
+//    optsWindowRes[0],
+//    optsWindowRes[1],
+//    optsWindowRes[2],
+//    optsWindowRes[3],
+//    optsWindowRes[4],
+//    optsWindowRes[5],
+//    optsWindowRes[6],
+//    optsWindowRes[7],
+//    optsWindowRes[8],
+//    optsWindowRes[9],
+//    optsWindowRes[10],
+//    optsWindowRes[11]
+//};
 
 enum OptType {
     OPT_INVALID = 0,
@@ -279,19 +280,6 @@ static void optmenu_act_exit(UNUSED struct Option *self, s32 arg) {
     if (!arg) game_exit(); // only exit on A press and not directions
 }
 
-static void optvideo_reset_window(UNUSED struct Option *self, s32 arg) {
-    if (!arg) {
-        // Restrict reset to A press and not directions
-        configWindow.reset = true;
-        configWindow.settings_changed = true;
-    }
-}
-
-static void optvideo_apply(UNUSED struct Option *self, s32 arg) {
-    if (!arg) configWindow.settings_changed = true;
-}
-
-
 static void setCap_Wing(UNUSED struct Option *self, s32 arg) {
     if (!arg) Cheats.WingCap = true;
 }
@@ -354,18 +342,17 @@ static struct Option optsVideo[] = {
     #ifndef TARGET_SWITCH
     DEF_OPT_TOGGLE( optsVideoStr[0], &configWindow.fullscreen ),
     DEF_OPT_TOGGLE( optsVideoStr[5], &configWindow.vsync ),
-    DEF_OPT_CHOICE( optsVideoStr[14], &configCustomWindowResolution, windowChoices ),
+    //DEF_OPT_CHOICE( optsVideoStr[14], &configCustomWindowResolution, windowChoices ),
     #endif
+    //DEF_OPT_TOGGLE( optsVideoStr[15], &configForce4by3 ),
     DEF_OPT_TOGGLE( optsVideoStr[11], &config60FPS ),
+    #ifndef defined(WAPI_SDL1) || defined(WAPI_SDL2) 
     DEF_OPT_TOGGLE( optsVideoStr[12], &configInternalResolutionBool ),
     DEF_OPT_CHOICE( optsVideoStr[13], &configCustomInternalResolution, internalChoices ),
+    #endif
     DEF_OPT_CHOICE( optsVideoStr[1], &configFiltering, filterChoices ),
     DEF_OPT_SCROLL( optsVideoStr[9], &configDrawDistance, 50, 509, 10 ),
     DEF_OPT_TOGGLE( optsVideoStr[7], &configHUD ),
-    #ifndef TARGET_SWITCH
-    DEF_OPT_BUTTON( optsVideoStr[4], optvideo_reset_window ),
-    DEF_OPT_BUTTON( optsVideoStr[10], optvideo_apply ),
-    #endif
 };
 
 static struct Option optsGame[] = {

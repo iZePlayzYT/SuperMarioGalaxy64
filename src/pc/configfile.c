@@ -102,14 +102,16 @@ bool         configDiscordRPC    = true;
 #endif
 
 // 60fps init
-bool         config60FPS = false; 
+bool         config60FPS         = true; 
 
 // Resolution settings, thanks to Mors!
-bool         configInternalResolutionBool;
-unsigned int configCustomInternalResolution;
+bool         configInternalResolutionBool       = true;
+unsigned int configCustomInternalResolution     = 1;
 unsigned int configInternalResolutionWidth;
 unsigned int configInternalResolutionHeight;
-unsigned int configCustomWindowResolution;
+//unsigned int configCustomWindowResolution       = 2;
+bool         configForce4by3                    = false;
+
 
 static const struct ConfigOption options[] = {
     {.name = "fullscreen",           .type = CONFIG_TYPE_BOOL, .boolValue = &configWindow.fullscreen},
@@ -123,7 +125,8 @@ static const struct ConfigOption options[] = {
     {.name = "internal_swap",        .type = CONFIG_TYPE_UINT, .uintValue = &configCustomInternalResolution},
     {.name = "internal_w",           .type = CONFIG_TYPE_UINT, .uintValue = &configInternalResolutionWidth},
     {.name = "internal_h",           .type = CONFIG_TYPE_UINT, .uintValue = &configInternalResolutionHeight},
-    {.name = "window_swap",          .type = CONFIG_TYPE_UINT, .uintValue = &configCustomWindowResolution},
+//    {.name = "window_swap",          .type = CONFIG_TYPE_UINT, .uintValue = &configCustomWindowResolution},
+    {.name = "force4by3",            .type = CONFIG_TYPE_BOOL, .boolValue = &configForce4by3},
     {.name = "texture_filtering",    .type = CONFIG_TYPE_UINT, .uintValue = &configFiltering},
     {.name = "drawing_distance",     .type = CONFIG_TYPE_UINT, .uintValue = &configDrawDistance},
     {.name = "master_volume",        .type = CONFIG_TYPE_UINT, .uintValue = &configMasterVolume},

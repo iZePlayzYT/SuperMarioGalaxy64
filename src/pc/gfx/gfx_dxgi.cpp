@@ -206,6 +206,10 @@ static void update_screen_settings(void) {
 void gfx_dxgi_update_dimensions() {
     dxgi.current_width = configInternalResolutionWidth;
     dxgi.current_height = configInternalResolutionHeight;
+    DXGI_SWAP_CHAIN_DESC1 desc1;
+    ThrowIfFailed(dxgi.swap_chain->GetDesc1(&desc1));
+    dxgi.current_width = desc1.Width;
+    dxgi.current_height = desc1.Height;
 }
 
 static void gfx_dxgi_on_resize(void) {
@@ -216,12 +220,10 @@ static void gfx_dxgi_on_resize(void) {
         ThrowIfFailed(dxgi.swap_chain->GetDesc1(&desc1));
         dxgi.current_width = desc1.Width;
         dxgi.current_height = desc1.Height;
-        if (!dxgi.is_full_screen) {
-            configWindow.w = dxgi.current_width;
-            configWindow.h = dxgi.current_height;
-        }
-    dxgi.current_width = configInternalResolutionWidth;
-    dxgi.current_height = configInternalResolutionHeight;
+        //if (!dxgi.is_full_screen) {
+        //    configWindow.w = dxgi.current_width;
+        //    configWindow.h = dxgi.current_height;
+        //}
     }
 }
 
