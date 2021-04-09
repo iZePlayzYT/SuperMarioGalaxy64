@@ -299,11 +299,6 @@ Gfx *render_cannon_circle_base(void) {
         gSPDisplayList(g++, dl_draw_quad_verts_0123);
         gSPTexture(g++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF);
 
-        gDPSetCombineMode(g++, G_CC_SHADE, G_CC_SHADE);
-        gSPVertex(g++, VIRTUAL_TO_PHYSICAL(verts + 4), 4, 4);
-        gSP2Triangles(g++, 4, 0, 3, 0, 4, 3, 7, 0);
-        gSP2Triangles(g++, 1, 5, 6, 0, 1, 6, 2, 0);
-
         if (!configForce4by3) {
             gDPSetCombineMode(g++, G_CC_SHADE, G_CC_SHADE);
             gSPVertex(g++, VIRTUAL_TO_PHYSICAL(verts + 4), 4, 4);
