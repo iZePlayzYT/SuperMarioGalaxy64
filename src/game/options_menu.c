@@ -346,7 +346,7 @@ static struct Option optsVideo[] = {
     #endif
     //DEF_OPT_TOGGLE( optsVideoStr[15], &configForce4by3 ),
     DEF_OPT_TOGGLE( optsVideoStr[11], &config60FPS ),
-    #ifndef defined(WAPI_SDL1) || defined(WAPI_SDL2) 
+    #ifndef RAPI_GL
     DEF_OPT_TOGGLE( optsVideoStr[12], &configInternalResolutionBool ),
     DEF_OPT_CHOICE( optsVideoStr[13], &configCustomInternalResolution, internalChoices ),
     #endif

@@ -627,7 +627,7 @@ void render_hud_camera_status(void) {
             if(isWario()){
                 render_hud_tex_lut(get_right(HUD_LAKITU_X) + 16, HUD_LAKITU_Y, "textures/segment2/wario_normal.rgba32");
             }
-            else{
+            else if (!isLuigi() && !isWario()){
                 render_hud_tex_lut(get_right(HUD_LAKITU_X) + 16, HUD_LAKITU_Y, "textures/segment2/mario_normal.rgba32");
             }
             break;
