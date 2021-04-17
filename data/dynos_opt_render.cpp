@@ -6,15 +6,12 @@ extern "C" {
 #include "game/segment2.h"
 #include "pc/controller/controller_api.h"
 #include "gfx_dimensions.h"
-#ifdef RENDER_96_ALPHA
 #include "text/text-loader.h"
 #include "text/txtconv.h"
-#endif
 }
 
 extern s32 sBindingState;
 
-#ifdef RENDER_96_ALPHA
 #define DYNOS_TEXT_DYNOS_MENU   { "DYNOS_TEXT_DYNOS_MENU",   NULL }
 #define DYNOS_TEXT_A            { "DYNOS_TEXT_A",            NULL }
 #define DYNOS_TEXT_OPEN_LEFT    { "DYNOS_TEXT_OPEN_LEFT",    NULL }
@@ -26,19 +23,6 @@ extern s32 sBindingState;
 #define DYNOS_TEXT_DOT_DOT_DOT  { "DYNOS_TEXT_DOT_DOT_DOT",  NULL }
 #define DYNOS_TEXT_OPEN_RIGHT   { "DYNOS_TEXT_OPEN_RIGHT",   NULL }
 #define DYNOS_TEXT_CLOSE_RIGHT  { "DYNOS_TEXT_CLOSE_RIGHT",  NULL }
-#else
-#define DYNOS_TEXT_DYNOS_MENU   { "DYNOS MENU",  NULL }
-#define DYNOS_TEXT_A            { "([A]) >",     NULL }
-#define DYNOS_TEXT_OPEN_LEFT    { "[Z] DynOS",   NULL }
-#define DYNOS_TEXT_CLOSE_LEFT   { "[Z] Return",  NULL }
-#define DYNOS_TEXT_OPTIONS_MENU { "OPTIONS",     NULL }
-#define DYNOS_TEXT_DISABLED     { "Disabled",    NULL }
-#define DYNOS_TEXT_ENABLED      { "Enabled",     NULL }
-#define DYNOS_TEXT_NONE         { "NONE",        NULL }
-#define DYNOS_TEXT_DOT_DOT_DOT  { "...",         NULL }
-#define DYNOS_TEXT_OPEN_RIGHT   { "[R] Options", NULL }
-#define DYNOS_TEXT_CLOSE_RIGHT  { "[R] Return",  NULL }
-#endif
 
 static void RenderString(const u8 *aStr64, s32 aX, s32 aY) {
     create_dl_translation_matrix(MENU_MTX_PUSH, aX, aY, 0);
@@ -56,11 +40,7 @@ static void RenderString(const u8 *aStr64, s32 aX, s32 aY) {
 }
 
 static void PrintString(const Label& aLabel, s32 aX, s32 aY, u32 aFrontColorRGBA, u32 aBackColorRGBA, bool aAlignLeft) {
-#ifdef RENDER_96_ALPHA
     const u8 *_Str64 = (aLabel.second ? aLabel.second : get_key_string(aLabel.first.begin()));
-#else
-    const u8 *_Str64 = (aLabel.second ? aLabel.second : DynOS_String_Convert(aLabel.first.begin(), false));
-#endif
 
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
     if ((aBackColorRGBA & 0xFF) != 0) {
@@ -101,17 +81,21 @@ static void PrintBox(s32 aX, s32 aY, s32 aWidth, s32 aHeight, u32 aColorRGBA, bo
     }
 }
 
-static const char *IntToString(const char *fmt, s32 x) {
+static const u8 *IntToString64(const char *fmt, s32 x) {
+    static u8 sBuffer64[16];
     static char sBuffer[16];
     snprintf(sBuffer, 16, fmt, x);
-    return sBuffer;
+    u8 *temp = getTranslatedText(sBuffer);
+    memcpy(sBuffer64, temp, DynOS_String_Length(temp) + 1);
+    free(temp);
+    return sBuffer64;
 }
 
 #define get_label(opt)      (opt->mLabel)
 #define get_title(opt)      (opt->mTitle)
 #define get_choice(opt)     (opt->mChoice.mChoices[*opt->mChoice.mIndex])
-#define get_dec_number(n)   { "", DynOS_String_Convert(IntToString("%d", n), false) }
-#define get_hex_number(n)   { "", DynOS_String_Convert(IntToString("%04X", n), false) }
+#define get_dec_number(n)   { "", IntToString64("%d", n) }
+#define get_hex_number(n)   { "", IntToString64("%04X", n) }
 #define get_level(opt)      { "", DynOS_Level_GetName(DynOS_Level_GetList()[*opt->mChoice.mIndex], true, true) }
 #define get_star(opt)       { "", DynOS_Level_GetActName(DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_level")], *opt->mChoice.mIndex + 1, true, true) }
 #define get_param(opt)      { DynOS_Warp_GetParamName(DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_level")], *opt->mChoice.mIndex), NULL }
@@ -218,6 +202,17 @@ static void DynOS_Opt_DrawOption(DynosOption *aOpt, DynosOption *aCurrentOpt, s3
             PrintString(get_level(aOpt), OFFSET_FROM_RIGHT_EDGE, aY, aOpt == aCurrentOpt ? COLOR_SELECT : COLOR_WHITE, COLOR_BLACK, 0);
         } break;
 
+        case DOPT_CHOICEAREA: {
+            s32 _Level = DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_level")];
+            s32 _Area = *aOpt->mChoice.mIndex + 1;
+            const u8 *_Name = DynOS_Level_GetAreaName(_Level, _Area, true);
+            if (DynOS_Level_GetWarpEntry(_Level, _Area)) {
+                PrintString({ "", _Name }, OFFSET_FROM_RIGHT_EDGE, aY, aOpt == aCurrentOpt ? COLOR_SELECT : COLOR_WHITE, COLOR_BLACK, 0);
+            } else {
+                PrintString({ "", _Name }, OFFSET_FROM_RIGHT_EDGE, aY, COLOR_GRAY, COLOR_BLACK, 0);
+            }
+        } break;
+
         case DOPT_CHOICESTAR: {
             s32 _Course = DynOS_Level_GetCourse(DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_level")]);
             if (_Course >= COURSE_MIN && _Course <= COURSE_STAGES_MAX) {
@@ -266,12 +261,11 @@ static void DynOS_Opt_DrawOption(DynosOption *aOpt, DynosOption *aCurrentOpt, s3
             }
         } break;
 
-#ifdef RENDER_96_ALPHA
         case DOPT_LANGUAGE: {
             u8 *_Lang = getTranslatedText(languages[*aOpt->mChoice.mIndex]->name);
             PrintString({ "", _Lang }, OFFSET_FROM_RIGHT_EDGE, aY, aOpt == aCurrentOpt ? COLOR_SELECT : COLOR_WHITE, COLOR_BLACK, 0);
+            free(_Lang);
         } break;
-#endif
     }
 }
 
@@ -291,12 +285,8 @@ void DynOS_Opt_DrawMenu(DynosOption *aCurrentOption, DynosOption *aCurrentMenu, 
     }
     gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
-#ifdef RENDER_96_ALPHA
     if (!_Title.second) _Title.second = get_key_string(_Title.first.begin());
-#else
-    if (!_Title.second) _Title.second = DynOS_String_Convert(_Title.first.begin(), false);
-#endif
-    print_hud_lut_string(HUD_LUT_GLOBAL, (SCREEN_WIDTH / 2 - DynOS_String_Length(_Title.second) * 6), 40, _Title.second);
+print_hud_lut_string(HUD_LUT_GLOBAL, (SCREEN_WIDTH / 2 - DynOS_String_Length(_Title.second) * 6), 40, _Title.second);
     gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
 
     // Display options

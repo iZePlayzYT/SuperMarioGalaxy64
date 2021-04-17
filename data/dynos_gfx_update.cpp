@@ -42,11 +42,11 @@ static s32 RetrieveCurrentMarioAnimationIndex() {
 // Retrieve the current animation index
 // As we don't know the length of the table, let's hope that we'll always find the animation...
 static s32 RetrieveCurrentAnimationIndex(struct Object *aObject) {
-    if (!aObject->oAnimations || !aObject->header.gfx.mAnimInfo.curAnim) {
+    if (!aObject->oAnimations || !aObject->header.gfx.curAnim.curAnim) {
         return -1;
     }
     for (s32 i = 0; aObject->oAnimations[i] != NULL; ++i) {
-        if (aObject->oAnimations[i] == aObject->header.gfx.mAnimInfo.curAnim) {
+        if (aObject->oAnimations[i] == aObject->header.gfx.curAnim.curAnim) {
             return i;
         }
     }
@@ -66,7 +66,7 @@ void DynOS_Gfx_SwapAnimations(void *aPtr) {
 
     // Swap the current animation with the one from the Gfx data
     if (!pDefaultAnimation) {
-        pDefaultAnimation = _Object->header.gfx.mAnimInfo.curAnim;
+        pDefaultAnimation = _Object->header.gfx.curAnim.curAnim;
 
         // Actor index
         s32 _ActorIndex = DynOS_Geo_GetActorIndex(_Object->header.gfx.sharedChild->georef);
@@ -95,46 +95,21 @@ void DynOS_Gfx_SwapAnimations(void *aPtr) {
         const AnimData *_AnimData = (const AnimData *) _GfxData->mAnimationTable[_AnimIndex].second;
         if (_AnimData) {
             sGfxDataAnimation.flags = _AnimData->mFlags;
-            sGfxDataAnimation.mAnimYTransDivisor = _AnimData->mUnk02;
-            sGfxDataAnimation.mStartFrame = _AnimData->mUnk04;
-            sGfxDataAnimation.mLoopStart = _AnimData->mUnk06;
-            sGfxDataAnimation.mLoopEnd = _AnimData->mUnk08;
-            sGfxDataAnimation.mUnusedBoneCount = _AnimData->mUnk0A.second;
+            sGfxDataAnimation.unk02 = _AnimData->mUnk02;
+            sGfxDataAnimation.unk04 = _AnimData->mUnk04;
+            sGfxDataAnimation.unk06 = _AnimData->mUnk06;
+            sGfxDataAnimation.unk08 = _AnimData->mUnk08;
+            sGfxDataAnimation.unk0A = _AnimData->mUnk0A.second;
             sGfxDataAnimation.values = _AnimData->mValues.second.begin();
             sGfxDataAnimation.index = _AnimData->mIndex.second.begin();
             sGfxDataAnimation.length = _AnimData->mLength;
-            _Object->header.gfx.mAnimInfo.curAnim = &sGfxDataAnimation;
+            _Object->header.gfx.curAnim.curAnim = &sGfxDataAnimation;
         }
 
     // Restore the default animation
     } else {
-        _Object->header.gfx.mAnimInfo.curAnim = pDefaultAnimation;
+        _Object->header.gfx.curAnim.curAnim = pDefaultAnimation;
         pDefaultAnimation = NULL;
-    }
-}
-
-//
-// Update Gfx dynamic commands
-//
-
-static void DynOS_Gfx_UpdateDynCmd(GfxDynCmd *aCmd) {
-    switch (aCmd->mType) {
-        case GFXDYNCMD_CAPPY_EYES:
-            if (DynOS_Opt_GetValue("omm_cappy") != 0) {
-                gDPNoOp(aCmd->mData + aCmd->mOffset);
-            } else {
-                gSPEndDisplayList(aCmd->mData + aCmd->mOffset);
-            }
-            break;
-    }
-}
-
-static void DynOS_Gfx_UpdateDynCmds(s32 aActorIndex) {
-    GfxData *_GfxData = DynOS_Gfx_GetActorList()[aActorIndex].mGfxData;
-    if (_GfxData) {
-        for (auto& _Cmd : _GfxData->mGfxDynCmds) {
-            DynOS_Gfx_UpdateDynCmd(&_Cmd);
-        }
     }
 }
 
@@ -144,8 +119,8 @@ static void DynOS_Gfx_UpdateDynCmds(s32 aActorIndex) {
 
 static void DynOS_Gfx_UpdateModelData(struct Object *aObject, s32 aActorIndex) {
     ActorGfx *_ActorGfx = &DynOS_Gfx_GetActorList()[aActorIndex];
-    const Array<SysPath> &pPacks = DynOS_Gfx_GetPackFolders();
-    for (s32 i = 0; i != pPacks.Count(); ++i) {
+    const Array<PackData *> &pDynosPacks = DynOS_Gfx_GetPacks();
+    for (s32 i = 0; i != pDynosPacks.Count(); ++i) {
 
         // Pack
         bool _Enabled = DynOS_Opt_GetValue(String("dynos_pack_%d", i));
@@ -155,7 +130,7 @@ static void DynOS_Gfx_UpdateModelData(struct Object *aObject, s32 aActorIndex) {
         if (_Enabled && _ActorGfx->mPackIndex == -1) {
 
             // Load Gfx data from binary
-            SysPath _Filename = fstring("%s/%s.bin", pPacks[i].begin(), DynOS_Geo_GetActorName(aActorIndex));
+            SysPath _Filename = fstring("%s/%s.bin", pDynosPacks[i]->mPath.begin(), DynOS_Geo_GetActorName(aActorIndex));
             GfxData *_GfxData = DynOS_Gfx_LoadFromBinary(_Filename);
             if (_GfxData == NULL) {
                 continue;
@@ -220,9 +195,6 @@ void DynOS_Gfx_Update() {
 
             // Replace the object's model and animations
             DynOS_Gfx_UpdateModelData(_Object, _ActorIndex);
-
-            // Update display lists dynamic commands
-            DynOS_Gfx_UpdateDynCmds(_ActorIndex);
         }
     }
 }

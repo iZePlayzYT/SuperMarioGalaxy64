@@ -5,11 +5,9 @@ Array<ActorGfx> &DynOS_Gfx_GetActorList() {
     return sActorGfxList;
 }
 
-// Not recommended because Array uses memcpy to copy its data,
-// but safe since this particular array is only get by reference
-Array<SysPath> &DynOS_Gfx_GetPackFolders() {
-    static Array<SysPath> sPackFolders;
-    return sPackFolders;
+Array<PackData *> &DynOS_Gfx_GetPacks() {
+    static Array<PackData *> sPacks;
+    return sPacks;
 }
 
 Array<String> DynOS_Gfx_Init() {
@@ -24,7 +22,7 @@ Array<String> DynOS_Gfx_Init() {
     }
 
     // Scan the DynOS packs folder
-    Array<SysPath> &pDynosPacks = DynOS_Gfx_GetPackFolders();
+    Array<PackData *> &pDynosPacks = DynOS_Gfx_GetPacks();
     SysPath _DynosPacksFolder = fstring("%s/%s", DYNOS_EXE_FOLDER, DYNOS_PACKS_FOLDER);
     DIR *_DynosPacksDir = opendir(_DynosPacksFolder.c_str());
     if (_DynosPacksDir) {
@@ -38,10 +36,14 @@ Array<String> DynOS_Gfx_Init() {
             // If pack folder exists, add it to the pack list
             SysPath _PackFolder = fstring("%s/%s", _DynosPacksFolder.c_str(), _DynosPacksEnt->d_name);
             if (fs_sys_dir_exists(_PackFolder.c_str())) {
-                pDynosPacks.Add(_PackFolder);
+                PackData *_Pack = New<PackData>();
 
                 // Scan folder for subfolders to convert into .bin files
+                _Pack->mPath = _PackFolder;
                 DynOS_Gfx_GeneratePack(_PackFolder);
+
+                // Add pack to pack list
+                pDynosPacks.Add(_Pack);
             }
         }
         closedir(_DynosPacksDir);
@@ -50,9 +52,11 @@ Array<String> DynOS_Gfx_Init() {
     // Return a list of pack names
     Array<String> _PackNames;
     for (const auto& _Pack : pDynosPacks) {
-        u64 _DirSep1 = _Pack.find_last_of('\\') + 1; // Add 1 here to overflow string::npos to 0
-        u64 _DirSep2 = _Pack.find_last_of('/') + 1;  // Add 1 here to overflow string::npos to 0
-        SysPath _DirName = _Pack.substr(MAX(_DirSep1, _DirSep2));
+        u64 _DirSep1 = _Pack->mPath.find_last_of('\\');
+        u64 _DirSep2 = _Pack->mPath.find_last_of('/');
+        if (_DirSep1++ == SysPath::npos) _DirSep1 = 0;
+        if (_DirSep2++ == SysPath::npos) _DirSep2 = 0;
+        SysPath _DirName = _Pack->mPath.substr(MAX(_DirSep1, _DirSep2));
         _PackNames.Add(_DirName.c_str());
     }
     return _PackNames;

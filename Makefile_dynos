@@ -1,6 +1,7 @@
-# ----------------------
+# ---------------------------------
 # Dynamic Options System
-# ----------------------
+# Render96ex-alpha built-in version
+# ---------------------------------
 
 DYNOS_INPUT_DIR := ./dynos
 DYNOS_OUTPUT_DIR := $(BUILD_DIR)/dynos
@@ -13,57 +14,3 @@ DYNOS_INIT := \
 
 DYNOS_DO := $(shell $(call DYNOS_INIT))
 INCLUDE_CFLAGS += -DDYNOS
-
-# ----------------
-# Render96 - Luigi
-# ----------------
-
-ifeq ($(findstring data/r96/system,$(SRC_DIRS)),data/r96/system)
-INCLUDE_CFLAGS += -DRENDER_96_LUIGI
-endif
-
-# ----------------
-# Render96 - Alpha
-# ----------------
-
-ifeq ($(findstring src/text/libs,$(SRC_DIRS)),src/text/libs)
-INCLUDE_CFLAGS += -DRENDER_96_ALPHA
-else
-$(BUILD_DIR)/data/dynos_opt_vanilla_c.o: $(BUILD_DIR)/include/text_strings.h
-endif
-
-# -------------------
-# PC-Ported Rom Hacks
-# -------------------
-
-IS_ROM_HACK ?= 0
-ifeq ($(IS_ROM_HACK),1)
-INCLUDE_CFLAGS += -DIS_ROM_HACK
-endif
-
-# --------------
-# Super Mario 74
-# --------------
-
-SUPER_MARIO_74 ?= 0
-ifeq ($(SUPER_MARIO_74),1)
-INCLUDE_CFLAGS += -DIS_ROM_HACK -DSUPER_MARIO_74
-endif
-
-# --------------
-# Star Revenge 1
-# --------------
-
-STAR_REVENGE_1 ?= 0
-ifeq ($(STAR_REVENGE_1),1)
-INCLUDE_CFLAGS += -DIS_ROM_HACK -DSTAR_REVENGE_1
-endif
-
-# ---------------
-# The Green Stars
-# ---------------
-
-THE_GREEN_STARS ?= 0
-ifeq ($(THE_GREEN_STARS),1)
-INCLUDE_CFLAGS += -DIS_ROM_HACK -DTHE_GREEN_STARS
-endif

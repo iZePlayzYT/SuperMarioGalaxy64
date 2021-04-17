@@ -1,7 +1,4 @@
 #include "dynos.cpp.h"
-extern "C" {
-#include "geo_commands.h"
-}
 
 //
 // Pointers
@@ -101,7 +98,6 @@ static void LoadTextureData(FILE *aFile, GfxData *aGfxData) {
     // Data
     _Node->mData = New<TexData>();
     _Node->mData->mUploaded = false;
-    _Node->mData->mBind = NULL;
     _Node->mData->mPngData.Read(aFile);
     if (!_Node->mData->mPngData.Empty()) {
         u8 *_RawData = stbi_load_from_memory(_Node->mData->mPngData.begin(), _Node->mData->mPngData.Count(), &_Node->mData->mRawWidth, &_Node->mData->mRawHeight, NULL, 4);
@@ -196,25 +192,21 @@ static void LoadGeoLayoutData(FILE *aFile, GfxData *aGfxData) {
     aGfxData->mGeoLayouts.Add(_Node);
 }
 
+// For retro-compatibility
 static void LoadGfxDynCmd(FILE *aFile, GfxData *aGfxData) {
-    GfxDynCmd _Cmd;
-
-    // Data
+    Gfx *_Data = NULL;
     String _DisplayListName; _DisplayListName.Read(aFile);
     for (auto& _DisplayList : aGfxData->mDisplayLists) {
         if (_DisplayList->mName == _DisplayListName) {
-            _Cmd.mData = _DisplayList->mData;
+            _Data = _DisplayList->mData;
             break;
         }
     }
-    if (!_Cmd.mData) {
+    if (!_Data) {
         sys_fatal("Display list not found: %s", _DisplayListName.begin());
     }
-    _Cmd.mOffset = ReadBytes<u32>(aFile);
-    _Cmd.mType   = ReadBytes<u8>(aFile);
-
-    // Append
-    aGfxData->mGfxDynCmds.Add(_Cmd);
+    ReadBytes<u32>(aFile);
+    ReadBytes<u8>(aFile);
 }
 
 static void LoadAnimationData(FILE *aFile, GfxData *aGfxData) {

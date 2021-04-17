@@ -12,13 +12,6 @@ extern "C" {
 #include "game/object_list_processor.h"
 #include "game/options_menu.h"
 #include "r96/system/r96_system.h"
-}
-
-//
-// Const
-//
-
-extern "C" {
 extern char gDialogBoxState;
 extern s16 gMenuMode;
 extern s32 gWdwWaterLevelSet;
@@ -44,7 +37,7 @@ static s32  sDynosExitAreaNum   = -1;
 //
 
 bool DynOS_Warp_ToLevel(s32 aLevel, s32 aArea, s32 aAct) {
-    if (DYNOS_COURSE_NO_WARP(aLevel)) {
+    if (DynOS_Level_GetCourse(aLevel) == COURSE_NONE || !DynOS_Level_GetWarpEntry(aLevel, aArea)) {
         return false;
     }
 
@@ -55,11 +48,7 @@ bool DynOS_Warp_ToLevel(s32 aLevel, s32 aArea, s32 aAct) {
 }
 
 bool DynOS_Warp_RestartLevel() {
-#ifdef SUPER_MARIO_74
-    return DynOS_Warp_ToLevel(gCurrLevelNum, gCurrAreaIndex, gCurrActNum);
-#else
     return DynOS_Warp_ToLevel(gCurrLevelNum, 1, gCurrActNum);
-#endif
 }
 
 //
@@ -67,7 +56,7 @@ bool DynOS_Warp_RestartLevel() {
 //
 
 bool DynOS_Warp_ExitLevel(s32 aDelay) {
-    if (DYNOS_COURSE_NO_WARP(gCurrLevelNum)) {
+    if (DynOS_Level_GetCourse(gCurrLevelNum) == COURSE_NONE) {
         return false;
     }
 
@@ -78,7 +67,7 @@ bool DynOS_Warp_ExitLevel(s32 aDelay) {
     gMenuMode = -1;
 
     // Cancel out every music/sound/sequence
-    music_unlower_volume(SEQ_PLAYER_LEVEL, 0);
+    sequence_player_unlower(SEQ_PLAYER_LEVEL, 0);
     for (u16 seqid = 0; seqid != SEQ_COUNT; ++seqid) {
     stop_background_music(seqid);
     }
@@ -101,7 +90,7 @@ bool DynOS_Warp_ExitLevel(s32 aDelay) {
 }
 
 bool DynOS_Warp_ToCastle(s32 aLevel) {
-    if (DYNOS_COURSE_NO_WARP(aLevel)) {
+    if (DynOS_Level_GetCourse(aLevel) == COURSE_NONE) {
         return false;
     }
 
@@ -112,7 +101,7 @@ bool DynOS_Warp_ToCastle(s32 aLevel) {
     gMenuMode = -1;
 
     // Cancel out every music/sound/sequence
-    music_unlower_volume(SEQ_PLAYER_LEVEL, 0);
+    sequence_player_unlower(SEQ_PLAYER_LEVEL, 0);
     for (u16 seqid = 0; seqid != SEQ_COUNT; ++seqid) {
     stop_background_music(seqid);
     }
@@ -127,11 +116,7 @@ bool DynOS_Warp_ToCastle(s32 aLevel) {
     // Change play mode to avoid getting stuck on the pause menu
     set_play_mode(0);
     sDynosExitLevelNum = aLevel;
-#ifdef SUPER_MARIO_74
-    sDynosExitAreaNum = gCurrAreaIndex;
-#else
     sDynosExitAreaNum = 1;
-#endif
     return true;
 }
 
@@ -153,32 +138,20 @@ bool DynOS_Warp_ReturnToMainMenu() {
 //
 
 const char *DynOS_Warp_GetParamName(s32 aLevel, s32 aIndex) {
-    static const char *sLevelParams[][4] = {
-#if defined(SUPER_MARIO_74)
-        { "Normal", "Extreme Edition", "Normal", "Extreme Edition" }
-#elif defined(RENDER_96_ALPHA)
-        { "DYNOS_WARP_PARAM_NONE", "DYNOS_WARP_PARAM_NONE", "DYNOS_WARP_PARAM_NONE", "DYNOS_WARP_PARAM_NONE" },
-        { "DYNOS_WARP_PARAM_DDD_NOTHING", "DYNOS_WARP_PARAM_DDD_SUB_ONLY", "DYNOS_WARP_PARAM_DDD_POLES_ONLY", "DYNOS_WARP_PARAM_DDD_SUB_AND_POLES" },
-        { "DYNOS_WARP_PARAM_WDW_LOWEST", "DYNOS_WARP_PARAM_WDW_LOW", "DYNOS_WARP_PARAM_WDW_HIGH", "DYNOS_WARP_PARAM_WDW_HIGHEST" },
-        { "DYNOS_WARP_PARAM_THI_TINY_FLOODED", "DYNOS_WARP_PARAM_THI_TINY_DRAINED", "DYNOS_WARP_PARAM_THI_HUGE_FLOODED", "DYNOS_WARP_PARAM_THI_HUGE_DRAINED" },
-        { "DYNOS_WARP_PARAM_TTC_CLOCK_STOP", "DYNOS_WARP_PARAM_TTC_CLOCK_SLOW", "DYNOS_WARP_PARAM_TTC_CLOCK_FAST", "DYNOS_WARP_PARAM_TTC_CLOCK_RANDOM" },
-#else
-        { "", "", "", "" },
-        { "No Submarine, No Poles", "Submarine Only", "Poles Only", "Submarine And Poles" },
-        { "Water Level: Lowest", "Water Level: Low", "Water Level: High", "Water Level: Highest" },
-        { "Tiny Island: Top Flooded", "Tiny Island: Top Drained", "Huge Island: Top Flooded", "Huge Island: Top Drained" },
-        { "Clock Speed: Stopped", "Clock Speed: Slow", "Clock Speed: Fast", "Clock Speed: Random" },
-#endif
+    static const char *sLevelParams[][5] = {
+        { "DYNOS_WARP_PARAM_EMPTY", "DYNOS_WARP_PARAM_EMPTY", "DYNOS_WARP_PARAM_EMPTY", "DYNOS_WARP_PARAM_EMPTY", "DYNOS_WARP_PARAM_EMPTY" },
+        { "DYNOS_WARP_PARAM_NONE", "DYNOS_WARP_PARAM_DDD_NOTHING", "DYNOS_WARP_PARAM_DDD_SUB_ONLY", "DYNOS_WARP_PARAM_DDD_POLES_ONLY", "DYNOS_WARP_PARAM_DDD_SUB_AND_POLES" },
+        { "DYNOS_WARP_PARAM_NONE", "DYNOS_WARP_PARAM_WDW_LOWEST", "DYNOS_WARP_PARAM_WDW_LOW", "DYNOS_WARP_PARAM_WDW_HIGH", "DYNOS_WARP_PARAM_WDW_HIGHEST" },
+        { "DYNOS_WARP_PARAM_NONE", "DYNOS_WARP_PARAM_THI_FLOODED", "DYNOS_WARP_PARAM_THI_DRAINED", "DYNOS_WARP_PARAM_THI_FLOODED", "DYNOS_WARP_PARAM_THI_DRAINED" },
+        { "DYNOS_WARP_PARAM_NONE", "DYNOS_WARP_PARAM_TTC_CLOCK_STOP", "DYNOS_WARP_PARAM_TTC_CLOCK_SLOW", "DYNOS_WARP_PARAM_TTC_CLOCK_FAST", "DYNOS_WARP_PARAM_TTC_CLOCK_RANDOM" },
     };
-#ifndef IS_ROM_HACK
     switch (aLevel) {
-        case LEVEL_DDD: return sLevelParams[1][MIN(3, aIndex)];
-        case LEVEL_WDW: return sLevelParams[2][MIN(3, aIndex)];
-        case LEVEL_THI: return sLevelParams[3][MIN(3, aIndex)];
-        case LEVEL_TTC: return sLevelParams[4][MIN(3, aIndex)];
+        case LEVEL_DDD: return sLevelParams[1][MIN(4, aIndex)];
+        case LEVEL_WDW: return sLevelParams[2][MIN(4, aIndex)];
+        case LEVEL_THI: return sLevelParams[3][MIN(4, aIndex)];
+        case LEVEL_TTC: return sLevelParams[4][MIN(4, aIndex)];
     }
-#endif
-    return sLevelParams[0][MIN(3, aIndex)];
+    return sLevelParams[0][MIN(4, aIndex)];
 }
 
 // Called thrice
@@ -192,54 +165,45 @@ void DynOS_Warp_SetParam(s32 aLevel, s32 aIndex) {
         sDynosWarpPrevParamIndex = aIndex;
     }
 
-#if defined(SUPER_MARIO_74)
-    switch (aIndex) {
-        case 0: gCurrAreaIndex = 1; break;
-        case 1: gCurrAreaIndex = 2; break;
-        case 2: gCurrAreaIndex = 1; break;
-        case 3: gCurrAreaIndex = 2; break;
-    }
-#elif !defined(IS_ROM_HACK)
     switch (aLevel) {
     case LEVEL_DDD:
         switch (aIndex) {
-            case 0: gDDDBowsersSub = 0; gDDDPoles = 0; break;
-            case 1: gDDDBowsersSub = 1; gDDDPoles = 0; break;
-            case 2: gDDDBowsersSub = 0; gDDDPoles = 1; break;
-            case 3: gDDDBowsersSub = 1; gDDDPoles = 1; break;
+            case 1: gDDDBowsersSub = 0; gDDDPoles = 0; break;
+            case 2: gDDDBowsersSub = 1; gDDDPoles = 0; break;
+            case 3: gDDDBowsersSub = 0; gDDDPoles = 1; break;
+            case 4: gDDDBowsersSub = 1; gDDDPoles = 1; break;
         }
         break;
 
     case LEVEL_WDW:
         if (gEnvironmentRegions) {
         switch (aIndex) {
-            case 0: gEnvironmentRegions[6] = *gEnvironmentLevels =   31; gWdwWaterLevelSet = 1; break;
-            case 1: gEnvironmentRegions[6] = *gEnvironmentLevels = 1024; gWdwWaterLevelSet = 1; break;
-            case 2: gEnvironmentRegions[6] = *gEnvironmentLevels = 1792; gWdwWaterLevelSet = 1; break;
-            case 3: gEnvironmentRegions[6] = *gEnvironmentLevels = 2816; gWdwWaterLevelSet = 1; break;
+            case 1: gEnvironmentRegions[6] = *gEnvironmentLevels =   31; gWdwWaterLevelSet = 1; break;
+            case 2: gEnvironmentRegions[6] = *gEnvironmentLevels = 1024; gWdwWaterLevelSet = 1; break;
+            case 3: gEnvironmentRegions[6] = *gEnvironmentLevels = 1792; gWdwWaterLevelSet = 1; break;
+            case 4: gEnvironmentRegions[6] = *gEnvironmentLevels = 2816; gWdwWaterLevelSet = 1; break;
         }
         }
         break;
 
     case LEVEL_THI:
         switch (aIndex) {
-            case 0: gCurrAreaIndex = 2; gTHIWaterDrained = 0; break;
-            case 1: gCurrAreaIndex = 2; gTHIWaterDrained = 1; break;
-            case 2: gCurrAreaIndex = 1; gTHIWaterDrained = 0; break;
-            case 3: gCurrAreaIndex = 1; gTHIWaterDrained = 1; break;
+            case 1: gTHIWaterDrained = 0; break;
+            case 2: gTHIWaterDrained = 1; break;
+            case 3: gTHIWaterDrained = 0; break;
+            case 4: gTHIWaterDrained = 1; break;
         }
         break;
 
     case LEVEL_TTC:
         switch (aIndex) {
-            case 0: gTTCSpeedSetting = TTC_SPEED_STOPPED; break;
-            case 1: gTTCSpeedSetting = TTC_SPEED_SLOW; break;
-            case 2: gTTCSpeedSetting = TTC_SPEED_FAST; break;
-            case 3: gTTCSpeedSetting = TTC_SPEED_RANDOM; break;
+            case 1: gTTCSpeedSetting = TTC_SPEED_STOPPED; break;
+            case 2: gTTCSpeedSetting = TTC_SPEED_SLOW; break;
+            case 3: gTTCSpeedSetting = TTC_SPEED_FAST; break;
+            case 4: gTTCSpeedSetting = TTC_SPEED_RANDOM; break;
         }
         break;
     }
-#endif
 }
 
 //
@@ -259,8 +223,7 @@ static void *DynOS_Warp_UpdateWarp(void *aCmd, bool aIsLevelInitDone) {
         gMenuMode = -1;
 
         // Cancel out every music/sound/sequence
-        audio_mute(FALSE);
-        music_unlower_volume(SEQ_PLAYER_LEVEL, 0);
+        sequence_player_unlower(SEQ_PLAYER_LEVEL, 0);
         for (u16 seqid = 0; seqid != SEQ_COUNT; ++seqid) {
         stop_background_music(seqid);
         }
@@ -397,7 +360,7 @@ static void *DynOS_Warp_UpdateExit(void *aCmd, bool aIsLevelInitDone) {
     static s16 *sDynosExitTargetWarp = NULL;
 
     // Phase 0 - Wait for the Mario head transition to end
-    if (sDynosExitTargetArea == -1 && gWarpTransition.isActive) {
+    if (sDynosExitTargetArea == -1 && DynOS_IsTransitionActive()) {
         return NULL;
     }
 
@@ -461,19 +424,8 @@ static void *DynOS_Warp_UpdateExit(void *aCmd, bool aIsLevelInitDone) {
             s16 _TargetPosY = sDynosExitTargetWarp[4];
             s16 _TargetPosZ = sDynosExitTargetWarp[5];
             s16 _TargetFYaw = sDynosExitTargetWarp[6];
-#if defined(SUPER_MARIO_74)
-            s16 _TargetDYaw = 0;
-            f32 _TargetDist = 150.f;
-#elif defined(STAR_REVENGE_1)
-            s16 _TargetDYaw = 0;
-            f32 _TargetDist = 210.f;
-#elif defined(THE_GREEN_STARS)
-            s16 _TargetDYaw = 0;
-            f32 _TargetDist = 100.f;
-#else
             s16 _TargetDYaw = 0;
             f32 _TargetDist = 500.f;
-#endif
             DynOS_Warp_FindExitPosition(_TargetPosX, _TargetPosY, _TargetPosZ, _TargetFYaw + _TargetDYaw, _TargetDist);
 
             // Init Mario
@@ -492,7 +444,7 @@ static void *DynOS_Warp_UpdateExit(void *aCmd, bool aIsLevelInitDone) {
             init_camera(gCurrentArea->camera);
             sDelayedWarpOp = WARP_OP_NONE;
             play_transition(WARP_TRANSITION_FADE_FROM_STAR, 15, 0x00, 0x00, 0x00);
-            play_sound(SOUND_MENU_MARIO_CASTLE_WARP, gGlobalSoundArgs);
+            play_sound(SOUND_MENU_MARIO_CASTLE_WARP, gDefaultSoundArgs);
 
             // Set music
             DynOS_Jingle_Stop();
@@ -502,7 +454,7 @@ static void *DynOS_Warp_UpdateExit(void *aCmd, bool aIsLevelInitDone) {
         }
 
         // Phase 4 - Unlock Mario as soon as the second transition is ended
-        if (!sDynosExitTargetWarp && !gWarpTransition.isActive) {
+        if (!sDynosExitTargetWarp && !DynOS_IsTransitionActive()) {
             sDynosExitTargetArea = -1;
             sDynosExitLevelNum   = -1;
             sDynosExitAreaNum    = -1;

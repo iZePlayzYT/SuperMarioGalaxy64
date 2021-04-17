@@ -37,9 +37,9 @@ static bool TokenizeBuffer(char *aBuffer, char **aTokens, s32 aTokenMax) {
 //
 
 // Volume ranges from 0 to 1
-extern u16 sAcousticReachPerLevel[];
+extern u16 D_80332028[];
 void DynOS_Audio_Mix(u8 *aOutput, const u8 *aInput, s32 aLength, f32 aVolume, f32 aDistance) {
-    f32 _AcrVolume = MIN(MAX(1.f - MIN(1.f, absx(aDistance) / sAcousticReachPerLevel[gCurrLevelNum]), 0.f), 1.f);
+    f32 _AcrVolume = MIN(MAX(1.f - MIN(1.f, absx(aDistance) / D_80332028[gCurrLevelNum]), 0.f), 1.f);
     f32 _MixVolume = MIN(MAX(aVolume * sqr(_AcrVolume), 0.f), 1.f);
     for (s32 i = 0; i < aLength; i += sizeof(s16)) {
         s16 *_In = (s16 *) (aInput + i);

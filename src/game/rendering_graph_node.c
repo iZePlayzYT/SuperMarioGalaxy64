@@ -1,6 +1,7 @@
 #include <PR/ultratypes.h>
 
 #include "area.h"
+#include "data/dynos.c.h"
 #include "engine/math_util.h"
 #include "game_init.h"
 #include "gfx_dimensions.h"
@@ -1295,7 +1296,7 @@ void geo_process_held_object(struct GraphNodeHeldObject *node) {
  * Processes the children of the given GraphNode if it has any
  */
 void geo_try_process_children(struct GraphNode *node) {
-    DYNOS_SANITY_CHECK(geo, node->type, return);
+    if (!dynos_sanity_check_geo(node->type)) return;
     if (node->children != NULL) {
         geo_process_node_and_siblings(node->children);
     }
@@ -1307,7 +1308,7 @@ void geo_try_process_children(struct GraphNode *node) {
  * be iterated over.
  */
 void geo_process_node_and_siblings(struct GraphNode *firstNode) {
-    DYNOS_SANITY_CHECK(geo, firstNode->type, return);
+    if (!dynos_sanity_check_geo(firstNode->type)) return;
     s16 iterateChildren = TRUE;
     struct GraphNode *curGraphNode = firstNode;
     struct GraphNode *parent = curGraphNode->parent;
