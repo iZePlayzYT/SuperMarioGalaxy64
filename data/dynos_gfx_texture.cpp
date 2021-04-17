@@ -178,176 +178,6 @@ u8 *ConvertToRGBA32(const u8 *aData, u64 aLength, s32 aFormat, s32 aSize, const 
 }
 
 //
-// Texture load
-//
-
-STATIC_STORAGE(DataNodes<TexData>, LoadedTextureNodes);
-#define sLoadedTextureNodes __LoadedTextureNodes()
-
-DataNode<TexData> *DynOS_Gfx_GetTexture(const String &aTextureName) {
-    for (auto &_Node : sLoadedTextureNodes) {
-        if (_Node->mName == aTextureName) {
-            return _Node;
-        }
-    }
-    return NULL;
-}
-
-bool DynOS_Gfx_IsLoadedTexturePointer(void *aPtr) {
-    for (auto &_Node : sLoadedTextureNodes) {
-        if ((void *) _Node == aPtr) {
-            return true;
-        }
-    }
-    return false;
-}
-
-bool DynOS_Gfx_IsTexturePointer(void *aPtr) {
-
-    // Actors textures
-    Array<ActorGfx> &pActorGfxList = DynOS_Gfx_GetActorList();
-    for (auto& _ActorGfx : pActorGfxList) {
-        if (_ActorGfx.mGfxData) {
-            for (auto &_Node : _ActorGfx.mGfxData->mTextures) {
-                if ((void *) _Node == aPtr) {
-                    return true;
-                }
-            }
-        }
-    }
-
-    // Loaded textures
-    return DynOS_Gfx_IsLoadedTexturePointer(aPtr);
-}
-
-DataNode<TexData> *DynOS_Gfx_LoadTextureRaw(const u8 *aRGBA32Buffer, s32 aWidth, s32 aHeight, const String &aTextureName) {
-
-    // Check if the texture is already loaded
-    DataNode<TexData> *_Node = DynOS_Gfx_GetTexture(aTextureName);
-    if (_Node) {
-        return _Node;
-    }
-
-    // NULL check
-    if (!aRGBA32Buffer || aWidth <= 0 || aHeight <= 0 || aTextureName.Empty()) {
-        return NULL;
-    }
-
-    // Create a new _Node
-    _Node                    = New<DataNode<TexData>>();
-    _Node->mName             = aTextureName;
-    _Node->mData             = New<TexData>();
-    _Node->mData->mRawData   = Array<u8>(aRGBA32Buffer, aRGBA32Buffer + (aWidth * aHeight * 4));
-    _Node->mData->mRawWidth  = aWidth;
-    _Node->mData->mRawHeight = aHeight;
-    _Node->mData->mRawFormat = G_IM_FMT_RGBA;
-    _Node->mData->mRawSize   = G_IM_SIZ_32b;
-    _Node->mData->mUploaded  = false;
-    _Node->mData->mBind      = NULL;
-
-    // Append
-    sLoadedTextureNodes.Add(_Node);
-    return _Node;
-}
-
-DataNode<TexData> *DynOS_Gfx_LoadTexturePng(const u8 *aPngData, u32 aPngLength, const String &aTextureName) {
-
-    // Check if the texture is already loaded
-    DataNode<TexData> *_Node = DynOS_Gfx_GetTexture(aTextureName);
-    if (_Node) {
-        return _Node;
-    }
-
-    // NULL check
-    if (!aPngData || !aPngLength || aTextureName.Empty()) {
-        return NULL;
-    }
-
-    // Load png
-    s32 _RawWidth, _RawHeight;
-    u8 *_RawData = stbi_load_from_memory(aPngData, aPngLength, &_RawWidth, &_RawHeight, NULL, 4);
-    if (!_RawData) {
-        return NULL;
-    }
-
-    // Create a new _Node
-    _Node                    = New<DataNode<TexData>>();
-    _Node->mName             = aTextureName;
-    _Node->mData             = New<TexData>();
-    _Node->mData->mRawData   = Array<u8>(_RawData, _RawData + (_RawWidth * _RawHeight * 4));
-    _Node->mData->mRawWidth  = _RawWidth;
-    _Node->mData->mRawHeight = _RawHeight;
-    _Node->mData->mRawFormat = G_IM_FMT_RGBA;
-    _Node->mData->mRawSize   = G_IM_SIZ_32b;
-    _Node->mData->mUploaded  = false;
-    _Node->mData->mBind      = NULL;
-    Delete(_RawData);
-
-    // Append
-    sLoadedTextureNodes.Add(_Node);
-    return _Node;
-}
-
-DataNode<TexData> *DynOS_Gfx_LoadTextureFile(const SysPath &aFilename, const String &aTextureName) {
-
-    // Check if the texture is already loaded
-    DataNode<TexData> *_Node = DynOS_Gfx_GetTexture(aTextureName);
-    if (_Node) {
-        return _Node;
-    }
-
-    // Open file
-    FILE *_File = fopen(aFilename.c_str(), "rb");
-    if (!_File) {
-        return NULL;
-    }
-
-    // Load from PNG
-    fseek(_File, 0, SEEK_END);
-    u32 _PngLength = ftell(_File); rewind(_File);
-    u8 *_PngData = New<u8>(_PngLength);
-    fread(_PngData, sizeof(u8), _PngLength, _File);
-    fclose(_File);
-
-    _Node = DynOS_Gfx_LoadTexturePng(_PngData, _PngLength, aTextureName);
-    free(_PngData);
-    return _Node;
-}
-
-// _Node MUST be a Loaded Texture _Node pointer
-// bind MUST be a DynOS Texture _Node pointer
-void DynOS_Gfx_BindTexture(DataNode<TexData> *aNode, void *aBind) {
-    if (DynOS_Gfx_IsLoadedTexturePointer(aNode) &&
-        DynOS_Gfx_IsTexturePointer(aBind)) {
-        aNode->mData->mBind = aBind;
-    }
-}
-
-void DynOS_Gfx_UnloadTexture(DataNode<TexData> *aNode) {
-
-    // Unload all textures bound to aNode
-    // Restart the loop everytime a texture is unloaded to avoid desyncs
-    for (bool _Unload = true; _Unload;) {
-        _Unload = false;
-        for (auto& _Node : sLoadedTextureNodes) {
-            if (_Node->mData->mBind == (void *) aNode) {
-                DynOS_Gfx_UnloadTexture(_Node);
-                _Unload = true;
-                break;
-            }
-        }
-    }
-
-    // Free the texture node
-    s32 _TextureNodeIndex = sLoadedTextureNodes.Find(aNode);
-    if (_TextureNodeIndex != -1) {
-        sLoadedTextureNodes.Remove(_TextureNodeIndex);
-    }
-    Delete(aNode->mData);
-    Delete(aNode);
-}
-
-//
 // Upload
 //
 
@@ -416,33 +246,28 @@ static bool DynOS_Gfx_CacheTexture(THN **aOutput, DataNode<TexData> *aNode, s32 
 // Import
 //
 
-static bool DynOS_Gfx_ImportTexture_Typed(THN **aOutput, void *aPtr, s32 aTile, GRAPI *aGfxRApi, THN **aHashMap, THN *aPool, u32 *aPoolPos, u32 aPoolSize) {
-
-    // Actors textures
+static DataNode<TexData> *DynOS_Gfx_RetrieveNode(void *aPtr) {
     Array<ActorGfx> &pActorGfxList = DynOS_Gfx_GetActorList();
     for (auto& _ActorGfx : pActorGfxList) {
         if (_ActorGfx.mGfxData) {
             for (auto &_Node : _ActorGfx.mGfxData->mTextures) {
-                if ((void *) _Node == aPtr) {
-                    if (!DynOS_Gfx_CacheTexture(aOutput, _Node, aTile, aGfxRApi, aHashMap, aPool, aPoolPos, aPoolSize)) {
-                        DynOS_Gfx_UploadTexture(_Node, aGfxRApi, aTile, (*aOutput)->mTexId);
-                    }
-                    return true;
+                if ((void*) _Node == aPtr) {
+                    return _Node;
                 }
             }
         }
     }
+    return NULL;
+}
 
-    // Loaded textures
-    for (auto &_Node : sLoadedTextureNodes) {
-        if ((void *) _Node == aPtr) {
-            if (!DynOS_Gfx_CacheTexture(aOutput, _Node, aTile, aGfxRApi, aHashMap, aPool, aPoolPos, aPoolSize)) {
-                DynOS_Gfx_UploadTexture(_Node, aGfxRApi, aTile, (*aOutput)->mTexId);
-            }
-            return true;
+static bool DynOS_Gfx_ImportTexture_Typed(THN **aOutput, void *aPtr, s32 aTile, GRAPI *aGfxRApi, THN **aHashMap, THN *aPool, u32 *aPoolPos, u32 aPoolSize) {
+    DataNode<TexData> *_Node = DynOS_Gfx_RetrieveNode(aPtr);
+    if (_Node) {
+        if (!DynOS_Gfx_CacheTexture(aOutput, _Node, aTile, aGfxRApi, aHashMap, aPool, aPoolPos, aPoolSize)) {
+            DynOS_Gfx_UploadTexture(_Node, aGfxRApi, aTile, (*aOutput)->mTexId);
         }
+        return true;
     }
-
     return false;
 }
 
@@ -454,7 +279,7 @@ bool DynOS_Gfx_ImportTexture(void **aOutput, void *aPtr, s32 aTile, void *aGfxRA
         (GRAPI *) aGfxRApi,
         (THN **)  aHashMap,
         (THN *)   aPool,
-        (u32 *)  aPoolPos,
-        (u32)    aPoolSize
+        (u32 *)   aPoolPos,
+        (u32)     aPoolSize
     );
 }

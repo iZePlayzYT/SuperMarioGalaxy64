@@ -130,7 +130,7 @@ static void WriteVertexData(FILE* aFile, GfxData* aGfxData, DataNode<Vtx> *aNode
         WriteBytes<s8> (aFile, aNode->mData[i].n.n[0]);
         WriteBytes<s8> (aFile, aNode->mData[i].n.n[1]);
         WriteBytes<s8> (aFile, aNode->mData[i].n.n[2]);
-        WriteBytes<u8>(aFile, aNode->mData[i].n.a);
+        WriteBytes<u8> (aFile, aNode->mData[i].n.a);
     }
 }
 
@@ -179,33 +179,6 @@ static void WriteGeoLayoutData(FILE *aFile, GfxData *aGfxData, DataNode<GeoLayou
         } else {
             WriteBytes<u32>(aFile, *((u32 *) _Head));
         }
-    }
-}
-
-//
-// Dynamic commands
-//
-
-static String GetDisplayListNameFromData(GfxData* aGfxData, const Gfx* aData) {
-    for (auto& _Node : aGfxData->mDisplayLists) {
-        if (_Node->mData == aData) {
-            return _Node->mName;
-        }
-    }
-    return "";
-}
-
-static void WriteGfxDynCmds(FILE* aFile, GfxData* aGfxData) {
-    for (auto& _Cmd : aGfxData->mGfxDynCmds) {
-
-        // Header
-        WriteBytes<u8>(aFile, DATA_TYPE_GFXDYNCMD);
-
-        // Data
-        String _DisplayListName = GetDisplayListNameFromData(aGfxData, _Cmd.mData);
-        _DisplayListName.Write(aFile);
-        WriteBytes<u32>(aFile, _Cmd.mOffset);
-        WriteBytes<u8>(aFile, _Cmd.mType);
     }
 }
 
@@ -304,7 +277,6 @@ bool DynOS_Gfx_WriteBinary(const SysPath &aOutputFilename, GfxData *aGfxData) {
             }
         }
     }
-    WriteGfxDynCmds(_File, aGfxData);
     WriteAnimationData(_File, aGfxData);
     WriteAnimationTable(_File, aGfxData);
     fclose(_File);
@@ -322,7 +294,8 @@ void DynOS_Gfx_Free(GfxData* aGfxData) {
             Delete(_Node);
         }
         for (auto& _Node : aGfxData->mTextures) {
-            DynOS_Gfx_UnloadTexture(_Node);
+            Delete(_Node->mData);
+            Delete(_Node);
         }
         for (auto& _Node : aGfxData->mVertices) {
             Delete(_Node->mData);

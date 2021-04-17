@@ -1,6 +1,5 @@
 #include "dynos.cpp.h"
 extern "C" {
-#include "actors/common1.h"
 #include "geo_commands.h"
 #define STB_IMAGE_WRITE_IMPLEMENTATION
 #include "stb/stb_image_write.h"
@@ -1090,19 +1089,16 @@ static void ParseGfxSymbol(GfxData* aGfxData, DataNode<Gfx>* aNode, Gfx*& aHead,
         s64 _Arg3 = ParseGfxSymbolArg(aGfxData, aNode, &aTokenIndex, "");
         s64 _Arg4 = ParseGfxSymbolArg(aGfxData, aNode, &aTokenIndex, "");
         gSPTexture(aHead++, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4);
-        aGfxData->mGfxContext.mSpTexture = gsSPTexture(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4);
         return;
     }
     if (_Symbol == "gsSPSetGeometryMode") {
         s64 _Arg0 = ParseGfxSymbolArg(aGfxData, aNode, &aTokenIndex, "");
         gSPSetGeometryMode(aHead++, _Arg0);
-        aGfxData->mGfxContext.mMetalBits.words.w1 |= (_Arg0 & METAL_BITS);
         return;
     }
     if (_Symbol == "gsSPClearGeometryMode") {
         s64 _Arg0 = ParseGfxSymbolArg(aGfxData, aNode, &aTokenIndex, "");
         gSPClearGeometryMode(aHead++, _Arg0);
-        aGfxData->mGfxContext.mMetalBits.words.w1 &= ~(_Arg0 & METAL_BITS);
         return;
     }
     if (_Symbol == "gsSPDisplayList") {
@@ -1118,7 +1114,6 @@ static void ParseGfxSymbol(GfxData* aGfxData, DataNode<Gfx>* aNode, Gfx*& aHead,
         return;
     }
     if (_Symbol == "gsSPEndDisplayList") {
-        DynOS_Gfx_PushDynCmd(aGfxData, aNode, aHead, GFXDYNCMD_CAPPY_EYES);
         gSPEndDisplayList(aHead++);
 
         // Convert raw texture to PNG if all raw members are set
@@ -1155,7 +1150,6 @@ static void ParseGfxSymbol(GfxData* aGfxData, DataNode<Gfx>* aNode, Gfx*& aHead,
             (u32) (GCCc0w1(_Args0[0x1], _Args0[0x3], _Args0[0x5], _Args0[0x7]) | GCCc1w1(_Args1[0x1], _Args1[0x4], _Args1[0x6], _Args1[0x3], _Args1[0x5], _Args1[0x7]))
         }};
         *(aHead++) = _Gfx;
-        aGfxData->mGfxContext.mCombineMode = _Gfx;
         return;
     }
     if (_Symbol == "gsDPSetCombineLERP") {
@@ -1180,7 +1174,6 @@ static void ParseGfxSymbol(GfxData* aGfxData, DataNode<Gfx>* aNode, Gfx*& aHead,
             (u32) (GCCc0w1(_Arg1, _Arg3, _Arg5, _Arg7) | GCCc1w1(_Arg9, _ArgC, _ArgE, _ArgB, _ArgD, _ArgF))
         }};
         *(aHead++) = _Gfx;
-        aGfxData->mGfxContext.mCombineMode = _Gfx;
         return;
     }
 
@@ -1210,8 +1203,6 @@ static void ParseGfxSymbol(GfxData* aGfxData, DataNode<Gfx>* aNode, Gfx*& aHead,
         s64 _ArgB = ParseGfxSymbolArg(aGfxData, aNode, &aTokenIndex, "");
         UpdateTextureInfo(aGfxData, NULL, (s32) _Arg0, (s32) _Arg1, -1, -1);
         gDPSetTile(aHead++, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _ArgA, _ArgB);
-        if (_Arg4 == G_TX_LOADTILE)   aGfxData->mGfxContext.mTxLoadTile   = gsDPSetTile(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _ArgA, _ArgB);
-        if (_Arg4 == G_TX_RENDERTILE) aGfxData->mGfxContext.mTxRenderTile = gsDPSetTile(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4, _Arg5, _Arg6, _Arg7, _Arg8, _Arg9, _ArgA, _ArgB);
         return;
     }
     if (_Symbol == "gsDPLoadTile") {
@@ -1232,7 +1223,6 @@ static void ParseGfxSymbol(GfxData* aGfxData, DataNode<Gfx>* aNode, Gfx*& aHead,
         s64 _Arg4 = ParseGfxSymbolArg(aGfxData, aNode, &aTokenIndex, "");
         UpdateTextureInfo(aGfxData, NULL, -1, -1, (s32) (_Arg3 >> G_TEXTURE_IMAGE_FRAC) + 1, (s32) (_Arg4 >> G_TEXTURE_IMAGE_FRAC) + 1);
         gDPSetTileSize(aHead++, _Arg0, _Arg1, _Arg2, _Arg3, _Arg4);
-        aGfxData->mGfxContext.mSetTileSize = gsDPSetTileSize(_Arg0, _Arg1, _Arg2, _Arg3, _Arg4);
         return;
     }
     if (_Symbol == "gsDPLoadTextureBlock") {
@@ -1263,10 +1253,6 @@ static void ParseGfxSymbol(GfxData* aGfxData, DataNode<Gfx>* aNode, Gfx*& aHead,
         gDPPipeSync(aHead++);
         gDPSetTile(aHead++, _Arg1, _Arg2, ((((_Arg3) * arg2_4) + 7) >> 3), 0, G_TX_RENDERTILE, _Arg5, _Arg7, _Arg9, _ArgB, _Arg6, _Arg8, _ArgA);
         gDPSetTileSize(aHead++, G_TX_RENDERTILE, 0, 0, ((_Arg3) - 1) << G_TEXTURE_IMAGE_FRAC, ((_Arg4) - 1) << G_TEXTURE_IMAGE_FRAC);
-
-        aGfxData->mGfxContext.mTxLoadTile   = gsDPSetTile(_Arg1, arg2_0, 0, 0, G_TX_LOADTILE, 0, _Arg7, _Arg9, _ArgB, _Arg6, _Arg8, _ArgA);
-        aGfxData->mGfxContext.mTxRenderTile = gsDPSetTile(_Arg1, _Arg2, ((((_Arg3)*arg2_4) + 7) >> 3), 0, G_TX_RENDERTILE, _Arg5, _Arg7, _Arg9, _ArgB, _Arg6, _Arg8, _ArgA);
-        aGfxData->mGfxContext.mSetTileSize  = gsDPSetTileSize(G_TX_RENDERTILE, 0, 0, ((_Arg3)-1) << G_TEXTURE_IMAGE_FRAC, ((_Arg4)-1) << G_TEXTURE_IMAGE_FRAC);
         return;
     }
 
@@ -1276,16 +1262,6 @@ static void ParseGfxSymbol(GfxData* aGfxData, DataNode<Gfx>* aNode, Gfx*& aHead,
 
 static DataNode<Gfx>* ParseDisplayListData(GfxData* aGfxData, DataNode<Gfx>* aNode) {
     if (aNode->mData) return aNode;
-
-    // Cappy eyes
-    if (DynOS_Gfx_IsCappyEyesDisplayList(aGfxData, aNode->mName)) {
-        static u64 sUniqueId = 0;
-        DataNode<Gfx>* _NewNode = New<DataNode<Gfx>>();
-        _NewNode->mName = String("%s.%llu", aNode->mName.begin(), sUniqueId++);
-        _NewNode->mTokens = aNode->mTokens;
-        aGfxData->mDisplayLists.Add(_NewNode);
-        aNode = _NewNode;
-    }
 
     // Display list data
     aNode->mData = New<Gfx>(aNode->mTokens.Count() * DISPLAY_LIST_SIZE_PER_TOKEN);
@@ -1782,10 +1758,6 @@ template <typename T>
 static void ClearGfxDataNodes(DataNodes<T> &aDataNodes) {
     for (s32 i = aDataNodes.Count(); i != 0; --i) {
         Delete(aDataNodes[i - 1]->mData);
-        if (aDataNodes[i - 1]->mName.Find(GFX_DYN_CMD_ID) != -1) {
-            Delete(aDataNodes[i - 1]);
-            aDataNodes.Remove(i - 1);
-        }
     }
 }
 
@@ -1857,14 +1829,7 @@ void DynOS_Gfx_GeneratePack(const SysPath &aPackFolder) {
             _GfxData->mPointerList                = { NULL }; // The NULL pointer is needed, so we add it here
             _GfxData->mGfxContext.mCurrentTexture = NULL;
             _GfxData->mGfxContext.mCurrentPalette = NULL;
-            _GfxData->mGfxContext.mMetalBits      = { 0, 0 };
-            _GfxData->mGfxContext.mCombineMode    = { 0, 0 };
-            _GfxData->mGfxContext.mSpTexture      = { 0, 0 };
-            _GfxData->mGfxContext.mTxLoadTile     = { 0, 0 };
-            _GfxData->mGfxContext.mTxRenderTile   = { 0, 0 };
-            _GfxData->mGfxContext.mSetTileSize    = { 0, 0 };
             _GfxData->mGeoNodeStack.Clear();
-            _GfxData->mGfxDynCmds.Clear();
 
             // Parse data
             PrintNoNewLine("%s.bin: Model identifier: %X - Processing... ", _GeoRootName.begin(), _GfxData->mModelIdentifier);

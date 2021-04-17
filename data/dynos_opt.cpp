@@ -1,17 +1,14 @@
 #include "dynos.cpp.h"
 extern "C" {
+#include "pc/configfile.h"
 #include "audio/external.h"
-#include "game/area.h"
 #include "game/game_init.h"
 #include "pc/controller/controller_keyboard.h"
 #include "game/bettercamera.h"
-#ifdef RENDER_96_ALPHA
 #include "r96/system/r96_system.h"
 #include "text/text-loader.h"
-#endif
 }
 
-#ifdef RENDER_96_ALPHA
 //
 // Render96 Text-loader
 // Because DynOS loading is executed before the main, we can't
@@ -61,9 +58,6 @@ static void LoadLangStrings() {
 }
 
 #define LABEL_NAME(x) ""
-#else
-#define LABEL_NAME(x) x
-#endif
 
 //
 // Data
@@ -134,12 +128,10 @@ static DynosOption *DynOS_Opt_GetExistingOption(DynosOption *aOpt, const String 
 }
 
 static DynosOption *DynOS_Opt_NewOption(const String &aName, const String &aConfigName, const String &aLabel, const String &aTitle) {
-#ifdef RENDER_96_ALPHA
     Label _Label = { aName, NULL };
     Label _Title = { String("%s_title", aName.begin()), NULL };
     if (!aLabel.Empty()) AddLangString(_Label.first, aLabel);
     if (!aTitle.Empty()) AddLangString(_Title.first, aTitle);
-#endif
 
     // Check if the option already exists
     static DynosOption sDummyOpt;
@@ -149,17 +141,10 @@ static DynosOption *DynOS_Opt_NewOption(const String &aName, const String &aConf
 
     // Create a new option
     DynosOption *_Opt = New<DynosOption>();
-#ifdef RENDER_96_ALPHA
     _Opt->mName       = aName;
     _Opt->mConfigName = aConfigName;
     _Opt->mLabel      = _Label;
     _Opt->mTitle      = _Title;
-#else
-    _Opt->mName       = aName;
-    _Opt->mConfigName = aConfigName;
-    _Opt->mLabel      = { aLabel, NULL };
-    _Opt->mTitle      = { aTitle, NULL };
-#endif
     _Opt->mDynos      = true;
     if (sPrevOpt == NULL) { // The very first option
         _Opt->mPrev   = NULL;
@@ -223,7 +208,6 @@ static void DynOS_Opt_CreateChoice(const String &aName, const String &aConfigNam
     _Opt->mType            = DOPT_CHOICE;
     _Opt->mChoice.mIndex   = New<s32>();
     *_Opt->mChoice.mIndex  = aValue;
-#ifdef RENDER_96_ALPHA
     DynosOption *_Opt2     = DynOS_Opt_GetExistingOption(sDynosMenu, aName);
     if (_Opt2 && _Opt != _Opt2) {
         for (s32 i = 0; i != aChoices.Count(); ++i) {
@@ -236,11 +220,6 @@ static void DynOS_Opt_CreateChoice(const String &aName, const String &aConfigNam
             AddLangString(_Choice, _Choice);
         }
     }
-#else
-    for (const auto &_Choice : aChoices) {
-        _Opt->mChoice.mChoices.Add({ _Choice, NULL });
-    }
-#endif
 }
 
 static void DynOS_Opt_CreateButton(const String &aName, const String &aLabel, const String& aFuncName) {
@@ -279,13 +258,12 @@ static void DynOS_Opt_ReadFile(const SysPath &aFolder, const SysPath &aFilename)
             continue;
         }
 
-#ifdef RENDER_96_ALPHA
         // LANGUAGE [Name]
         if (_Tokens[0] == "LANGUAGE" && _Tokens.Count() >= 2) {
             sCurrentLanguage = _Tokens[1];
             continue;
         }
-#endif
+
         // SUBMENU [Name] [Label] [Title]
         if (_Tokens[0] == "SUBMENU" && _Tokens.Count() >= 4) {
             DynOS_Opt_CreateSubMenu(_Tokens[1], _Tokens[2], _Tokens[3]);
@@ -353,14 +331,12 @@ static void DynOS_Opt_LoadOptions() {
 
 DynosOption *DynOS_Opt_Loop(DynosOption *aOpt, DynosLoopFunc aFunc, void *aData) {
     while (aOpt) {
-        if (aOpt->mType == DOPT_SUBMENU) {
+        if (aFunc(aOpt, aData)) {
+            return aOpt;
+        } else if (aOpt->mType == DOPT_SUBMENU) {
             DynosOption *_Opt = DynOS_Opt_Loop(aOpt->mSubMenu.mChild, aFunc, aData);
             if (_Opt) {
                 return _Opt;
-            }
-        } else {
-            if (aFunc(aOpt, aData)) {
-                return aOpt;
             }
         }
         aOpt = aOpt->mNext;
@@ -383,6 +359,7 @@ s32 DynOS_Opt_GetValue(const String &aName) {
             case DOPT_TOGGLE:      return *_Opt->mToggle.mTog;
             case DOPT_CHOICE:      return *_Opt->mChoice.mIndex;
             case DOPT_CHOICELEVEL: return *_Opt->mChoice.mIndex;
+            case DOPT_CHOICEAREA:  return *_Opt->mChoice.mIndex;
             case DOPT_CHOICESTAR:  return *_Opt->mChoice.mIndex;
             case DOPT_CHOICEPARAM: return *_Opt->mChoice.mIndex;
             case DOPT_SCROLL:      return *_Opt->mScroll.mValue;
@@ -399,6 +376,7 @@ void DynOS_Opt_SetValue(const String &aName, s32 aValue) {
             case DOPT_TOGGLE:      *_Opt->mToggle.mTog   = aValue; break;
             case DOPT_CHOICE:      *_Opt->mChoice.mIndex = aValue; break;
             case DOPT_CHOICELEVEL: *_Opt->mChoice.mIndex = aValue; break;
+            case DOPT_CHOICEAREA:  *_Opt->mChoice.mIndex = aValue; break;
             case DOPT_CHOICESTAR:  *_Opt->mChoice.mIndex = aValue; break;
             case DOPT_CHOICEPARAM: *_Opt->mChoice.mIndex = aValue; break;
             case DOPT_SCROLL:      *_Opt->mScroll.mValue = aValue; break;
@@ -468,6 +446,17 @@ static s32 DynOS_Opt_ProcessInput(DynosOption *aOpt, s32 input) {
             }
             break;
 
+        case DOPT_CHOICEAREA:
+            if (input == INPUT_LEFT) {
+                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + 3) % (4);
+                return RESULT_OK;
+            }
+            if (input == INPUT_RIGHT || input == INPUT_A) {
+                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + 1) % (4);
+                return RESULT_OK;
+            }
+            break;
+
         case DOPT_CHOICESTAR:
             if (input == INPUT_LEFT) {
                 *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + 5) % (6);
@@ -481,11 +470,11 @@ static s32 DynOS_Opt_ProcessInput(DynosOption *aOpt, s32 input) {
 
         case DOPT_CHOICEPARAM:
             if (input == INPUT_LEFT) {
-                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + 3) % (4);
+                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + 4) % (5);
                 return RESULT_OK;
             }
             if (input == INPUT_RIGHT || input == INPUT_A) {
-                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + 1) % (4);
+                *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + 1) % (5);
                 return RESULT_OK;
             }
             break;
@@ -542,7 +531,6 @@ static s32 DynOS_Opt_ProcessInput(DynosOption *aOpt, s32 input) {
             }
             break;
 
-#ifdef RENDER_96_ALPHA
         case DOPT_LANGUAGE:
             if (input == INPUT_LEFT) {
                 *aOpt->mChoice.mIndex = (*aOpt->mChoice.mIndex + get_num_languages() - 1) % (get_num_languages());
@@ -555,13 +543,12 @@ static s32 DynOS_Opt_ProcessInput(DynosOption *aOpt, s32 input) {
                 return RESULT_OK;
             }
             break;
-#endif
     }
     return RESULT_NONE;
 }
 
 static void DynOS_Opt_Open(DynosOption *aMenu) {
-    play_sound(SOUND_DYNOS_SELECT, gGlobalSoundArgs);
+    play_sound(SOUND_DYNOS_SELECT, gDefaultSoundArgs);
     sCurrentMenu = aMenu;
     sCurrentOpt = aMenu;
 }
@@ -569,7 +556,7 @@ static void DynOS_Opt_Open(DynosOption *aMenu) {
 static void DynOS_Opt_Close(bool aPlaySavedSfx) {
     if (sCurrentMenu != NULL) {
         if (aPlaySavedSfx) {
-            play_sound(SOUND_DYNOS_SAVED, gGlobalSoundArgs);
+            play_sound(SOUND_DYNOS_SAVED, gDefaultSoundArgs);
         }
         newcam_init_settings();
         controller_reconfigure();
@@ -605,7 +592,7 @@ static void DynOS_Opt_ProcessInputs() {
     if (sBindingState != 0) {
         u32 _Key = (sCurrentOpt->mDynos ? (u32) DynOS_Opt_ControllerGetKeyPressed() : controller_get_raw_key());
         if (_Key != VK_INVALID) {
-            play_sound(SOUND_DYNOS_SELECT, gGlobalSoundArgs);
+            play_sound(SOUND_DYNOS_SELECT, gDefaultSoundArgs);
             sCurrentOpt->mBind.mBinds[sCurrentOpt->mBind.mIndex] = _Key;
             sBindingState = false;
         }
@@ -621,7 +608,7 @@ static void DynOS_Opt_ProcessInputs() {
             } else {
                 while (sCurrentOpt->mNext) sCurrentOpt = sCurrentOpt->mNext;
             }
-            play_sound(SOUND_DYNOS_SELECT, gGlobalSoundArgs);
+            play_sound(SOUND_DYNOS_SELECT, gDefaultSoundArgs);
             return;
         }
 
@@ -632,15 +619,15 @@ static void DynOS_Opt_ProcessInputs() {
             } else {
                 while (sCurrentOpt->mPrev) sCurrentOpt = sCurrentOpt->mPrev;
             }
-            play_sound(SOUND_DYNOS_SELECT, gGlobalSoundArgs);
+            play_sound(SOUND_DYNOS_SELECT, gDefaultSoundArgs);
             return;
         }
 
         // Left
         if (_StickX < -60) {
             switch (DynOS_Opt_ProcessInput(sCurrentOpt, INPUT_LEFT)) {
-                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gGlobalSoundArgs); break;
-                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gGlobalSoundArgs); break;
+                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gDefaultSoundArgs); break;
+                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gDefaultSoundArgs); break;
                 case RESULT_NONE:   break;
             }
             return;
@@ -649,8 +636,8 @@ static void DynOS_Opt_ProcessInputs() {
         // Right
         if (_StickX > +60) {
             switch (DynOS_Opt_ProcessInput(sCurrentOpt, INPUT_RIGHT)) {
-                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gGlobalSoundArgs); break;
-                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gGlobalSoundArgs); break;
+                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gDefaultSoundArgs); break;
+                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gDefaultSoundArgs); break;
                 case RESULT_NONE:   break;
             }
             return;
@@ -659,8 +646,8 @@ static void DynOS_Opt_ProcessInputs() {
         // A
         if (gPlayer1Controller->buttonPressed & A_BUTTON) {
             switch (DynOS_Opt_ProcessInput(sCurrentOpt, INPUT_A)) {
-                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gGlobalSoundArgs); break;
-                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gGlobalSoundArgs); break;
+                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gDefaultSoundArgs); break;
+                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gDefaultSoundArgs); break;
                 case RESULT_NONE:   break;
             }
             return;
@@ -670,7 +657,7 @@ static void DynOS_Opt_ProcessInputs() {
         if (gPlayer1Controller->buttonPressed & B_BUTTON) {
             if (sCurrentOpt->mParent != NULL) {
                 sCurrentOpt = sCurrentOpt->mParent;
-                play_sound(SOUND_DYNOS_SELECT, gGlobalSoundArgs);
+                play_sound(SOUND_DYNOS_SELECT, gDefaultSoundArgs);
             } else {
                 DynOS_Opt_Close(true);
             }
@@ -680,8 +667,8 @@ static void DynOS_Opt_ProcessInputs() {
         // Z
         if (gPlayer1Controller->buttonPressed & Z_TRIG) {
             switch (DynOS_Opt_ProcessInput(sCurrentOpt, INPUT_Z)) {
-                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gGlobalSoundArgs); break;
-                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gGlobalSoundArgs); break;
+                case RESULT_OK:     play_sound(SOUND_DYNOS_OK, gDefaultSoundArgs); break;
+                case RESULT_CANCEL: play_sound(SOUND_DYNOS_CANCEL, gDefaultSoundArgs); break;
                 case RESULT_NONE:
                     if (sCurrentMenu == sDynosMenu) {
                         DynOS_Opt_Close(true);
@@ -729,6 +716,14 @@ static void DynOS_Opt_CreateWarpToLevelSubMenu() {
     *aOpt->mChoice.mIndex = 0;
     }
 
+    // Area select
+    {
+    DynosOption *aOpt = DynOS_Opt_NewOption("dynos_warp_area", "", LABEL_NAME("Area Select"), "");
+    aOpt->mType           = DOPT_CHOICEAREA;
+    aOpt->mChoice.mIndex  = New<s32>();
+    *aOpt->mChoice.mIndex = 0;
+    }
+
     // Star select
     {
     DynosOption *aOpt     = DynOS_Opt_NewOption("dynos_warp_act", "", LABEL_NAME("Star Select"), "");
@@ -737,7 +732,6 @@ static void DynOS_Opt_CreateWarpToLevelSubMenu() {
     *aOpt->mChoice.mIndex = 0;
     }
 
-#if defined(SUPER_MARIO_74) || !defined(IS_ROM_HACK)
     // Param select
     {
     DynosOption *aOpt = DynOS_Opt_NewOption("dynos_warp_param", "", LABEL_NAME("Param Select"), "");
@@ -745,7 +739,6 @@ static void DynOS_Opt_CreateWarpToLevelSubMenu() {
     aOpt->mChoice.mIndex  = New<s32>();
     *aOpt->mChoice.mIndex = 0;
     }
-#endif
 
     DynOS_Opt_CreateButton("dynos_warp_to_level", LABEL_NAME("Warp"), "DynOS_Opt_WarpToLevel");
     DynOS_Opt_EndSubMenu();
@@ -766,24 +759,27 @@ static void DynOS_Opt_CreateWarpToCastleSubMenu() {
     DynOS_Opt_EndSubMenu();
 }
 
+static u32 DynOS_Opt_GetHash(const String& aStr) {
+    u32 _Hash = 5381u;
+    for (char c : aStr) { _Hash += c + (_Hash << 5); }
+    return _Hash;
+}
+
 static void DynOS_Opt_CreateModelPacksSubMenu() {
     Array<String> _Packs = DynOS_Gfx_Init();
     if (_Packs.Count() == 0) {
         return;
     }
 
-#ifdef RENDER_96_ALPHA
     sCurrentLanguage = "";
-#endif
     DynOS_Opt_CreateSubMenu("dynos_model_loader_submenu", LABEL_NAME("Model Packs"), LABEL_NAME("MODEL PACKS"));
     for (s32 i = 0; i != _Packs.Count(); ++i) {
-        DynOS_Opt_CreateToggle(String("dynos_pack_%d", i), "", _Packs[i], false);
+        DynOS_Opt_CreateToggle(String("dynos_pack_%d", i), String("dynos_pack_%08X", DynOS_Opt_GetHash(_Packs[i])), _Packs[i], false);
     }
     DynOS_Opt_CreateButton("dynos_packs_disable_all", LABEL_NAME("Disable all packs"), "DynOS_Opt_DisableAllPacks");
     DynOS_Opt_EndSubMenu();
 }
 
-static void (*controller_read)(OSContPad *);
 void DynOS_Opt_Init() {
 
     // Convert options menu
@@ -803,7 +799,7 @@ void DynOS_Opt_Init() {
 
     // Exit level
     DynOS_Opt_CreateButton("dynos_exit_level", LABEL_NAME("Exit Level"), "DynOS_Opt_ExitLevel");
-
+    
     // Return to main menu
     DynOS_Opt_CreateButton("dynos_return_to_main_menu", LABEL_NAME("Return to Main Menu"), "DynOS_Opt_ReturnToMainMenu");
 
@@ -812,10 +808,6 @@ void DynOS_Opt_Init() {
 
     // Init config
     DynOS_Opt_LoadConfig(sDynosMenu);
-
-    // Init DynOS update routine
-    controller_read = controller_keyboard.read;
-    controller_keyboard.read = (void (*)(OSContPad *)) DynOS_UpdateOpt;
 }
 
 //
@@ -823,18 +815,15 @@ void DynOS_Opt_Init() {
 //
 
 void DynOS_Opt_Update(OSContPad *aPad) {
-    controller_read(aPad);
     DynOS_Opt_Loop(sDynosMenu, DynOS_Opt_ControllerUpdate, (void *) aPad);
-    if (gWarpTransition.isActive) {
+    if (DynOS_IsTransitionActive()) {
         aPad->button = 0;
         aPad->stick_x = 0;
         aPad->stick_y = 0;
         aPad->ext_stick_x = 0;
         aPad->ext_stick_y = 0;
     }
-#ifdef RENDER_96_ALPHA
     LoadLangStrings();
-#endif
 }
 
 //
@@ -876,16 +865,16 @@ static bool DynOS_Opt_ReturnToMainMenu(UNUSED const char *optName) {
 DYNOS_DEFINE_ACTION(DynOS_Opt_ReturnToMainMenu);
 
 static bool DynOS_Opt_WarpToLevel(UNUSED const char *optName) {
-#ifdef SUPER_MARIO_74
-    return DynOS_Warp_ToLevel(DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_level")], gCurrAreaIndex, DynOS_Opt_GetValue("dynos_warp_act") + 1);
-#else
-    return DynOS_Warp_ToLevel(DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_level")], 1, DynOS_Opt_GetValue("dynos_warp_act") + 1);
-#endif
+    s32 _Level = DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_level")];
+    s32 _Area = DynOS_Opt_GetValue("dynos_warp_area") + 1;
+    s32 _Act = DynOS_Opt_GetValue("dynos_warp_act") + 1;
+    return DynOS_Warp_ToLevel(_Level, _Area, _Act);
 }
 DYNOS_DEFINE_ACTION(DynOS_Opt_WarpToLevel);
 
 static bool DynOS_Opt_WarpToCastle(UNUSED const char *optName) {
-    return DynOS_Warp_ToCastle(DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_castle")]);
+    s32 _Level = DynOS_Level_GetList()[DynOS_Opt_GetValue("dynos_warp_castle")];
+    return DynOS_Warp_ToCastle(_Level);
 }
 DYNOS_DEFINE_ACTION(DynOS_Opt_WarpToCastle);
 
@@ -900,7 +889,7 @@ static bool DynOS_Opt_ExitLevel(UNUSED const char *optName) {
 DYNOS_DEFINE_ACTION(DynOS_Opt_ExitLevel);
 
 static bool DynOS_Opt_DisableAllPacks(UNUSED const char *optName) {
-    const Array<SysPath> &pDynosPacks = DynOS_Gfx_GetPackFolders();
+    const Array<PackData *> &pDynosPacks = DynOS_Gfx_GetPacks();
     for (s32 i = 0; i != pDynosPacks.Count(); ++i) {
         DynOS_Opt_SetValue(String("dynos_pack_%d", i), false);
     }

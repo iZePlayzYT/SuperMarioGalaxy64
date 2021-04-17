@@ -9,8 +9,6 @@
 
 #define FUNCTION_CODE       (u32) 0x434E5546
 #define POINTER_CODE        (u32) 0x52544E50
-#define METAL_BITS          (G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR)
-#define GFX_DYN_CMD_ID      "GFXDYNCMD_"
 
 #define DYNOS_COURSE_NO_WARP(level)     (DynOS_Level_GetCourse(level) == COURSE_NONE)
 
@@ -18,7 +16,7 @@
 // The input is the button internal name (not label)
 // The output is the result of the action
 #define DYNOS_DEFINE_ACTION(func) \
-AT_STARTUP static void DynOS_Opt_AddAction_##func() { \
+DYNOS_AT_STARTUP static void DynOS_Opt_AddAction_##func() { \
     DynOS_Opt_AddAction(#func, func, false); \
 }
 
@@ -42,11 +40,6 @@ enum {
 };
 
 enum {
-    GFXDYNCMD_NONE = 0,
-    GFXDYNCMD_CAPPY_EYES,
-};
-
-enum {
     DOPT_NONE = 0,
 
     DOPT_TOGGLE,
@@ -58,18 +51,16 @@ enum {
 
     // These ones are used by the Warp to Level built-in submenu
     DOPT_CHOICELEVEL,
+    DOPT_CHOICEAREA,
     DOPT_CHOICESTAR,
     DOPT_CHOICEPARAM,
-
-#ifdef RENDER_96_ALPHA
     DOPT_LANGUAGE,
-#endif
 };
 
 
 //
 // DynOS Array
-// A Array-like array, implemented to be processed really fast, but cannot handle C++ complex classes like std::string
+// A vector-like array, implemented to be processed really fast, but cannot handle C++ complex classes like std::string
 //
 
 template <typename T>
@@ -400,7 +391,6 @@ struct TexData : NoCopy {
     s32 mRawFormat = -1;
     s32 mRawSize   = -1;
     bool mUploaded = false;
-    void *mBind    = NULL;
 };
 
 struct AnimData : NoCopy {
@@ -427,21 +417,9 @@ struct DataNode : NoCopy {
 template <typename T>
 using DataNodes = Array<DataNode<T>*>;
 
-struct GfxDynCmd {
-    Gfx* mData = NULL;
-    u32 mOffset = 0;
-    u8 mType = 0;
-};
-
 struct GfxContext {
     DataNode<TexData>* mCurrentTexture = NULL;
     DataNode<TexData>* mCurrentPalette = NULL;
-    Gfx mMetalBits    = { 0, 0 };
-    Gfx mCombineMode  = { 0, 0 };
-    Gfx mSpTexture    = { 0, 0 };
-    Gfx mTxLoadTile   = { 0, 0 };
-    Gfx mTxRenderTile = { 0, 0 };
-    Gfx mSetTileSize  = { 0, 0 };
 };
 
 template <typename T>
@@ -454,7 +432,6 @@ struct GfxData : NoCopy {
     DataNodes<Vtx> mVertices;
     DataNodes<Gfx> mDisplayLists;
     DataNodes<GeoLayout> mGeoLayouts;
-    Array<GfxDynCmd> mGfxDynCmds;
 
     // Animation data
     Array<AnimBuffer<s16> *> mAnimValues;
@@ -478,10 +455,14 @@ struct ActorGfx {
     s32 mPackIndex = 0;
 };
 
+struct PackData {
+    SysPath mPath;
+};
+
 typedef Pair<String, const u8 *> Label;
 struct DynosOption : NoCopy {
     String mName;
-    String mConfigName; // Name used in sm64config.txt
+    String mConfigName; // Name used in the DynOS config file
     Label mLabel;
     Label mTitle; // Full caps label, displayed with colored font
     DynosOption *mPrev;
@@ -635,11 +616,11 @@ SysPath fstring(const char *aFmt, Args... aArgs) {
 // Main
 //
 
-void               DynOS_AddRoutine                      (u8 aType, void *aRoutine);
 void               DynOS_Init                            ();
 void               DynOS_UpdateOpt                       (void *aPad);
 void              *DynOS_UpdateCmd                       (void *aCmd);
 void               DynOS_UpdateGfx                       ();
+bool               DynOS_IsTransitionActive              ();
 
 //
 // Opt
@@ -677,22 +658,12 @@ u8                *ConvertToRGBA32                       (const u8 *aData, u64 a
 // Gfx
 //
 
-bool               DynOS_Gfx_IsLoadedTexturePointer      (void *aPtr);
-bool               DynOS_Gfx_IsTexturePointer            (void *aPtr);
-DataNode<TexData> *DynOS_Gfx_GetTexture                  (const String &aTextureName);
-DataNode<TexData> *DynOS_Gfx_LoadTextureRaw              (const u8 *aRGBA32Buffer, s32 aWidth, s32 aHeight, const String &aTextureName);
-DataNode<TexData> *DynOS_Gfx_LoadTexturePng              (const u8 *aPngData, u32 aPngLength, const String &aTextureName);
-DataNode<TexData> *DynOS_Gfx_LoadTextureFile             (const SysPath &aFilename, const String &aTextureName);
-void               DynOS_Gfx_BindTexture                 (DataNode<TexData> *aNode, void *aBind);
-void               DynOS_Gfx_UnloadTexture               (DataNode<TexData> *aNode);
 bool               DynOS_Gfx_ImportTexture               (void **aOutput, void *aPtr, s32 aTile, void *aGfxRApi, void **aHashMap, void *aPool, u32 *aPoolPos, u32 aPoolSize);
 Array<ActorGfx>   &DynOS_Gfx_GetActorList                ();
-Array<SysPath>    &DynOS_Gfx_GetPackFolders              ();
+Array<PackData *> &DynOS_Gfx_GetPacks                    ();
 Array<String>      DynOS_Gfx_Init                        ();
 void               DynOS_Gfx_Update                      ();
 void               DynOS_Gfx_SwapAnimations              (void *aPtr);
-bool               DynOS_Gfx_IsCappyEyesDisplayList      (GfxData *aGfxData, const String &aNodeName);
-void               DynOS_Gfx_PushDynCmd                  (GfxData *aGfxData, DataNode<Gfx> *aNode, Gfx *&aHead, u8 aCmd);
 bool               DynOS_Gfx_WriteBinary                 (const SysPath &aOutputFilename, GfxData *aGfxData);
 GfxData           *DynOS_Gfx_LoadFromBinary              (const SysPath &aFilename);
 void               DynOS_Gfx_Free                        (GfxData *aGfxData);
@@ -732,7 +703,6 @@ bool               DynOS_Jingle_IsPlaying                (const String &aName);
 // String
 //
 
-u8                *DynOS_String_Convert                  (const char *aString, bool aHeapAlloc);
 u8                *DynOS_String_Decapitalize             (u8 *aStr64);
 s32                DynOS_String_Length                   (const u8 *aStr64);
 s32                DynOS_String_WidthChar64              (u8 aChar64);
@@ -762,13 +732,11 @@ s32                DynOS_Level_GetCourse                 (s32 aLevel);
 const void        *DynOS_Level_GetScript                 (s32 aLevel);
 const u8          *DynOS_Level_GetName                   (s32 aLevel, bool aDecaps, bool aAddCourseNumber);
 const u8          *DynOS_Level_GetActName                (s32 aLevel, s32 aAct, bool aDecaps, bool aAddStarNumber);
+const u8          *DynOS_Level_GetAreaName               (s32 aLevel, s32 aArea, bool aDecaps);
 s16               *DynOS_Level_GetWarp                   (s32 aLevel, s32 aArea, u8 aWarpId);
 s16               *DynOS_Level_GetWarpEntry              (s32 aLevel, s32 aArea);
 s16               *DynOS_Level_GetWarpStarCollect        (s32 aLevel, s32 aArea);
 s16               *DynOS_Level_GetWarpDeath              (s32 aLevel, s32 aArea);
-u64                DynOS_Level_CmdGet                    (void *aCmd, u64 aOffset);
-void              *DynOS_Level_CmdNext                   (void *aCmd, u64 aCmdSize);
-void               DynOS_Level_ParseScript               (const void *aScript, s32 (*aPreprocessFunction)(u8, void *));
 
 //
 // Warps

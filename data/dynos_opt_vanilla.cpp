@@ -53,17 +53,10 @@ static bool DynOS_Opt_CallVanillaAction(const char *aOptName) {
 static DynosOption *DynOS_Opt_ConvertOption(const u8 *aLabel, const u8 *aTitle) {
     static u32 sOptIdx = 0;
     DynosOption *_Opt   = New<DynosOption>();
-#ifdef RENDER_96_ALPHA
     _Opt->mName         = (const char *) aLabel;
     _Opt->mConfigName   = "";
     _Opt->mLabel        = { (const char *) aLabel, NULL };
     _Opt->mTitle        = { (const char *) aLabel, NULL };
-#else
-    _Opt->mName         = String("vanilla_opt_%08X", sOptIdx++);
-    _Opt->mConfigName   = "";
-    _Opt->mLabel        = { "", aLabel };
-    _Opt->mTitle        = { "", aTitle };
-#endif
     _Opt->mDynos        = false;
     if (sPrevOpt == NULL) { // The very first option
         _Opt->mPrev     = NULL;
@@ -122,7 +115,6 @@ static void DynOS_Opt_ConvertScroll(const u8 *aLabel, s32 aMin, s32 aMax, s32 aS
 
 static void DynOS_Opt_ConvertChoice(const u8 *aLabel, const u8 **aChoices, s32 aCount, u32 *pValue) {
     DynosOption *_Opt    = DynOS_Opt_ConvertOption(aLabel, aLabel);
-#ifdef RENDER_96_ALPHA
     if (!aChoices) {
     _Opt->mType          = DOPT_LANGUAGE;
     _Opt->mChoice.mIndex = (s32 *) pValue;
@@ -133,13 +125,6 @@ static void DynOS_Opt_ConvertChoice(const u8 *aLabel, const u8 **aChoices, s32 a
     _Opt->mChoice.mChoices.Add({ (const char *) aChoices[i], NULL });
     }
     }
-#else
-    _Opt->mType          = DOPT_CHOICE;
-    _Opt->mChoice.mIndex = (s32 *) pValue;
-    for (s32 i = 0; i != aCount; ++i) {
-    _Opt->mChoice.mChoices.Add({ "", aChoices[i] });
-    }
-#endif
 }
 
 static void DynOS_Opt_ConvertButton(const u8 *aLabel, VanillaActionFunction aAction) {

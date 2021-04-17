@@ -43,10 +43,10 @@ static bool DynOS_Opt_WriteConfig(DynosOption *aOpt, void *aData) {
         aOpt->mConfigName          != "null" &&
         aOpt->mConfigName          != "NULL") {
         switch (aOpt->mType) {
-            case DOPT_TOGGLE: fprintf((FILE *) aData, "%s=%hhu\n",           aOpt->mName.begin(), aOpt->mToggle.mTog[0]); break;
-            case DOPT_CHOICE: fprintf((FILE *) aData, "%s=%d\n",             aOpt->mName.begin(), aOpt->mChoice.mIndex[0]); break;
-            case DOPT_SCROLL: fprintf((FILE *) aData, "%s=%d\n",             aOpt->mName.begin(), aOpt->mScroll.mValue[0]); break;
-            case DOPT_BIND:   fprintf((FILE *) aData, "%s=%04X;%04X;%04X\n", aOpt->mName.begin(), aOpt->mBind.mBinds[0], aOpt->mBind.mBinds[1], aOpt->mBind.mBinds[2]); break;
+            case DOPT_TOGGLE: fprintf((FILE *) aData, "%s=%hhu\n",           aOpt->mConfigName.begin(), aOpt->mToggle.mTog[0]); break;
+            case DOPT_CHOICE: fprintf((FILE *) aData, "%s=%d\n",             aOpt->mConfigName.begin(), aOpt->mChoice.mIndex[0]); break;
+            case DOPT_SCROLL: fprintf((FILE *) aData, "%s=%d\n",             aOpt->mConfigName.begin(), aOpt->mScroll.mValue[0]); break;
+            case DOPT_BIND:   fprintf((FILE *) aData, "%s=%04X;%04X;%04X\n", aOpt->mConfigName.begin(), aOpt->mBind.mBinds[0], aOpt->mBind.mBinds[1], aOpt->mBind.mBinds[2]); break;
         }
     }
     return false;

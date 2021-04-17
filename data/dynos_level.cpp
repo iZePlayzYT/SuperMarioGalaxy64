@@ -3,9 +3,7 @@ extern "C" {
 #include "game/segment2.h"
 #include "game/save_file.h"
 #include "levels/scripts.h"
-#ifdef RENDER_96_ALPHA
 #include "text/text-loader.h"
-#endif
 }
 
 //
@@ -15,8 +13,6 @@ extern "C" {
 extern "C" {
 extern const BehaviorScript *sWarpBhvSpawnTable[];
 }
-
-#ifdef RENDER_96_ALPHA
 
 #define DYNOS_LEVEL_TEXT_EMPTY              "DYNOS_LEVEL_TEXT_EMPTY"
 #define DYNOS_LEVEL_TEXT_CASTLE             "DYNOS_LEVEL_TEXT_CASTLE"
@@ -28,30 +24,9 @@ extern const BehaviorScript *sWarpBhvSpawnTable[];
 #define DYNOS_LEVEL_TEXT_ONE_SECRET_STAR    "DYNOS_LEVEL_TEXT_ONE_SECRET_STAR"
 #define DYNOS_LEVEL_TEXT_FOURTH_FLOOR       "DYNOS_LEVEL_TEXT_FOURTH_FLOOR"
 
-#else
-
-#define DYNOS_LEVEL_TEXT_EMPTY              ""
-#define DYNOS_LEVEL_TEXT_CASTLE             "CASTLE"
-#define DYNOS_LEVEL_TEXT_BOWSER_1           "BOWSER 1"
-#define DYNOS_LEVEL_TEXT_BOWSER_2           "BOWSER 2"
-#define DYNOS_LEVEL_TEXT_BOWSER_3           "BOWSER 3"
-#define DYNOS_LEVEL_TEXT_100_COINS_STAR     "100 COINS STAR"
-#define DYNOS_LEVEL_TEXT_RED_COINS_STAR     "RED COINS STAR"
-#define DYNOS_LEVEL_TEXT_ONE_SECRET_STAR    "ONE OF THE CASTLE'S SECRET STARS!"
-#ifdef IS_ROM_HACK
-#define DYNOS_LEVEL_TEXT_STAR__             "STAR  "
-#endif
-
-#endif
-
 static void SetConvertedTextToBuffer(u8 *aBuffer, const char *aText) {
-#ifdef RENDER_96_ALPHA
-    u8 *_TranslatedText = get_key_string((char *) aText);
+    u8 *_TranslatedText = get_key_string(aText);
     memcpy(aBuffer, _TranslatedText, DynOS_String_Length(_TranslatedText) + 1);
-#else
-    u8 *_ConvertedText = DynOS_String_Convert(aText, false);
-    memcpy(aBuffer, _ConvertedText, DynOS_String_Length(_ConvertedText) + 1);
-#endif
 }
 
 //
@@ -75,6 +50,18 @@ static void *sDynosLevelScripts[LEVEL_COUNT] = { NULL };
 static Array<DynosWarp> sDynosLevelWarps[LEVEL_COUNT] = { Array<DynosWarp>() };
 static Array<s32> sDynosLevelList = Array<s32>(); // Ordered by Course Id, COURSE_NONE excluded
 
+static u64 DynOS_Level_CmdGet(void *aCmd, u64 aOffset) {
+    u64 _Offset = (((aOffset) & 3llu) | (((aOffset) & ~3llu) << (sizeof(void *) >> 3llu)));
+    return *((u64 *) (u64(aCmd) + _Offset));
+}
+
+static void *DynOS_Level_CmdNext(void *aCmd, u64 aCmdSize) {
+    u64 _Offset = (((aCmdSize) & 3llu) | (((aCmdSize) & ~3llu) << (sizeof(void *) >> 3llu)));
+    return (void *) (u64(aCmd) + _Offset);
+}
+
+static void DynOS_Level_ParseScript(const void *aScript, s32 (*aPreprocessFunction)(u8, void *));
+
 //
 // Init
 //
@@ -88,7 +75,7 @@ static s32 DynOS_Level_PreprocessMasterScript(u8 aType, void *aCmd) {
         // JUMP_LINK
         if (aType == 0x06) {
             sDynosScriptExecLevelTable = true;
-            return DYNOS_LEVEL_SCRIPT_CONTINUE;
+            return 0;
         }
 
     } else {
@@ -96,7 +83,7 @@ static s32 DynOS_Level_PreprocessMasterScript(u8 aType, void *aCmd) {
         // JUMP_IF
         if (aType == 0x0C) {
             sDynosLevelNum = (s32) DynOS_Level_CmdGet(aCmd, 0x04);
-            return DYNOS_LEVEL_SCRIPT_CONTINUE;
+            return 0;
         }
 
         // EXECUTE
@@ -106,20 +93,20 @@ static s32 DynOS_Level_PreprocessMasterScript(u8 aType, void *aCmd) {
                 sDynosLevelScripts[sDynosLevelNum] = _Script;
             }
             sDynosLevelNum = -1;
-            return DYNOS_LEVEL_SCRIPT_RETURN;
+            return 2;
         }
 
         // EXIT
         if (aType == 0x02) {
-            return DYNOS_LEVEL_SCRIPT_STOP;
+            return 3;
         }
 
         // SLEEP
         if (aType == 0x03) {
-            return DYNOS_LEVEL_SCRIPT_STOP;
+            return 3;
         }
     }
-    return DYNOS_LEVEL_SCRIPT_CONTINUE;
+    return 0;
 }
 
 static s32 sDynosCurrentLevelNum;
@@ -185,10 +172,10 @@ static s32 DynOS_Level_PreprocessScript(u8 aType, void *aCmd) {
     // SLEEP
     // SLEEP_BEFORE_EXIT
     else if (aType == 0x03 || aType == 0x04) {
-        return DYNOS_LEVEL_SCRIPT_STOP;
+        return 3;
     }
 
-    return DYNOS_LEVEL_SCRIPT_CONTINUE;
+    return 0;
 }
 
 // Runs only once
@@ -261,10 +248,8 @@ const u8 *DynOS_Level_GetName(s32 aLevel, bool aDecaps, bool aAddCourseNumber) {
         SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_BOWSER_2);
     } else if (aLevel == LEVEL_BOWSER_3) {
         SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_BOWSER_3);
-#ifdef RENDER_96_ALPHA
     } else if (aLevel == LEVEL_FOURTH_FLOOR) {
         SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_FOURTH_FLOOR);
-#endif
     } else if (_Course < COURSE_BOB) {
         SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_CASTLE);
     } else if (_Course >= COURSE_CAKE_END) {
@@ -305,11 +290,6 @@ const u8 *DynOS_Level_GetActName(s32 aLevel, s32 aAct, bool aDecaps, bool aAddSt
     // Star name
     if (_Course < COURSE_BOB) {
         SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_ONE_SECRET_STAR);
-#ifdef IS_ROM_HACK
-    } else if (_Course > COURSE_STAGES_MAX) {
-        SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_STAR__);
-        sBuffer[5] = aAct;
-#else
     } else if (aLevel == LEVEL_BITDW) {
         SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_RED_COINS_STAR);
     } else if (aLevel == LEVEL_BITFS) {
@@ -318,7 +298,6 @@ const u8 *DynOS_Level_GetActName(s32 aLevel, s32 aAct, bool aDecaps, bool aAddSt
         SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_RED_COINS_STAR);
     } else if (_Course > COURSE_STAGES_MAX) {
         SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_EMPTY);
-#endif
     } else if (aAct >= 7) {
         SetConvertedTextToBuffer(sBuffer, DYNOS_LEVEL_TEXT_100_COINS_STAR);
     } else {
@@ -341,6 +320,88 @@ const u8 *DynOS_Level_GetActName(s32 aLevel, s32 aAct, bool aDecaps, bool aAddSt
         sBuffer[4] = 158;
     }
 
+    return sBuffer;
+}
+
+const u8 *DynOS_Level_GetAreaName(s32 aLevel, s32 aArea, bool aDecaps) {
+    DynOS_Level_Init();
+    static const char *sAreaNamesPerLevel[][4] = {
+        { "", "", "", "" },
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* BoB */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* WF */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_SUNKEN_SHIP", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* JRB */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_COTTAGE_SLIDE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* CCM */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* BBH */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* HMC */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_VOLCANO", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* LLL */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_PYRAMID", "DYNOS_AREA_TEXT_EYEROCKS_ROOM", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* SSL */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_DOCKS", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* DDD */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_IGLOO", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* SL */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_DOWNTOWN", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* WDW */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_SECRET_SLIDE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* TTM */
+        { "DYNOS_AREA_TEXT_HUGE_ISLAND", "DYNOS_AREA_TEXT_TINY_ISLAND", "DYNOS_AREA_TEXT_WIGGLERS_ROOM", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* THI */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* TTC */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* RR */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* BITDW */
+        { "DYNOS_AREA_TEXT_BOWSER_BATTLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* Bowser 1 */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* BITFS */
+        { "DYNOS_AREA_TEXT_BOWSER_BATTLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* Bowser 2 */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* BITS */
+        { "DYNOS_AREA_TEXT_BOWSER_BATTLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* Bowser 3 */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* PSS */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* TOTWC */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* COTMC */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* VCUTM */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* WMOTR */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* SA */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* Castle grounds */
+        { "DYNOS_AREA_TEXT_FIRST_FLOOR", "DYNOS_AREA_TEXT_SECOND_FLOOR", "DYNOS_AREA_TEXT_BASEMENT", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* Castle inside */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* Castle courtyard */
+        { "DYNOS_AREA_TEXT_MAIN_AREA", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE", "DYNOS_AREA_TEXT_NOT_AVAILABLE" }, /* Fourth floor */
+    };
+    static u8 sBuffer[256];
+    memset(sBuffer, 0xFF, 256);
+
+    // Area name
+    switch (aLevel) {
+        case LEVEL_BOB: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[1][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_WF: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[2][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_JRB: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[3][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_CCM: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[4][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_BBH: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[5][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_HMC: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[6][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_LLL: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[7][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_SSL: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[8][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_DDD: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[9][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_SL: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[10][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_WDW: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[11][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_TTM: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[12][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_THI: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[13][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_TTC: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[14][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_RR: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[15][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_BITDW: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[16][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_BOWSER_1: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[17][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_BITFS: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[18][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_BOWSER_2: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[19][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_BITS: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[20][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_BOWSER_3: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[21][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_PSS: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[22][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_TOTWC: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[23][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_COTMC: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[24][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_VCUTM: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[25][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_WMOTR: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[26][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_SA: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[27][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_CASTLE_GROUNDS: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[28][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_CASTLE: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[29][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_CASTLE_COURTYARD: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[30][MIN(MAX(aArea - 1, 0), 3)]); break;
+        case LEVEL_FOURTH_FLOOR: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[31][MIN(MAX(aArea - 1, 0), 3)]); break;
+        default: SetConvertedTextToBuffer(sBuffer, sAreaNamesPerLevel[0][MIN(MAX(aArea - 1, 0), 3)]); break;
+    }
+
+    // Decaps
+    if (aDecaps) {
+        DynOS_String_Decapitalize(sBuffer);
+    }
     return sBuffer;
 }
 
@@ -652,7 +713,7 @@ static LvlCmd *DynOS_Level_CmdJumpArea(Stack &aStack, LvlCmd *aCmd, s32 (*aPrepr
     return (LvlCmd *) DynOS_Level_CmdNext(aCmd, aCmd->mSize);
 }
 
-void DynOS_Level_ParseScript(const void *aScript, s32 (*aPreprocessFunction)(u8, void *)) {
+static void DynOS_Level_ParseScript(const void *aScript, s32 (*aPreprocessFunction)(u8, void *)) {
     Stack _Stack;
     _Stack.mBaseIndex = -1;
     _Stack.mTopIndex = 0;
@@ -660,7 +721,7 @@ void DynOS_Level_ParseScript(const void *aScript, s32 (*aPreprocessFunction)(u8,
         u8 _CmdType = (_Cmd->mType & 0x3F);
         s32 _Action = aPreprocessFunction(_CmdType, (void *) _Cmd);
         switch (_Action) {
-            case DYNOS_LEVEL_SCRIPT_CONTINUE:
+            case 0:
                 switch (_CmdType) {
                     case 0x00: _Cmd = DynOS_Level_CmdExecute(_Stack, _Cmd); break;
                     case 0x01: _Cmd = DynOS_Level_CmdExitAndExecute(_Stack, _Cmd); break;
@@ -728,28 +789,18 @@ void DynOS_Level_ParseScript(const void *aScript, s32 (*aPreprocessFunction)(u8,
                     case 0x3F: _Cmd = DynOS_Level_CmdJumpArea(_Stack, _Cmd, aPreprocessFunction); break;
                 } break;
 
-            case DYNOS_LEVEL_SCRIPT_NEXT_CMD:
+            case 1:
                 _Cmd = (LvlCmd *) DynOS_Level_CmdNext(_Cmd, _Cmd->mSize);
                 break;
 
-            case DYNOS_LEVEL_SCRIPT_RETURN:
+            case 2:
                 _Cmd = DynOS_Level_CmdReturn(_Stack, _Cmd);
                 break;
 
-            case DYNOS_LEVEL_SCRIPT_STOP:
+            case 3:
                 return;
         }
     }
-}
-
-u64 DynOS_Level_CmdGet(void *aCmd, u64 aOffset) {
-    u64 _Offset = (((aOffset) & 3llu) | (((aOffset) & ~3llu) << (sizeof(void *) >> 3llu)));
-    return *((u64 *) (u64(aCmd) + _Offset));
-}
-
-void *DynOS_Level_CmdNext(void *aCmd, u64 aCmdSize) {
-    u64 _Offset = (((aCmdSize) & 3llu) | (((aCmdSize) & ~3llu) << (sizeof(void *) >> 3llu)));
-    return (void *) (u64(aCmd) + _Offset);
 }
 
 //
@@ -757,6 +808,7 @@ void *DynOS_Level_CmdNext(void *aCmd, u64 aCmdSize) {
 //
 
 s16 *DynOS_Level_GetWarp(s32 aLevel, s32 aArea, u8 aWarpId) {
+    DynOS_Level_Init();
     for (const auto &_Warp : sDynosLevelWarps[aLevel]) {
         if (_Warp.mArea == aArea && _Warp.mId == aWarpId) {
             return (s16 *) &_Warp;
@@ -766,6 +818,8 @@ s16 *DynOS_Level_GetWarp(s32 aLevel, s32 aArea, u8 aWarpId) {
 }
 
 s16 *DynOS_Level_GetWarpEntry(s32 aLevel, s32 aArea) {
+    DynOS_Level_Init();
+    if (aLevel == LEVEL_TTM && aArea > 2) return NULL;
     return DynOS_Level_GetWarp(aLevel, aArea, 0x0A);
 }
 
@@ -774,6 +828,7 @@ s16 *DynOS_Level_GetWarpStarCollect(s32 aLevel, s32 aArea) {
 }
 
 s16 *DynOS_Level_GetWarpDeath(s32 aLevel, s32 aArea) {
+    DynOS_Level_Init();
     s16 *_Warp = DynOS_Level_GetWarp(aLevel, aArea, 0xF1);
     if (!_Warp) _Warp = DynOS_Level_GetWarp(aLevel, aArea, 0xF3);
     return _Warp;

@@ -865,10 +865,10 @@ struct LevelCommand *level_script_execute(struct LevelCommand *cmd) {
     sCurrentCmd = cmd;
 
     while (sScriptStatus == SCRIPT_RUNNING) {
-        void *currCmd = sCurrentCmd;
+        void *dynosCurrCmd = (void *) sCurrentCmd;
         LevelScriptJumpTable[sCurrentCmd->type]();
-        void *nextCmd = dynos_update_cmd(currCmd);
-        if (nextCmd) sCurrentCmd = nextCmd;
+        void *dynosNextCmd = dynos_update_cmd(dynosCurrCmd);
+        if (dynosNextCmd) sCurrentCmd = dynosNextCmd;
     }
 
     profiler_log_thread5_time(LEVEL_SCRIPT_EXECUTE);

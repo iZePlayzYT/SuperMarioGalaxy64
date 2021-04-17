@@ -1445,7 +1445,7 @@ void sequence_channel_process_script(struct SequenceChannel *seqChannel) {
                 // #define loBits (cmd & 0xf)
                 switch (cmd & 0xf0) {
                     case 0x00: // chan_testlayerfinished
-                        DYNOS_SANITY_CHECK(seq, loBits, break);
+                        if (!dynos_sanity_check_seq(loBits)) break;
                         if (seqChannel->layers[loBits] != NULL) {
                             value = seqChannel->layers[loBits]->finished;
                         }
