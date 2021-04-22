@@ -80,7 +80,8 @@ static const u8 optsCameraStr[][32] = {
 static const u8 optsGameStr[][32] = {
     "TEXT_OPT_LANGUAGE",
     "TEXT_OPT_PRECACHE",
-    "TEXT_OPT_SWITCH_HUD"
+    "TEXT_OPT_SWITCH_HUD",
+    "TEXT_OPT_BILLBOARDS"
 };
 
 static const u8 optsVideoStr[][32] = {
@@ -106,7 +107,10 @@ static const u8 optsAudioStr[][32] = {
     "TEXT_OPT_MVOLUME",
     "TEXT_OPT_MUSVOLUME",
     "TEXT_OPT_SFXVOLUME",
-    "TEXT_OPT_ENVVOLUME"
+    "TEXT_OPT_ENVVOLUME",
+    "TEXT_OPT_MUSMUTE",
+    "TEXT_OPT_SFXMUTE",
+    "TEXT_OPT_ENVMUTE"
 };
 
 static const u8 optsCheatsStr[][64] = {
@@ -280,6 +284,10 @@ static void optmenu_act_exit(UNUSED struct Option *self, s32 arg) {
     if (!arg) game_exit(); // only exit on A press and not directions
 }
 
+static void optvideo_apply(UNUSED struct Option *self, s32 arg) {
+    if (!arg) configWindow.settings_changed = true;
+}
+
 static void setCap_Wing(UNUSED struct Option *self, s32 arg) {
     if (!arg) Cheats.WingCap = true;
 }
@@ -346,13 +354,14 @@ static struct Option optsVideo[] = {
     #endif
     //DEF_OPT_TOGGLE( optsVideoStr[15], &configForce4by3 ),
     DEF_OPT_TOGGLE( optsVideoStr[11], &config60FPS ),
-    #ifndef RAPI_GL
+    #if defined(RAPI_D3D11)
     DEF_OPT_TOGGLE( optsVideoStr[12], &configInternalResolutionBool ),
     DEF_OPT_CHOICE( optsVideoStr[13], &configCustomInternalResolution, internalChoices ),
     #endif
     DEF_OPT_CHOICE( optsVideoStr[1], &configFiltering, filterChoices ),
     DEF_OPT_SCROLL( optsVideoStr[9], &configDrawDistance, 50, 509, 10 ),
     DEF_OPT_TOGGLE( optsVideoStr[7], &configHUD ),
+    DEF_OPT_BUTTON( optsVideoStr[10], optvideo_apply ),
 };
 
 static struct Option optsGame[] = {
@@ -361,6 +370,7 @@ static struct Option optsGame[] = {
     #ifdef TARGET_SWITCH
     DEF_OPT_TOGGLE( optsGameStr[2], &configSwitchHud ),
     #endif
+    DEF_OPT_TOGGLE( optsGameStr[3], &configBillboard ),
 };
 
 static struct Option optsAudio[] = {
@@ -368,6 +378,9 @@ static struct Option optsAudio[] = {
     DEF_OPT_SCROLL( optsAudioStr[1], &configMusicVolume, 0, MAX_VOLUME, 1),
     DEF_OPT_SCROLL( optsAudioStr[2], &configSfxVolume, 0, MAX_VOLUME, 1),
     DEF_OPT_SCROLL( optsAudioStr[3], &configEnvVolume, 0, MAX_VOLUME, 1),
+    DEF_OPT_TOGGLE( optsAudioStr[4], &configMusicMute),
+    DEF_OPT_TOGGLE( optsAudioStr[5], &configSfxMute),
+    DEF_OPT_TOGGLE( optsAudioStr[6], &configEnvMute),
 };
 
 static struct Option optsCheats[] = {

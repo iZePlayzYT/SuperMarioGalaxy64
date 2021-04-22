@@ -149,6 +149,19 @@ static s32 bhv_cmd_cylboard(void) {
     return BHV_PROC_CONTINUE;
 }
 
+// Command 0x39: Disable / Enable Billboard for the current object
+// Usage: MODELPACK()
+static s32 bhv_cmd_modelpackbillboard(void) {
+    if (!configBillboard)
+        gCurrentObject->header.gfx.node.flags |= GRAPH_RENDER_BILLBOARD;
+
+    if (configBillboard)
+        gCurrentObject->header.gfx.node.flags &= ~GRAPH_RENDER_BILLBOARD;
+
+    gCurBhvCommand++;
+    return BHV_PROC_CONTINUE;
+}
+
 // Command 0x1B: Sets the current model ID of the object.
 // Usage: SET_MODEL(modelID)
 static s32 bhv_cmd_set_model(void) {
@@ -909,7 +922,8 @@ static BhvCommandProc BehaviorCmdTable[] = {
     bhv_cmd_disable_rendering, //35
     bhv_cmd_set_int_unused, //36
     bhv_cmd_spawn_water_droplet, //37
-    bhv_cmd_cylboard //38
+    bhv_cmd_cylboard, //38
+    bhv_cmd_modelpackbillboard //39
 };
 
 // Execute the behavior script of the current object, process the object flags, and other miscellaneous code for updating objects.

@@ -35,8 +35,6 @@ OSX_BUILD ?= 0
 TARGET_ARCH ?= native
 TARGET_BITS ?= 0
 
-# Disable HD Model code (Like billboard removal) by default
-MODELPACK ?= 0
 # Disable texture fixes by default (helps with them purists)
 TEXTURE_FIX ?= 0
 # Enable extended options menu by default
@@ -531,12 +529,6 @@ else
 endif
 
 # Check for enhancement options
-
-# Check for Model Pack option
-ifeq ($(MODELPACK),1)
-  CC_CHECK += -DMODELPACK
-  CFLAGS += -DMODELPACK
-endif
 
 # Check for Discord Rich Presence option
 ifeq ($(DISCORDRPC),1)

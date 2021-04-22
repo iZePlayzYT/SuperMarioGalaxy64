@@ -53,17 +53,21 @@ ConfigWindow configWindow       = {
 
 unsigned int configLanguage     = 0;
 #ifdef TARGET_SWITCH
-bool configSwitchHud = true;
-bool configPrecacheRes = false;
+bool configSwitchHud            = true;
+bool configPrecacheRes          = false;
 #else
-bool configPrecacheRes = true;
+bool configPrecacheRes          = true;
 #endif
+bool configBillboard            = 0;
 
-unsigned int configFiltering    = 1;          // 0=force nearest, 1=linear, (TODO) 2=three-point
-unsigned int configMasterVolume = MAX_VOLUME; // 0 - MAX_VOLUME
-unsigned int configMusicVolume = MAX_VOLUME;
-unsigned int configSfxVolume = MAX_VOLUME;
-unsigned int configEnvVolume = MAX_VOLUME;
+unsigned int configFiltering        = 1;          // 0=force nearest, 1=linear, (TODO) 2=three-point
+unsigned int configMasterVolume     = MAX_VOLUME; // 0 - MAX_VOLUME
+unsigned int configMusicVolume      = MAX_VOLUME;
+unsigned int configSfxVolume        = MAX_VOLUME;
+unsigned int configEnvVolume        = MAX_VOLUME;
+bool         configMusicMute        = 0;
+bool         configSfxMute          = 0;
+bool         configEnvMute          = 0;
 
 // Keyboard mappings (VK_ values, by default keyboard/gamepad/mouse)
 unsigned int configKeyA[MAX_BINDS]          = { 0x0026,   0x1000,     0x1103     };
@@ -154,6 +158,7 @@ static const struct ConfigOption options[] = {
     #ifdef TARGET_SWITCH
     {.name = "nx_hud",               .type = CONFIG_TYPE_BOOL, .boolValue = &configSwitchHud},
     #endif
+    {.name = "disable_billboard",    .type = CONFIG_TYPE_BOOL, .boolValue = &configBillboard},
     {.name = "bettercam_enable",     .type = CONFIG_TYPE_BOOL, .boolValue = &configEnableCamera},
     {.name = "bettercam_analog",     .type = CONFIG_TYPE_BOOL, .boolValue = &configCameraAnalog},
     {.name = "bettercam_mouse_look", .type = CONFIG_TYPE_BOOL, .boolValue = &configCameraMouse},

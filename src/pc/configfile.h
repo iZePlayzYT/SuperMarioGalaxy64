@@ -22,6 +22,7 @@ extern unsigned int configLanguage;
 #ifdef TARGET_SWITCH
 extern bool         configSwitchHud;
 #endif
+extern bool         configBillboard;
 extern bool         config60FPS;
 extern bool         configInternalResolutionBool;
 extern unsigned int configCustomInternalResolution;
@@ -34,6 +35,9 @@ extern unsigned int configMasterVolume;
 extern unsigned int configMusicVolume;
 extern unsigned int configSfxVolume;
 extern unsigned int configEnvVolume;
+extern bool         configMusicMute;
+extern bool         configSfxMute;
+extern bool         configEnvMute;
 extern unsigned int configKeyA[];
 extern unsigned int configKeyB[];
 extern unsigned int configKeyStart[];

@@ -80,7 +80,7 @@ static void DynOS_Music_Callback(UNUSED void *, u8 *aStream, s32 aLength) {
         return;
     }
 
-    f32 _Volume = sPlayingMusic->mVolume * (configMasterVolume / 127.f) * (configMusicVolume / 127.f) * softenVolume; //* sPlayingMusic->mVolMulti;
+    f32 _Volume = sPlayingMusic->mVolume * (configMasterVolume / 127.f) * (configMusicVolume / 127.f) * softenVolume * !configMusicMute; //* sPlayingMusic->mVolMulti;
     s32 _LenTilEnd = sPlayingMusic->mLength - sPlayingMusic->mCurrent;
     if (_LenTilEnd < aLength) {
         DynOS_Audio_Mix(aStream, sPlayingMusic->mData + sPlayingMusic->mCurrent, _LenTilEnd, _Volume, 0);
@@ -435,7 +435,7 @@ void DynOS_Sound_Play(const String& aName, f32 *aPos) {
         return;
     }
 
-    f32 aVolume = _SoundData->mVolume * (configMasterVolume / 127.f) * (configSfxVolume / 127.f);
+    f32 aVolume = _SoundData->mVolume * (configMasterVolume / 127.f) * (configSfxVolume / 127.f) * !configSfxMute;
     f32 aDistance = (aPos == NULL ? 0 : vec3f_length(aPos));
     DynOS_Audio_Mix(_SoundData->mData[1], _SoundData->mData[0], _SoundData->mLength, aVolume, aDistance);
     SDL_ClearQueuedAudio(DynOS_Sound_GetDevice(_SoundData->mBank));
