@@ -112,9 +112,9 @@ void produce_one_frame(void) {
     gfx_start_frame();
 
     const f32 master_mod = (f32)configMasterVolume / 127.0f;
-    set_sequence_player_volume(SEQ_PLAYER_LEVEL, (f32)configMusicVolume / 127.0f * master_mod);
-    set_sequence_player_volume(SEQ_PLAYER_SFX, (f32)configSfxVolume / 127.0f * master_mod);
-    set_sequence_player_volume(SEQ_PLAYER_ENV, (f32)configEnvVolume / 127.0f * master_mod);
+    set_sequence_player_volume(SEQ_PLAYER_LEVEL, ((f32)configMusicVolume / 127.0f * master_mod) * !configMusicMute);
+    set_sequence_player_volume(SEQ_PLAYER_SFX, ((f32)configSfxVolume / 127.0f * master_mod) * !configSfxMute);
+    set_sequence_player_volume(SEQ_PLAYER_ENV, ((f32)configEnvVolume / 127.0f * master_mod) * !configEnvMute);
 
     game_loop_one_iteration();
     thread6_rumble_loop(NULL);

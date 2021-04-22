@@ -52,11 +52,10 @@ void bhv_mr_i_body_loop(void) {
         obj_copy_scale(o, o->parentObj);
         obj_set_parent_relative_pos(o, 0, 0, o->header.gfx.scale[1] * 100.0f);
         obj_build_transform_from_pos_and_angle(o, 44, 15);
-#ifdef MODELPACK
-        //obj_translate_local(o, 6, 44);
-#else
-        obj_translate_local(o, 6, 44);
-#endif
+
+        if (!configBillboard)
+            obj_translate_local(o, 6, 44);
+
         o->oFaceAnglePitch = o->oMoveAnglePitch;
         o->oGraphYOffset = o->header.gfx.scale[1] * 100.f;
     }

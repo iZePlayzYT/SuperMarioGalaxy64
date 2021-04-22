@@ -222,6 +222,10 @@
 #define CYLBOARD() \
     BC_B(0x38)
 
+//Disable / Enable Billboard for the current object
+#define MODELPACK() \
+    BC_B(0x39)
+
 // Hides the current object.
 #define HIDE() \
     BC_B(0x22)
@@ -354,15 +358,12 @@ const BehaviorScript bhvMrI[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     SET_HOME(),
-#ifdef MODELPACK
-	SPAWN_OBJ(MODEL_MR_I, bhvMrIBody),
-#else
+//	SPAWN_OBJ(MODEL_MR_I, bhvMrIBody),
     SPAWN_CHILD(/*Model*/ MODEL_MR_I_IRIS, /*Behavior*/ bhvMrIBody),
     SET_MODEL(MODEL_MR_I),
-    BILLBOARD(),
-#endif
     CALL_NATIVE(bhv_init_room),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_mr_i_loop),
     END_LOOP(),
 };
@@ -879,11 +880,6 @@ const BehaviorScript bhvMrIBlueCoin[] = {
     BEGIN(OBJ_LIST_LEVEL),
     SET_INT(oInteractType, INTERACT_COIN),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_INT(oIntangibleTimer, 0),
     SET_FLOAT(oMrIUnk110, 20),
     SET_INT(oAnimState, -1),
@@ -892,6 +888,7 @@ const BehaviorScript bhvMrIBlueCoin[] = {
     SET_INT(oDamageOrCoinValue, 5),
     SET_HITBOX(/*Radius*/ 120, /*Height*/ 64),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_coin_loop),
         ADD_INT(oAnimState, 1),
     END_LOOP(),
@@ -903,9 +900,9 @@ const BehaviorScript bhvCoinInsideBoo[] = {
     SET_INT(oInteractType, INTERACT_COIN),
     OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ -400, /*Bounciness*/ -70, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
-    BILLBOARD(),
     CALL_NATIVE(bhv_init_room),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_coin_inside_boo_loop),
         ADD_INT(oAnimState, 1),
     END_LOOP(),
@@ -914,12 +911,8 @@ const BehaviorScript bhvCoinInsideBoo[] = {
 const BehaviorScript bhvCoinFormationSpawn[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_coin_formation_spawn_loop),
     END_LOOP(),
 };
@@ -942,28 +935,20 @@ const BehaviorScript bhvOneCoin[] = {
 const BehaviorScript bhvYellowCoin[] = {
     BEGIN(OBJ_LIST_LEVEL),
     // Yellow coin - common:
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     CALL_NATIVE(bhv_yellow_coin_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_yellow_coin_loop),
     END_LOOP(),
 };
 
 const BehaviorScript bhvTemporaryYellowCoin[] = {
     BEGIN(OBJ_LIST_LEVEL),
- #ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     CALL_NATIVE(bhv_yellow_coin_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_temp_coin_loop),
     END_LOOP(),
 };
@@ -989,14 +974,10 @@ const BehaviorScript bhvTenCoinsSpawn[] = {
 const BehaviorScript bhvSingleCoinGetsSpawned[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     CALL_NATIVE(bhv_coin_init),
     SET_OBJ_PHYSICS(/*Wall hitbox radius*/ 30, /*Gravity*/ -400, /*Bounciness*/ -70, /*Drag strength*/ 1000, /*Friction*/ 1000, /*Buoyancy*/ 200, /*Unused*/ 0, 0),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_coin_loop),
         ADD_INT(oAnimState, 1),
     END_LOOP(),
@@ -1675,12 +1656,8 @@ const BehaviorScript bhvLeafParticleSpawner[] = {
 const BehaviorScript bhvTreeSnow[] = {
     BEGIN(OBJ_LIST_UNIMPORTANT),
     OR_INT(oFlags, (OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_tree_snow_or_leaf_loop),
     END_LOOP(),
 };
@@ -1981,11 +1958,7 @@ const BehaviorScript bhvUnused1820[] = {
 
 const BehaviorScript bhvBowserTailAnchor[] = {
     BEGIN(OBJ_LIST_GENACTOR),
-#ifdef MODELPACK
-	SET_HITBOX_WITH_OFFSET(/*Radius*/ 175, /*Height*/ 50, /*Downwards offset*/ -50), //163
-#else
     SET_HITBOX_WITH_OFFSET(/*Radius*/ 100, /*Height*/ 50, /*Downwards offset*/ -50),
-#endif
     SET_INT(oIntangibleTimer, 0),
     DISABLE_RENDERING(),
     BEGIN_LOOP(),
@@ -2870,16 +2843,12 @@ const BehaviorScript bhvHiddenBlueCoin[] = {
     BEGIN(OBJ_LIST_LEVEL),
     SET_INT(oInteractType, INTERACT_COIN),
     OR_INT(oFlags, (OBJ_FLAG_ACTIVE_FROM_AFAR | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_HITBOX(/*Radius*/ 100, /*Height*/ 64),
     SET_INT(oDamageOrCoinValue, 5),
     SET_INT(oIntangibleTimer, 0),
     SET_INT(oAnimState, -1),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_hidden_blue_coin_loop),
         ADD_INT(oAnimState, 1),
     END_LOOP(),
@@ -3221,16 +3190,12 @@ const BehaviorScript bhvFloorTrapInCastle[] = {
 
 const BehaviorScript bhvTree[] = {
     BEGIN(OBJ_LIST_POLELIKE),
-#ifdef MODELPACK
-    //CYLBOARD(),
-#else
-    CYLBOARD(),
-#endif
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
     SET_INT(oInteractType, INTERACT_POLE),
     SET_HITBOX(/*Radius*/ 80, /*Height*/ 500),
     SET_INT(oIntangibleTimer, 0),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_pole_base_loop),
     END_LOOP(),
 };
@@ -3680,17 +3645,13 @@ const BehaviorScript bhvActSelector[] = {
 const BehaviorScript bhvMovingYellowCoin[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_HITBOX(/*Radius*/ 100, /*Height*/ 64),
     SET_INT(oInteractType, INTERACT_COIN),
     SET_INT(oIntangibleTimer, 0),
     SET_INT(oAnimState, -1),
     CALL_NATIVE(bhv_moving_yellow_coin_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_moving_yellow_coin_loop),
         ADD_INT(oAnimState, 1),
     END_LOOP(),
@@ -3699,17 +3660,13 @@ const BehaviorScript bhvMovingYellowCoin[] = {
 const BehaviorScript bhvMovingYellowCoinWario[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_HITBOX(/*Radius*/ 100, /*Height*/ 64),
     SET_INT(oInteractType, INTERACT_COIN),
     SET_INT(oIntangibleTimer, 0),
     SET_INT(oAnimState, -1),
     CALL_NATIVE(bhv_moving_yellow_coin_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_moving_yellow_coin_loop),
         ADD_INT(oAnimState, 1),
     END_LOOP(),
@@ -3719,15 +3676,11 @@ const BehaviorScript bhvMovingYellowCoinWario[] = {
 const BehaviorScript bhvBlueCoinMotos[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_INT(oIntangibleTimer, 0),
     SET_INT(oAnimState, -1),
     CALL_NATIVE(bhv_moving_blue_coin_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_moving_yellow_coin_loop),
         ADD_INT(oAnimState, 1),
     END_LOOP(),
@@ -3736,15 +3689,11 @@ const BehaviorScript bhvBlueCoinMotos[] = {
 const BehaviorScript bhvMovingBlueCoin[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_INT(oIntangibleTimer, 0),
     SET_INT(oAnimState, -1),
     CALL_NATIVE(bhv_moving_blue_coin_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_moving_blue_coin_loop),
         ADD_INT(oAnimState, 1),
     END_LOOP(),
@@ -3753,15 +3702,11 @@ const BehaviorScript bhvMovingBlueCoin[] = {
 const BehaviorScript bhvBlueCoinSliding[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_INT(oIntangibleTimer, 0),
     SET_INT(oAnimState, -1),
     CALL_NATIVE(bhv_blue_coin_sliding_jumping_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_blue_coin_sliding_loop),
         ADD_INT(oAnimState, 1),
     END_LOOP(),
@@ -3770,15 +3715,11 @@ const BehaviorScript bhvBlueCoinSliding[] = {
 const BehaviorScript bhvBlueCoinJumping[] = {
     BEGIN(OBJ_LIST_GENACTOR),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_INT(oIntangibleTimer, 0),
     SET_INT(oAnimState, -1),
     CALL_NATIVE(bhv_blue_coin_sliding_jumping_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_blue_coin_jumping_loop),
         ADD_INT(oAnimState, 1),
     END_LOOP(),
@@ -4732,16 +4673,12 @@ const BehaviorScript bhvHiddenRedCoinStar[] = {
 const BehaviorScript bhvRedCoin[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_INT(oIntangibleTimer, 0),
     SET_INT(oAnimState, -1),
     CALL_NATIVE(bhv_init_room),
     CALL_NATIVE(bhv_red_coin_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_red_coin_loop),
         ADD_INT(oAnimState, 1),
     END_LOOP(),
@@ -4814,15 +4751,11 @@ const BehaviorScript bhvLllRollingLog[] = {
 const BehaviorScript bhv1upWalking[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_HITBOX_WITH_OFFSET(/*Radius*/ 30, /*Height*/ 30, /*Downwards offset*/ 0),
     SET_FLOAT(oGraphYOffset, 30),
     CALL_NATIVE(bhv_1up_common_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_1up_walking_loop),
     END_LOOP(),
 };
@@ -4830,15 +4763,11 @@ const BehaviorScript bhv1upWalking[] = {
 const BehaviorScript bhv1upRunningAway[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_HITBOX_WITH_OFFSET(/*Radius*/ 30, /*Height*/ 30, /*Downwards offset*/ 0),
     SET_FLOAT(oGraphYOffset, 30),
     CALL_NATIVE(bhv_1up_common_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         CALL_NATIVE(bhv_1up_running_away_loop),
     END_LOOP(),
 };
@@ -4846,15 +4775,11 @@ const BehaviorScript bhv1upRunningAway[] = {
 const BehaviorScript bhv1upSliding[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_HITBOX_WITH_OFFSET(/*Radius*/ 30, /*Height*/ 30, /*Downwards offset*/ 0),
     SET_FLOAT(oGraphYOffset, 30),
     CALL_NATIVE(bhv_1up_common_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         SET_INT(oIntangibleTimer, 0),
         CALL_NATIVE(bhv_1up_sliding_loop),
     END_LOOP(),
@@ -4863,15 +4788,11 @@ const BehaviorScript bhv1upSliding[] = {
 const BehaviorScript bhv1Up[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_HITBOX_WITH_OFFSET(/*Radius*/ 30, /*Height*/ 30, /*Downwards offset*/ 0),
     SET_FLOAT(oGraphYOffset, 30),
     CALL_NATIVE(bhv_1up_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         SET_INT(oIntangibleTimer, 0),
         CALL_NATIVE(bhv_1up_loop),
     END_LOOP(),
@@ -4880,15 +4801,11 @@ const BehaviorScript bhv1Up[] = {
 const BehaviorScript bhv1upJumpOnApproach[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_HITBOX_WITH_OFFSET(/*Radius*/ 30, /*Height*/ 30, /*Downwards offset*/ 0),
     SET_FLOAT(oGraphYOffset, 30),
     CALL_NATIVE(bhv_1up_common_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         SET_INT(oIntangibleTimer, 0),
         CALL_NATIVE(bhv_1up_jump_on_approach_loop),
     END_LOOP(),
@@ -4897,15 +4814,11 @@ const BehaviorScript bhv1upJumpOnApproach[] = {
 const BehaviorScript bhvHidden1up[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_HITBOX_WITH_OFFSET(/*Radius*/ 30, /*Height*/ 30, /*Downwards offset*/ 0),
     SET_FLOAT(oGraphYOffset, 30),
     CALL_NATIVE(bhv_1up_common_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         SET_INT(oIntangibleTimer, 0),
         CALL_NATIVE(bhv_1up_hidden_loop),
     END_LOOP(),
@@ -4924,15 +4837,11 @@ const BehaviorScript bhvHidden1upTrigger[] = {
 const BehaviorScript bhvHidden1upInPole[] = {
     BEGIN(OBJ_LIST_LEVEL),
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_ANGLE_TO_MARIO | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
-#ifdef MODELPACK
-    //BILLBOARD(),
-#else
-    BILLBOARD(),
-#endif
     SET_HITBOX_WITH_OFFSET(/*Radius*/ 30, /*Height*/ 30, /*Downwards offset*/ 0),
     SET_FLOAT(oGraphYOffset, 30),
     CALL_NATIVE(bhv_1up_common_init),
     BEGIN_LOOP(),
+        MODELPACK(),
         SET_INT(oIntangibleTimer, 0),
         CALL_NATIVE(bhv_1up_hidden_in_pole_loop),
     END_LOOP(),
@@ -5432,6 +5341,7 @@ const BehaviorScript bhvCloud[] = {
     SET_HOME(),
     SET_INT(oOpacity, 240),
     BEGIN_LOOP(),
+
         CALL_NATIVE(bhv_cloud_update),
     END_LOOP(),
 };
