@@ -201,6 +201,30 @@ static s32 bhv_cmd_spawn_obj(void) {
     return BHV_PROC_CONTINUE;
 }
 
+// Render96 fix for Mr I using dynos
+// Usage: SPAWN_MR_I()
+static s32 bhv_cmd_mr_i_fix(void) {
+    u32 model;
+    if (!configBillboard) {
+        model = 102;
+        gCurrentObject->header.gfx.sharedChild = gLoadedGraphNodes[103];
+    }
+    else {
+        model = 103;
+    }
+        const BehaviorScript *behavior = bhvMrIBody;
+        struct Object *child = spawn_object_at_origin(gCurrentObject, 0, model, behavior);
+        obj_copy_pos_and_angle(child, gCurrentObject);
+
+    if (configBillboard) {
+        gCurrentObject->prevObj = child;
+    }
+
+    gCurBhvCommand += 3;
+    return BHV_PROC_CONTINUE;
+}
+
+
 // Command 0x29: Spawns a child object with the specified model and behavior, plus a behavior param.
 // Usage: SPAWN_CHILD_WITH_PARAM(bhvParam, modelID, behavior)
 static s32 bhv_cmd_spawn_child_with_param(void) {
@@ -923,7 +947,8 @@ static BhvCommandProc BehaviorCmdTable[] = {
     bhv_cmd_set_int_unused, //36
     bhv_cmd_spawn_water_droplet, //37
     bhv_cmd_cylboard, //38
-    bhv_cmd_modelpackbillboard //39
+    bhv_cmd_modelpackbillboard, //39
+    bhv_cmd_mr_i_fix //3A
 };
 
 // Execute the behavior script of the current object, process the object flags, and other miscellaneous code for updating objects.
