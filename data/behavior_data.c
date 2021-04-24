@@ -198,6 +198,11 @@
     BC_W(modelID), \
     BC_PTR(behavior)
 
+// Render96 fix for Mr I using dynos
+// Usage: SPAWN_MR_I()
+#define SPAWN_MR_I() \
+    BC_B(0x3A)
+
 // Exits the behavior script and despawns the object.
 // Often used to end behavior scripts that do not contain an infinite loop.
 #define DEACTIVATE() \
@@ -359,8 +364,9 @@ const BehaviorScript bhvMrI[] = {
     OR_INT(oFlags, (OBJ_FLAG_COMPUTE_DIST_TO_MARIO | OBJ_FLAG_SET_FACE_YAW_TO_MOVE_YAW | OBJ_FLAG_MOVE_XZ_USING_FVEL | OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE)),
     SET_HOME(),
 //	SPAWN_OBJ(MODEL_MR_I, bhvMrIBody),
-    SPAWN_CHILD(/*Model*/ MODEL_MR_I_IRIS, /*Behavior*/ bhvMrIBody),
-    SET_MODEL(MODEL_MR_I),
+//  SPAWN_CHILD(/*Model*/ MODEL_MR_I_IRIS, /*Behavior*/ bhvMrIBody),
+//  SET_MODEL(MODEL_MR_I),
+    SPAWN_MR_I(),
     CALL_NATIVE(bhv_init_room),
     BEGIN_LOOP(),
         MODELPACK(),
