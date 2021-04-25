@@ -116,7 +116,7 @@ s32 mario_update_punch_sequence(struct MarioState *m) {
             animFrame = set_mario_animation(m, MARIO_ANIM_GROUND_KICK);
             if (animFrame == 0) {
                 m->marioBodyState->punchState = (2 << 6) | 6;
-                r96_play_character_sound(m, R96_MARIO_HOO, R96_LUIGI_HOO, R96_WARIO_HOO);
+                r96_play_character_sound(m, R96_MARIO_PUNCH_HOO, R96_LUIGI_PUNCH_HOO, R96_WARIO_PUNCH_HOO);
             }
 
             if (animFrame >= 0 && animFrame < 8) {
@@ -133,7 +133,7 @@ s32 mario_update_punch_sequence(struct MarioState *m) {
             set_mario_animation(m, MARIO_ANIM_BREAKDANCE);
             animFrame = m->marioObj->header.gfx.curAnim.animFrame;
             if (animFrame == 0) {
-                r96_play_character_sound(m, R96_MARIO_HOO, R96_LUIGI_HOO, R96_WARIO_HOO);
+                r96_play_character_sound(m, R96_MARIO_PUNCH_HOO, R96_LUIGI_PUNCH_HOO, R96_WARIO_PUNCH_HOO);
             }
             if (animFrame >= 2 && animFrame < 8) {
                 m->flags |= MARIO_TRIPPING;
