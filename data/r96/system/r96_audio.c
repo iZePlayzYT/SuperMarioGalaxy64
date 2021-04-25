@@ -322,8 +322,6 @@ void r96_level_music_update() {
             || dynos_jingle_is_playing(R96_EVENT_RACE_FANFARE)
             || dynos_jingle_is_playing(R96_EVENT_SOLVE_PUZZLE)
             || dynos_jingle_is_playing(R96_EVENT_KOOPA_MESSAGE)
-            || dynos_jingle_is_playing(R96_EVENT_KEY_COLLECT)
-            || dynos_jingle_is_playing(R96_EVENT_STAR_COLLECT)
         ) {
             r96_jingle_fade_in();
             r96_music_fade_out();
@@ -338,6 +336,11 @@ void r96_level_music_update() {
             && !dynos_jingle_is_playing(R96_EVENT_PIRANHA_PLANT)
         ) {
             r96_music_fade_in();
+        }
+        if (dynos_jingle_is_playing(R96_EVENT_STAR_COLLECT)
+            || dynos_jingle_is_playing(R96_EVENT_KEY_COLLECT)
+        ) {
+            r96_stop_music();
         }
     }
 }
@@ -385,10 +388,14 @@ const char *r96_get_intended_level_music() {
         }
     }
 
-// Castle Courtyard
+// Castle Grounds
     if (gCurrLevelNum == LEVEL_CASTLE_GROUNDS) {
         if (gCurrLevelArea == AREA_CASTLE_GROUNDS)
-            if (dynos_jingle_is_playing(R96_EVENT_INTRO))
+            if (dynos_jingle_is_playing(R96_EVENT_INTRO)
+            || dynos_jingle_is_playing(R96_EVENT_PEACH_MESSAGE)
+            || dynos_jingle_is_playing(R96_EVENT_PEACH_ENDING) 
+            || dynos_jingle_is_playing(R96_EVENT_CREDITS)
+        )
                 r96_stop_music();
             return R96_LEVEL_CASTLE_GROUNDS;
     }
