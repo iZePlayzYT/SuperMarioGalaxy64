@@ -56,7 +56,7 @@ static DynosOption *DynOS_Opt_ConvertOption(const u8 *aLabel, const u8 *aTitle) 
     _Opt->mName         = (const char *) aLabel;
     _Opt->mConfigName   = "";
     _Opt->mLabel        = { (const char *) aLabel, NULL };
-    _Opt->mTitle        = { (const char *) aLabel, NULL };
+    _Opt->mTitle        = { (const char *) aTitle, NULL };
     _Opt->mDynos        = false;
     if (sPrevOpt == NULL) { // The very first option
         _Opt->mPrev     = NULL;
