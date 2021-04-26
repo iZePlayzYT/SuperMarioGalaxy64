@@ -209,7 +209,7 @@ Gfx *geo_exec_cake_end_screen(s32 callContext, struct GraphNode *node, UNUSED f3
             texture = "levels/ending/cake_wario";
         if(isLuigi())
             texture = "levels/ending/cake_luigi";
-        if (save_file_get_total_star_count(gCurrSaveFileNum - 1, 0, 24) < 120)
+        if (save_file_get_total_star_count(gCurrSaveFileNum - 1, 0, 24) < 70)
             texture = "levels/ending/cake_bowser";
 
         gSPDisplayList(displayListHead++, dl_proj_mtx_fullscreen);

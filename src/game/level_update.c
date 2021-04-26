@@ -1325,7 +1325,7 @@ s32 lvl_set_current_level(UNUSED s16 arg0, s32 levelNum) {
  * Play the "thank you so much for to playing my game" sound.
  */
 s32 lvl_play_the_end_screen_sound(UNUSED s16 arg0, UNUSED s32 arg1) {
-    if (save_file_get_total_star_count(gCurrSaveFileNum - 1, 0, 24) < 120) {
+    if (save_file_get_total_star_count(gCurrSaveFileNum - 1, 0, 24) < 70) {
         play_sound(SOUND_OBJ_BOWSER_LAUGH, gDefaultSoundArgs);
         r96_play_jingle(R96_EVENT_KOOPA_MESSAGE);
     }
