@@ -1846,7 +1846,7 @@ void print_erase_menu_prompt(s16 x, s16 y) {
  * Defines IDs for the top message of the erase menu and displays it if the ID is called in messageID.
  */
 void erase_menu_display_message(s8 messageID) {
-    u8 textMarioAJustErased[] = { get_key_string("TEXT_FILE_MARIO_A_JUST_ERASED") };
+    u8 *textMarioAJustErased = get_key_string("TEXT_FILE_MARIO_A_JUST_ERASED");
 
     switch (messageID) {
         case ERASE_MSG_MAIN_TEXT:
