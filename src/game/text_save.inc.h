@@ -123,7 +123,7 @@ static s32 write_text_save(s32 fileIndex) {
     fprintf(file, "\n[flags]\n");
     for (i = 1; i < NUM_FLAGS; i++) {
         if (strcmp(sav_flags[i], "")) {
-            flags = save_file_get_flags();
+            flags = gSaveBuffer.files[fileIndex][0].flags;
             flags = (flags & (1 << i));     // Get 'star' flag bit
             flags = (flags) ? 1 : 0;
 
@@ -167,7 +167,7 @@ static s32 write_text_save(s32 fileIndex) {
 
     fprintf(file, "\n[cap]\n");
     for (i = 0; i < NUM_CAP_ON; i++) {
-        flags = save_file_get_flags();
+        flags = gSaveBuffer.files[fileIndex][0].flags;
         bit = (1 << (i+16));        // Determine current flag
         flags = (flags & bit);      // Get 'cap' flag bit
         flags = (flags) ? 1 : 0;
