@@ -2137,8 +2137,20 @@ static void end_peach_cutscene_descend_peach(struct MarioState *m) {
         set_mario_animation(m, MARIO_ANIM_CREDITS_RETURN_FROM_LOOK_UP);
     }
 
-    if ((sEndPeachObj->oPosY -= m->actionState / 10) <= 907.0f) {
+    if (isWario()) {
+        if ((sEndPeachObj->oPosY -= m->actionState / 10) <= 907.0f) {
         sEndPeachObj->oPosY = 906.0f;
+        }
+    }
+    if (isLuigi()) {
+        if ((sEndPeachObj->oPosY -= m->actionState / 10) <= 902.0f) {
+            sEndPeachObj->oPosY = 901.0f;
+        }
+    }
+    if (!isWario() && !isLuigi()) {
+        if ((sEndPeachObj->oPosY -= m->actionState / 10) <= 897.0f) {
+            sEndPeachObj->oPosY = 896.0f;
+        }
     }
 
     play_sound(SOUND_AIR_PEACH_TWINKLE, sEndPeachObj->header.gfx.cameraToObject);
@@ -2158,8 +2170,8 @@ static void end_peach_cutscene_run_to_peach(struct MarioState *m) {
         sEndPeachAnimation = 5;
     }
 
-    if ((m->pos[2] -= 20.0f) <= -1181.0f) {
-        m->pos[2] = -1180.0f;
+    if ((m->pos[2] -= 20.0f) <= -1194.0f) {
+        m->pos[2] = -1193.0f;
         advance_cutscene_step(m);
     }
 
