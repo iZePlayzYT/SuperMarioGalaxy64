@@ -311,31 +311,6 @@ void transform_loaded_vertex(size_t i, Mat4f *src) {
 
 #endif
 
-#ifdef GFX_ENABLE_GRAPH_NODE_MODS
-
-void gfx_push_geo_layout(void *geo_layout) {
-    // TODO(RT64) DynOS pushes layouts before the graphics are even initialized.
-    //gfx_rapi->push_geo_layout(geo_layout);
-}
-
-void gfx_register_graph_node_layout(void *graph_node) {
-    // TODO(RT64) DynOS pushes layouts before the graphics are even initialized.
-    //gfx_rapi->register_graph_node_layout(graph_node);
-}
-
-void gfx_pop_geo_layout(void) {
-    // TODO(RT64) DynOS pushes layouts before the graphics are even initialized.
-    //gfx_rapi->pop_geo_layout();
-}
-
-void *gfx_get_graph_node_mod(void *graph_node) {
-    // TODO(RT64) DynOS pushes layouts before the graphics are even initialized.
-    //return gfx_rapi->get_graph_node_mod(graph_node);
-    return NULL;
-}
-
-#endif
-
 static void gfx_flush(void) {
     if (buf_vbo_len > 0) {
         int num = buf_vbo_num_tris;

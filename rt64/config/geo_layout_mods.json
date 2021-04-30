@@ -1,9 +1,7 @@
 {
     "geoLayouts": [
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "amp_geo"
         },
         {
@@ -19,15 +17,11 @@
             "name": "blargg_geo"
         },
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "blue_coin_geo"
         },
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "blue_coin_no_shadow_geo"
         },
         {
@@ -88,9 +82,7 @@
             "name": "bookend_part_geo"
         },
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "bowling_ball_geo"
         },
         {
@@ -158,9 +150,7 @@
             "name": "bubble_geo"
         },
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "bubbly_tree_geo"
         },
         {
@@ -486,7 +476,6 @@
                 "specularIntensity": 0.6499999761581421
             },
             "materialMod": {
-                "ignoreNormalFactor": 1.0,
                 "lightGroupMaskBits": 0,
                 "selfLight": [
                     0.699999988079071,
@@ -503,9 +492,7 @@
             "name": "number_geo"
         },
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "palm_tree_geo"
         },
         {
@@ -521,15 +508,11 @@
             "name": "piranha_plant_geo"
         },
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "pokey_body_part_geo"
         },
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "pokey_head_geo"
         },
         {
@@ -541,15 +524,11 @@
             "name": "purple_switch_geo"
         },
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "red_coin_geo"
         },
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "red_coin_no_shadow_geo"
         },
         {
@@ -618,9 +597,7 @@
             "name": "smoke_geo"
         },
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "snow_tree_geo"
         },
         {
@@ -690,15 +667,11 @@
             "name": "sparkles_geo"
         },
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "spiky_tree1_geo"
         },
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "spiky_tree_geo"
         },
         {
@@ -842,15 +815,11 @@
             "name": "wooden_signpost_geo"
         },
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "yellow_coin_geo"
         },
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "yellow_coin_no_shadow_geo"
         },
         {

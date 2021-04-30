@@ -952,9 +952,6 @@ static void gfx_rt64_wapi_init(const char *window_title) {
     RT64.farDist = 1000.0f;
     RT64.fovRadians = 0.75f;
 
-	// Load the geo layout mods from a file.
-	gfx_rt64_load_geo_layout_mods();
-
 	// Load the texture mods from a file.
 	gfx_rt64_load_texture_mods();
 
@@ -1699,6 +1696,28 @@ static void *gfx_rt64_rapi_get_graph_node_mod(void *graphNode) {
 	return (graphNodeIt != RT64.graphNodeMods.end()) ? graphNodeIt->second : nullptr;
 }
 
+extern "C" void gfx_push_geo_layout(void *geo_layout) {
+    gfx_rt64_rapi_push_geo_layout(geo_layout);
+}
+
+extern "C" void gfx_register_graph_node_layout(void *graph_node) {
+	static bool loadedLayoutMods = false;
+	if (!loadedLayoutMods) {
+		gfx_rt64_load_geo_layout_mods();
+		loadedLayoutMods = true;
+	}
+
+    gfx_rt64_rapi_register_graph_node_layout(graph_node);
+}
+
+extern "C" void gfx_pop_geo_layout(void) {
+    gfx_rt64_rapi_pop_geo_layout();
+}
+
+extern "C" void *gfx_get_graph_node_mod(void *graph_node) {
+    return gfx_rt64_rapi_get_graph_node_mod(graph_node);
+}
+
 static void gfx_rt64_rapi_set_graph_node_mod(void *graph_node_mod) {
 	RT64.graphNodeMod = (RecordedMod *)(graph_node_mod);
 }
@@ -1738,10 +1757,6 @@ struct GfxRenderingAPI gfx_rt64_rapi = {
 	gfx_rt64_rapi_set_camera_matrix,
 	gfx_rt64_rapi_draw_triangles_ortho,
     gfx_rt64_rapi_draw_triangles_persp,
-	gfx_rt64_rapi_push_geo_layout,
-    gfx_rt64_rapi_register_graph_node_layout,
-    gfx_rt64_rapi_pop_geo_layout,
-    gfx_rt64_rapi_get_graph_node_mod,
 	gfx_rt64_rapi_set_graph_node_mod,
     gfx_rt64_rapi_init,
 	gfx_rt64_rapi_on_resize,

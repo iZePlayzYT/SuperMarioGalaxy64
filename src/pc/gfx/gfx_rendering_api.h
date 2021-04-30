@@ -42,10 +42,6 @@ struct GfxRenderingAPI {
     void (*draw_triangles_persp)(float buf_vbo[], size_t buf_vbo_len, size_t buf_vbo_num_tris, float transform_affine[4][4], bool double_sided);
 #endif
 #ifdef GFX_ENABLE_GRAPH_NODE_MODS
-    void (*push_geo_layout)(void *geo_layout);
-    void (*register_graph_node_layout)(void *graph_node);
-    void (*pop_geo_layout)(void);
-    void *(*get_graph_node_mod)(void *graph_node);
     void (*set_graph_node_mod)(void *graph_node_mod);
 #endif
     void (*init)(void);

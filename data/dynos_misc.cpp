@@ -34,6 +34,7 @@ extern "C" {
 #include "actors/group15.h"
 #include "actors/group16.h"
 #include "actors/group17.h"
+#include "../src/pc/gfx/gfx_pc.h"
 }
 
 //
@@ -397,6 +398,9 @@ s32 DynOS_Geo_GetFunctionIndex(const void *aPtr) {
 static void _RelocateGraphNodePointers(struct GraphNode *aHead, u64 aOffset) {
     struct GraphNode *_Node = aHead;
     do {
+#ifdef GFX_ENABLE_GRAPH_NODE_MODS
+        gfx_register_graph_node_layout(_Node);
+#endif
         if (_Node->prev) {
             _Node->prev = (struct GraphNode *) ((u64) _Node->prev + aOffset);
         }
@@ -436,9 +440,17 @@ void *DynOS_Geo_GetGraphNode(const void *aGeoLayout, bool aKeepInMemory) {
         struct GraphNode *_Node = (struct GraphNode *) calloc(1, _Pool->usedSpace);
         memcpy(_Node, _Pool->startPtr, _Pool->usedSpace);
 
+#ifdef GFX_ENABLE_GRAPH_NODE_MODS
+        gfx_push_geo_layout((void *)(aGeoLayout));
+#endif
+
         // Relocate all graph pointers
         u64 _Offset = (u64) _Node - (u64) _Pool->startPtr;
         _RelocateGraphNodePointers(_Node, _Offset);
+
+#ifdef GFX_ENABLE_GRAPH_NODE_MODS
+        gfx_pop_geo_layout();
+#endif
 
         // Add it to loaded graph nodes
         if (aKeepInMemory) {
