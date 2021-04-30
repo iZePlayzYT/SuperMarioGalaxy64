@@ -16,6 +16,7 @@
 #include "gfx/gfx_opengl.h"
 #include "gfx/gfx_direct3d11.h"
 #include "gfx/gfx_direct3d12.h"
+#include "gfx/gfx_rt64.h"
 
 #include "gfx/gfx_dxgi.h"
 #include "gfx/gfx_sdl.h"
@@ -139,12 +140,14 @@ void produce_one_frame(void) {
     audio_api->play((u8 *)audio_buffer, 2 * num_audio_samples * 4);
 
     gfx_end_frame();
+    /* TODO(RT64) This seems to send over double the amount of draw calls it should for some reason.
     gfx_start_frame();
     if (config60FPS) {
         patch_interpolations();
     }
     send_display_list(gGfxSPTask);
     gfx_end_frame();
+    */
 }
 
 void audio_shutdown(void) {
@@ -245,6 +248,10 @@ void main_func(char *argv[]) {
     # else
     #  define RAPI_NAME "OpenGL"
     # endif
+    #elif defined(RAPI_RT64)
+    # define RAPI_NAME "RT64"
+    wm_api = &gfx_rt64_wapi;
+    rendering_api = &gfx_rt64_rapi;
     #else
     #error No rendering API!
     #endif

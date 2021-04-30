@@ -44,7 +44,12 @@
 #define RATIO_X (gfx_current_dimensions.width / (2.0f * HALF_SCREEN_WIDTH))
 #define RATIO_Y (gfx_current_dimensions.height / (2.0f * HALF_SCREEN_HEIGHT))
 
+#ifdef GFX_MAX_BUFFERED
+#define MAX_BUFFERED GFX_MAX_BUFFERED
+#else
 #define MAX_BUFFERED 256
+#endif
+
 #define MAX_LIGHTS 2
 #define MAX_VERTICES 64
 
@@ -64,9 +69,14 @@ struct XYWidthHeight {
 
 struct LoadedVertex {
     float x, y, z, w;
+#ifdef GFX_OUTPUT_NORMALS_TO_VBO
+    float nx, ny, nz;
+#endif
     float u, v;
     struct RGBA color;
+#ifndef GFX_SEPARATE_PROJECTIONS
     uint8_t clip_rej;
+#endif
 };
 
 struct TextureHashmapNode {
@@ -190,11 +200,159 @@ static unsigned long get_time(void) {
     return 0;
 }
 
+#ifdef GFX_SEPARATE_PROJECTIONS
+
+#include "goddard/gd_math.h"
+
+static struct Matrices {
+    float model_matrix[4][4];
+    float inv_model_matrix[4][4];
+    float extra_model_matrix[4][4];
+    float camera_matrix[4][4];
+    float modified_camera_matrix[4][4];
+    float graph_view_matrix[4][4];
+    float graph_inv_view_matrix[4][4];
+    float prev_model_matrix[4][4];
+    float offset_matrix[4][4];
+    bool model_matrix_used;
+    bool is_ortho;
+    bool double_sided;
+    bool persp_triangles_drawn;
+    bool camera_matrix_set;
+} separate_projections;
+
+void gfx_set_camera_perspective(float fov_degrees, float near_dist, float far_dist) {
+    gfx_rapi->set_camera_perspective(fov_degrees, near_dist, far_dist);
+}
+
+void gfx_set_camera_matrix(float mat[4][4]) {
+    // Store camera matrix.
+    memcpy(separate_projections.camera_matrix, mat, sizeof(float) * 16);
+    gfx_rapi->set_camera_matrix(separate_projections.camera_matrix);
+
+    // Since this call comes from the graph node, store it so we can reverse its effect
+    // on the model view matrices later.
+    memcpy(separate_projections.graph_view_matrix, mat, sizeof(float) * 16);
+    gd_inverse_mat4f(&separate_projections.graph_view_matrix, &separate_projections.graph_inv_view_matrix);
+
+    separate_projections.camera_matrix_set = true;
+}
+
+bool is_affine(float mat[4][4]) {
+    return (mat[0][3] == 0.0f) && (mat[1][3] == 0.0f) && (mat[2][3] == 0.0f) && (mat[3][3] == 1.0f);
+}
+
+void inverse_affine(Mat4f *src, Mat4f *dst) {
+    float m10 = (*src)[0][1], m11 = (*src)[1][1], m12 = (*src)[2][1];
+    float m20 = (*src)[0][2], m21 = (*src)[1][2], m22 = (*src)[2][2];
+
+    float t00 = m22 * m11 - m21 * m12;
+    float t10 = m20 * m12 - m22 * m10;
+    float t20 = m21 * m10 - m20 * m11;
+
+    float m00 = (*src)[0][0], m01 = (*src)[1][0], m02 = (*src)[2][0];
+
+    float invDet = 1.0f / (m00 * t00 + m01 * t10 + m02 * t20);
+
+    t00 *= invDet; t10 *= invDet; t20 *= invDet;
+
+    m00 *= invDet; m01 *= invDet; m02 *= invDet;
+
+    float r00 = t00;
+    float r01 = m02 * m21 - m01 * m22;
+    float r02 = m01 * m12 - m02 * m11;
+
+    float r10 = t10;
+    float r11 = m00 * m22 - m02 * m20;
+    float r12 = m02 * m10 - m00 * m12;
+
+    float r20 = t20;
+    float r21 = m01 * m20 - m00 * m21;
+    float r22 = m00 * m11 - m01 * m10;
+
+    float m03 = (*src)[3][0], m13 = (*src)[3][1], m23 = (*src)[3][2];
+
+    float r03 = -(r00 * m03 + r01 * m13 + r02 * m23);
+    float r13 = -(r10 * m03 + r11 * m13 + r12 * m23);
+    float r23 = -(r20 * m03 + r21 * m13 + r22 * m23);
+
+    (*dst)[0][0] = r00; (*dst)[1][0] = r01; (*dst)[2][0] = r02; (*dst)[3][0] = r03;
+    (*dst)[0][1] = r10; (*dst)[1][1] = r11; (*dst)[2][1] = r12; (*dst)[3][1] = r13;
+    (*dst)[0][2] = r20; (*dst)[1][2] = r21; (*dst)[2][2] = r22; (*dst)[3][2] = r23;
+    (*dst)[0][3] = 0.0f; (*dst)[1][3] = 0.0f; (*dst)[2][3] = 0.0f; (*dst)[3][3] = 1.0f;
+}
+
+bool is_identity(float mat[4][4]) {
+    return
+        mat[0][0] == 1.0f && mat[1][0] == 0.0f && mat[2][0] == 0.0f && mat[3][0] == 0.0f &&
+        mat[0][1] == 0.0f && mat[1][1] == 1.0f && mat[2][1] == 0.0f && mat[3][1] == 0.0f &&
+        mat[0][2] == 0.0f && mat[1][2] == 0.0f && mat[2][2] == 1.0f && mat[3][2] == 0.0f &&
+        mat[0][3] == 0.0f && mat[1][3] == 0.0f && mat[2][3] == 0.0f && mat[3][3] == 1.0f;
+}
+
+void transform_loaded_vertex(size_t i, Mat4f *src) {
+    struct LoadedVertex *d = &rsp.loaded_vertices[i];
+    float x = d->x * (*src)[0][0] + d->y * (*src)[1][0] + d->z * (*src)[2][0] + (*src)[3][0];
+    float y = d->x * (*src)[0][1] + d->y * (*src)[1][1] + d->z * (*src)[2][1] + (*src)[3][1];
+    float z = d->x * (*src)[0][2] + d->y * (*src)[1][2] + d->z * (*src)[2][2] + (*src)[3][2];
+    d->x = x;
+    d->y = y;
+    d->z = z;
+
+#ifdef GFX_OUTPUT_NORMALS_TO_VBO
+    float nx = d->nx * (*src)[0][0] + d->ny * (*src)[1][0] + d->nz * (*src)[2][0];
+    float ny = d->nx * (*src)[0][1] + d->ny * (*src)[1][1] + d->nz * (*src)[2][1];
+    float nz = d->nx * (*src)[0][2] + d->ny * (*src)[1][2] + d->nz * (*src)[2][2];
+    d->nx = nx;
+    d->ny = ny;
+    d->nz = nz;
+#endif
+}
+
+#endif
+
+#ifdef GFX_ENABLE_GRAPH_NODE_MODS
+
+void gfx_push_geo_layout(void *geo_layout) {
+    // TODO(RT64) DynOS pushes layouts before the graphics are even initialized.
+    //gfx_rapi->push_geo_layout(geo_layout);
+}
+
+void gfx_register_graph_node_layout(void *graph_node) {
+    // TODO(RT64) DynOS pushes layouts before the graphics are even initialized.
+    //gfx_rapi->register_graph_node_layout(graph_node);
+}
+
+void gfx_pop_geo_layout(void) {
+    // TODO(RT64) DynOS pushes layouts before the graphics are even initialized.
+    //gfx_rapi->pop_geo_layout();
+}
+
+void *gfx_get_graph_node_mod(void *graph_node) {
+    // TODO(RT64) DynOS pushes layouts before the graphics are even initialized.
+    //return gfx_rapi->get_graph_node_mod(graph_node);
+    return NULL;
+}
+
+#endif
+
 static void gfx_flush(void) {
     if (buf_vbo_len > 0) {
         int num = buf_vbo_num_tris;
         unsigned long t0 = get_time();
+#ifndef GFX_SEPARATE_PROJECTIONS
         gfx_rapi->draw_triangles(buf_vbo, buf_vbo_len, buf_vbo_num_tris);
+#else
+        if (separate_projections.is_ortho) {
+            gfx_rapi->draw_triangles_ortho(buf_vbo, buf_vbo_len, buf_vbo_num_tris, separate_projections.double_sided);
+        }
+        else {
+            gfx_rapi->draw_triangles_persp(buf_vbo, buf_vbo_len, buf_vbo_num_tris, separate_projections.model_matrix, separate_projections.double_sided);
+            separate_projections.persp_triangles_drawn = true;
+        }
+
+        separate_projections.double_sided = false;
+#endif
         buf_vbo_len = 0;
         buf_vbo_num_tris = 0;
         unsigned long t1 = get_time();
@@ -301,7 +459,11 @@ static bool gfx_texture_cache_lookup(int tile, struct TextureHashmapNode **n, co
     }
     *node = &gfx_texture_cache.pool[gfx_texture_cache.pool_pos++];
     if ((*node)->texture_addr == NULL) {
+#ifdef GFX_REQUIRE_TEXTURE_NAME
+        (*node)->texture_id = gfx_rapi->new_texture((const char *)(orig_addr));
+#else
         (*node)->texture_id = gfx_rapi->new_texture();
+#endif
     }
     gfx_rapi->select_texture(tile, (*node)->texture_id);
     gfx_rapi->set_sampler_parameters(tile, false, 0, 0);
@@ -481,12 +643,47 @@ static void gfx_sp_matrix(uint8_t parameters, const int32_t *addr) {
 #else
     memcpy(matrix, addr, sizeof(matrix));
 #endif
-    
+
     if (parameters & G_MTX_PROJECTION) {
         if (parameters & G_MTX_LOAD) {
             memcpy(rsp.P_matrix, matrix, sizeof(matrix));
+#ifdef GFX_SEPARATE_PROJECTIONS
+            gd_set_identity_mat4(&separate_projections.extra_model_matrix);
+            separate_projections.is_ortho = (matrix[3][3] != 0.0f);
+#endif
         } else {
             gfx_matrix_mul(rsp.P_matrix, matrix, rsp.P_matrix);
+
+#ifdef GFX_SEPARATE_PROJECTIONS
+            // If a view/model matrix (affine) gets pushed into the projection matrix, we multiply and add its effect to
+            // the model matrices that get used afterwards.
+            //
+            // This is used in three separate instances in the game:
+            // - Goddard uses it to store the model matrix in the projection matrix, probably due to the dynamic light sources.
+            // - When Mario gets hurt an offset is applied to the view matrix.
+            // - One of the camera shots when Mario collects a key from Bowser rotates the view matrix.
+            //
+            // However, an additional condition is checked to know if any triangles have already been drawn as
+            // part of the perspective view. This is because parts of the game can add a slight offset to the camera
+            // by modifying this matrix without actually affecting the camera matrix that is first used, since the
+            // offset is not part of the modelview stack.
+            //
+            // Effectively, this means the game can use this to either correct a model into position (like the Goddard head),
+            // or to move the camera without moving its node. This condition could break at any moment if the game chooses to
+            // do something more elaborate, but it avoids having to add a lot of extra logic that would be needed to handle
+            // multiple types of perspectives being rendered in the same frame.
+            if (!separate_projections.is_ortho && is_affine(matrix) && !is_identity(matrix)) {
+                // Fixes Lakitu camera shake and Bowser key cutscene by adding the offset to the camera matrix.
+                if (separate_projections.camera_matrix_set && !separate_projections.persp_triangles_drawn) {
+                    gfx_matrix_mul(separate_projections.modified_camera_matrix, separate_projections.camera_matrix, matrix);
+                    gfx_rapi->set_camera_matrix(separate_projections.modified_camera_matrix);
+                }
+                // Fixes Goddard by adding the offset to the model matrix.
+                else {
+                    gfx_matrix_mul(separate_projections.extra_model_matrix, separate_projections.extra_model_matrix, matrix);
+                }
+            }
+#endif
         }
     } else { // G_MTX_MODELVIEW
         if ((parameters & G_MTX_PUSH) && rsp.modelview_matrix_stack_size < 11) {
@@ -501,6 +698,11 @@ static void gfx_sp_matrix(uint8_t parameters, const int32_t *addr) {
         rsp.lights_changed = 1;
     }
     gfx_matrix_mul(rsp.MP_matrix, rsp.modelview_matrix_stack[rsp.modelview_matrix_stack_size - 1], rsp.P_matrix);
+
+#ifdef GFX_SEPARATE_PROJECTIONS
+    gfx_matrix_mul(separate_projections.model_matrix, rsp.modelview_matrix_stack[rsp.modelview_matrix_stack_size - 1], separate_projections.graph_inv_view_matrix);
+    gfx_matrix_mul(separate_projections.model_matrix, separate_projections.model_matrix, separate_projections.extra_model_matrix);
+#endif
 }
 
 static void gfx_sp_pop_matrix(uint32_t count) {
@@ -509,6 +711,11 @@ static void gfx_sp_pop_matrix(uint32_t count) {
             --rsp.modelview_matrix_stack_size;
             if (rsp.modelview_matrix_stack_size > 0) {
                 gfx_matrix_mul(rsp.MP_matrix, rsp.modelview_matrix_stack[rsp.modelview_matrix_stack_size - 1], rsp.P_matrix);
+
+#ifdef GFX_SEPARATE_PROJECTIONS
+                gfx_matrix_mul(separate_projections.model_matrix, rsp.modelview_matrix_stack[rsp.modelview_matrix_stack_size - 1], separate_projections.graph_inv_view_matrix);
+                gfx_matrix_mul(separate_projections.model_matrix, separate_projections.model_matrix, separate_projections.extra_model_matrix);
+#endif
             }
         }
     }
@@ -519,22 +726,62 @@ static float gfx_adjust_x_for_aspect_ratio(float x) {
 }
 
 static void gfx_sp_vertex(size_t n_vertices, size_t dest_index, const Vtx *vertices) {
+#ifdef GFX_SEPARATE_PROJECTIONS
+    if (!separate_projections.model_matrix_used) {
+        if (dest_index > 0) {
+            inverse_affine(&separate_projections.model_matrix, &separate_projections.inv_model_matrix);
+            gfx_matrix_mul(separate_projections.offset_matrix, separate_projections.prev_model_matrix, separate_projections.inv_model_matrix);
+
+            for (size_t i = 0; i < dest_index; i++) {
+                transform_loaded_vertex(i, &separate_projections.offset_matrix);
+            }
+
+            for (size_t i = dest_index + n_vertices; i < MAX_VERTICES; i++) {
+                transform_loaded_vertex(i, &separate_projections.offset_matrix);
+            }
+        }
+
+        memcpy(separate_projections.prev_model_matrix, separate_projections.model_matrix, sizeof(float) * 16);
+        separate_projections.model_matrix_used = true;
+    }
+#endif
+
     for (size_t i = 0; i < n_vertices; i++, dest_index++) {
         const Vtx_t *v = &vertices[i].v;
         const Vtx_tn *vn = &vertices[i].n;
         struct LoadedVertex *d = &rsp.loaded_vertices[dest_index];
-        
+#ifndef GFX_SEPARATE_PROJECTIONS
         float x = v->ob[0] * rsp.MP_matrix[0][0] + v->ob[1] * rsp.MP_matrix[1][0] + v->ob[2] * rsp.MP_matrix[2][0] + rsp.MP_matrix[3][0];
         float y = v->ob[0] * rsp.MP_matrix[0][1] + v->ob[1] * rsp.MP_matrix[1][1] + v->ob[2] * rsp.MP_matrix[2][1] + rsp.MP_matrix[3][1];
         float z = v->ob[0] * rsp.MP_matrix[0][2] + v->ob[1] * rsp.MP_matrix[1][2] + v->ob[2] * rsp.MP_matrix[2][2] + rsp.MP_matrix[3][2];
         float w = v->ob[0] * rsp.MP_matrix[0][3] + v->ob[1] * rsp.MP_matrix[1][3] + v->ob[2] * rsp.MP_matrix[2][3] + rsp.MP_matrix[3][3];
         
         x = gfx_adjust_x_for_aspect_ratio(x);
-        
+#else
+        float x, y, z, w;
+        if (separate_projections.is_ortho) {
+            x = v->ob[0] * rsp.MP_matrix[0][0] + v->ob[1] * rsp.MP_matrix[1][0] + v->ob[2] * rsp.MP_matrix[2][0] + rsp.MP_matrix[3][0];
+            y = v->ob[0] * rsp.MP_matrix[0][1] + v->ob[1] * rsp.MP_matrix[1][1] + v->ob[2] * rsp.MP_matrix[2][1] + rsp.MP_matrix[3][1];
+            z = v->ob[0] * rsp.MP_matrix[0][2] + v->ob[1] * rsp.MP_matrix[1][2] + v->ob[2] * rsp.MP_matrix[2][2] + rsp.MP_matrix[3][2];
+            w = v->ob[0] * rsp.MP_matrix[0][3] + v->ob[1] * rsp.MP_matrix[1][3] + v->ob[2] * rsp.MP_matrix[2][3] + rsp.MP_matrix[3][3];
+           x = gfx_adjust_x_for_aspect_ratio(x);
+        }
+        else {
+            x = v->ob[0];
+            y = v->ob[1];
+            z = v->ob[2];
+            w = 1.0f;
+        }
+#endif
         short U = v->tc[0] * rsp.texture_scaling_factor.s >> 16;
         short V = v->tc[1] * rsp.texture_scaling_factor.t >> 16;
         
         if (rsp.geometry_mode & G_LIGHTING) {
+#ifdef GFX_OUTPUT_NORMALS_TO_VBO
+            d->nx = vn->n[0] / 127.0f;
+            d->ny = vn->n[1] / 127.0f;
+            d->nz = vn->n[2] / 127.0f;
+#endif
             if (rsp.lights_changed) {
                 for (int i = 0; i < rsp.current_num_lights - 1; i++) {
                     calculate_normal_dir(&rsp.current_lights[i], rsp.current_lights_coeffs[i]);
@@ -549,7 +796,7 @@ static void gfx_sp_vertex(size_t n_vertices, size_t dest_index, const Vtx *verti
             int r = rsp.current_lights[rsp.current_num_lights - 1].col[0];
             int g = rsp.current_lights[rsp.current_num_lights - 1].col[1];
             int b = rsp.current_lights[rsp.current_num_lights - 1].col[2];
-            
+#ifndef GFX_DISABLE_LIGHTING
             for (int i = 0; i < rsp.current_num_lights - 1; i++) {
                 float intensity = 0;
                 intensity += vn->n[0] * rsp.current_lights_coeffs[i][0];
@@ -562,7 +809,17 @@ static void gfx_sp_vertex(size_t n_vertices, size_t dest_index, const Vtx *verti
                     b += intensity * rsp.current_lights[i].col[2];
                 }
             }
-            
+#else
+            // Simulated flat lighting with arbitrary value for every light.
+            // This can probably be estimated in a more accurate way to get a
+            // better color value.
+            for (int i = 0; i < rsp.current_num_lights - 1; i++) {
+                float intensity = 0.6f;
+                r += intensity * rsp.current_lights[i].col[0];
+                g += intensity * rsp.current_lights[i].col[1];
+                b += intensity * rsp.current_lights[i].col[2];
+            }
+#endif
             d->color.r = r > 255 ? 255 : r;
             d->color.g = g > 255 ? 255 : g;
             d->color.b = b > 255 ? 255 : b;
@@ -580,6 +837,11 @@ static void gfx_sp_vertex(size_t n_vertices, size_t dest_index, const Vtx *verti
                 V = (int32_t)((doty / 127.0f + 1.0f) / 4.0f * rsp.texture_scaling_factor.t);
             }
         } else {
+#ifdef GFX_OUTPUT_NORMALS_TO_VBO
+            d->nx = 0.0f;
+            d->ny = 0.0f;
+            d->nz = 0.0f;
+#endif
             d->color.r = v->cn[0];
             d->color.g = v->cn[1];
             d->color.b = v->cn[2];
@@ -587,7 +849,7 @@ static void gfx_sp_vertex(size_t n_vertices, size_t dest_index, const Vtx *verti
         
         d->u = U;
         d->v = V;
-        
+#ifndef GFX_SEPARATE_PROJECTIONS
         // trivial clip rejection
         d->clip_rej = 0;
         if (x < -w) d->clip_rej |= 1;
@@ -596,13 +858,14 @@ static void gfx_sp_vertex(size_t n_vertices, size_t dest_index, const Vtx *verti
         if (y > w) d->clip_rej |= 8;
         if (z < -w) d->clip_rej |= 16;
         if (z > w) d->clip_rej |= 32;
-        
+#endif
         d->x = x;
         d->y = y;
         d->z = z;
         d->w = w;
         
         if (rsp.geometry_mode & G_FOG) {
+#ifndef GFX_SEPARATE_FOG
             if (fabsf(w) < 0.001f) {
                 // To avoid division by zero
                 w = 0.001f;
@@ -617,6 +880,9 @@ static void gfx_sp_vertex(size_t n_vertices, size_t dest_index, const Vtx *verti
             if (fog_z < 0) fog_z = 0;
             if (fog_z > 255) fog_z = 255;
             d->color.a = fog_z; // Use alpha variable to store fog factor
+#else
+            d->color.a = 1.0f;
+#endif
         } else {
             d->color.a = v->cn[3];
         }
@@ -624,18 +890,40 @@ static void gfx_sp_vertex(size_t n_vertices, size_t dest_index, const Vtx *verti
 }
 
 static void gfx_sp_tri1(uint8_t vtx1_idx, uint8_t vtx2_idx, uint8_t vtx3_idx) {
+#ifdef GFX_SEPARATE_PROJECTIONS
+    uint8_t swap = 0;
+    switch (rsp.geometry_mode & G_CULL_BOTH) {
+        // Ignore this call entirely.
+        case G_CULL_BOTH:
+            return;
+        // Continue as normal.
+        case G_CULL_BACK:
+            break;
+        // Continue as normal.
+        case G_CULL_FRONT:
+            break;
+        // Set the double sided flag, flush if any contents were already processed while the flag was false.
+        default:
+            if (!separate_projections.double_sided) {
+                gfx_flush();
+                separate_projections.double_sided = true;
+            }
+            break;
+    }
+#endif
+
     struct LoadedVertex *v1 = &rsp.loaded_vertices[vtx1_idx];
     struct LoadedVertex *v2 = &rsp.loaded_vertices[vtx2_idx];
     struct LoadedVertex *v3 = &rsp.loaded_vertices[vtx3_idx];
     struct LoadedVertex *v_arr[3] = {v1, v2, v3};
     
     //if (rand()%2) return;
-    
+#ifndef GFX_SEPARATE_PROJECTIONS
     if (v1->clip_rej & v2->clip_rej & v3->clip_rej) {
         // The whole triangle lies outside the visible area
         return;
     }
-    
+
     if ((rsp.geometry_mode & G_CULL_BOTH) != 0) {
         float dx1 = v1->x / (v1->w) - v2->x / (v2->w);
         float dy1 = v1->y / (v1->w) - v2->y / (v2->w);
@@ -661,6 +949,7 @@ static void gfx_sp_tri1(uint8_t vtx1_idx, uint8_t vtx2_idx, uint8_t vtx3_idx) {
                 return;
         }
     }
+#endif
     
     bool depth_test = (rsp.geometry_mode & G_ZBUFFER) == G_ZBUFFER;
     if (depth_test != rendering_state.depth_test) {
@@ -751,12 +1040,22 @@ static void gfx_sp_tri1(uint8_t vtx1_idx, uint8_t vtx2_idx, uint8_t vtx3_idx) {
             }
         }
     }
+
+#ifdef GFX_SEPARATE_FOG
+    if (use_fog) {
+        gfx_rapi->set_fog(rdp.fog_color.r, rdp.fog_color.g, rdp.fog_color.b, rsp.fog_mul, rsp.fog_offset);
+    }
+#endif
     
     bool use_texture = used_textures[0] || used_textures[1];
     uint32_t tex_width = (rdp.texture_tile.lrs - rdp.texture_tile.uls + 4) / 4;
     uint32_t tex_height = (rdp.texture_tile.lrt - rdp.texture_tile.ult + 4) / 4;
     
+#ifndef GFX_SEPARATE_PROJECTIONS
     bool z_is_from_0_to_1 = gfx_rapi->z_is_from_0_to_1();
+#else
+    bool z_is_from_0_to_1 = separate_projections.is_ortho && gfx_rapi->z_is_from_0_to_1();
+#endif
     
     for (int i = 0; i < 3; i++) {
         float z = v_arr[i]->z, w = v_arr[i]->w;
@@ -767,7 +1066,11 @@ static void gfx_sp_tri1(uint8_t vtx1_idx, uint8_t vtx2_idx, uint8_t vtx3_idx) {
         buf_vbo[buf_vbo_len++] = v_arr[i]->y;
         buf_vbo[buf_vbo_len++] = z;
         buf_vbo[buf_vbo_len++] = w;
-        
+#ifdef GFX_OUTPUT_NORMALS_TO_VBO
+        buf_vbo[buf_vbo_len++] = v_arr[i]->nx;
+        buf_vbo[buf_vbo_len++] = v_arr[i]->ny;
+        buf_vbo[buf_vbo_len++] = v_arr[i]->nz;
+#endif
         if (use_texture) {
             float u = (v_arr[i]->u - rdp.texture_tile.uls * 8) / 32.0f;
             float v = (v_arr[i]->v - rdp.texture_tile.ult * 8) / 32.0f;
@@ -779,14 +1082,14 @@ static void gfx_sp_tri1(uint8_t vtx1_idx, uint8_t vtx2_idx, uint8_t vtx3_idx) {
             buf_vbo[buf_vbo_len++] = u / tex_width;
             buf_vbo[buf_vbo_len++] = v / tex_height;
         }
-        
+#ifndef GFX_SEPARATE_FOG
         if (use_fog) {
             buf_vbo[buf_vbo_len++] = rdp.fog_color.r / 255.0f;
             buf_vbo[buf_vbo_len++] = rdp.fog_color.g / 255.0f;
             buf_vbo[buf_vbo_len++] = rdp.fog_color.b / 255.0f;
             buf_vbo[buf_vbo_len++] = v_arr[i]->color.a / 255.0f; // fog factor (not alpha)
         }
-        
+#endif
         for (int j = 0; j < num_inputs; j++) {
             struct RGBA *color;
             struct RGBA tmp;
@@ -835,6 +1138,7 @@ static void gfx_sp_tri1(uint8_t vtx1_idx, uint8_t vtx2_idx, uint8_t vtx3_idx) {
         buf_vbo[buf_vbo_len++] = color->b / 255.0f;
         buf_vbo[buf_vbo_len++] = color->a / 255.0f;*/
     }
+
     if (++buf_vbo_num_tris == MAX_BUFFERED) {
         gfx_flush();
     }
@@ -1104,6 +1408,10 @@ static void gfx_dp_set_fill_color(uint32_t packed_color) {
 }
 
 static void gfx_draw_rectangle(int32_t ulx, int32_t uly, int32_t lrx, int32_t lry) {
+#ifdef GFX_SEPARATE_PROJECTIONS
+    separate_projections.is_ortho = true;
+#endif
+
     uint32_t saved_other_mode_h = rdp.other_mode_h;
     uint32_t cycle_type = (rdp.other_mode_h & (3U << G_MDSFT_CYCLETYPE));
     
@@ -1331,6 +1639,12 @@ static void gfx_run_dl(Gfx* cmd) {
                 }
                 break;
             case (uint8_t)G_ENDDL:
+#ifdef GFX_FLUSH_ON_ENDDL
+                gfx_flush();
+#endif
+#ifdef GFX_SEPARATE_PROJECTIONS
+                separate_projections.model_matrix_used = false;
+#endif
                 return;
 #ifdef F3DEX_GBI_2
             case G_GEOMETRYMODE:
@@ -1471,6 +1785,11 @@ static void gfx_run_dl(Gfx* cmd) {
             case G_SETCIMG:
                 gfx_dp_set_color_image(C0(21, 3), C0(19, 2), C0(0, 11), seg_addr(cmd->words.w1));
                 break;
+#ifdef GFX_ENABLE_GRAPH_NODE_MODS
+            case G_NOOP:
+                gfx_rapi->set_graph_node_mod((void *)(cmd->words.w1));
+                break;
+#endif
         }
         ++cmd;
     }
@@ -1543,6 +1862,20 @@ void gfx_start_frame(void) {
         gfx_current_dimensions.height = 1;
     }
     gfx_current_dimensions.aspect_ratio = (float)gfx_current_dimensions.width / (float)gfx_current_dimensions.height;
+
+#ifdef GFX_SEPARATE_PROJECTIONS
+    gd_set_identity_mat4(&separate_projections.extra_model_matrix);
+    gd_set_identity_mat4(&separate_projections.camera_matrix);
+    gfx_rapi->set_camera_matrix(separate_projections.camera_matrix);
+    separate_projections.camera_matrix_set = false;
+
+    gd_set_identity_mat4(&separate_projections.graph_view_matrix);
+    gd_set_identity_mat4(&separate_projections.graph_inv_view_matrix);
+    separate_projections.is_ortho = false;
+    separate_projections.model_matrix_used = false;
+    separate_projections.double_sided = false;
+    separate_projections.persp_triangles_drawn = false;
+#endif
 }
 
 void gfx_run(Gfx *commands) {

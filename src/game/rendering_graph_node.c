@@ -207,11 +207,20 @@ void mtx_patch_interpolated(void) {
                     gMtxTbl[gMtxTblSize].mtx = currList->transform;
                     gMtxTbl[gMtxTblSize++].displayList = currList->displayList;
                 }
+#ifdef GFX_ENABLE_GRAPH_NODE_MODS
+                // The NoOp Tag method is used to indicate the current material mod being used for 
+                // the next display lists that will be rendered.
+                gDPNoOpTag(gDisplayListHead++, currList->graph_node_mod);
+#endif
                 gSPMatrix(gDisplayListHead++, VIRTUAL_TO_PHYSICAL(currList->transformInterpolated),
                           G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
                 gSPDisplayList(gDisplayListHead++, currList->displayListInterpolated);
                 currList = currList->next;
             }
+#ifdef GFX_ENABLE_GRAPH_NODE_MODS
+            // Make sure the material mod is no longer used after all display lists are drawn.
+            gDPNoOpTag(gDisplayListHead++, NULL);
+#endif
         }
     }
     if (enableZBuffer != 0) {
@@ -225,8 +234,11 @@ void mtx_patch_interpolated(void) {
  * parameter. Look at the RenderModeContainer struct to see the corresponding
  * render modes of layers.
  */
+#ifndef GFX_ENABLE_GRAPH_NODE_MODS
 static void geo_append_display_list2(void *displayList, void *displayListInterpolated, s16 layer) {
-
+#else
+static void geo_append_display_list2(void *displayList, void *displayListInterpolated, s16 layer, void *graph_node_mod) {
+#endif
 #ifdef F3DEX_GBI_2
     gSPLookAt(gDisplayListHead++, &lookAt);
 #endif
@@ -234,6 +246,9 @@ static void geo_append_display_list2(void *displayList, void *displayListInterpo
         struct DisplayListNode *listNode =
             alloc_only_pool_alloc(gDisplayListHeap, sizeof(struct DisplayListNode));
 
+#ifdef GFX_ENABLE_GRAPH_NODE_MODS
+        listNode->graph_node_mod = graph_node_mod;
+#endif
         listNode->transform = gMatStackFixed[gMatStackIndex];
         listNode->transformInterpolated = gMatStackInterpolatedFixed[gMatStackIndex];
         listNode->displayList = displayList;
@@ -248,9 +263,15 @@ static void geo_append_display_list2(void *displayList, void *displayListInterpo
     }
 }
 
+#ifndef GFX_ENABLE_GRAPH_NODE_MODS
 static void geo_append_display_list(void *displayList, s16 layer) {
     geo_append_display_list2(displayList, displayList, layer);
 }
+#else
+static void geo_append_display_list(void *displayList, s16 layer, void *graph_node_mod) {
+    geo_append_display_list2(displayList, displayList, layer, graph_node_mod);
+}
+#endif
 
 /**
  * Process the master list node.
@@ -306,6 +327,10 @@ static void geo_process_perspective(struct GraphNodePerspective *node) {
         f32 aspect = ((f32) gCurGraphNodeRoot->width / (f32) gCurGraphNodeRoot->height) * 1.1f;
 #else
         f32 aspect = (f32) gCurGraphNodeRoot->width / (f32) gCurGraphNodeRoot->height;
+#endif
+
+#ifdef GFX_SEPARATE_PROJECTIONS
+        gfx_set_camera_perspective(node->fov, node->near, node->far);
 #endif
 
         guPerspective(mtx, &perspNorm, node->fov, aspect, node->near, node->far, 1.0f);
@@ -453,6 +478,11 @@ static void geo_process_camera(struct GraphNodeCamera *node) {
     gMatStackFixed[gMatStackIndex] = mtx;
     mtxf_to_mtx(mtxInterpolated, gMatStackInterpolated[gMatStackIndex]);
     gMatStackInterpolatedFixed[gMatStackIndex] = mtxInterpolated;
+
+#ifdef GFX_SEPARATE_PROJECTIONS
+    gfx_set_camera_matrix(mtx->m);
+#endif
+
     if (node->fnNode.node.children != 0) {
         gCurGraphNodeCamera = node;
         node->matrixPtr = &gMatStack[gMatStackIndex];
@@ -486,7 +516,11 @@ static void geo_process_translation_rotation(struct GraphNodeTranslationRotation
     mtxf_to_mtx(mtxInterpolated, gMatStackInterpolated[gMatStackIndex]);
     gMatStackInterpolatedFixed[gMatStackIndex] = mtxInterpolated;
     if (node->displayList != NULL) {
+#ifndef GFX_ENABLE_GRAPH_NODE_MODS
         geo_append_display_list(node->displayList, node->node.flags >> 8);
+#else
+        geo_append_display_list(node->displayList, node->node.flags >> 8, gfx_get_graph_node_mod(node));
+#endif
     }
     if (node->node.children != NULL) {
         geo_process_node_and_siblings(node->node.children);
@@ -516,7 +550,11 @@ static void geo_process_translation(struct GraphNodeTranslation *node) {
     mtxf_to_mtx(mtxInterpolated, gMatStackInterpolated[gMatStackIndex]);
     gMatStackInterpolatedFixed[gMatStackIndex] = mtxInterpolated;
     if (node->displayList != NULL) {
+#ifndef GFX_ENABLE_GRAPH_NODE_MODS
         geo_append_display_list(node->displayList, node->node.flags >> 8);
+#else
+        geo_append_display_list(node->displayList, node->node.flags >> 8, gfx_get_graph_node_mod(node));
+#endif
     }
     if (node->node.children != NULL) {
         geo_process_node_and_siblings(node->node.children);
@@ -550,7 +588,11 @@ static void geo_process_rotation(struct GraphNodeRotation *node) {
     mtxf_to_mtx(mtxInterpolated, gMatStackInterpolated[gMatStackIndex]);
     gMatStackInterpolatedFixed[gMatStackIndex] = mtxInterpolated;
     if (node->displayList != NULL) {
+#ifndef GFX_ENABLE_GRAPH_NODE_MODS
         geo_append_display_list(node->displayList, node->node.flags >> 8);
+#else
+        geo_append_display_list(node->displayList, node->node.flags >> 8, gfx_get_graph_node_mod(node));
+#endif
     }
     if (node->node.children != NULL) {
         geo_process_node_and_siblings(node->node.children);
@@ -578,7 +620,11 @@ static void geo_process_scale(struct GraphNodeScale *node) {
     mtxf_to_mtx(mtxInterpolated, gMatStackInterpolated[gMatStackIndex]);
     gMatStackInterpolatedFixed[gMatStackIndex] = mtxInterpolated;
     if (node->displayList != NULL) {
+#ifndef GFX_ENABLE_GRAPH_NODE_MODS
         geo_append_display_list(node->displayList, node->node.flags >> 8);
+#else
+        geo_append_display_list(node->displayList, node->node.flags >> 8, gfx_get_graph_node_mod(node));
+#endif
     }
     if (node->node.children != NULL) {
         geo_process_node_and_siblings(node->node.children);
@@ -620,7 +666,11 @@ static void geo_process_billboard(struct GraphNodeBillboard *node) {
     mtxf_to_mtx(mtxInterpolated, gMatStackInterpolated[gMatStackIndex]);
     gMatStackInterpolatedFixed[gMatStackIndex] = mtxInterpolated;
     if (node->displayList != NULL) {
+#ifndef GFX_ENABLE_GRAPH_NODE_MODS
         geo_append_display_list(node->displayList, node->node.flags >> 8);
+#else
+        geo_append_display_list(node->displayList, node->node.flags >> 8, gfx_get_graph_node_mod(node));
+#endif
     }
     if (node->node.children != NULL) {
         geo_process_node_and_siblings(node->node.children);
@@ -635,7 +685,11 @@ static void geo_process_billboard(struct GraphNodeBillboard *node) {
  */
 static void geo_process_display_list(struct GraphNodeDisplayList *node) {
     if (node->displayList != NULL) {
+#ifndef GFX_ENABLE_GRAPH_NODE_MODS
         geo_append_display_list(node->displayList, node->node.flags >> 8);
+#else
+        geo_append_display_list(node->displayList, node->node.flags >> 8, gfx_get_graph_node_mod(node));
+#endif
     }
     if (node->node.children != NULL) {
         geo_process_node_and_siblings(node->node.children);
@@ -652,7 +706,11 @@ static void geo_process_generated_list(struct GraphNodeGenerated *node) {
                                      (struct AllocOnlyPool *) gMatStack[gMatStackIndex]);
 
         if (list != 0) {
+#ifndef GFX_ENABLE_GRAPH_NODE_MODS
             geo_append_display_list((void *) VIRTUAL_TO_PHYSICAL(list), node->fnNode.node.flags >> 8);
+#else
+            geo_append_display_list((void *) VIRTUAL_TO_PHYSICAL(list), node->fnNode.node.flags >> 8, gfx_get_graph_node_mod(node));
+#endif
         }
     }
     if (node->fnNode.node.children != NULL) {
@@ -698,8 +756,14 @@ static void geo_process_background(struct GraphNodeBackground *node) {
         vec3f_copy(gLakituState.focus, focusCopy);
     }
     if (list != 0) {
+#ifndef GFX_ENABLE_GRAPH_NODE_MODS
         geo_append_display_list2((void *) VIRTUAL_TO_PHYSICAL(list),
                                  (void *) VIRTUAL_TO_PHYSICAL(listInterpolated), node->fnNode.node.flags >> 8);
+#else
+        geo_append_display_list2((void *) VIRTUAL_TO_PHYSICAL(list),
+                                 (void *) VIRTUAL_TO_PHYSICAL(listInterpolated), node->fnNode.node.flags >> 8, gfx_get_graph_node_mod(node));
+#endif
+        
     } else if (gCurGraphNodeMasterList != NULL) {
 #ifndef F3DEX_GBI_2E
         Gfx *gfxStart = alloc_display_list(sizeof(Gfx) * 7);
@@ -717,7 +781,11 @@ static void geo_process_background(struct GraphNodeBackground *node) {
         gDPSetCycleType(gfx++, G_CYC_1CYCLE);
         gSPEndDisplayList(gfx++);
 
+#ifndef GFX_ENABLE_GRAPH_NODE_MODS
         geo_append_display_list((void *) VIRTUAL_TO_PHYSICAL(gfxStart), 0);
+#else
+        geo_append_display_list((void *) VIRTUAL_TO_PHYSICAL(gfxStart), 0, gfx_get_graph_node_mod(node));
+#endif
     }
     if (node->fnNode.node.children != NULL) {
         geo_process_node_and_siblings(node->fnNode.node.children);
@@ -800,7 +868,11 @@ static void geo_process_animated_part(struct GraphNodeAnimatedPart *node) {
     mtxf_to_mtx(mtxInterpolated, gMatStackInterpolated[gMatStackIndex]);
     gMatStackInterpolatedFixed[gMatStackIndex] = mtxInterpolated;
     if (node->displayList != NULL) {
+#ifndef GFX_ENABLE_GRAPH_NODE_MODS
         geo_append_display_list(node->displayList, node->node.flags >> 8);
+#else
+        geo_append_display_list(node->displayList, node->node.flags >> 8, gfx_get_graph_node_mod(node));
+#endif
     }
     if (node->node.children != NULL) {
         geo_process_node_and_siblings(node->node.children);
@@ -949,7 +1021,7 @@ static void geo_process_shadow(struct GraphNodeShadow *node) {
             mtxf_mul(gMatStackInterpolated[gMatStackIndex], mtxf, *gCurGraphNodeCamera->matrixPtrInterpolated);
             mtxf_to_mtx(mtxInterpolated, gMatStackInterpolated[gMatStackIndex]);
             gMatStackInterpolatedFixed[gMatStackIndex] = mtxInterpolated;
-
+#ifndef GFX_ENABLE_GRAPH_NODE_MODS
             if (gShadowAboveWaterOrLava == 1) {
                 geo_append_display_list2((void *) VIRTUAL_TO_PHYSICAL(shadowList),
                                          (void *) VIRTUAL_TO_PHYSICAL(shadowListInterpolated), 4);
@@ -960,6 +1032,18 @@ static void geo_process_shadow(struct GraphNodeShadow *node) {
                 geo_append_display_list2((void *) VIRTUAL_TO_PHYSICAL(shadowList),
                                          (void *) VIRTUAL_TO_PHYSICAL(shadowListInterpolated), 6);
             }
+#else
+            if (gShadowAboveWaterOrLava == 1) {
+                geo_append_display_list2((void *) VIRTUAL_TO_PHYSICAL(shadowList),
+                                         (void *) VIRTUAL_TO_PHYSICAL(shadowListInterpolated), 4, gfx_get_graph_node_mod(node));
+            } else if (gMarioOnIceOrCarpet == 1) {
+                geo_append_display_list2((void *) VIRTUAL_TO_PHYSICAL(shadowList),
+                                         (void *) VIRTUAL_TO_PHYSICAL(shadowListInterpolated), 5, gfx_get_graph_node_mod(node));
+            } else {
+                geo_append_display_list2((void *) VIRTUAL_TO_PHYSICAL(shadowList),
+                                         (void *) VIRTUAL_TO_PHYSICAL(shadowListInterpolated), 6, gfx_get_graph_node_mod(node));
+            }
+#endif
             gMatStackIndex--;
         }
     }
@@ -1008,7 +1092,7 @@ static int obj_is_in_view(struct GraphNodeObject *node, Mat4 matrix) {
     if (node->node.flags & GRAPH_RENDER_INVISIBLE) {
         return FALSE;
     }
-
+#ifndef GFX_DISABLE_FRUSTUM_CULLING
     geo = node->sharedChild;
 
     // ! @bug The aspect ratio is not accounted for. When the fov value is 45,
@@ -1052,6 +1136,7 @@ static int obj_is_in_view(struct GraphNodeObject *node, Mat4 matrix) {
     if (matrix[3][0] < -hScreenEdge - cullingRadius) {
         return FALSE;
     }
+#endif
     return TRUE;
 }
 static void interpolate_matrix(Mat4 result, Mat4 a, Mat4 b) {

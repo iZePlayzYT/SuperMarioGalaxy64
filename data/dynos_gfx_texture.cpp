@@ -227,7 +227,12 @@ static bool DynOS_Gfx_CacheTexture(THN **aOutput, DataNode<TexData> *aNode, s32 
     // Add new texture to cache
     (*_Node) = &aPool[(*aPoolPos)++];
     if (!(*_Node)->mAddr) {
+#ifndef GFX_REQUIRE_TEXTURE_NAME
         (*_Node)->mTexId = aGfxRApi->new_texture();
+#else
+        // TODO(RT64) DynOS needs to send the proper texture name when this option is enabled.
+        (*_Node)->mTexId = aGfxRApi->new_texture("DynOS_TODO");
+#endif
     }
     aGfxRApi->select_texture(aTile, (*_Node)->mTexId);
     aGfxRApi->set_sampler_parameters(aTile, false, 0, 0);

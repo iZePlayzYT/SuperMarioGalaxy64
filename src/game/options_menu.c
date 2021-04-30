@@ -58,7 +58,8 @@ static const u8 menuStr[][32] = {
     "TEXT_OPT_AUDIO",
     "TEXT_EXIT_GAME",
     "TEXT_OPT_CHEATS",
-    "TEXT_OPT_GAME"
+    "TEXT_OPT_GAME",
+    "TEXT_OPT_RT64"
 };
 
 static const u8 optsCameraStr[][32] = {
@@ -83,6 +84,16 @@ static const u8 optsGameStr[][32] = {
     "TEXT_OPT_SWITCH_HUD",
     "TEXT_OPT_BILLBOARDS"
 };
+
+#ifdef RAPI_RT64
+static const u8 optsRT64Str[][32] = {
+    "TEXT_OPT_RESSCALE",
+    "TEXT_OPT_SPHEREL",
+    "TEXT_OPT_GI",
+    "TEXT_OPT_GIWEIGHT",
+    "TEXT_OPT_DENOISER",
+};
+#endif
 
 static const u8 optsVideoStr[][32] = {
     "TEXT_OPT_FSCREEN",
@@ -325,6 +336,17 @@ static struct Option optsCamera[] = {
     DEF_OPT_SCROLL( optsCameraStr[8], &configCameraDegrade, 0, 100, 1 ),
 };
 
+#ifdef RAPI_RT64
+static struct Option optsRT64[] = {
+    DEF_OPT_SCROLL( optsRT64Str[0], &configRT64ResScale, 10, 200, 1 ),
+    DEF_OPT_TOGGLE( optsRT64Str[1], &configRT64SphereLights ),
+    DEF_OPT_TOGGLE( optsRT64Str[2], &configRT64GI ),
+    DEF_OPT_SCROLL( optsRT64Str[3], &configRT64GIStrength, 5, 95, 1 ),
+    DEF_OPT_TOGGLE( optsRT64Str[4], &configRT64Denoiser ),
+    DEF_OPT_BUTTON( optsVideoStr[9], optvideo_apply ),
+};
+#endif
+
 static struct Option optsControls[] = {
     DEF_OPT_BIND( bindStr[ 2], configKeyA ),
     DEF_OPT_BIND( bindStr[ 3], configKeyB ),
@@ -429,6 +451,7 @@ static struct Option optsCheats[] = {
 /* submenu definitions */
 
 static struct SubMenu menuCamera   = DEF_SUBMENU( menuStr[4], optsCamera );
+static struct SubMenu menuRT64     = DEF_SUBMENU( menuStr[11], optsRT64 );
 static struct SubMenu menuGame     = DEF_SUBMENU( menuStr[10], optsGame );
 static struct SubMenu menuControls = DEF_SUBMENU( menuStr[5], optsControls );
 static struct SubMenu menuVideo    = DEF_SUBMENU( menuStr[6], optsVideo );
@@ -440,6 +463,7 @@ static struct SubMenu menuCheats   = DEF_SUBMENU( menuStr[9], optsCheats );
 static struct Option optsMain[] = {
     DEF_OPT_SUBMENU( menuStr[10], &menuGame ),
     DEF_OPT_SUBMENU( menuStr[4], &menuCamera ),
+    DEF_OPT_SUBMENU( menuStr[11], &menuRT64 ),
     DEF_OPT_SUBMENU( menuStr[5], &menuControls ),
     DEF_OPT_SUBMENU( menuStr[6], &menuVideo ),
     DEF_OPT_SUBMENU( menuStr[7], &menuAudio ),
