@@ -48,7 +48,7 @@ using json = nlohmann::json;
 #define DYNAMIC_MESH_LIFETIME			30
 #define MAX_INSTANCES					1024
 #define MAX_LIGHTS						512
-#define MAX_LEVELS						39
+#define MAX_LEVELS						40
 #define MAX_AREAS						3
 #define MAX_LEVEL_LIGHTS				128
 #define LEVEL_LIGHTS_FILENAME			FS_BASEDIR "/rt64/level_lights.json"
@@ -736,13 +736,11 @@ LRESULT CALLBACK gfx_rt64_wnd_proc(HWND hWnd, UINT message, WPARAM wParam, LPARA
 			RT64.run_one_game_iter();
 			QueryPerformanceCounter(&EndTime);
 			elapsed_time(StartTime, EndTime, RT64.Frequency, ElapsedMicroseconds);
-			/* TODO(RT64)
 			if (RT64.inspector != nullptr) {
 				char message[64];
 				sprintf(message, "FRAMETIME: %.3f ms\n", ElapsedMicroseconds.QuadPart / 1000.0);
 				RT64.lib.PrintToInspector(RT64.inspector, message);
 			}
-			*/
 		}
 
 		if (!RT64.turboMode) {
@@ -1176,7 +1174,7 @@ static RT64_MESH *gfx_rt64_rapi_process_mesh(float buf_vbo[], size_t buf_vbo_len
 	// only change some of their vertices, like Goddard, we try to sample and skip vertices to
 	// get a hash that represents the entire mesh more accurately.
     XXHash64 hashStream(0);
-	const unsigned int HashMaxVertexCount = 32;
+	const unsigned int HashMaxVertexCount = 64;
 	const unsigned int vertexStride = std::max(vertexCount / HashMaxVertexCount, (unsigned int)(1));
 	unsigned int vertex = 0;
 	while (vertex < vertexCount) {

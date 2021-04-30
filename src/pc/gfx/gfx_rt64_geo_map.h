@@ -119,8 +119,12 @@ inline void gfx_rt64_init_geo_layout_maps(std::unordered_map<void *, std::string
     FILL_GEO_MAPS(koopa_with_shell_geo);
     FILL_GEO_MAPS(koopa_flag_geo);
     FILL_GEO_MAPS(koopa_shell_geo);
+/* TODO(RT64) The compilation macro is not properly detected for some reason.
+#ifndef RENDER_96_ALPHA
     FILL_GEO_MAPS(koopa_shell2_geo);
     FILL_GEO_MAPS(koopa_shell3_geo);
+#endif
+*/
     FILL_GEO_MAPS(lakitu_geo);
     FILL_GEO_MAPS(enemy_lakitu_geo);
     FILL_GEO_MAPS(leaves_geo);
