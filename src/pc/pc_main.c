@@ -76,20 +76,6 @@ void set_vblank_handler(s32 index, struct VblankHandler *handler, OSMesgQueue *q
 
 static bool inited = false;
 
-#include "game/display.h" // for gGlobalTimer
-void send_display_list(struct SPTask *spTask) {
-    if (!inited) return;
-    gfx_run((Gfx *)spTask->task.t.data_ptr);
-}
-
-#ifdef VERSION_EU
-#define SAMPLES_HIGH 656
-#define SAMPLES_LOW 640
-#else
-#define SAMPLES_HIGH 544
-#define SAMPLES_LOW 528
-#endif
-
 static inline void patch_interpolations(void) {
     extern void mtx_patch_interpolated(void);
     extern void patch_screen_transition_interpolated(void);
@@ -108,6 +94,21 @@ static inline void patch_interpolations(void) {
     patch_interpolated_bubble_particles();
     patch_interpolated_snow_particles();
 }
+
+#include "game/display.h" // for gGlobalTimer
+void send_display_list(struct SPTask *spTask) {
+    if (!inited) return;
+    if (!config60FPS) patch_interpolations();
+    gfx_run((Gfx *)spTask->task.t.data_ptr);
+}
+
+#ifdef VERSION_EU
+#define SAMPLES_HIGH 656
+#define SAMPLES_LOW 640
+#else
+#define SAMPLES_HIGH 544
+#define SAMPLES_LOW 528
+#endif
 
 void produce_one_frame(void) {
     gfx_start_frame(false);
