@@ -1829,7 +1829,7 @@ struct GfxRenderingAPI *gfx_get_current_rendering_api(void) {
     return gfx_rapi;
 }
 
-void gfx_start_frame(void) {
+void gfx_start_frame(u8 interpolated) {
     gfx_wapi->handle_events();
     gfx_wapi->get_dimensions(&gfx_current_dimensions.width, &gfx_current_dimensions.height);
     if (gfx_current_dimensions.height == 0) {
@@ -1839,17 +1839,19 @@ void gfx_start_frame(void) {
     gfx_current_dimensions.aspect_ratio = (float)gfx_current_dimensions.width / (float)gfx_current_dimensions.height;
 
 #ifdef GFX_SEPARATE_PROJECTIONS
-    gd_set_identity_mat4(&separate_projections.extra_model_matrix);
-    gd_set_identity_mat4(&separate_projections.camera_matrix);
-    gfx_rapi->set_camera_matrix(separate_projections.camera_matrix);
-    separate_projections.camera_matrix_set = false;
+    if (!interpolated) {
+        gd_set_identity_mat4(&separate_projections.extra_model_matrix);
+        gd_set_identity_mat4(&separate_projections.camera_matrix);
+        gfx_rapi->set_camera_matrix(separate_projections.camera_matrix);
+        separate_projections.camera_matrix_set = false;
 
-    gd_set_identity_mat4(&separate_projections.graph_view_matrix);
-    gd_set_identity_mat4(&separate_projections.graph_inv_view_matrix);
-    separate_projections.is_ortho = false;
-    separate_projections.model_matrix_used = false;
-    separate_projections.double_sided = false;
-    separate_projections.persp_triangles_drawn = false;
+        gd_set_identity_mat4(&separate_projections.graph_view_matrix);
+        gd_set_identity_mat4(&separate_projections.graph_inv_view_matrix);
+        separate_projections.is_ortho = false;
+        separate_projections.model_matrix_used = false;
+        separate_projections.double_sided = false;
+        separate_projections.persp_triangles_drawn = false;
+    }
 #endif
 }
 

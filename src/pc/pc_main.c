@@ -110,7 +110,7 @@ static inline void patch_interpolations(void) {
 }
 
 void produce_one_frame(void) {
-    gfx_start_frame();
+    gfx_start_frame(false);
 
     const f32 master_mod = (f32)configMasterVolume / 127.0f;
     set_sequence_player_volume(SEQ_PLAYER_LEVEL, ((f32)configMusicVolume / 127.0f * master_mod) * !configMusicMute);
@@ -140,14 +140,13 @@ void produce_one_frame(void) {
     audio_api->play((u8 *)audio_buffer, 2 * num_audio_samples * 4);
 
     gfx_end_frame();
-    /* TODO(RT64) This seems to send over double the amount of draw calls it should for some reason.
-    gfx_start_frame();
+
     if (config60FPS) {
+        gfx_start_frame(true);
         patch_interpolations();
+        send_display_list(gGfxSPTask);
+        gfx_end_frame();
     }
-    send_display_list(gGfxSPTask);
-    gfx_end_frame();
-    */
 }
 
 void audio_shutdown(void) {

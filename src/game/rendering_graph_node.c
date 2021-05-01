@@ -203,7 +203,11 @@ void mtx_patch_interpolated(void) {
             gDPSetRenderMode(gDisplayListHead++, modeList->modes[i], mode2List->modes[i]);
             while (currList != NULL) {
                 if ((u32) gMtxTblSize < sizeof(gMtxTbl) / sizeof(gMtxTbl[0])) {
+#ifndef GFX_ENABLE_GRAPH_NODE_MODS
                     gMtxTbl[gMtxTblSize].pos = gDisplayListHead;
+#else
+                    gMtxTbl[gMtxTblSize].pos = gDisplayListHead + 1;
+#endif
                     gMtxTbl[gMtxTblSize].mtx = currList->transform;
                     gMtxTbl[gMtxTblSize++].displayList = currList->displayList;
                 }
