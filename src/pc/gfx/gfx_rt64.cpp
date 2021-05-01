@@ -1171,7 +1171,7 @@ static RT64_MESH *gfx_rt64_rapi_process_mesh(float buf_vbo[], size_t buf_vbo_len
 	// only change some of their vertices, like Goddard, we try to sample and skip vertices to
 	// get a hash that represents the entire mesh more accurately.
     XXHash64 hashStream(0);
-	const unsigned int HashMaxVertexCount = 64;
+	const unsigned int HashMaxVertexCount = 256;
 	const unsigned int vertexStride = std::max(vertexCount / HashMaxVertexCount, (unsigned int)(1));
 	unsigned int vertex = 0;
 	while (vertex < vertexCount) {
