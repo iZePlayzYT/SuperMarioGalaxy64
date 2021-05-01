@@ -387,6 +387,11 @@ DEP_FILES := $(O_FILES:.o=.d) $(ULTRA_O_FILES:.o=.d) $(GODDARD_O_FILES:.o=.d) $(
 # Segment elf files
 SEG_FILES := $(SEGMENT_ELF_FILES) $(ACTOR_ELF_FILES) $(LEVEL_ELF_FILES)
 
+# RT64 configuration files
+ifeq ($(RENDER_API),RT64)
+include Makefile_rt64
+endif
+
 ##################### Compiler Options #######################
 INCLUDE_CFLAGS := $(PLATFORM_CFLAGS) -I include -I $(BUILD_DIR) -I $(BUILD_DIR)/include -I src -I .
 ENDIAN_BITWIDTH := $(BUILD_DIR)/endian-and-bitwidth
@@ -650,6 +655,9 @@ $(BASEPACK_LST): $(EXE)
 	@find levels -name \*.png -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
 	@find textures -name \*.png -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
 	@find texts -name \*.json -exec echo "{} {}" >> $(BASEPACK_LST) \;
+ifeq ($(RENDER_API),RT64)
+	@find rt64/textures -name \*.png -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
+endif
 
 ifneq ($(NO_COPY),1)
 # prepares the resource ZIP with base data
