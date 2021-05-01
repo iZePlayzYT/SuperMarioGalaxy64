@@ -219,23 +219,61 @@ static struct Matrices {
     bool double_sided;
     bool persp_triangles_drawn;
     bool camera_matrix_set;
+    float camera_matrix_current[4][4];
+    float graph_view_matrix_current[4][4];
+    float graph_inv_view_matrix_current[4][4];
+    bool camera_matrix_set_current;
+    float fov_degrees_current;
+    float near_dist_current;
+    float far_dist_current;
 } separate_projections;
 
-void gfx_set_camera_perspective(float fov_degrees, float near_dist, float far_dist) {
-    gfx_rapi->set_camera_perspective(fov_degrees, near_dist, far_dist);
+void gfx_set_camera_perspective(float fov_degrees, float near_dist, float far_dist, u8 interpolated) {
+    if (interpolated) {
+        gfx_rapi->set_camera_perspective(fov_degrees, near_dist, far_dist);
+    }
+    else {
+        separate_projections.fov_degrees_current = fov_degrees;
+        separate_projections.near_dist_current = near_dist;
+        separate_projections.far_dist_current = far_dist;
+    }
 }
 
-void gfx_set_camera_matrix(float mat[4][4]) {
-    // Store camera matrix.
-    memcpy(separate_projections.camera_matrix, mat, sizeof(float) * 16);
+void gfx_set_camera_matrix(float mat[4][4], u8 interpolated) {
+    if (interpolated) {
+        // Store camera matrix.
+        memcpy(separate_projections.camera_matrix, mat, sizeof(float) * 16);
+        gfx_rapi->set_camera_matrix(separate_projections.camera_matrix);
+
+        // Since this call comes from the graph node, store it so we can reverse its effect
+        // on the model view matrices later.
+        memcpy(separate_projections.graph_view_matrix, mat, sizeof(float) * 16);
+        gd_inverse_mat4f(&separate_projections.graph_view_matrix, &separate_projections.graph_inv_view_matrix);
+
+        separate_projections.camera_matrix_set = true;
+    }
+    else {
+        memcpy(separate_projections.camera_matrix_current, mat, sizeof(float) * 16);
+        memcpy(separate_projections.graph_view_matrix_current, mat, sizeof(float) * 16);
+        gd_inverse_mat4f(&separate_projections.graph_view_matrix_current, &separate_projections.graph_inv_view_matrix_current);
+        separate_projections.camera_matrix_set_current = true;
+    }
+}
+
+void gfx_patch_interpolated(void) {
+    // Patch with the current version of the frame that was stored.
+    memcpy(separate_projections.camera_matrix, separate_projections.camera_matrix_current, sizeof(float) * 16);
     gfx_rapi->set_camera_matrix(separate_projections.camera_matrix);
+    memcpy(separate_projections.graph_view_matrix, separate_projections.graph_view_matrix_current, sizeof(float) * 16);
+    memcpy(separate_projections.graph_inv_view_matrix, separate_projections.graph_inv_view_matrix_current, sizeof(float) * 16);
+    gfx_rapi->set_camera_perspective(separate_projections.fov_degrees_current, separate_projections.near_dist_current, separate_projections.far_dist_current);
+    separate_projections.camera_matrix_set = separate_projections.camera_matrix_set_current;
 
-    // Since this call comes from the graph node, store it so we can reverse its effect
-    // on the model view matrices later.
-    memcpy(separate_projections.graph_view_matrix, mat, sizeof(float) * 16);
-    gd_inverse_mat4f(&separate_projections.graph_view_matrix, &separate_projections.graph_inv_view_matrix);
-
-    separate_projections.camera_matrix_set = true;
+    // Clear parameters once they've been used.
+    gd_set_identity_mat4(&separate_projections.camera_matrix_current);
+    gd_set_identity_mat4(&separate_projections.graph_view_matrix_current);
+    gd_set_identity_mat4(&separate_projections.graph_inv_view_matrix_current);
+    separate_projections.camera_matrix_set_current = false;
 }
 
 bool is_affine(float mat[4][4]) {
@@ -1829,7 +1867,7 @@ struct GfxRenderingAPI *gfx_get_current_rendering_api(void) {
     return gfx_rapi;
 }
 
-void gfx_start_frame(u8 interpolated) {
+void gfx_start_frame() {
     gfx_wapi->handle_events();
     gfx_wapi->get_dimensions(&gfx_current_dimensions.width, &gfx_current_dimensions.height);
     if (gfx_current_dimensions.height == 0) {
@@ -1839,19 +1877,17 @@ void gfx_start_frame(u8 interpolated) {
     gfx_current_dimensions.aspect_ratio = (float)gfx_current_dimensions.width / (float)gfx_current_dimensions.height;
 
 #ifdef GFX_SEPARATE_PROJECTIONS
-    if (!interpolated) {
-        gd_set_identity_mat4(&separate_projections.extra_model_matrix);
-        gd_set_identity_mat4(&separate_projections.camera_matrix);
-        gfx_rapi->set_camera_matrix(separate_projections.camera_matrix);
-        separate_projections.camera_matrix_set = false;
+    gd_set_identity_mat4(&separate_projections.extra_model_matrix);
+    separate_projections.is_ortho = false;
+    separate_projections.model_matrix_used = false;
+    separate_projections.double_sided = false;
+    separate_projections.persp_triangles_drawn = false;
 
-        gd_set_identity_mat4(&separate_projections.graph_view_matrix);
-        gd_set_identity_mat4(&separate_projections.graph_inv_view_matrix);
-        separate_projections.is_ortho = false;
-        separate_projections.model_matrix_used = false;
-        separate_projections.double_sided = false;
-        separate_projections.persp_triangles_drawn = false;
-    }
+    gd_set_identity_mat4(&separate_projections.camera_matrix);
+    gfx_rapi->set_camera_matrix(separate_projections.camera_matrix);
+    gd_set_identity_mat4(&separate_projections.graph_view_matrix);
+    gd_set_identity_mat4(&separate_projections.graph_inv_view_matrix);
+    separate_projections.camera_matrix_set = false;
 #endif
 }
 

@@ -19,15 +19,15 @@ extern "C" {
 
 void gfx_init(struct GfxWindowManagerAPI *wapi, struct GfxRenderingAPI *rapi, const char *window_title);
 struct GfxRenderingAPI *gfx_get_current_rendering_api(void);
-void gfx_start_frame(u8 interpolated);
+void gfx_start_frame();
 void gfx_run(Gfx *commands);
 void gfx_end_frame(void);
 void gfx_precache_textures(void);
 void gfx_shutdown(void);
 
 #ifdef GFX_SEPARATE_PROJECTIONS
-void gfx_set_camera_perspective(float fov_degrees, float near_dist, float far_dist);
-void gfx_set_camera_matrix(float mat[4][4]);
+void gfx_set_camera_perspective(float fov_degrees, float near_dist, float far_dist, u8 interpolated);
+void gfx_set_camera_matrix(float mat[4][4], u8 interpolated);
 #endif
 
 #ifdef GFX_ENABLE_GRAPH_NODE_MODS

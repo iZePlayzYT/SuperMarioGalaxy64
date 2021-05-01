@@ -334,7 +334,7 @@ static void geo_process_perspective(struct GraphNodePerspective *node) {
 #endif
 
 #ifdef GFX_SEPARATE_PROJECTIONS
-        gfx_set_camera_perspective(node->fov, node->near, node->far);
+        gfx_set_camera_perspective(node->fov, node->near, node->far, false);
 #endif
 
         guPerspective(mtx, &perspNorm, node->fov, aspect, node->near, node->far, 1.0f);
@@ -342,6 +342,9 @@ static void geo_process_perspective(struct GraphNodePerspective *node) {
         if (gGlobalTimer == node->prevTimestamp + 1 && gGlobalTimer != gLakituState.skipCameraInterpolationTimestamp) {
 
             fovInterpolated = (node->prevFov + node->fov) / 2.0f;
+#ifdef GFX_SEPARATE_PROJECTIONS
+            gfx_set_camera_perspective(fovInterpolated, node->near, node->far, true);
+#endif
             guPerspective(mtxInterpolated, &perspNorm, fovInterpolated, aspect, node->near, node->far, 1.0f);
             gSPPerspNormalize(gDisplayListHead++, perspNorm);
 
@@ -484,7 +487,8 @@ static void geo_process_camera(struct GraphNodeCamera *node) {
     gMatStackInterpolatedFixed[gMatStackIndex] = mtxInterpolated;
 
 #ifdef GFX_SEPARATE_PROJECTIONS
-    gfx_set_camera_matrix(mtx->m);
+    gfx_set_camera_matrix(mtx->m, false);
+    gfx_set_camera_matrix(mtxInterpolated->m, true);
 #endif
 
     if (node->fnNode.node.children != 0) {
