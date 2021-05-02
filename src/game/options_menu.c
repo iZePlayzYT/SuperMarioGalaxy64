@@ -343,7 +343,7 @@ static struct Option optsRT64[] = {
     DEF_OPT_TOGGLE( optsRT64Str[2], &configRT64GI ),
     DEF_OPT_SCROLL( optsRT64Str[3], &configRT64GIStrength, 5, 95, 1 ),
     DEF_OPT_TOGGLE( optsRT64Str[4], &configRT64Denoiser ),
-    DEF_OPT_BUTTON( optsVideoStr[9], optvideo_apply ),
+    DEF_OPT_BUTTON( optsVideoStr[10], optvideo_apply ),
 };
 #endif
 

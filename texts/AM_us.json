@@ -3457,7 +3457,13 @@
         "TEXT_OPT_LANGUAGE": "Current Language",
         "TEXT_OPT_PRECACHE": "Precache Textures",
         "TEXT_OPT_SWITCH_HUD": "Switch HUD",
-        "TEXT_OPT_BILLBOARDS": "Disable Billboards"
+        "TEXT_OPT_BILLBOARDS": "Disable Billboards",
+		"TEXT_OPT_RT64": "RAYTRACING",
+		"TEXT_OPT_RESSCALE": "Resolution Scale",
+		"TEXT_OPT_SPHEREL": "Sphere Lights",
+		"TEXT_OPT_GI": "Global Illumination",
+		"TEXT_OPT_GIWEIGHT": "GI Intensity",
+		"TEXT_OPT_DENOISER": "Denoiser"
     },
     "strings": {
         "TEXT_ZERO": "0",
