@@ -151,12 +151,75 @@
             "name": "actors/chuckya/chuckya_hand_antenna.rgba16"
         },
         {
+            "materialMod": {
+                "reflectionFactor": 0.15000000596046448,
+                "reflectionFresnelFactor": 0.15000000596046448
+            },
+            "name": "actors/coin/coin_blue_front.rgba32"
+        },
+        {
+            "materialMod": {
+                "reflectionFactor": 0.15000000596046448,
+                "reflectionFresnelFactor": 0.15000000596046448
+            },
+            "name": "actors/coin/coin_blue_rim.rgba32"
+        },
+        {
+            "materialMod": {
+                "reflectionFactor": 0.15000000596046448,
+                "reflectionFresnelFactor": 0.15000000596046448
+            },
+            "name": "actors/coin/coin_blue_side.rgba32"
+        },
+        {
             "materialMod": null,
             "name": "actors/coin/coin_front.ia16"
         },
         {
+            "materialMod": {
+                "reflectionFactor": 0.15000000596046448,
+                "reflectionFresnelFactor": 0.15000000596046448
+            },
+            "name": "actors/coin/coin_red_front.rgba32"
+        },
+        {
+            "materialMod": {
+                "reflectionFactor": 0.15000000596046448,
+                "reflectionFresnelFactor": 0.15000000596046448
+            },
+            "name": "actors/coin/coin_red_rim.rgba32"
+        },
+        {
+            "materialMod": {
+                "reflectionFactor": 0.15000000596046448,
+                "reflectionFresnelFactor": 0.15000000596046448
+            },
+            "name": "actors/coin/coin_red_side.rgba32"
+        },
+        {
             "materialMod": null,
             "name": "actors/coin/coin_side.ia16"
+        },
+        {
+            "materialMod": {
+                "reflectionFactor": 0.15000000596046448,
+                "reflectionFresnelFactor": 0.15000000596046448
+            },
+            "name": "actors/coin/coin_yellow_front.rgba32"
+        },
+        {
+            "materialMod": {
+                "reflectionFactor": 0.15000000596046448,
+                "reflectionFresnelFactor": 0.15000000596046448
+            },
+            "name": "actors/coin/coin_yellow_rim.rgba32"
+        },
+        {
+            "materialMod": {
+                "reflectionFactor": 0.15000000596046448,
+                "reflectionFresnelFactor": 0.15000000596046448
+            },
+            "name": "actors/coin/coin_yellow_side.rgba32"
         },
         {
             "materialMod": {
@@ -975,6 +1038,10 @@
         {
             "materialMod": null,
             "name": "textures/generic/bob_textures.0A800.rgba16"
+        },
+        {
+            "materialMod": null,
+            "name": "textures/grass/wf_textures.00000.rgba16"
         },
         {
             "materialMod": null,
