@@ -451,7 +451,9 @@ static struct Option optsCheats[] = {
 /* submenu definitions */
 
 static struct SubMenu menuCamera   = DEF_SUBMENU( menuStr[4], optsCamera );
+#ifdef RAPI_RT64
 static struct SubMenu menuRT64     = DEF_SUBMENU( menuStr[11], optsRT64 );
+#endif
 static struct SubMenu menuGame     = DEF_SUBMENU( menuStr[10], optsGame );
 static struct SubMenu menuControls = DEF_SUBMENU( menuStr[5], optsControls );
 static struct SubMenu menuVideo    = DEF_SUBMENU( menuStr[6], optsVideo );
@@ -463,7 +465,9 @@ static struct SubMenu menuCheats   = DEF_SUBMENU( menuStr[9], optsCheats );
 static struct Option optsMain[] = {
     DEF_OPT_SUBMENU( menuStr[10], &menuGame ),
     DEF_OPT_SUBMENU( menuStr[4], &menuCamera ),
+#ifdef RAPI_RT64
     DEF_OPT_SUBMENU( menuStr[11], &menuRT64 ),
+#endif
     DEF_OPT_SUBMENU( menuStr[5], &menuControls ),
     DEF_OPT_SUBMENU( menuStr[6], &menuVideo ),
     DEF_OPT_SUBMENU( menuStr[7], &menuAudio ),
