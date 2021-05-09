@@ -100,6 +100,7 @@ static const Array<Pair<const char *, void *>> sActors = {
 
     define_actor(birds_geo),
     define_actor(blargg_geo),
+    define_actor(friendly_blargg_geo),
     define_actor(blue_coin_switch_geo),
     define_actor(black_bobomb_geo),
     define_actor(bobomb_buddy_geo),
@@ -131,6 +132,7 @@ static const Array<Pair<const char *, void *>> sActors = {
     define_actor(cannon_barrel_geo),
     define_actor(cannon_base_geo),
     define_actor(cap_switch_geo),
+    define_actor(cap_switch_base_geo),
     define_actor(cartoon_star_geo),
     define_actor(chain_chomp_geo),
     define_actor(checkerboard_platform_geo),
