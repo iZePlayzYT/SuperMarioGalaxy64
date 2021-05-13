@@ -1856,6 +1856,16 @@ void gfx_init(struct GfxWindowManagerAPI *wapi, struct GfxRenderingAPI *rapi, co
 
     for (size_t i = 0; i < sizeof(precomp_shaders) / sizeof(uint32_t); i++)
         gfx_lookup_or_create_shader_program(precomp_shaders[i]);
+
+#ifdef GFX_SEPARATE_PROJECTIONS
+    gd_set_identity_mat4(&separate_projections.camera_matrix_current);
+    gd_set_identity_mat4(&separate_projections.graph_view_matrix_current);
+    gd_set_identity_mat4(&separate_projections.graph_inv_view_matrix_current);
+    separate_projections.camera_matrix_set_current = false;
+    separate_projections.fov_degrees_current = 40.0f;
+    separate_projections.near_dist_current = 1.0f;
+    separate_projections.far_dist_current = 1000.0f;
+#endif
 }
 
 void gfx_precache_textures(void) {

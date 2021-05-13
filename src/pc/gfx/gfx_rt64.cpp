@@ -2,12 +2,6 @@
 
 #if defined(_WIN32) || defined(_WIN64)
 
-/* TODO(RT64) The compilation macro is not properly detected for some reason.
-#if !defined(EXTERNAL_DATA) && !defined(RENDER_96_ALPHA)
-#error "RT64 requires EXTERNAL_DATA to be enabled."
-#endif
-*/
-
 extern "C" {
 #	include "../configfile.h"
 #	include "../../game/area.h"
@@ -48,9 +42,10 @@ using json = nlohmann::json;
 #define DYNAMIC_MESH_LIFETIME			30
 #define MAX_INSTANCES					1024
 #define MAX_LIGHTS						512
+#define MAX_LEVEL_LIGHTS				128
+#define MAX_DYNAMIC_LIGHTS				MAX_LIGHTS - MAX_LEVEL_LIGHTS
 #define MAX_LEVELS						40
 #define MAX_AREAS						3
-#define MAX_LEVEL_LIGHTS				128
 #define LEVEL_LIGHTS_FILENAME			FS_BASEDIR "/rt64/level_lights.json"
 #define GEO_LAYOUT_MODS_FILENAME		FS_BASEDIR "/rt64/geo_layout_mods.json"
 #define TEXTURE_MODS_FILENAME			FS_BASEDIR "/rt64/texture_mods.json"
@@ -93,7 +88,7 @@ struct RecordedMod {
 //	Convention of bits for different lights.
 //		1 	- Directional Tier A
 //		2 	- Directional Tier B
-//		4 	- Stage Tier A
+//		4 	- Stage Tier A 
 //		8 	- Stage Tier B
 //		16 	- Objects Tier A
 //		32 	- Objects Tier B
@@ -102,13 +97,13 @@ struct RecordedMod {
 
 struct {
 	HWND hwnd;
-
+	
 	// Library data.
 	RT64_LIBRARY lib;
-	RT64_DEVICE *device;
-	RT64_INSPECTOR *inspector;
-	RT64_SCENE *scene;
-	RT64_VIEW *view;
+	RT64_DEVICE *device = nullptr;
+	RT64_INSPECTOR *inspector = nullptr;
+	RT64_SCENE *scene = nullptr;
+	RT64_VIEW *view = nullptr;
 	RT64_MATERIAL defaultMaterial;
 	RT64_TEXTURE *blankTexture;
 	RT64_INSTANCE *instances[MAX_INSTANCES];
@@ -125,6 +120,8 @@ struct {
     unsigned int lightCount;
 	RT64_LIGHT levelLights[MAX_LEVELS][MAX_AREAS][MAX_LEVEL_LIGHTS];
 	int levelLightCounts[MAX_LEVELS][MAX_AREAS];
+	RT64_LIGHT dynamicLights[MAX_DYNAMIC_LIGHTS];
+	unsigned int dynamicLightCount;
 
 	// Ray picking data.
 	bool pickTextureNextFrame;
@@ -133,13 +130,11 @@ struct {
 	std::unordered_map<RT64_INSTANCE *, uint64_t> lastInstanceTextureHashes;
 
 	// Geo layout mods.
-	void *geoLayoutStack[MAX_GEO_LAYOUT_STACK_SIZE];
-	int geoLayoutStackSize;
 	std::unordered_map<void *, std::string> geoLayoutNameMap;
 	std::map<std::string, void *> nameGeoLayoutMap;
 	std::unordered_map<void *, RecordedMod *> geoLayoutMods;
 	std::unordered_map<void *, RecordedMod *> graphNodeMods;
-
+	
 	// Texture mods.
 	std::unordered_map<uint64_t, std::string> texNameMap;
 	std::map<std::string, uint64_t> nameTexMap;
@@ -339,6 +334,14 @@ void elapsed_time(const LARGE_INTEGER &start, const LARGE_INTEGER &end, const LA
 	elapsed.QuadPart /= frequency.QuadPart;
 }
 
+int gfx_rt64_get_level_index() {
+	return (gPlayerSpawnInfos[0].areaIndex >= 0) ? gCurrLevelNum : 0;
+}
+
+int gfx_rt64_get_area_index() {
+	return (gPlayerSpawnInfos[0].areaIndex >= 0) ? gCurrAreaIndex : 0;
+}
+
 void gfx_rt64_toggle_inspector() {
 	if (RT64.inspector != nullptr) {
 		RT64.lib.DestroyInspector(RT64.inspector);
@@ -468,7 +471,7 @@ void gfx_rt64_load_geo_layout_mods() {
 				else {
 					recordedMod->materialMod = nullptr;
 				}
-
+				
 				if (jgeo.find("lightMod") != jgeo.end()) {
 					light = new RT64_LIGHT();
 					gfx_rt64_load_light(jgeo["lightMod"], light);
@@ -525,13 +528,13 @@ void gfx_rt64_save_geo_layout_mods() {
 				if (!normName.empty()) {
 					jgeo["normalMapMod"] = gfx_rt64_save_normal_map_mod(normName);
 				}
-
+				
 				jroot["geoLayouts"].push_back(jgeo);
 			}
 		}
 
 		o << std::setw(4) << jroot << std::endl;
-
+		
 		if (o.bad()) {
 			fprintf(stderr, "Error when saving " GEO_LAYOUT_MODS_FILENAME ".\n");
 		}
@@ -566,7 +569,7 @@ void gfx_rt64_load_texture_mods() {
 			else {
 				RT64.texMods[texHash]->materialMod = nullptr;
 			}
-
+			
 			// Parse light mod.
 			if (jtex.find("lightMod") != jtex.end()) {
 				light = new RT64_LIGHT();
@@ -624,7 +627,7 @@ void gfx_rt64_save_texture_mods() {
 		}
 
 		o << std::setw(4) << jroot << std::endl;
-
+		
 		if (o.bad()) {
 			fprintf(stderr, "Error when saving " TEXTURE_MODS_FILENAME ".\n");
 		}
@@ -661,11 +664,15 @@ void gfx_rt64_apply_config() {
 	RT64.lib.SetViewDescription(RT64.view, desc);
 }
 
+static void gfx_rt64_reset_logic_frame(void) {
+	RT64.dynamicLightCount = 0;
+}
+
 LRESULT CALLBACK gfx_rt64_wnd_proc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	if ((RT64.inspector != nullptr) && RT64.lib.HandleMessageInspector(RT64.inspector, message, wParam, lParam)) {
 		return true;
 	}
-
+	
 	switch (message) {
 	case WM_CLOSE:
 		PostQuitMessage(0);
@@ -673,7 +680,7 @@ LRESULT CALLBACK gfx_rt64_wnd_proc(HWND hWnd, UINT message, WPARAM wParam, LPARA
 		break;
 	case WM_ACTIVATEAPP:
         if (RT64.on_all_keys_up != nullptr) {
-		RT64.on_all_keys_up();
+        	RT64.on_all_keys_up();
 		}
 
         break;
@@ -703,7 +710,7 @@ LRESULT CALLBACK gfx_rt64_wnd_proc(HWND hWnd, UINT message, WPARAM wParam, LPARA
 		if (wParam == VK_F4) {
 			RT64.turboMode = !RT64.turboMode;
 		}
-
+		
 		if (RT64.inspector != nullptr) {
 			if (wParam == VK_F5) {
 				gfx_rt64_save_geo_layout_mods();
@@ -718,60 +725,66 @@ LRESULT CALLBACK gfx_rt64_wnd_proc(HWND hWnd, UINT message, WPARAM wParam, LPARA
 		onkeyup(wParam, lParam);
 		break;
 	case WM_PAINT: {
-		if (configWindow.settings_changed) {
-			gfx_rt64_apply_config();
-			configWindow.settings_changed = false;
-		}
-
-		LARGE_INTEGER ElapsedMicroseconds;
-
-		// Just draw the current frame while paused.
-		if (RT64.pauseMode) {
-			RT64.lib.DrawDevice(RT64.device, RT64.turboMode ? 0 : 1);
-		}
-		// Run one game iteration.
-		else if (RT64.run_one_game_iter != nullptr) {
-			LARGE_INTEGER StartTime, EndTime;
-			QueryPerformanceCounter(&StartTime);
-			RT64.run_one_game_iter();
-			QueryPerformanceCounter(&EndTime);
-			elapsed_time(StartTime, EndTime, RT64.Frequency, ElapsedMicroseconds);
-			if (RT64.inspector != nullptr) {
-				char message[64];
-				sprintf(message, "FRAMETIME: %.3f ms\n", ElapsedMicroseconds.QuadPart / 1000.0);
-				RT64.lib.PrintToInspector(RT64.inspector, message);
-			}
-		}
-
-		if (!RT64.turboMode) {
-			// Try to maintain the fixed framerate.
-			const int FixedFramerate = 30;
-			const int FramerateMicroseconds = 1000000 / FixedFramerate;
-			int cyclesWaited = 0;
-
-			// Sleep if possible to avoid busy waiting too much.
-			QueryPerformanceCounter(&RT64.EndingTime);
-			elapsed_time(RT64.StartingTime, RT64.EndingTime, RT64.Frequency, ElapsedMicroseconds);
-			int SleepMs = ((FramerateMicroseconds - ElapsedMicroseconds.QuadPart) - 500) / 1000;
-			if (SleepMs > 0) {
-				Sleep(SleepMs);
-				cyclesWaited++;
+		if (RT64.view != nullptr) {
+			if (configWindow.settings_changed) {
+				gfx_rt64_apply_config();
+				configWindow.settings_changed = false;
 			}
 
-			// Busy wait to reach the desired framerate.
-			do {
+			LARGE_INTEGER ElapsedMicroseconds;
+			
+			// Just draw the current frame while paused.
+			if (RT64.pauseMode) {
+				RT64.lib.DrawDevice(RT64.device, RT64.turboMode ? 0 : 1);
+			}
+			// Run one game iteration.
+			else if (RT64.run_one_game_iter != nullptr) {
+				LARGE_INTEGER StartTime, EndTime;
+				QueryPerformanceCounter(&StartTime);
+				RT64.run_one_game_iter();
+				gfx_rt64_reset_logic_frame();
+				QueryPerformanceCounter(&EndTime);
+				elapsed_time(StartTime, EndTime, RT64.Frequency, ElapsedMicroseconds);
+				if (RT64.inspector != nullptr) {
+					char message[64];
+					sprintf(message, "FRAMETIME: %.3f ms\n", ElapsedMicroseconds.QuadPart / 1000.0);
+					RT64.lib.PrintToInspector(RT64.inspector, message);
+				}
+			}
+
+			if (!RT64.turboMode) {
+				// Try to maintain the fixed framerate.
+				const int FixedFramerate = 30;
+				const int FramerateMicroseconds = 1000000 / FixedFramerate;
+				int cyclesWaited = 0;
+
+				// Sleep if possible to avoid busy waiting too much.
 				QueryPerformanceCounter(&RT64.EndingTime);
 				elapsed_time(RT64.StartingTime, RT64.EndingTime, RT64.Frequency, ElapsedMicroseconds);
-				cyclesWaited++;
-			} while (ElapsedMicroseconds.QuadPart < FramerateMicroseconds);
+				int SleepMs = ((FramerateMicroseconds - ElapsedMicroseconds.QuadPart) - 500) / 1000;
+				if (SleepMs > 0) {
+					Sleep(SleepMs);
+					cyclesWaited++;
+				}
 
-			RT64.StartingTime = RT64.EndingTime;
+				// Busy wait to reach the desired framerate.
+				do {
+					QueryPerformanceCounter(&RT64.EndingTime);
+					elapsed_time(RT64.StartingTime, RT64.EndingTime, RT64.Frequency, ElapsedMicroseconds);
+					cyclesWaited++;
+				} while (ElapsedMicroseconds.QuadPart < FramerateMicroseconds);
 
-			// Drop the next frame if we didn't wait any cycles.
-			RT64.dropNextFrame = (cyclesWaited == 1);
+				RT64.StartingTime = RT64.EndingTime;
+
+				// Drop the next frame if we didn't wait any cycles.
+				RT64.dropNextFrame = (cyclesWaited == 1);
+			}
+
+			return 0;
 		}
-
-		break;
+		else {
+			return DefWindowProc(hWnd, message, wParam, lParam);
+		}
 	}
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
@@ -780,17 +793,16 @@ LRESULT CALLBACK gfx_rt64_wnd_proc(HWND hWnd, UINT message, WPARAM wParam, LPARA
 	return 0;
 }
 
-static void gfx_rt64_fatal(const char *window_title, const char *error_message) {
-	fprintf(stderr, "%s\n", error_message);
+static void gfx_rt64_error_message(const char *window_title, const char *error_message) {
 	MessageBox(NULL, error_message, window_title, MB_OK | MB_ICONEXCLAMATION);
-	abort();
 }
 
 static void gfx_rt64_wapi_init(const char *window_title) {
 	// Setup library.
 	RT64.lib = RT64_LoadLibrary();
 	if (RT64.lib.handle == 0) {
-		gfx_rt64_fatal(window_title, "Failed to load library. Please make sure rt64.dll and dxil.dll are placed next to the game's executable and are up to date.");
+		gfx_rt64_error_message(window_title, "Failed to load library. Please make sure rt64.dll and dxil.dll are placed next to the game's executable and are up to date.");
+		abort();
 	}
 
 	// Register window class.
@@ -817,7 +829,14 @@ static void gfx_rt64_wapi_init(const char *window_title) {
 	// Setup device.
 	RT64.device = RT64.lib.CreateDevice(RT64.hwnd);
 	if (RT64.device == nullptr) {
-		gfx_rt64_fatal(window_title, "Failed to create device. Please make sure you have D3D12 and DXR compatible hardware.");
+		gfx_rt64_error_message(window_title, RT64.lib.GetLastError());
+		gfx_rt64_error_message(window_title, 
+			"Failed to initialize RT64.\n\n"
+			"Please make sure your GPU drivers are up to date and the Direct3D 12.1 feature level is supported.\n\n"
+			"Windows 10 version 2004 or newer is also required for this feature level to work properly.\n\n"
+			"If you're a mobile user, make sure that the high performance device is selected for this application on your system's settings.");
+		
+		abort();
 	}
 
 	// Setup inspector.
@@ -839,7 +858,7 @@ static void gfx_rt64_wapi_init(const char *window_title) {
 	RT64.viewportRect = { 0, 0, 0, 0 };
 	RT64.instanceCount = 0;
 	RT64.instanceAllocCount = 0;
-	RT64.geoLayoutStackSize = 0;
+	RT64.dynamicLightCount = 0;
 	RT64.cachedMeshesPerFrame = 0;
 	RT64.currentTile = 0;
 	memset(RT64.currentTextureIds, 0, sizeof(RT64.currentTextureIds));
@@ -938,7 +957,7 @@ static void gfx_rt64_wapi_init(const char *window_title) {
             RT64.levelLights[l][a][1].shadowOffset = 0.0f;
             RT64.levelLights[l][a][1].attenuationExponent = 0.0f;
 			RT64.levelLights[l][a][1].groupBits = RT64_LIGHT_GROUP_DEFAULT;
-
+            
             RT64.levelLightCounts[l][a] = 2;
         }
     }
@@ -1013,7 +1032,7 @@ static bool gfx_rt64_rapi_z_is_from_0_to_1(void) {
 }
 
 static void gfx_rt64_rapi_unload_shader(struct ShaderProgram *old_prg) {
-
+	
 }
 
 static void gfx_rt64_rapi_load_shader(struct ShaderProgram *new_prg) {
@@ -1175,7 +1194,7 @@ static RT64_MESH *gfx_rt64_rapi_process_mesh(float buf_vbo[], size_t buf_vbo_len
 	const unsigned int vertexStride = std::max(vertexCount / HashMaxVertexCount, (unsigned int)(1));
 	unsigned int vertex = 0;
 	while (vertex < vertexCount) {
-	hashStream.add(&vertices[vertex], sizeof(RT64_VERTEX));
+    	hashStream.add(&vertices[vertex], sizeof(RT64_VERTEX));
 		vertex += vertexStride;
 	}
 
@@ -1226,10 +1245,10 @@ static RT64_MESH *gfx_rt64_rapi_process_mesh(float buf_vbo[], size_t buf_vbo_len
 	for (auto dynamicMeshIt : RT64.dynamicMeshes) {
 		if (
 			!dynamicMeshIt.second.inUse &&
-			(dynamicMeshIt.second.vertexCount == vertexCount) &&
-			(dynamicMeshIt.second.indexCount == indexCount) &&
+			(dynamicMeshIt.second.vertexCount == vertexCount) && 
+			(dynamicMeshIt.second.indexCount == indexCount) && 
 			(dynamicMeshIt.second.raytraceable == raytraceable)
-		)
+		) 
 		{
 			foundKey = dynamicMeshIt.first;
 			break;
@@ -1309,8 +1328,8 @@ RT64_MATERIAL gfx_rt64_rapi_build_material(ShaderProgram *prg, bool linearFilter
 }
 
 static void gfx_rt64_add_light(RT64_LIGHT *lightMod, RT64_MATRIX4 transform) {
-    assert(RT64.lightCount < MAX_LIGHTS);
-	auto &light = RT64.lights[RT64.lightCount++];
+    assert(RT64.dynamicLightCount < MAX_DYNAMIC_LIGHTS);
+	auto &light = RT64.dynamicLights[RT64.dynamicLightCount++];
     light = *lightMod;
 
     light.position = transform_position_affine(transform, lightMod->position);
@@ -1323,12 +1342,12 @@ static void gfx_rt64_add_light(RT64_LIGHT *lightMod, RT64_MATRIX4 transform) {
 	light.shadowOffset *= scale;
 }
 
-static void gfx_rt64_rapi_apply_mod(RT64_MATERIAL *material, RT64_TEXTURE **normal, RecordedMod *mod, RT64_MATRIX4 transform) {
+static void gfx_rt64_rapi_apply_mod(RT64_MATERIAL *material, RT64_TEXTURE **normal, RecordedMod *mod, RT64_MATRIX4 transform, bool apply_light) {
 	if (mod->materialMod != NULL) {
 		RT64_ApplyMaterialAttributes(material, mod->materialMod);
 	}
 
-	if (mod->lightMod != NULL) {
+	if (apply_light && (mod->lightMod != NULL)) {
 		gfx_rt64_add_light(mod->lightMod, transform);
 	}
 
@@ -1347,7 +1366,7 @@ static void gfx_rt64_rapi_draw_triangles_common(RT64_MATRIX4 transform, float bu
 	RecordedMod *textureMod = nullptr;
 	bool linearFilter = false;
 	uint32_t cms = 0, cmt = 0;
-
+	
 	// Create the instance.
 	RT64_INSTANCE *instance = gfx_rt64_rapi_add_instance();
 
@@ -1363,8 +1382,8 @@ static void gfx_rt64_rapi_draw_triangles_common(RT64_MATRIX4 transform, float bu
 	bool highlightMaterial = false;
 	if (RT64.shaderProgram->used_textures[0]) {
 		RecordedTexture &recordedTexture = RT64.textures[RT64.currentTextureIds[RT64.currentTile]];
-		linearFilter = recordedTexture.linearFilter;
-		cms = recordedTexture.cms;
+		linearFilter = recordedTexture.linearFilter; 
+		cms = recordedTexture.cms; 
 		cmt = recordedTexture.cmt;
 
 		if (recordedTexture.texture != nullptr) {
@@ -1375,7 +1394,7 @@ static void gfx_rt64_rapi_draw_triangles_common(RT64_MATRIX4 transform, float bu
 		if (texModIt != RT64.texMods.end()) {
 			textureMod = texModIt->second;
 		}
-
+		
 		// Update data for ray picking.
 		if (RT64.pickTextureHighlight && (recordedTexture.hash == RT64.pickedTextureHash)) {
 			highlightMaterial = true;
@@ -1387,11 +1406,11 @@ static void gfx_rt64_rapi_draw_triangles_common(RT64_MATRIX4 transform, float bu
 	// Build material with applied mods.
 	instDesc.material = gfx_rt64_rapi_build_material(RT64.shaderProgram, linearFilter, cms, cmt);
 	if (RT64.graphNodeMod != nullptr) {
-		gfx_rt64_rapi_apply_mod(&instDesc.material, &instDesc.normalTexture, RT64.graphNodeMod, transform);
+		gfx_rt64_rapi_apply_mod(&instDesc.material, &instDesc.normalTexture, RT64.graphNodeMod, transform, false);
 	}
 
 	if (textureMod != nullptr) {
-		gfx_rt64_rapi_apply_mod(&instDesc.material, &instDesc.normalTexture, textureMod, transform);
+		gfx_rt64_rapi_apply_mod(&instDesc.material, &instDesc.normalTexture, textureMod, transform, true);
 	}
 
 	if (highlightMaterial) {
@@ -1498,37 +1517,23 @@ static void gfx_rt64_rapi_start_frame(void) {
 	RT64.background = true;
     RT64.instanceCount = 0;
     RT64.graphNodeMod = nullptr;
-
-	// Level lights.
-	int levelIndex = gCurrLevelNum;
-	int courseIndex = gCurrCourseNum;
-	int areaIndex = gCurrAreaIndex;
-	int spawnAreaIndex = gPlayerSpawnInfos[0].areaIndex;
-
-	// Do not use these values if the area does not have a valid player spawn.
-	// This means the game is on a non-playable level, like a menu.
-	if (spawnAreaIndex < 0) {
-		levelIndex = 0;
-		courseIndex = 0;
-		areaIndex = 0;
-	}
-
-    RT64_LIGHT *lights = RT64.levelLights[levelIndex][areaIndex];
-    int *lightCount = &RT64.levelLightCounts[levelIndex][areaIndex];
 	if (RT64.inspector != nullptr) {
 		char marioMessage[256] = "";
 		char levelMessage[256] = "";
+		int levelIndex = gfx_rt64_get_level_index();
+		int areaIndex = gfx_rt64_get_area_index();
 		sprintf(marioMessage, "Mario pos: %.1f %.1f %.1f", gMarioState->pos[0], gMarioState->pos[1], gMarioState->pos[2]);
-		sprintf(levelMessage, "Level #%d Course #%d Area #%d Spawn #%d", levelIndex, courseIndex, areaIndex, spawnAreaIndex);
+		sprintf(levelMessage, "Level #%d Area #%d", levelIndex, areaIndex);
 		RT64.lib.PrintToInspector(RT64.inspector, marioMessage);
 		RT64.lib.PrintToInspector(RT64.inspector, levelMessage);
 		RT64.lib.PrintToInspector(RT64.inspector, "F1: Toggle inspectors");
 		RT64.lib.PrintToInspector(RT64.inspector, "F5: Save all configuration");
-		RT64.lib.SetLightsInspector(RT64.inspector, lights, lightCount, MAX_LEVEL_LIGHTS);
+		
+		// Inspect the current level's lights.
+    	RT64_LIGHT *lights = RT64.levelLights[levelIndex][areaIndex];
+    	int *lightCount = &RT64.levelLightCounts[levelIndex][areaIndex];
+    	RT64.lib.SetLightsInspector(RT64.inspector, lights, lightCount, MAX_LEVEL_LIGHTS);
 	}
-
-    memcpy(RT64.lights, lights, sizeof(RT64_LIGHT) * (*lightCount));
-    RT64.lightCount = *lightCount;
 }
 
 static void gfx_rt64_rapi_end_frame(void) {
@@ -1542,14 +1547,12 @@ static void gfx_rt64_rapi_end_frame(void) {
 	// Set the camera.
 	RT64.lib.SetViewPerspective(RT64.view, RT64.viewMatrix, RT64.fovRadians, RT64.nearDist, RT64.farDist);
 
-	// Lakitu camera light for Shifting Sand Land Pyramid.
-	int levelIndex = gCurrLevelNum;
-	int areaIndex = gCurrAreaIndex;
+	// Dynamic Lakitu camera light for Shifting Sand Land Pyramid.
+	int levelIndex = gfx_rt64_get_level_index();
+	int areaIndex = gfx_rt64_get_area_index();
 	if ((levelIndex == 8) && (areaIndex == 2)) {
-		// Extract view position from the inverse matrix.
-		gd_inverse_mat4f(&RT64.viewMatrix.m, &RT64.invViewMatrix.m);
-
-		auto &light = RT64.lights[RT64.lightCount++];
+		// Build the dynamic light.
+		auto &light = RT64.dynamicLights[RT64.dynamicLightCount++];
 		RT64_VECTOR3 viewPos = { RT64.invViewMatrix.m[3][0], RT64.invViewMatrix.m[3][1], RT64.invViewMatrix.m[3][2] };
 		RT64_VECTOR3 marioPos = { gMarioState->pos[0], gMarioState->pos[1], gMarioState->pos[2] };
 		light.diffuseColor.x = 1.0f;
@@ -1566,7 +1569,12 @@ static void gfx_rt64_rapi_end_frame(void) {
 		light.groupBits = RT64_LIGHT_GROUP_DEFAULT;
 	}
 
-    // Set lights on the scene.
+    // Build lights array out of the static level lights and the dynamic lights.
+	int levelLightCount = RT64.levelLightCounts[levelIndex][areaIndex];
+	RT64.lightCount = levelLightCount + RT64.dynamicLightCount;
+	assert(RT64.lightCount <= MAX_LIGHTS);
+	memcpy(&RT64.lights[0], &RT64.levelLights[levelIndex][areaIndex], sizeof(RT64_LIGHT) * levelLightCount);
+	memcpy(&RT64.lights[levelLightCount], RT64.dynamicLights, sizeof(RT64_LIGHT) * RT64.dynamicLightCount);
     RT64.lib.SetSceneLights(RT64.scene, RT64.lights, RT64.lightCount);
 
 	// Draw frame.
@@ -1578,8 +1586,8 @@ static void gfx_rt64_rapi_end_frame(void) {
 
 	if (RT64.inspector != nullptr) {
 		char statsMessage[256] = "";
-		sprintf(statsMessage, "Instances %d Lights %d", RT64.instanceCount, RT64.lightCount);
-		RT64.lib.PrintToInspector(RT64.inspector, statsMessage);
+    	sprintf(statsMessage, "Instances %d Lights %d", RT64.instanceCount, RT64.lightCount);
+    	RT64.lib.PrintToInspector(RT64.inspector, statsMessage);
 
 		char message[64];
 		sprintf(message, "RT64: %.3f ms\n", ElapsedMicroseconds.QuadPart / 1000.0);
@@ -1631,6 +1639,7 @@ static void gfx_rt64_rapi_end_frame(void) {
 }
 
 static void gfx_rt64_rapi_finish_render(void) {
+
 }
 
 static void gfx_rt64_rapi_set_camera_perspective(float fov_degrees, float near_dist, float far_dist) {
@@ -1641,80 +1650,85 @@ static void gfx_rt64_rapi_set_camera_perspective(float fov_degrees, float near_d
 
 static void gfx_rt64_rapi_set_camera_matrix(float matrix[4][4]) {
 	memcpy(&RT64.viewMatrix.m, matrix, sizeof(float) * 16);
+	gd_inverse_mat4f(&RT64.viewMatrix.m, &RT64.invViewMatrix.m);
 }
 
-static void gfx_rt64_rapi_push_geo_layout(void *geoLayout) {
-    assert(RT64.geoLayoutStackSize < MAX_GEO_LAYOUT_STACK_SIZE);
-	RT64.geoLayoutStack[RT64.geoLayoutStackSize++] = geoLayout;
-}
+static void gfx_rt64_rapi_register_layout_graph_node(void *geoLayout, void *graphNode) {
+	if (graphNode != nullptr) {
+		// Delete the previous graph node mod if it exists already.
+		// Graph node addresses can be reused, so it's important to remove any previous mods
+		// and only keep the most up to date version of them.
+		auto graphNodeIt = RT64.graphNodeMods.find(graphNode);
+		if (graphNodeIt != RT64.graphNodeMods.end()) {
+			delete graphNodeIt->second;
+			RT64.graphNodeMods.erase(graphNodeIt);
+		}
+	}
 
-static void gfx_rt64_rapi_register_graph_node_layout(void *graphNode) {
-    if (graphNode != nullptr) {
-		for (int s = 0; s < RT64.geoLayoutStackSize; s++) {
-			void *geo = RT64.geoLayoutStack[s];
-			auto it = RT64.geoLayoutMods.find(geo);
-			RecordedMod *geoMod = (it != RT64.geoLayoutMods.end()) ? it->second : nullptr;
-			if (geoMod != nullptr) {
-				RecordedMod *graphMod = RT64.graphNodeMods[graphNode];
-				if (graphMod == nullptr) {
-					graphMod = new RecordedMod();
-					graphMod->materialMod = nullptr;
-					graphMod->lightMod = nullptr;
-					RT64.graphNodeMods[graphNode] = graphMod;
+    if ((geoLayout != nullptr) && (graphNode != nullptr)) {
+		// Find the mod for the specified geoLayout.
+		auto it = RT64.geoLayoutMods.find(geoLayout);
+		RecordedMod *geoMod = (it != RT64.geoLayoutMods.end()) ? it->second : nullptr;
+		if (geoMod != nullptr) {
+			RecordedMod *graphMod = RT64.graphNodeMods[graphNode];
+			if (graphMod == nullptr) {
+				graphMod = new RecordedMod();
+				graphMod->materialMod = nullptr;
+				graphMod->lightMod = nullptr;
+				RT64.graphNodeMods[graphNode] = graphMod;
+			}
+
+			if (geoMod->materialMod != nullptr) {
+				if (graphMod->materialMod == nullptr) {
+					graphMod->materialMod = new RT64_MATERIAL();
+					graphMod->materialMod->enabledAttributes = RT64_ATTRIBUTE_NONE;
 				}
 
-				if (geoMod->materialMod != nullptr) {
-					if (graphMod->materialMod == nullptr) {
-						graphMod->materialMod = new RT64_MATERIAL();
-						graphMod->materialMod->enabledAttributes = RT64_ATTRIBUTE_NONE;
-					}
+				RT64_ApplyMaterialAttributes(graphMod->materialMod, geoMod->materialMod);
+				graphMod->materialMod->enabledAttributes |= geoMod->materialMod->enabledAttributes;
+			}
 
-					RT64_ApplyMaterialAttributes(graphMod->materialMod, geoMod->materialMod);
-					graphMod->materialMod->enabledAttributes |= geoMod->materialMod->enabledAttributes;
+			if (geoMod->lightMod != nullptr) {
+				if (graphMod->lightMod == nullptr) {
+					graphMod->lightMod = new RT64_LIGHT();
 				}
 
-				if (geoMod->lightMod != nullptr) {
-					if (graphMod->lightMod == nullptr) {
-						graphMod->lightMod = new RT64_LIGHT();
-					}
-
-					memcpy(graphMod->lightMod, geoMod->lightMod, sizeof(RT64_LIGHT));
-				}
+				memcpy(graphMod->lightMod, geoMod->lightMod, sizeof(RT64_LIGHT));
 			}
 		}
 	}
 }
 
-static void gfx_rt64_rapi_pop_geo_layout() {
-    assert(RT64.geoLayoutStackSize > 0);
-	RT64.geoLayoutStackSize--;
-}
-
-static void *gfx_rt64_rapi_get_graph_node_mod(void *graphNode) {
+static void *gfx_rt64_rapi_build_graph_node_mod(void *graphNode, float modelview_matrix[4][4]) {
 	auto graphNodeIt = RT64.graphNodeMods.find(graphNode);
-	return (graphNodeIt != RT64.graphNodeMods.end()) ? graphNodeIt->second : nullptr;
+	if (graphNodeIt != RT64.graphNodeMods.end()) {
+		RecordedMod *graphNodeMod = (RecordedMod *)(graphNodeIt->second);
+		if (graphNodeMod != nullptr) {
+			if (graphNodeMod->lightMod != nullptr) {
+				RT64_MATRIX4 transform;
+				gfx_matrix_mul(transform.m, modelview_matrix, RT64.invViewMatrix.m);
+				gfx_rt64_add_light(graphNodeMod->lightMod, transform);
+			}
+			
+			return graphNodeMod;
+		}
+	}
+
+	return nullptr;
 }
 
-extern "C" void gfx_push_geo_layout(void *geo_layout) {
-    gfx_rt64_rapi_push_geo_layout(geo_layout);
-}
-
-extern "C" void gfx_register_graph_node_layout(void *graph_node) {
+extern "C" void gfx_register_layout_graph_node(void *geoLayout, void *graphNode) {
 	static bool loadedLayoutMods = false;
 	if (!loadedLayoutMods) {
 		gfx_rt64_load_geo_layout_mods();
 		loadedLayoutMods = true;
 	}
 
-    gfx_rt64_rapi_register_graph_node_layout(graph_node);
+    gfx_rt64_rapi_register_layout_graph_node(geoLayout, graphNode);
 }
 
-extern "C" void gfx_pop_geo_layout(void) {
-    gfx_rt64_rapi_pop_geo_layout();
-}
-
-extern "C" void *gfx_get_graph_node_mod(void *graph_node) {
-    return gfx_rt64_rapi_get_graph_node_mod(graph_node);
+extern "C" void *gfx_build_graph_node_mod(void *graphNode, float modelview_matrix[4][4]) {
+    return gfx_rt64_rapi_build_graph_node_mod(graphNode, modelview_matrix);
 }
 
 static void gfx_rt64_rapi_set_graph_node_mod(void *graph_node_mod) {

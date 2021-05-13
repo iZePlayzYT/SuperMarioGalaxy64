@@ -1,7 +1,33 @@
 {
     "geoLayouts": [
         {
-            "materialMod": null,
+            "lightMod": {
+                "attenuationExponent": 1.0,
+                "attenuationRadius": 1500.0,
+                "diffuseColor": [
+                    1.2999999523162842,
+                    1.2999999523162842,
+                    0.20000000298023224
+                ],
+                "flickerIntensity": 0.125,
+                "groupBits": 16,
+                "pointRadius": 25.0,
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "shadowOffset": 80.0,
+                "specularIntensity": 0.6499999761581421
+            },
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
             "name": "amp_geo"
         },
         {
@@ -699,7 +725,33 @@
             "name": "springboard_top_geo"
         },
         {
-            "materialMod": null,
+            "lightMod": {
+                "attenuationExponent": 1.0,
+                "attenuationRadius": 4500.0,
+                "diffuseColor": [
+                    1.2999999523162842,
+                    1.2999999523162842,
+                    0.20000000298023224
+                ],
+                "flickerIntensity": 0.0,
+                "groupBits": 16,
+                "pointRadius": 200.0,
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "shadowOffset": 600.0,
+                "specularIntensity": 0.6499999761581421
+            },
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
             "name": "star_geo"
         },
         {
