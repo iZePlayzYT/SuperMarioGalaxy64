@@ -139,6 +139,8 @@ struct {
 	std::unordered_map<uint64_t, std::string> texNameMap;
 	std::map<std::string, uint64_t> nameTexMap;
 	std::unordered_map<uint64_t, RecordedMod *> texMods;
+	std::map<uint64_t, uint64_t> texHashAliasMap;
+	std::map<uint64_t, std::vector<uint64_t>> texHashAliasesMap;
 
 	// Camera.
 	RT64_MATRIX4 viewMatrix;
@@ -587,6 +589,15 @@ void gfx_rt64_load_texture_mods() {
 			else {
 				RT64.texMods[texHash]->normalMapHash = 0;
 			}
+
+			// Parse texture name aliases.
+			if (jtex.find("aliases") != jtex.end()) {
+				for (const json &jalias : jtex["aliases"]) {
+					uint64_t aliasHash = gfx_rt64_get_texture_name_hash(jalias);
+					RT64.texHashAliasMap[aliasHash] = texHash;
+					RT64.texHashAliasesMap[texHash].push_back(aliasHash);
+				}
+			}
 		}
 	}
 	else {
@@ -620,6 +631,11 @@ void gfx_rt64_save_texture_mods() {
 				const std::string normName = RT64.texNameMap[texMod->normalMapHash];
 				if (!normName.empty()) {
 					jtex["normalMapMod"] = gfx_rt64_save_normal_map_mod(normName);
+				}
+
+				const std::vector<uint64_t> aliasHashes = RT64.texHashAliasesMap[texHash];
+				for (const auto &aliasHash : aliasHashes) {
+					jtex["aliases"].push_back(RT64.texNameMap[aliasHash]);
 				}
 
 				jroot["textures"].push_back(jtex);
@@ -1390,17 +1406,25 @@ static void gfx_rt64_rapi_draw_triangles_common(RT64_MATRIX4 transform, float bu
 			instDesc.diffuseTexture = recordedTexture.texture;
 		}
 
-		auto texModIt = RT64.texMods.find(recordedTexture.hash);
+		// Use the hash from the texture alias if it exists.
+		uint64_t textureHash = recordedTexture.hash;
+		auto texAliasIt = RT64.texHashAliasMap.find(textureHash);
+		if (texAliasIt != RT64.texHashAliasMap.end()) {
+			textureHash = texAliasIt->second;
+		}
+
+		// Use the texture mod for the matching texture hash.
+		auto texModIt = RT64.texMods.find(textureHash);
 		if (texModIt != RT64.texMods.end()) {
 			textureMod = texModIt->second;
 		}
 		
 		// Update data for ray picking.
-		if (RT64.pickTextureHighlight && (recordedTexture.hash == RT64.pickedTextureHash)) {
+		if (RT64.pickTextureHighlight && (textureHash == RT64.pickedTextureHash)) {
 			highlightMaterial = true;
 		}
 
-		RT64.lastInstanceTextureHashes[instance] = recordedTexture.hash;
+		RT64.lastInstanceTextureHashes[instance] = textureHash;
 	}
 
 	// Build material with applied mods.
