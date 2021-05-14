@@ -3,13 +3,13 @@
         {
             "lightMod": {
                 "attenuationExponent": 1.0,
-                "attenuationRadius": 1500.0,
+                "attenuationRadius": 1125.0,
                 "diffuseColor": [
                     1.2999999523162842,
                     1.2999999523162842,
                     0.20000000298023224
                 ],
-                "flickerIntensity": 0.125,
+                "flickerIntensity": 0.0,
                 "groupBits": 16,
                 "pointRadius": 25.0,
                 "position": [
@@ -21,12 +21,16 @@
                 "specularIntensity": 0.6499999761581421
             },
             "materialMod": {
-                "lightGroupMaskBits": 0,
+                "reflectionFactor": 0.05000000074505806,
+                "reflectionFresnelFactor": 0.15000000596046448,
                 "selfLight": [
                     0.699999988079071,
                     0.699999988079071,
                     0.699999988079071
-                ]
+                ],
+                "shadowRayBias": 0.0,
+                "specularExponent": 20.0,
+                "specularIntensity": 1.0
             },
             "name": "amp_geo"
         },
@@ -159,10 +163,6 @@
         },
         {
             "materialMod": null,
-            "name": "breakable_box_small_geo"
-        },
-        {
-            "materialMod": null,
             "name": "bub_geo"
         },
         {
@@ -238,9 +238,7 @@
             "name": "castle_door_geo"
         },
         {
-            "materialMod": {
-                "ignoreNormalFactor": 1.0
-            },
+            "materialMod": null,
             "name": "chain_chomp_geo"
         },
         {
@@ -374,14 +372,6 @@
         {
             "materialMod": null,
             "name": "koopa_flag_geo"
-        },
-        {
-            "materialMod": null,
-            "name": "koopa_shell2_geo"
-        },
-        {
-            "materialMod": null,
-            "name": "koopa_shell3_geo"
         },
         {
             "materialMod": null,
@@ -727,30 +717,40 @@
         {
             "lightMod": {
                 "attenuationExponent": 1.0,
-                "attenuationRadius": 4500.0,
+                "attenuationRadius": 1125.0,
                 "diffuseColor": [
-                    1.2999999523162842,
-                    1.2999999523162842,
+                    1.100000023841858,
+                    0.800000011920929,
                     0.20000000298023224
                 ],
                 "flickerIntensity": 0.0,
                 "groupBits": 16,
-                "pointRadius": 200.0,
+                "pointRadius": 50.0,
                 "position": [
                     0.0,
                     0.0,
                     0.0
                 ],
-                "shadowOffset": 600.0,
+                "shadowOffset": 150.0,
                 "specularIntensity": 0.6499999761581421
             },
             "materialMod": {
-                "lightGroupMaskBits": 0,
+                "diffuseColorMix": [
+                    1.0,
+                    0.699999988079071,
+                    0.0,
+                    0.5
+                ],
+                "reflectionFactor": 0.05000000074505806,
+                "reflectionFresnelFactor": 0.15000000596046448,
                 "selfLight": [
-                    0.699999988079071,
-                    0.699999988079071,
-                    0.699999988079071
-                ]
+                    0.25,
+                    0.20000000298023224,
+                    0.10000000149011612
+                ],
+                "shadowRayBias": 0.0,
+                "specularExponent": 20.0,
+                "specularIntensity": 1.0
             },
             "name": "star_geo"
         },
