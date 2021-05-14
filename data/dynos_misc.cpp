@@ -133,7 +133,7 @@ static const Array<Pair<const char *, void *>> sActors = {
     define_actor(cannon_barrel_geo),
     define_actor(cannon_base_geo),
     define_actor(cap_switch_geo),
-    define_actor(cap_switch_base_geo),
+    define_actor(cap_switch_geo),
     define_actor(cartoon_star_geo),
     define_actor(chain_chomp_geo),
     define_actor(checkerboard_platform_geo),
@@ -453,10 +453,6 @@ void *DynOS_Geo_GetGraphNode(const void *aGeoLayout, bool aKeepInMemory) {
         u64 _Offset = (u64) _Node - (u64) _Pool->startPtr;
         _RelocateGraphNodePointers(_Node, _Offset);
 
-#ifdef GFX_ENABLE_GRAPH_NODE_MODS
-        gfx_register_layout_graph_node((void *) aGeoLayout, _Node);
-#endif
-
         // Add it to loaded graph nodes
         if (aKeepInMemory) {
             sLoadedGraphNodes.Add({ (void *) aGeoLayout, (void *) _Node });
@@ -471,5 +467,8 @@ void *DynOS_Geo_GetGraphNode(const void *aGeoLayout, bool aKeepInMemory) {
 void *DynOS_Geo_SpawnObject(const void *aGeoLayout, void *aParent, const void *aBehavior) {
     struct Object *_Object = spawn_object((struct Object *) aParent, 0, (const BehaviorScript *) aBehavior);
     _Object->header.gfx.sharedChild = (struct GraphNode *) DynOS_Geo_GetGraphNode(aGeoLayout, true);
+#ifdef GFX_ENABLE_GRAPH_NODE_MODS
+    gfx_register_layout_graph_node((void *) aGeoLayout, _Object->header.gfx.sharedChild);
+#endif
     return _Object;
 }

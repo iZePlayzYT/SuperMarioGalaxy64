@@ -1,5 +1,9 @@
 #include "dynos.cpp.h"
 
+extern "C" {
+#include "pc/gfx/gfx_pc.h"
+}
+
 Array<ActorGfx> &DynOS_Gfx_GetActorList() {
     static Array<ActorGfx> sActorGfxList;
     return sActorGfxList;
@@ -19,6 +23,9 @@ Array<String> DynOS_Gfx_Init() {
         pActorGfxList[i].mPackIndex = -1;
         pActorGfxList[i].mGfxData   = NULL;
         pActorGfxList[i].mGraphNode = (GraphNode *) DynOS_Geo_GetGraphNode(DynOS_Geo_GetActorLayout(i), false);
+#ifdef GFX_ENABLE_GRAPH_NODE_MODS
+        gfx_register_layout_graph_node((void *)(pActorGfxList[i].mGraphNode->georef), pActorGfxList[i].mGraphNode);
+#endif
     }
 
     // Scan the DynOS packs folder
