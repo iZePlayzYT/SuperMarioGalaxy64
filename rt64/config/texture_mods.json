@@ -442,6 +442,22 @@
         },
         {
             "materialMod": {
+                "diffuseColorMix": [
+                    1.0,
+                    0.6000000238418579,
+                    0.10000000149011612,
+                    1.0
+                ],
+                "reflectionFactor": 0.05000000074505806,
+                "reflectionFresnelFactor": 0.05000000074505806,
+                "shadowRayBias": 5.0,
+                "specularExponent": 10.0,
+                "specularIntensity": 3.0
+            },
+            "name": "actors/bowser_key/bowser_key_emap.rgba32"
+        },
+        {
+            "materialMod": {
                 "specularExponent": 20.0,
                 "specularIntensity": 1.0
             },
