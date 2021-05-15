@@ -1852,6 +1852,9 @@
             "name": "actors/luigi/logo.rgba16"
         },
         {
+            "aliases": [
+                "luigi_luigi_buttons_rgba32"
+            ],
             "materialMod": {
                 "reflectionFactor": 0.15000000596046448,
                 "reflectionFresnelFactor": 0.15000000596046448
@@ -1859,6 +1862,9 @@
             "name": "actors/luigi/luigi_buttons.rgba32"
         },
         {
+            "aliases": [
+                "luigi_luigi_gloves_rgba32"
+            ],
             "materialMod": {
                 "diffuseColorMix": [
                     1.0,
@@ -1872,6 +1878,9 @@
             "name": "actors/luigi/luigi_gloves.rgba32"
         },
         {
+            "aliases": [
+                "luigi_luigi_hair_rgba32"
+            ],
             "materialMod": {
                 "specularExponent": 10.0,
                 "specularIntensity": 5.0
@@ -1879,6 +1888,9 @@
             "name": "actors/luigi/luigi_hair.rgba32"
         },
         {
+            "aliases": [
+                "luigi_luigi_hat_rgba32"
+            ],
             "materialMod": {
                 "specularExponent": 10.0,
                 "specularIntensity": 2.0
@@ -1886,6 +1898,9 @@
             "name": "actors/luigi/luigi_hat.rgba32"
         },
         {
+            "aliases": [
+                "luigi_luigi_moustache_rgba32"
+            ],
             "materialMod": {
                 "diffuseColorMix": [
                     0.0,
@@ -1899,6 +1914,9 @@
             "name": "actors/luigi/luigi_moustache.rgba32"
         },
         {
+            "aliases": [
+                "luigi_luigi_overalls_rgba32"
+            ],
             "materialMod": {
                 "specularExponent": 10.0,
                 "specularIntensity": 2.0
@@ -1906,6 +1924,9 @@
             "name": "actors/luigi/luigi_overalls.rgba32"
         },
         {
+            "aliases": [
+                "luigi_luigi_shirt_rgba32"
+            ],
             "materialMod": {
                 "specularExponent": 10.0,
                 "specularIntensity": 2.0
@@ -1913,6 +1934,9 @@
             "name": "actors/luigi/luigi_shirt.rgba32"
         },
         {
+            "aliases": [
+                "luigi_luigi_shoes_rgba32"
+            ],
             "materialMod": {
                 "specularExponent": 3.0,
                 "specularIntensity": 1.0
@@ -1920,6 +1944,9 @@
             "name": "actors/luigi/luigi_shoes.rgba32"
         },
         {
+            "aliases": [
+                "luigi_luigi_skin_rgba32"
+            ],
             "materialMod": {
                 "specularExponent": 5.0,
                 "specularIntensity": 2.0
@@ -1927,6 +1954,10 @@
             "name": "actors/luigi/luigi_skin.rgba32"
         },
         {
+            "aliases": [
+                "luigi_mario_metal_new_rgba32",
+				"luigi_cap_luigi_metal_cap_rgba32"
+            ],
             "materialMod": {
                 "diffuseColorMix": [
                     0.0,
@@ -3061,6 +3092,9 @@
             "name": "actors/toad/spot.rgba16"
         },
         {
+            "aliases": [
+                "toad_toad_eye_emap_rgba32"
+            ],
             "materialMod": {
                 "diffuseColorMix": [
                     0.0,
@@ -3075,6 +3109,9 @@
             "name": "actors/toad/toad_eye_emap.rgba32"
         },
         {
+            "aliases": [
+                "toad_toad_head_pattern_rgba32"
+            ],
             "materialMod": {
                 "shadowRayBias": 50.0,
                 "specularExponent": 5.0,
@@ -3083,6 +3120,9 @@
             "name": "actors/toad/toad_head_pattern.rgba32"
         },
         {
+            "aliases": [
+                "toad_toad_shoes_emap_rgba32"
+            ],
             "materialMod": {
                 "shadowRayBias": 20.0,
                 "specularExponent": 5.0,
@@ -3091,6 +3131,9 @@
             "name": "actors/toad/toad_shoes_emap.rgba32"
         },
         {
+            "aliases": [
+                "toad_toad_vest_blue_rgba32"
+            ],
             "materialMod": {
                 "shadowRayBias": 20.0
             },
@@ -3338,6 +3381,9 @@
             "name": "actors/wario/fist.rgba32"
         },
         {
+            "aliases": [
+                "wario_hair_rgba32"
+            ],
             "materialMod": {
                 "specularExponent": 5.0,
                 "specularIntensity": 5.0
@@ -3345,6 +3391,9 @@
             "name": "actors/wario/hair.rgba32"
         },
         {
+            "aliases": [
+                "wario_w_logo_rgba32"
+            ],
             "materialMod": {
                 "shadowRayBias": 20.0,
                 "specularExponent": 3.4000000953674316,
@@ -3353,6 +3402,9 @@
             "name": "actors/wario/logo.rgba32"
         },
         {
+            "aliases": [
+                "wario_mario_moustache__rgba16_rgba16"
+            ],
             "materialMod": {
                 "diffuseColorMix": [
                     0.0,
@@ -3379,6 +3431,9 @@
             "name": "actors/wario/metal.rgba32"
         },
         {
+            "aliases": [
+                "wario_nose_rgba32"
+            ],
             "materialMod": {
                 "specularExponent": 10.0,
                 "specularIntensity": 5.0
@@ -3386,6 +3441,9 @@
             "name": "actors/wario/nose.rgba32"
         },
         {
+            "aliases": [
+                "wario_overalls_rgba32"
+            ],
             "materialMod": {
                 "shadowRayBias": 5.0,
                 "specularExponent": 10.0,
@@ -3394,6 +3452,9 @@
             "name": "actors/wario/overalls.rgba32"
         },
         {
+            "aliases": [
+                "wario_shoes_rgba32"
+            ],
             "materialMod": {
                 "shadowRayBias": 5.0,
                 "specularExponent": 10.0,
@@ -3419,6 +3480,9 @@
             "name": "actors/wario/w_logo.rgba32"
         },
         {
+            "aliases": [
+                "wario_w_logo_gloves_rgba32"
+            ],
             "materialMod": {
                 "shadowRayBias": 5.0,
                 "specularExponent": 10.0,
@@ -3434,6 +3498,9 @@
             "name": "actors/wario/wario_eye_side.rgba32"
         },
         {
+            "aliases": [
+                "wario_skin_rgba32"
+            ],
             "materialMod": {
                 "shadowRayBias": 1.0,
                 "specularExponent": 5.0,
@@ -3442,6 +3509,9 @@
             "name": "actors/wario/wario_skin.rgba32"
         },
         {
+            "aliases": [
+                "wario_teeth_rgba32"
+            ],
             "materialMod": {
                 "shadowRayBias": 1.0,
                 "specularExponent": 10.0,
@@ -3457,6 +3527,9 @@
             "name": "actors/wario/wario_wings.rgba32"
         },
         {
+            "aliases": [
+                "wario_yellow_rgba32"
+            ],
             "materialMod": {
                 "shadowRayBias": 5.0,
                 "specularExponent": 10.0,
@@ -3488,6 +3561,10 @@
             "name": "actors/wario_cap/wario_metal_cap.rgba32"
         },
         {
+            "aliases": [
+                "wario_cap_wario_metal_new_rgba32",
+				"wario_metal_rgba32"
+            ],
             "materialMod": {
                 "diffuseColorMix": [
                     0.0,
