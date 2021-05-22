@@ -1956,7 +1956,7 @@
         {
             "aliases": [
                 "luigi_mario_metal_new_rgba32",
-				"luigi_cap_luigi_metal_cap_rgba32"
+                "luigi_cap_luigi_metal_cap_rgba32"
             ],
             "materialMod": {
                 "diffuseColorMix": [
@@ -3563,7 +3563,7 @@
         {
             "aliases": [
                 "wario_cap_wario_metal_new_rgba32",
-				"wario_metal_rgba32"
+                "wario_metal_rgba32"
             ],
             "materialMod": {
                 "diffuseColorMix": [
@@ -3822,6 +3822,187 @@
                 "reflectionFresnelFactor": 0.15000000596046448
             },
             "name": "levels/bowser_1/2.rgba16"
+        },
+        {
+            "materialMod": {
+                "normalMapScale": 1.0
+            },
+            "name": "levels/bowser_1/arena_tiles_bake.rgba32"
+        },
+        {
+            "materialMod": {
+                "diffuseColorMix": [
+                    0.5,
+                    0.6000000238418579,
+                    0.5,
+                    0.10000000149011612
+                ],
+                "normalMapScale": 1.0,
+                "reflectionFactor": 0.05000000074505806,
+                "reflectionFresnelFactor": 0.10000000149011612,
+                "specularExponent": 2.0,
+                "specularIntensity": 3.0
+            },
+            "name": "levels/bowser_1/ball_side_1_bake.rgba32",
+            "normalMapMod": {
+                "name": "levels/bowser_1/ball_side_1_normal.rgba32"
+            }
+        },
+        {
+            "materialMod": {
+                "diffuseColorMix": [
+                    0.5,
+                    0.6000000238418579,
+                    0.5,
+                    0.10000000149011612
+                ],
+                "normalMapScale": 1.0,
+                "reflectionFactor": 0.05000000074505806,
+                "reflectionFresnelFactor": 0.10000000149011612,
+                "specularExponent": 2.0,
+                "specularIntensity": 3.0
+            },
+            "name": "levels/bowser_1/ball_side_2_bake.rgba32",
+            "normalMapMod": {
+                "name": "levels/bowser_1/ball_side_2_normal.rgba32"
+            }
+        },
+        {
+            "materialMod": {
+                "diffuseColorMix": [
+                    0.5,
+                    0.699999988079071,
+                    0.5,
+                    0.10000000149011612
+                ],
+                "normalMapScale": 1.0,
+                "specularExponent": 1.0,
+                "specularIntensity": 1.0
+            },
+            "name": "levels/bowser_1/center_brick_bake.rgba32",
+            "normalMapMod": {
+                "name": "levels/bowser_1/center_brick_normal.rgba32"
+            }
+        },
+        {
+            "materialMod": {
+                "diffuseColorMix": [
+                    0.5,
+                    0.800000011920929,
+                    0.5,
+                    0.10000000149011612
+                ],
+                "normalMapScale": 1.0,
+                "specularExponent": 1.0,
+                "specularIntensity": 2.0
+            },
+            "name": "levels/bowser_1/center_concrete_bake.rgba32",
+            "normalMapMod": {
+                "name": "levels/bowser_1/center_concrete_normal.rgba32"
+            }
+        },
+        {
+            "materialMod": {
+                "diffuseColorMix": [
+                    0.5,
+                    0.800000011920929,
+                    0.5,
+                    0.10000000149011612
+                ],
+                "normalMapScale": 1.0,
+                "specularExponent": 1.0,
+                "specularIntensity": 1.0
+            },
+            "name": "levels/bowser_1/inner_brick_bake.rgba32",
+            "normalMapMod": {
+                "name": "levels/bowser_1/inner_brick_normal.rgba32"
+            }
+        },
+        {
+            "materialMod": {
+                "diffuseColorMix": [
+                    0.5,
+                    0.800000011920929,
+                    0.5,
+                    0.10000000149011612
+                ],
+                "normalMapScale": 1.0,
+                "specularExponent": 1.0,
+                "specularIntensity": 2.0
+            },
+            "name": "levels/bowser_1/inner_concrete_bake.rgba32",
+            "normalMapMod": {
+                "name": "levels/bowser_1/inner_concrete_normal.rgba32"
+            }
+        },
+        {
+            "materialMod": {
+                "diffuseColorMix": [
+                    0.5,
+                    0.699999988079071,
+                    0.5,
+                    0.10000000149011612
+                ],
+                "normalMapScale": 1.0,
+                "specularExponent": 4.0,
+                "specularIntensity": 2.0
+            },
+            "name": "levels/bowser_1/outer_concrete_bake.rgba32",
+            "normalMapMod": {
+                "name": "levels/bowser_1/outer_concrete_normal.rgba32"
+            }
+        },
+        {
+            "materialMod": {
+                "normalMapScale": 1.0
+            },
+            "name": "levels/bowser_1/outer_concrete_more_bake.rgba32",
+            "normalMapMod": {
+                "name": "levels/bowser_1/outer_concrete_more_normal.rgba32"
+            }
+        },
+        {
+            "materialMod": {
+                "normalMapScale": 1.0
+            },
+            "name": "levels/bowser_1/outer_concrete_pillar_bake.rgba32",
+            "normalMapMod": {
+                "name": "levels/bowser_1/outer_concrete_pillar_normal.rgba32"
+            }
+        },
+        {
+            "materialMod": {
+                "diffuseColorMix": [
+                    0.5,
+                    0.699999988079071,
+                    0.5,
+                    0.10000000149011612
+                ],
+                "normalMapScale": 1.0,
+                "specularExponent": 4.0,
+                "specularIntensity": 2.0
+            },
+            "name": "levels/bowser_1/top_concrete_pillar_bake.rgba32",
+            "normalMapMod": {
+                "name": "levels/bowser_1/top_concrete_pillar_normal.rgba32"
+            }
+        },
+        {
+            "materialMod": {
+                "diffuseColorMix": [
+                    0.5,
+                    0.699999988079071,
+                    0.5,
+                    0.10000000149011612
+                ],
+                "normalMapScale": 1.0,
+                "specularExponent": 4.0,
+                "specularIntensity": 2.0
+            },
+            "name": "levels/bowser_1/upper_concrete_pillar_bake.rgba32",
+            "normalMapMod": {
+                "name": "levels/bowser_1/upper_concrete_pillar_normal.rgba32"
+            }
         },
         {
             "materialMod": {

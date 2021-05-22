@@ -5541,9 +5541,9 @@
                             "attenuationExponent": 0.0,
                             "attenuationRadius": 0.0,
                             "diffuseColor": [
+                                0.20000000298023224,
                                 0.30000001192092896,
-                                0.4000000059604645,
-                                0.4000000059604645
+                                0.30000001192092896
                             ],
                             "flickerIntensity": 0.0,
                             "groupBits": 0,
@@ -5560,9 +5560,9 @@
                             "attenuationExponent": 0.0,
                             "attenuationRadius": 99999997952.0,
                             "diffuseColor": [
-                                0.30000001192092896,
-                                0.3499999940395355,
-                                0.20000000298023224
+                                0.6000000238418579,
+                                0.699999988079071,
+                                0.4000000059604645
                             ],
                             "flickerIntensity": 0.0,
                             "groupBits": 1,
@@ -7929,9 +7929,9 @@
                             "attenuationExponent": 0.0,
                             "attenuationRadius": 0.0,
                             "diffuseColor": [
+                                0.20000000298023224,
                                 0.30000001192092896,
-                                0.4000000059604645,
-                                0.4000000059604645
+                                0.30000001192092896
                             ],
                             "flickerIntensity": 0.0,
                             "groupBits": 0,
@@ -7948,9 +7948,9 @@
                             "attenuationExponent": 0.0,
                             "attenuationRadius": 99999997952.0,
                             "diffuseColor": [
-                                0.30000001192092896,
-                                0.3499999940395355,
-                                0.20000000298023224
+                                0.6000000238418579,
+                                0.699999988079071,
+                                0.4000000059604645
                             ],
                             "flickerIntensity": 0.0,
                             "groupBits": 1,
