@@ -670,6 +670,7 @@ $(BASEPACK_LST): $(EXE)
 ifeq ($(RENDER_API),RT64)
 	@find rt64/textures -name \*.png -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
 endif
+	@find db -name \*.* -exec echo "{} {}" >> $(BASEPACK_LST) \;
 
 # prepares the resource ZIP with base data
 $(BASEPACK_PATH): $(BASEPACK_LST)
