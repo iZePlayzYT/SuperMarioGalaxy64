@@ -57,8 +57,8 @@ AUDIO_API ?= SDL2
 # Controller backends (can have multiple, space separated): SDL2
 CONTROLLER_API ?= SDL2
 
-LEGACY_RES ?= 0
 BASEDIR ?= res
+BASEPACK ?= base.zip
 
 # Copy assets to BASEDIR? (useful for iterative debugging)
 NO_COPY ?= 0
@@ -392,6 +392,19 @@ ifeq ($(RENDER_API),RT64)
 include Makefile_rt64
 endif
 
+# Copy the required resources to load texts
+TEXTS_IN_RES_DIR := ./texts
+TEXTS_OUT_RES_DIR := $(BUILD_DIR)/$(BASEDIR)/texts
+TEXTS_COPY_RES := \
+    mkdir -p $(TEXTS_IN_RES_DIR); \
+    mkdir -p $(TEXTS_OUT_RES_DIR); \
+    for f in $(TEXTS_IN_RES_DIR)/*.json; do \
+        [ -f "$$f" ] || continue; \
+        cp -f $$f $(TEXTS_OUT_RES_DIR)/$$(basename -- $$f); \
+    done;
+
+TEXTS_BUILD_RES := $(shell $(call TEXTS_COPY_RES))
+
 ##################### Compiler Options #######################
 INCLUDE_CFLAGS := $(PLATFORM_CFLAGS) -I include -I $(BUILD_DIR) -I $(BUILD_DIR)/include -I src -I .
 ENDIAN_BITWIDTH := $(BUILD_DIR)/endian-and-bitwidth
@@ -633,7 +646,7 @@ ifeq ($(TARGET_SWITCH),1)
 all: $(EXE).nro
 endif
 
-BASEPACK_PATH := $(BUILD_DIR)/$(BASEDIR)/
+BASEPACK_PATH := $(BUILD_DIR)/$(BASEDIR)/$(BASEPACK)
 BASEPACK_LST := $(BUILD_DIR)/basepack.lst
 
 # depend on resources as well
@@ -654,16 +667,13 @@ $(BASEPACK_LST): $(EXE)
 	@find actors -name \*.png -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
 	@find levels -name \*.png -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
 	@find textures -name \*.png -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
-	@find texts -name \*.json -exec echo "{} {}" >> $(BASEPACK_LST) \;
 ifeq ($(RENDER_API),RT64)
 	@find rt64/textures -name \*.png -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
 endif
 
-ifneq ($(NO_COPY),1)
 # prepares the resource ZIP with base data
 $(BASEPACK_PATH): $(BASEPACK_LST)
-	@$(PYTHON) $(TOOLS_DIR)/mkzip.py $(BASEPACK_LST) $(BASEPACK_PATH) $(LEGACY_RES)
-endif
+	@$(PYTHON) $(TOOLS_DIR)/mkzip.py $(BASEPACK_LST) $(BASEPACK_PATH)
 
 clean:
 	$(RM) -r $(BUILD_DIR_BASE)
