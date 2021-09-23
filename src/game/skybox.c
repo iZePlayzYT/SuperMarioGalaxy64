@@ -10,6 +10,7 @@
 #include "segment2.h"
 #include "sm64.h"
 
+#include "pc/gfx/gfx_pc.h"
 
 /**
  * @file skybox.c
@@ -293,9 +294,11 @@ Gfx *init_skybox_display_list(s8 player, s8 background, s8 colorIndex) {
 Gfx *create_skybox_facing_camera(s8 player, s8 background, f32 fov,
                                     f32 posX, f32 posY, f32 posZ,
                                     f32 focX, f32 focY, f32 focZ) {
+#ifndef GFX_SEPARATE_SKYBOX
     f32 cameraFaceX = focX - posX;
     f32 cameraFaceY = focY - posY;
     f32 cameraFaceZ = focZ - posZ;
+#endif
     s8 colorIndex = 1;
 
     // If the first star is collected in JRB, make the sky darker and slightly green
@@ -303,6 +306,7 @@ Gfx *create_skybox_facing_camera(s8 player, s8 background, f32 fov,
         colorIndex = 0;
     }
 
+#ifndef GFX_SEPARATE_SKYBOX
     //! fov is always set to 90.0f. If this line is removed, then the game crashes because fov is 0 on
     //! the first frame, which causes a floating point divide by 0
     fov = 90.0f;
@@ -313,4 +317,13 @@ Gfx *create_skybox_facing_camera(s8 player, s8 background, f32 fov,
     sSkyBoxInfo[player].upperLeftTile = get_top_left_tile_idx(player);
 
     return init_skybox_display_list(player, background, colorIndex);
+#else
+    float skyboxColor[3];
+    u8 *chosenColor = sSkyboxColors[colorIndex];
+    skyboxColor[0] = chosenColor[0] / 255.0f;
+    skyboxColor[1] = chosenColor[1] / 255.0f;
+    skyboxColor[2] = chosenColor[2] / 255.0f;
+    gfx_set_skybox(background, skyboxColor);
+    return NULL;
+#endif
 }

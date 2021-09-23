@@ -26,13 +26,19 @@ void gfx_precache_textures(void);
 void gfx_shutdown(void);
 
 #ifdef GFX_SEPARATE_PROJECTIONS
-void gfx_set_camera_perspective(float fov_degrees, float near_dist, float far_dist, u8 interpolated);
-void gfx_set_camera_matrix(float mat[4][4], u8 interpolated);
+#include <stdbool.h>
+void gfx_set_camera_perspective(float fov_degrees, float near_dist, float far_dist, bool can_interpolate);
+void gfx_set_camera_matrix(float mat[4][4]);
 #endif
 
 #ifdef GFX_ENABLE_GRAPH_NODE_MODS
+typedef struct {
+    u32 UID;
+    void *graphNodeMod;
+} GraphNodeGfxInfo;
+
 void gfx_register_layout_graph_node(void *geo_layout, void *graph_node);
-void *gfx_build_graph_node_mod(void *graph_node, float matrix[4][4]);
+void *gfx_build_graph_node_mod(void *graph_node, float modelview_matrix[4][4], uint32_t uid);
 #endif
 
 #ifdef __cplusplus

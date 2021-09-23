@@ -9,6 +9,18 @@
 #include "game/area.h"
 #include "geo_layout.h"
 
+#include "pc/gfx/gfx_pc.h"
+
+#ifdef GFX_SEPARATE_PROJECTIONS
+extern u32 gCurGraphNodeUID;
+#endif
+
+#ifdef GFX_ENABLE_GRAPH_NODE_MODS
+extern u32 gCurGraphNodeSwitchUID[];
+extern u32 gCurGraphNodeSwitchIndex[];
+extern u32 gCurGraphNodeSwitchCount;
+#endif
+
 // unused Mtx(s)
 s16 identityMtx[4][4] = { { 1, 0, 0, 0 }, { 0, 1, 0, 0 }, { 0, 0, 1, 0 }, { 0, 0, 0, 1 } };
 s16 zeroMtx[4][4] = { { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 }, { 0, 0, 0, 0 } };
@@ -29,6 +41,15 @@ void init_scene_graph_node_links(struct GraphNode *graphNode, s32 type) {
     graphNode->next = graphNode;
     graphNode->parent = NULL;
     graphNode->children = NULL;
+#ifdef GFX_SEPARATE_PROJECTIONS
+    graphNode->uid = gCurGraphNodeUID++;
+    if (gCurGraphNodeSwitchCount > 0) {
+        if (gCurGraphNodeSwitchIndex[gCurGraphNodeSwitchCount - 1] == gCurGraphNodeIndex) {
+            graphNode->uid = gCurGraphNodeSwitchUID[gCurGraphNodeSwitchCount - 1];
+            gCurGraphNodeUID--;
+        }
+    }
+#endif
 }
 
 /**

@@ -93,16 +93,19 @@ static inline void patch_interpolations(void) {
     patch_interpolated_paintings();
     patch_interpolated_bubble_particles();
     patch_interpolated_snow_particles();
-#ifdef GFX_SEPARATE_PROJECTIONS
-    extern void gfx_patch_interpolated(void);
-    gfx_patch_interpolated();
-#endif
 }
 
 #include "game/display.h" // for gGlobalTimer
 void send_display_list(struct SPTask *spTask) {
     if (!inited) return;
-    if (!config60FPS) patch_interpolations();
+
+#ifndef RAPI_RT64
+    if (!config60FPS)
+#endif
+    {
+        patch_interpolations();
+    }
+
     gfx_run((Gfx *)spTask->task.t.data_ptr);
 }
 
@@ -146,12 +149,14 @@ void produce_one_frame(void) {
 
     gfx_end_frame();
 
+#ifndef RAPI_RT64
     if (config60FPS) {
         gfx_start_frame();
         patch_interpolations();
         send_display_list(gGfxSPTask);
         gfx_end_frame();
     }
+#endif
 }
 
 void audio_shutdown(void) {

@@ -72,11 +72,15 @@ extern bool         configSkipIntro;
 extern bool         configDiscordRPC;
 #endif
 #ifdef RAPI_RT64
+extern unsigned int configRT64TargetFPS;
 extern unsigned int configRT64ResScale;
+extern unsigned int configRT64MaxLights;
+extern unsigned int configRT64MotionBlurStrength;
 extern bool         configRT64SphereLights;
 extern bool         configRT64GI;
-extern unsigned int configRT64GIStrength;
+extern unsigned int configRT64DlssMode;
 extern bool         configRT64Denoiser;
+extern bool         configRT64StaticMeshCache;
 #endif
 
 void configfile_load(const char *filename);

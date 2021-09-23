@@ -49,7 +49,12 @@ struct AllocOnlyPool *gGraphNodePool;
 struct GraphNode *gCurRootGraphNode;
 
 #ifdef GFX_ENABLE_GRAPH_NODE_MODS
-void *gCurGeoLayout;
+#define GRAPH_NODE_SWITCH_MAX_COUNT 8
+u32 gCurGraphNodeSwitchUID[GRAPH_NODE_SWITCH_MAX_COUNT];
+u32 gCurGraphNodeSwitchIndex[GRAPH_NODE_SWITCH_MAX_COUNT];
+u32 gCurGraphNodeSwitchCount = 0;
+u32 gCurGraphNodeUID = 1;
+void *gCurGeoLayout = NULL;
 #endif
 
 UNUSED s32 D_8038BCA8;
@@ -151,6 +156,12 @@ void geo_layout_cmd_open_node(void) {
 
 // 0x05: Close node
 void geo_layout_cmd_close_node(void) {
+#ifdef GFX_ENABLE_GRAPH_NODE_MODS
+    if ((gCurGraphNodeSwitchCount > 0) && (gCurGraphNodeSwitchIndex[gCurGraphNodeSwitchCount - 1] == gCurGraphNodeIndex)) {
+        gCurGraphNodeSwitchCount--;
+    }
+#endif
+
     gCurGraphNodeIndex--;
     gGeoLayoutCommand += 0x04 << CMD_SIZE_SHIFT;
 }
@@ -349,6 +360,12 @@ void geo_layout_cmd_node_switch_case(void) {
     register_scene_graph_node(&graphNode->fnNode.node);
 
     gGeoLayoutCommand += 0x08 << CMD_SIZE_SHIFT;
+    
+#ifdef GFX_ENABLE_GRAPH_NODE_MODS
+    gCurGraphNodeSwitchUID[gCurGraphNodeSwitchCount] = gCurGraphNodeUID++;
+    gCurGraphNodeSwitchIndex[gCurGraphNodeSwitchCount] = gCurGraphNodeIndex + 1;
+    gCurGraphNodeSwitchCount++;
+#endif
 }
 
 /*

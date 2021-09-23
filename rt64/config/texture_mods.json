@@ -6,8 +6,12 @@
         },
         {
             "materialMod": {
-                "specularExponent": 20.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/amp/amp_red_emap.rgba32"
         },
@@ -19,8 +23,12 @@
         },
         {
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/blargg/blargg_belly.rgba32"
         },
@@ -30,8 +38,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 0.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/blargg/blargg_body.rgba32"
         },
@@ -41,8 +53,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 0.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/blargg/blargg_eyes.rgba32"
         },
@@ -59,8 +75,12 @@
             "materialMod": {
                 "reflectionFactor": 0.019999999552965164,
                 "reflectionFresnelFactor": 0.15000000596046448,
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/blue_coin_switch/blue_coin_switch_base.rgba32"
         },
@@ -68,8 +88,12 @@
             "materialMod": {
                 "reflectionFactor": 0.15000000596046448,
                 "reflectionFresnelFactor": 0.15000000596046448,
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/blue_coin_switch/blue_coin_switch_coin.rgba32"
         },
@@ -111,8 +135,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/bobomb/bob_body_enemy.rgba32"
         },
@@ -122,8 +150,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/bobomb/bob_body_friend.rgba32"
         },
@@ -133,8 +165,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 0.5,
-                "specularIntensity": 0.5
+                "specularColor": [
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                "specularExponent": 0.5
             },
             "name": "actors/bobomb/bob_feet_emap.rgba32"
         },
@@ -143,8 +179,12 @@
                 "bobomb_bob_metal_base_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 0.30000001192092896
+                "specularColor": [
+                    0.30000001192092896,
+                    0.30000001192092896,
+                    0.30000001192092896
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/bobomb/bob_metal_base.rgba32"
         },
@@ -168,8 +208,12 @@
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.05000000074505806,
                 "shadowRayBias": 30.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 10.0
+                "specularColor": [
+                    10.0,
+                    10.0,
+                    10.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/bomb/water_mine_body.rgba32"
         },
@@ -181,8 +225,12 @@
                 "reflectionFactor": 0.10000000149011612,
                 "reflectionFresnelFactor": 0.0,
                 "shadowRayBias": 20.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 3.0
+                "specularColor": [
+                    3.0,
+                    3.0,
+                    3.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/bomb/water_mine_spikes.rgba32"
         },
@@ -198,8 +246,12 @@
                     0.800000011920929
                 ],
                 "shadowRayBias": 10.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/boo/boo_body.rgba32"
         },
@@ -209,8 +261,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 20.0,
-                "specularIntensity": 50.0
+                "specularColor": [
+                    50.0,
+                    50.0,
+                    50.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/boo/boo_eye.rgba32"
         },
@@ -223,8 +279,12 @@
                 "boo_boo_mouth_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 1.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 1.0
             },
             "name": "actors/boo/boo_mouth.rgba32"
         },
@@ -234,8 +294,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 10.0,
-                "specularExponent": 1.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 1.0
             },
             "name": "actors/boo/boo_teeth.rgba32"
         },
@@ -244,14 +308,21 @@
                 "bowser_bowser_arm_lower_rgba32"
             ],
             "materialMod": {
-                "normalMapScale": 1.0,
                 "shadowRayBias": 50.0,
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
                 "specularExponent": 7.599999904632568,
-                "specularIntensity": 1.0
+                "uvDetailScale": 1.0
             },
             "name": "actors/bowser/bowser_arm_lower.rgba32",
             "normalMapMod": {
                 "name": "actors/bowser/bowser_arm_lower_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -259,14 +330,21 @@
                 "bowser_bowser_arm_upper_rgba32"
             ],
             "materialMod": {
-                "normalMapScale": 1.0,
                 "shadowRayBias": 50.0,
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
                 "specularExponent": 7.599999904632568,
-                "specularIntensity": 1.0
+                "uvDetailScale": 1.0
             },
             "name": "actors/bowser/bowser_arm_upper.rgba32",
             "normalMapMod": {
                 "name": "actors/bowser/bowser_arm_upper_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -274,14 +352,21 @@
                 "bowser_bowser_belly_rgba32"
             ],
             "materialMod": {
-                "normalMapScale": 1.0,
                 "shadowRayBias": 20.0,
+                "specularColor": [
+                    2.859999895095825,
+                    2.859999895095825,
+                    2.859999895095825
+                ],
                 "specularExponent": 4.599999904632568,
-                "specularIntensity": 2.859999895095825
+                "uvDetailScale": 1.0
             },
             "name": "actors/bowser/bowser_belly.rgba32",
             "normalMapMod": {
                 "name": "actors/bowser/bowser_belly_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -289,14 +374,21 @@
                 "bowser_bowser_body_rgba32"
             ],
             "materialMod": {
-                "normalMapScale": 1.0,
                 "shadowRayBias": 20.0,
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
                 "specularExponent": 7.599999904632568,
-                "specularIntensity": 1.0
+                "uvDetailScale": 1.0
             },
             "name": "actors/bowser/bowser_body.rgba32",
             "normalMapMod": {
                 "name": "actors/bowser/bowser_body_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -307,8 +399,12 @@
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.0,
                 "shadowRayBias": 50.0,
-                "specularExponent": 1.7000000476837158,
-                "specularIntensity": 5.230000019073486
+                "specularColor": [
+                    5.230000019073486,
+                    5.230000019073486,
+                    5.230000019073486
+                ],
+                "specularExponent": 1.7000000476837158
             },
             "name": "actors/bowser/bowser_cuff.rgba32"
         },
@@ -317,12 +413,15 @@
                 "bowser_bowser_eyebrow_rgba32"
             ],
             "materialMod": {
-                "normalMapScale": 1.0,
-                "shadowRayBias": 50.0
+                "shadowRayBias": 50.0,
+                "uvDetailScale": 1.0
             },
             "name": "actors/bowser/bowser_eyebrow.rgba32",
             "normalMapMod": {
                 "name": "actors/bowser/bowser_eyebrow_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -339,12 +438,15 @@
                 "bowser_bowser_foot_rgba32"
             ],
             "materialMod": {
-                "normalMapScale": 1.0,
-                "shadowRayBias": 50.0
+                "shadowRayBias": 50.0,
+                "uvDetailScale": 1.0
             },
             "name": "actors/bowser/bowser_foot.rgba32",
             "normalMapMod": {
                 "name": "actors/bowser/bowser_foot_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -352,12 +454,15 @@
                 "bowser_bowser_hair_rgba32"
             ],
             "materialMod": {
-                "normalMapScale": 1.0,
-                "shadowRayBias": 50.0
+                "shadowRayBias": 50.0,
+                "uvDetailScale": 1.0
             },
             "name": "actors/bowser/bowser_hair.rgba32",
             "normalMapMod": {
                 "name": "actors/bowser/bowser_hair_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -365,14 +470,21 @@
                 "bowser_bowser_hand_rgba32"
             ],
             "materialMod": {
-                "normalMapScale": 1.0,
                 "shadowRayBias": 50.0,
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
                 "specularExponent": 7.599999904632568,
-                "specularIntensity": 1.0
+                "uvDetailScale": 1.0
             },
             "name": "actors/bowser/bowser_hand.rgba32",
             "normalMapMod": {
                 "name": "actors/bowser/bowser_hand_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -380,14 +492,21 @@
                 "bowser_bowser_head_rgba32"
             ],
             "materialMod": {
-                "normalMapScale": 1.0,
                 "shadowRayBias": 50.0,
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
                 "specularExponent": 4.0,
-                "specularIntensity": 2.0
+                "uvDetailScale": 1.0
             },
             "name": "actors/bowser/bowser_head.rgba32",
             "normalMapMod": {
                 "name": "actors/bowser/bowser_head_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -395,14 +514,21 @@
                 "bowser_bowser_leg_rgba32"
             ],
             "materialMod": {
-                "normalMapScale": 1.0,
                 "shadowRayBias": 50.0,
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
                 "specularExponent": 7.599999904632568,
-                "specularIntensity": 1.0
+                "uvDetailScale": 1.0
             },
             "name": "actors/bowser/bowser_leg.rgba32",
             "normalMapMod": {
                 "name": "actors/bowser/bowser_leg_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -413,8 +539,12 @@
                 "reflectionFactor": 0.3499999940395355,
                 "reflectionFresnelFactor": 0.0,
                 "shadowRayBias": 50.0,
-                "specularExponent": 9.300000190734863,
-                "specularIntensity": 1.8300000429153442
+                "specularColor": [
+                    1.8300000429153442,
+                    1.8300000429153442,
+                    1.8300000429153442
+                ],
+                "specularExponent": 9.300000190734863
             },
             "name": "actors/bowser/bowser_metal_emap.rgba32"
         },
@@ -423,14 +553,21 @@
                 "bowser_bowser_mouth_rgba32"
             ],
             "materialMod": {
-                "normalMapScale": 1.0,
                 "shadowRayBias": 50.0,
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
                 "specularExponent": 10.199999809265137,
-                "specularIntensity": 1.0
+                "uvDetailScale": 1.0
             },
             "name": "actors/bowser/bowser_mouth.rgba32",
             "normalMapMod": {
                 "name": "actors/bowser/bowser_mouth_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -439,8 +576,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 4.0,
-                "specularIntensity": 6.0
+                "specularColor": [
+                    6.0,
+                    6.0,
+                    6.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/bowser/bowser_mouth_inner.rgba32"
         },
@@ -450,8 +591,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 6.0,
-                "specularIntensity": 3.0
+                "specularColor": [
+                    3.0,
+                    3.0,
+                    3.0
+                ],
+                "specularExponent": 6.0
             },
             "name": "actors/bowser/bowser_nails.rgba32"
         },
@@ -460,14 +605,21 @@
                 "bowser_bowser_shell_rgba32"
             ],
             "materialMod": {
-                "normalMapScale": 1.0,
                 "shadowRayBias": 20.0,
+                "specularColor": [
+                    3.309999942779541,
+                    3.309999942779541,
+                    3.309999942779541
+                ],
                 "specularExponent": 6.199999809265137,
-                "specularIntensity": 3.309999942779541
+                "uvDetailScale": 1.0
             },
             "name": "actors/bowser/bowser_shell.rgba32",
             "normalMapMod": {
                 "name": "actors/bowser/bowser_shell_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -475,14 +627,21 @@
                 "bowser_bowser_shell_inner_rgba32"
             ],
             "materialMod": {
-                "normalMapScale": 0.75,
                 "shadowRayBias": 50.0,
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
                 "specularExponent": 7.599999904632568,
-                "specularIntensity": 1.0
+                "uvDetailScale": 0.75
             },
             "name": "actors/bowser/bowser_shell_inner.rgba32",
             "normalMapMod": {
                 "name": "actors/bowser/bowser_shell_inner_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -490,14 +649,21 @@
                 "bowser_bowser_shell_ridge_rgba32"
             ],
             "materialMod": {
-                "normalMapScale": 1.0,
                 "shadowRayBias": 50.0,
+                "specularColor": [
+                    1.649999976158142,
+                    1.649999976158142,
+                    1.649999976158142
+                ],
                 "specularExponent": 6.300000190734863,
-                "specularIntensity": 1.649999976158142
+                "uvDetailScale": 1.0
             },
             "name": "actors/bowser/bowser_shell_ridge.rgba32",
             "normalMapMod": {
                 "name": "actors/bowser/bowser_shell_ridge_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -506,8 +672,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 0.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/bowser/bowser_spike_ridge.rgba32"
         },
@@ -517,8 +687,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 6.5,
-                "specularIntensity": 2.109999895095825
+                "specularColor": [
+                    2.109999895095825,
+                    2.109999895095825,
+                    2.109999895095825
+                ],
+                "specularExponent": 6.5
             },
             "name": "actors/bowser/bowser_spikes.rgba32"
         },
@@ -527,14 +701,21 @@
                 "bowser_bowser_tail_rgba32"
             ],
             "materialMod": {
-                "normalMapScale": 1.0,
                 "shadowRayBias": 50.0,
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
                 "specularExponent": 7.599999904632568,
-                "specularIntensity": 1.0
+                "uvDetailScale": 1.0
             },
             "name": "actors/bowser/bowser_tail.rgba32",
             "normalMapMod": {
                 "name": "actors/bowser/bowser_tail_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -543,8 +724,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 4.0,
-                "specularIntensity": 6.0
+                "specularColor": [
+                    6.0,
+                    6.0,
+                    6.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/bowser/bowser_tongue.rgba32"
         },
@@ -559,15 +744,23 @@
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.05000000074505806,
                 "shadowRayBias": 5.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 3.0
+                "specularColor": [
+                    3.0,
+                    3.0,
+                    3.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/bowser_key/bowser_key_emap.rgba32"
         },
         {
             "materialMod": {
-                "specularExponent": 20.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/bubba/bubba_belly.rgba32"
         },
@@ -576,8 +769,12 @@
                 "bubba_bubba_body_diffuse_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 20.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/bubba/bubba_body_diffuse.rgba32"
         },
@@ -595,8 +792,12 @@
                 "bub_bub_fins_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 20.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/bubba/bubba_fins.rgba32"
         },
@@ -613,8 +814,12 @@
                 ],
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.05000000074505806,
-                "specularExponent": 50.0,
-                "specularIntensity": 50.0
+                "specularColor": [
+                    50.0,
+                    50.0,
+                    50.0
+                ],
+                "specularExponent": 50.0
             },
             "name": "actors/bubba/bubba_glasses.rgba32"
         },
@@ -624,8 +829,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 10.0,
-                "specularExponent": 20.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/bubba/bubba_lips.rgba32"
         },
@@ -661,8 +870,12 @@
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.10000000149011612,
                 "shadowRayBias": 24.0,
-                "specularExponent": 15.0,
-                "specularIntensity": 15.0
+                "specularColor": [
+                    15.0,
+                    15.0,
+                    15.0
+                ],
+                "specularExponent": 15.0
             },
             "name": "actors/bully/bully_body_emap.rgba32"
         },
@@ -687,8 +900,12 @@
                 "reflectionFactor": 0.10000000149011612,
                 "reflectionFresnelFactor": 0.0,
                 "shadowRayBias": 50.0,
-                "specularExponent": 2.299999952316284,
-                "specularIntensity": 1.5299999713897705
+                "specularColor": [
+                    1.5299999713897705,
+                    1.5299999713897705,
+                    1.5299999713897705
+                ],
+                "specularExponent": 2.299999952316284
             },
             "name": "actors/bully/bully_horn_emap.rgba32"
         },
@@ -721,8 +938,12 @@
                 "reflectionFactor": 0.019999999552965164,
                 "reflectionFresnelFactor": 0.05000000074505806,
                 "shadowRayBias": 422.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/cannon_barrel/cannon_barrel_emap.rgba32"
         },
@@ -736,8 +957,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/cannon_base/cannon_base_emap.rgba32"
         },
@@ -749,8 +974,12 @@
                 "reflectionFactor": 0.30000001192092896,
                 "reflectionFresnelFactor": 0.15000000596046448,
                 "shadowRayBias": 40.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/capswitch/base_gold.rgba32"
         },
@@ -772,8 +1001,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 45.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/capswitch/fly.rgba32"
         },
@@ -783,8 +1016,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 45.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/capswitch/invis.rgba32"
         },
@@ -794,8 +1031,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 45.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/capswitch/metal.rgba32"
         },
@@ -815,8 +1056,12 @@
                 "reflectionShineFactor": 0.9300000071525574,
                 "refractionFactor": 0.0,
                 "shadowRayBias": 100.0,
-                "specularExponent": 20.0,
-                "specularIntensity": 30.0
+                "specularColor": [
+                    30.0,
+                    30.0,
+                    30.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/chain_chomp/chain_chomp_body.rgba32"
         },
@@ -852,8 +1097,12 @@
                     0.0
                 ],
                 "shadowRayBias": 70.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 0.5
+                "specularColor": [
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/chain_chomp/chain_chomp_eye_white.rgba32"
         },
@@ -879,8 +1128,12 @@
                 "reflectionFactor": 0.10000000149011612,
                 "reflectionFresnelFactor": 1.0,
                 "reflectionShineFactor": 0.5600000023841858,
-                "specularExponent": 0.4000000059604645,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 0.4000000059604645
             },
             "name": "actors/chain_chomp/chain_chomp_mouth.rgba32"
         },
@@ -896,8 +1149,12 @@
                     0.0
                 ],
                 "shadowRayBias": 15.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/chain_chomp/chain_chomp_teeth.rgba32"
         },
@@ -960,8 +1217,12 @@
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.05000000074505806,
                 "shadowRayBias": 20.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/chillychief/chillychief_body_emap.rgba32"
         },
@@ -982,8 +1243,12 @@
                 "reflectionFactor": 0.15000000596046448,
                 "reflectionFresnelFactor": 0.15000000596046448,
                 "shadowRayBias": 100.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/chillychief/chillychief_horn_emap.rgba32"
         },
@@ -993,8 +1258,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 20.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/chuckya/chuckya_attentae.rgba32"
         },
@@ -1016,8 +1285,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 20.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/chuckya/chuckya_body_emap.rgba32"
         },
@@ -1029,8 +1302,12 @@
                 "reflectionFactor": 0.10000000149011612,
                 "reflectionFresnelFactor": 0.10000000149011612,
                 "shadowRayBias": 20.0,
-                "specularExponent": 20.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/chuckya/chuckya_bolt.rgba32"
         },
@@ -1046,8 +1323,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 20.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/chuckya/chuckya_hands_emap.rgba32"
         },
@@ -1163,8 +1444,12 @@
                 "reflectionFactor": 0.25,
                 "reflectionFresnelFactor": 0.5,
                 "shadowRayBias": 20.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/door/door_knob_gold.rgba32"
         },
@@ -1187,8 +1472,12 @@
                 "door_door_polish_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.5,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.5
             },
             "name": "actors/door/door_polish.rgba32"
         },
@@ -1197,8 +1486,12 @@
                 "door_door_sand_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 4.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/door/door_sand.rgba32"
         },
@@ -1207,8 +1500,12 @@
                 "door_door_scary_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 1.0,
-                "specularIntensity": 0.5
+                "specularColor": [
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                "specularExponent": 1.0
             },
             "name": "actors/door/door_scary.rgba32"
         },
@@ -1217,8 +1514,12 @@
                 "door_door_wood_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 3.0,
-                "specularIntensity": 0.5
+                "specularColor": [
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                "specularExponent": 3.0
             },
             "name": "actors/door/door_wood.rgba32"
         },
@@ -1226,8 +1527,12 @@
             "materialMod": {
                 "reflectionFactor": 0.10000000149011612,
                 "reflectionFresnelFactor": 0.5,
-                "specularExponent": 2.0,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/door/door_wood_bolts.rgba32"
         },
@@ -1238,8 +1543,12 @@
             "materialMod": {
                 "reflectionFactor": 0.10000000149011612,
                 "reflectionFresnelFactor": 0.5,
-                "specularExponent": 2.0,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/door/door_wood_bracket.rgba32"
         },
@@ -1250,8 +1559,12 @@
             "materialMod": {
                 "reflectionFactor": 0.10000000149011612,
                 "reflectionFresnelFactor": 0.5,
-                "specularExponent": 2.0,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/door/door_wood_hinge.rgba32"
         },
@@ -1273,8 +1586,12 @@
             "materialMod": {
                 "reflectionFactor": 0.15000000596046448,
                 "reflectionFresnelFactor": 0.15000000596046448,
-                "specularExponent": 2.0,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/dorrie/dorrie_eye.rgba32"
         },
@@ -1284,8 +1601,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 100.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 3.0
+                "specularColor": [
+                    3.0,
+                    3.0,
+                    3.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/dorrie/dorrie_fullbody.rgba32"
         },
@@ -1325,8 +1646,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 4.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/flyguy/shyguy_band.rgba32"
         },
@@ -1336,8 +1661,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 4.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/flyguy/shyguy_belt.rgba32"
         },
@@ -1346,8 +1675,12 @@
                 "flyguy_shyguy_boots_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 4.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/flyguy/shyguy_boots.rgba32"
         },
@@ -1358,8 +1691,12 @@
             "materialMod": {
                 "reflectionFactor": 0.15000000596046448,
                 "reflectionFresnelFactor": 0.15000000596046448,
-                "specularExponent": 2.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/flyguy/shyguy_buckle.rgba32"
         },
@@ -1371,8 +1708,12 @@
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.05000000074505806,
                 "shadowRayBias": 50.0,
-                "specularExponent": 4.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/flyguy/shyguy_mask.rgba32"
         },
@@ -1383,8 +1724,12 @@
             "materialMod": {
                 "reflectionFactor": 0.30000001192092896,
                 "reflectionFresnelFactor": 0.30000001192092896,
-                "specularExponent": 4.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/flyguy/shyguy_propeller.rgba32"
         },
@@ -1394,8 +1739,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 100.0,
-                "specularExponent": 4.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/flyguy/shyguy_shirt.rgba32"
         },
@@ -1414,8 +1763,12 @@
         },
         {
             "materialMod": {
-                "specularExponent": 1.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 1.0
             },
             "name": "actors/goomba/goomba_body.rgba32"
         },
@@ -1436,8 +1789,12 @@
                 "goomba_goomba_feet_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 1.5,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 1.5
             },
             "name": "actors/goomba/goomba_feet.rgba32"
         },
@@ -1447,8 +1804,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 4.0,
-                "specularExponent": 1.5,
-                "specularIntensity": 0.5
+                "specularColor": [
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                "specularExponent": 1.5
             },
             "name": "actors/goomba/goomba_head.rgba32"
         },
@@ -1459,8 +1820,12 @@
             "materialMod": {
                 "shadowRayBias": 50.0,
                 "solidAlphaMultiplier": 0.30000001192092896,
-                "specularExponent": 4.0,
-                "specularIntensity": 8.0
+                "specularColor": [
+                    8.0,
+                    8.0,
+                    8.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/heart/spinning_heart_new.rgba32"
         },
@@ -1503,8 +1868,12 @@
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.05000000074505806,
                 "shadowRayBias": 50.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/heave_ho/heave_ho_arms.rgba32"
         },
@@ -1515,8 +1884,12 @@
             "materialMod": {
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.05000000074505806,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/heave_ho/heave_ho_body.rgba32"
         },
@@ -1531,8 +1904,12 @@
                     0.0,
                     0.5
                 ],
-                "specularExponent": 100.0,
-                "specularIntensity": 50.0
+                "specularColor": [
+                    50.0,
+                    50.0,
+                    50.0
+                ],
+                "specularExponent": 100.0
             },
             "name": "actors/heave_ho/heave_ho_eyes.rgba32"
         },
@@ -1543,8 +1920,12 @@
             "materialMod": {
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.05000000074505806,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/heave_ho/heave_ho_frame.rgba32"
         },
@@ -1552,8 +1933,12 @@
             "materialMod": {
                 "reflectionFactor": 0.15000000596046448,
                 "reflectionFresnelFactor": 0.15000000596046448,
-                "specularExponent": 5.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/heave_ho/heave_ho_platform.rgba32"
         },
@@ -1590,8 +1975,12 @@
         {
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/king_bobomb/king_bob_arms.rgba32"
         },
@@ -1601,8 +1990,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 150.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 8.0
+                "specularColor": [
+                    8.0,
+                    8.0,
+                    8.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/king_bobomb/king_bob_body.rgba32"
         },
@@ -1624,8 +2017,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 0.5
+                "specularColor": [
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/king_bobomb/king_bob_eyes.rgba32"
         },
@@ -1635,8 +2032,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/king_bobomb/king_bob_feet.rgba32"
         },
@@ -1647,8 +2048,12 @@
         {
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/klepto/klepto_beak.rgba32"
         },
@@ -1666,8 +2071,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/klepto/klepto_face.rgba32"
         },
@@ -1682,8 +2091,12 @@
                     0.0,
                     0.4000000059604645
                 ],
-                "specularExponent": 20.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/klepto/klepto_feathers.rgba32"
         },
@@ -1692,8 +2105,12 @@
                 "klepto_klepto_feet_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/klepto/klepto_feet.rgba32"
         },
@@ -1708,8 +2125,12 @@
                     0.0,
                     0.30000001192092896
                 ],
-                "specularExponent": 2.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/klepto/klepto_nails.rgba32"
         },
@@ -1722,8 +2143,12 @@
                 "koopa_koopa_eye_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 20.0,
-                "specularIntensity": 30.0
+                "specularColor": [
+                    30.0,
+                    30.0,
+                    30.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/koopa/koopa_eye.rgba32"
         },
@@ -1733,8 +2158,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/koopa/koopa_face_skin.rgba32"
         },
@@ -1744,8 +2173,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/koopa/koopa_shell_emap.rgba32"
         },
@@ -1755,8 +2188,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/koopa/koopa_shell_inner.rgba32"
         },
@@ -1766,8 +2203,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/koopa/koopa_shell_rim.rgba32"
         },
@@ -1776,8 +2217,12 @@
                 "koopa_koopa_sole_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/koopa/koopa_sole.rgba32"
         },
@@ -1787,8 +2232,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/koopa_shell/koopa_shell_emap.rgba32"
         },
@@ -1798,8 +2247,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/koopa_shell/koopa_shell_inner.rgba32"
         },
@@ -1809,8 +2262,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/koopa_shell/koopa_shell_rim.rgba32"
         },
@@ -1832,22 +2289,34 @@
         },
         {
             "materialMod": {
-                "specularExponent": 7.199999809265137,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 7.199999809265137
             },
             "name": "actors/luigi/button.rgba16"
         },
         {
             "materialMod": {
-                "specularExponent": 1.0,
-                "specularIntensity": 0.20000000298023224
+                "specularColor": [
+                    0.20000000298023224,
+                    0.20000000298023224,
+                    0.20000000298023224
+                ],
+                "specularExponent": 1.0
             },
             "name": "actors/luigi/fist.rgba16"
         },
         {
             "materialMod": {
-                "specularExponent": 3.4000000953674316,
-                "specularIntensity": 2.5
+                "specularColor": [
+                    2.5,
+                    2.5,
+                    2.5
+                ],
+                "specularExponent": 3.4000000953674316
             },
             "name": "actors/luigi/logo.rgba16"
         },
@@ -1872,8 +2341,12 @@
                     1.0,
                     1.0
                 ],
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/luigi/luigi_gloves.rgba32"
         },
@@ -1882,8 +2355,12 @@
                 "luigi_luigi_hair_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 10.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/luigi/luigi_hair.rgba32"
         },
@@ -1892,8 +2369,12 @@
                 "luigi_luigi_hat_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/luigi/luigi_hat.rgba32"
         },
@@ -1908,8 +2389,12 @@
                     0.0,
                     0.5
                 ],
-                "specularExponent": 20.0,
-                "specularIntensity": 20.0
+                "specularColor": [
+                    20.0,
+                    20.0,
+                    20.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/luigi/luigi_moustache.rgba32"
         },
@@ -1918,8 +2403,12 @@
                 "luigi_luigi_overalls_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/luigi/luigi_overalls.rgba32"
         },
@@ -1928,8 +2417,12 @@
                 "luigi_luigi_shirt_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/luigi/luigi_shirt.rgba32"
         },
@@ -1938,8 +2431,12 @@
                 "luigi_luigi_shoes_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 3.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 3.0
             },
             "name": "actors/luigi/luigi_shoes.rgba32"
         },
@@ -1948,8 +2445,12 @@
                 "luigi_luigi_skin_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/luigi/luigi_skin.rgba32"
         },
@@ -1972,15 +2473,23 @@
         },
         {
             "materialMod": {
-                "specularExponent": 0.9599999785423279,
-                "specularIntensity": 1.5
+                "specularColor": [
+                    1.5,
+                    1.5,
+                    1.5
+                ],
+                "specularExponent": 0.9599999785423279
             },
             "name": "actors/luigi/shoe.rgba16"
         },
         {
             "materialMod": {
-                "specularExponent": 7.300000190734863,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 7.300000190734863
             },
             "name": "actors/luigi/sideburn.rgba16"
         },
@@ -2000,8 +2509,12 @@
                 "reflectionShineFactor": 0.0,
                 "refractionFactor": 0.0,
                 "shadowRayBias": 20.0,
-                "specularExponent": 1.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 1.0
             },
             "name": "actors/mad_piano/piano_emap.rgba16"
         },
@@ -2011,8 +2524,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 0.0,
-                "specularExponent": 1.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 1.0
             },
             "name": "actors/mad_piano/teeth.rgba16"
         },
@@ -2024,8 +2541,12 @@
         },
         {
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/mario/logo.rgba16"
         },
@@ -2059,8 +2580,12 @@
                     1.0
                 ],
                 "shadowRayBias": 1.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/mario/mario_gloves.rgba32"
         },
@@ -2069,8 +2594,12 @@
                 "mario_mario_hair_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 10.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/mario/mario_hair.rgba16"
         },
@@ -2080,8 +2609,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 20.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/mario/mario_hat.rgba32"
         },
@@ -2133,8 +2666,12 @@
                     0.0,
                     0.5
                 ],
-                "specularExponent": 20.0,
-                "specularIntensity": 20.0
+                "specularColor": [
+                    20.0,
+                    20.0,
+                    20.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/mario/mario_moustache.rgba16"
         },
@@ -2147,8 +2684,12 @@
                 "mario_mario_overalls_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/mario/mario_overalls.rgba32"
         },
@@ -2158,8 +2699,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 1.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/mario/mario_shirt.rgba16"
         },
@@ -2168,8 +2713,12 @@
                 "mario_mario_shoes_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 3.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 3.0
             },
             "name": "actors/mario/mario_shoes.rgba16"
         },
@@ -2183,8 +2732,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 1.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/mario/mario_skin.rgba32"
         },
@@ -2197,16 +2750,24 @@
                     1.0
                 ],
                 "shadowRayBias": 5.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/mario/mario_wings.rgba32"
         },
         {
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 20.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/mario_cap/mario_hat.rgba32"
         },
@@ -2219,8 +2780,12 @@
                     1.0
                 ],
                 "shadowRayBias": 5.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/mario_cap/mario_wings.rgba32"
         },
@@ -2250,8 +2815,12 @@
                 "reflectionFactor": 0.15000000596046448,
                 "reflectionFresnelFactor": 0.15000000596046448,
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/milk_bottle/t_label_milk_bottle.rgba32"
         },
@@ -2263,15 +2832,23 @@
                     0.10000000149011612
                 ],
                 "shadowRayBias": 15.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/mips/mips_body.rgba32"
         },
         {
             "materialMod": {
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/mips/mips_eye_pupil.rgba32"
         },
@@ -2282,8 +2859,12 @@
                     0.20000000298023224,
                     0.20000000298023224
                 ],
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/mips/mips_eye_white.rgba32"
         },
@@ -2301,8 +2882,12 @@
                     0.20000000298023224
                 ],
                 "shadowRayBias": 0.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/mips/mips_lid.rgba32"
         },
@@ -2323,8 +2908,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/monty_mole/monty_mole_body_emap.rgba32"
         },
@@ -2349,8 +2938,12 @@
                 "monty_mole_monty_mole_mouth_emap_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/monty_mole/monty_mole_mouth_emap.rgba32"
         },
@@ -2359,8 +2952,12 @@
                 "monty_mole_monty_mole_nails_emap_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/monty_mole/monty_mole_nails_emap.rgba32"
         },
@@ -2372,8 +2969,12 @@
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.0,
                 "shadowRayBias": 3.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 3.0
+                "specularColor": [
+                    3.0,
+                    3.0,
+                    3.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/motos/motos_body.rgba32"
         },
@@ -2399,8 +3000,12 @@
                 "reflectionFactor": 0.3499999940395355,
                 "reflectionFresnelFactor": 0.15000000596046448,
                 "reflectionShineFactor": 0.30000001192092896,
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/motos/motos_hands.rgba32"
         },
@@ -2410,8 +3015,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 3.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 3.0
+                "specularColor": [
+                    3.0,
+                    3.0,
+                    3.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/motos/motos_segments.rgba32"
         },
@@ -2423,8 +3032,12 @@
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.10000000149011612,
                 "shadowRayBias": 20.0,
-                "specularExponent": 4.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/mr_i_eyeball/eyeball.rgba32"
         },
@@ -2432,8 +3045,12 @@
             "materialMod": {
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.05000000074505806,
-                "specularExponent": 4.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/mr_i_eyeball/mostlyclosed.rgba32"
         },
@@ -2454,8 +3071,12 @@
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.15000000596046448,
                 "shadowRayBias": 20.0,
-                "specularExponent": 4.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/mr_i_eyeball/open.rgba32"
         },
@@ -2480,8 +3101,12 @@
                     0.20000000298023224,
                     0.20000000298023224
                 ],
-                "specularExponent": 10.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/penguin/beak.rgba32"
         },
@@ -2491,8 +3116,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 10.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/penguin/body.rgba32"
         },
@@ -2507,8 +3136,12 @@
                     0.10000000149011612
                 ],
                 "shadowRayBias": 1.0,
-                "specularExponent": 1.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 1.0
             },
             "name": "actors/penguin/feet.rgba32"
         },
@@ -2533,8 +3166,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 10.0,
-                "specularExponent": 1.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 1.0
             },
             "name": "actors/penguin/white.rgba32"
         },
@@ -2543,8 +3180,12 @@
                 "piranha_plant_pirana_plant_teeth_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/piranha_plant/pirana_plant_teeth.rgba32"
         },
@@ -2560,8 +3201,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 3.0
+                "specularColor": [
+                    3.0,
+                    3.0,
+                    3.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/piranha_plant/piranha_plant_cap.rgba32"
         },
@@ -2571,8 +3216,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 3.0
+                "specularColor": [
+                    3.0,
+                    3.0,
+                    3.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/piranha_plant/piranha_plant_green.rgba32"
         },
@@ -2607,8 +3256,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 100.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/pokey/pokey_body.rgba32"
         },
@@ -2624,8 +3277,12 @@
                     0.30000001192092896
                 ],
                 "shadowRayBias": 100.0,
-                "specularExponent": 25.0,
-                "specularIntensity": 3.0
+                "specularColor": [
+                    3.0,
+                    3.0,
+                    3.0
+                ],
+                "specularExponent": 25.0
             },
             "name": "actors/pokey/pokey_eye_socket.rgba32"
         },
@@ -2635,15 +3292,23 @@
             ],
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/pokey/pokey_eyes.rgba32"
         },
         {
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/pokey/pokey_spikes.rgba32"
         },
@@ -2653,8 +3318,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 10.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/pokey_body_part/pokey_body.rgba32"
         },
@@ -2663,8 +3332,12 @@
                 "pokey_pokey_part_pokey_spikes_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/pokey_body_part/pokey_spikes.rgba32"
         },
@@ -2675,24 +3348,36 @@
         {
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/purple_switch/purple_switch_frame.rgba32"
         },
         {
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/purple_switch/purple_switch_mark.rgba32"
         },
         {
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/purple_switch/purple_switch_purple.rgba32"
         },
@@ -2701,8 +3386,12 @@
                 "scuttlebug_scuttlebug_body_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 3.0
+                "specularColor": [
+                    3.0,
+                    3.0,
+                    3.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/scuttlebug/scuttlebug_body.rgba32"
         },
@@ -2717,8 +3406,12 @@
                 "scuttlebug_scuttlebug_eye_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 4.0,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/scuttlebug/scuttlebug_eye.rgba32"
         },
@@ -2727,8 +3420,12 @@
                 "scuttlebug_scuttlebug_feet_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 4.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/scuttlebug/scuttlebug_feet.rgba32"
         },
@@ -2744,8 +3441,12 @@
         },
         {
             "materialMod": {
-                "specularExponent": 4.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/scuttlebug/scuttlebug_legs.rgba32"
         },
@@ -2754,8 +3455,12 @@
                 "scuttlebug_scuttlebug_pinsors_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 4.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/scuttlebug/scuttlebug_pinsors.rgba32"
         },
@@ -2775,8 +3480,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 4.0,
-                "specularExponent": 8.100000381469727,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 8.100000381469727
             },
             "name": "actors/skeeter/skeeter_body.rgba32"
         },
@@ -2801,8 +3510,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 4.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 0.5
+                "specularColor": [
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/skeeter/skeeter_feet.rgba32"
         },
@@ -2811,8 +3524,12 @@
                 "skeeter_skeeter_legs_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 5.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/skeeter/skeeter_legs.rgba32"
         },
@@ -2840,8 +3557,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 0.75
+                "specularColor": [
+                    0.75,
+                    0.75,
+                    0.75
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/snowman/snowman_body.rgba32"
         },
@@ -2851,8 +3572,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 3.0
+                "specularColor": [
+                    3.0,
+                    3.0,
+                    3.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/snowman/snowman_eyes.rgba32"
         },
@@ -2862,8 +3587,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 0.75
+                "specularColor": [
+                    0.75,
+                    0.75,
+                    0.75
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/snowman/snowman_gloves.rgba32"
         },
@@ -2878,8 +3607,12 @@
             "materialMod": {
                 "reflectionFactor": 0.15000000596046448,
                 "reflectionFresnelFactor": 0.15000000596046448,
-                "specularExponent": 2.0,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/snufit/snufit_mask.rgba32"
         },
@@ -2902,8 +3635,12 @@
                 "snufit_snufit_shirt_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/snufit/snufit_shirt.rgba32"
         },
@@ -2913,8 +3650,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 0.75
+                "specularColor": [
+                    0.75,
+                    0.75,
+                    0.75
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/spindrift/spindrift_base.rgba32"
         },
@@ -2924,8 +3665,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 0.75
+                "specularColor": [
+                    0.75,
+                    0.75,
+                    0.75
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/spindrift/spindrift_body.rgba32"
         },
@@ -2941,8 +3686,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 0.75
+                "specularColor": [
+                    0.75,
+                    0.75,
+                    0.75
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/spindrift/spindrift_head.rgba32"
         },
@@ -2958,8 +3707,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 0.75
+                "specularColor": [
+                    0.75,
+                    0.75,
+                    0.75
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/spindrift/spindrift_petals.rgba32"
         },
@@ -2975,8 +3728,12 @@
                     0.0,
                     0.5
                 ],
-                "specularExponent": 20.0,
-                "specularIntensity": 100.0
+                "specularColor": [
+                    100.0,
+                    100.0,
+                    100.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/star/star_eye_emap.rgba32"
         },
@@ -2998,7 +3755,11 @@
                     0.0
                 ],
                 "shadowOffset": 600.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8449999094009399,
+                    0.8449999094009399,
+                    0.12999999523162842
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -3021,8 +3782,12 @@
                 "swoop_swoop_body_dark_emap_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 8.0
+                "specularColor": [
+                    8.0,
+                    8.0,
+                    8.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/swoop/swoop_body_dark_emap.rgba32"
         },
@@ -3031,8 +3796,12 @@
                 "swoop_swoop_body_emap_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 8.0
+                "specularColor": [
+                    8.0,
+                    8.0,
+                    8.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/swoop/swoop_body_emap.rgba32"
         },
@@ -3041,8 +3810,12 @@
                 "swoop_swoop_eye_emap_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 8.0
+                "specularColor": [
+                    8.0,
+                    8.0,
+                    8.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/swoop/swoop_eye_emap.rgba32"
         },
@@ -3062,8 +3835,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 4.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/thwomp/thwomp_face_diffuse.rgba32"
         },
@@ -3103,8 +3880,12 @@
                     0.5
                 ],
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 50.0
+                "specularColor": [
+                    50.0,
+                    50.0,
+                    50.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/toad/toad_eye_emap.rgba32"
         },
@@ -3114,8 +3895,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/toad/toad_head_pattern.rgba32"
         },
@@ -3125,8 +3910,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/toad/toad_shoes_emap.rgba32"
         },
@@ -3145,8 +3934,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 50.0,
-                "specularExponent": 4.0,
-                "specularIntensity": 0.5
+                "specularColor": [
+                    0.5,
+                    0.5,
+                    0.5
+                ],
+                "specularExponent": 4.0
             },
             "name": "actors/tree/bubble_tree_leaves.rgba32"
         },
@@ -3156,8 +3949,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 10.0,
-                "specularExponent": 3.5,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 3.5
             },
             "name": "actors/tree/bubble_tree_trunk.rgba32"
         },
@@ -3173,8 +3970,12 @@
                     0.20000000298023224
                 ],
                 "shadowRayBias": 50.0,
-                "specularExponent": 20.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/tree/palm_tree_leaves.rgba32"
         },
@@ -3200,23 +4001,35 @@
             ],
             "materialMod": {
                 "ignoreNormalFactor": 1.0,
-                "specularIntensity": 0.0
+                "specularColor": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
             },
             "name": "actors/tree/snowy_pine_tree.rgba16"
         },
         {
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/tree/spike_tree_leaves.rgba32"
         },
         {
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/tree/spike_tree_trunk.rgba32"
         },
@@ -3237,8 +4050,12 @@
                 "ukiki_ukiki_eyeball_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 20.0,
-                "specularIntensity": 20.0
+                "specularColor": [
+                    20.0,
+                    20.0,
+                    20.0
+                ],
+                "specularExponent": 20.0
             },
             "name": "actors/ukiki/ukiki_eyeball.rgba32"
         },
@@ -3258,8 +4075,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/ukiki/ukiki_fur_body.rgba32"
         },
@@ -3269,8 +4090,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 1.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/ukiki/ukiki_skin_emap.rgba32"
         },
@@ -3279,8 +4104,12 @@
                 "unagi_body_rgba16"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/unagi/body.rgba16"
         },
@@ -3294,15 +4123,23 @@
                     0.44999998807907104,
                     0.5
                 ],
-                "specularExponent": 1.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 1.0
             },
             "name": "actors/unagi/eye.rgba32"
         },
         {
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/unagi/fin.rgba16"
         },
@@ -3311,8 +4148,12 @@
                 "unagi_head_rgba16"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/unagi/head.rgba16"
         },
@@ -3321,8 +4162,12 @@
                 "unagi_mouth_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/unagi/mouth.rgba32"
         },
@@ -3343,16 +4188,24 @@
         {
             "materialMod": {
                 "shadowRayBias": 10.0,
-                "specularExponent": 7.199999809265137,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 7.199999809265137
             },
             "name": "actors/wario/button.rgba32"
         },
         {
             "materialMod": {
                 "shadowRayBias": 10.0,
-                "specularExponent": 0.9599999785423279,
-                "specularIntensity": 1.5
+                "specularColor": [
+                    1.5,
+                    1.5,
+                    1.5
+                ],
+                "specularExponent": 0.9599999785423279
             },
             "name": "actors/wario/colors.rgba32"
         },
@@ -3385,8 +4238,12 @@
                 "wario_hair_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 5.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/wario/hair.rgba32"
         },
@@ -3396,8 +4253,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 3.4000000953674316,
-                "specularIntensity": 2.5
+                "specularColor": [
+                    2.5,
+                    2.5,
+                    2.5
+                ],
+                "specularExponent": 3.4000000953674316
             },
             "name": "actors/wario/logo.rgba32"
         },
@@ -3412,8 +4273,12 @@
                     0.0,
                     0.4000000059604645
                 ],
-                "specularExponent": 10.0,
-                "specularIntensity": 50.0
+                "specularColor": [
+                    50.0,
+                    50.0,
+                    50.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/wario/mario_moustache__rgba16.rgba16"
         },
@@ -3435,8 +4300,12 @@
                 "wario_nose_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 10.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/wario/nose.rgba32"
         },
@@ -3446,8 +4315,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 5.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/wario/overalls.rgba32"
         },
@@ -3457,15 +4330,23 @@
             ],
             "materialMod": {
                 "shadowRayBias": 5.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/wario/shoes.rgba32"
         },
         {
             "materialMod": {
-                "specularExponent": 7.300000190734863,
-                "specularIntensity": 4.0
+                "specularColor": [
+                    4.0,
+                    4.0,
+                    4.0
+                ],
+                "specularExponent": 7.300000190734863
             },
             "name": "actors/wario/sideburn.rgba32"
         },
@@ -3485,15 +4366,23 @@
             ],
             "materialMod": {
                 "shadowRayBias": 5.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/wario/w_logo_gloves.rgba32"
         },
         {
             "materialMod": {
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/wario/wario_eye_side.rgba32"
         },
@@ -3503,8 +4392,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 1.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/wario/wario_skin.rgba32"
         },
@@ -3514,15 +4407,23 @@
             ],
             "materialMod": {
                 "shadowRayBias": 1.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/wario/wario_teeth.rgba32"
         },
         {
             "materialMod": {
-                "specularExponent": 3.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 3.0
             },
             "name": "actors/wario/wario_wings.rgba32"
         },
@@ -3532,8 +4433,12 @@
             ],
             "materialMod": {
                 "shadowRayBias": 5.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/wario/yellow.rgba32"
         },
@@ -3579,37 +4484,57 @@
         },
         {
             "materialMod": {
-                "specularExponent": 3.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 3.0
             },
             "name": "actors/wario_cap/wario_wings.rgba32"
         },
         {
             "materialMod": {
                 "shadowRayBias": 5.0,
-                "specularExponent": 10.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 10.0
             },
             "name": "actors/wario_cap/yellow.rgba32"
         },
         {
             "materialMod": {
-                "specularExponent": 5.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/warp_pipe/pipe_green.rgba16"
         },
         {
             "materialMod": {
-                "specularExponent": 5.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/warp_pipe/warp_pipe_side.rgba16"
         },
         {
             "materialMod": {
-                "specularExponent": 5.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/warp_pipe/warp_pipe_top.rgba16"
         },
@@ -3639,8 +4564,12 @@
                 "whomp_whomp_arms_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/whomp/whomp_arms.rgba32"
         },
@@ -3649,8 +4578,12 @@
                 "whomp_whomp_back_bandage_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/whomp/whomp_back_bandage.rgba32"
         },
@@ -3659,8 +4592,12 @@
                 "whomp_whomp_face_diffuse_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/whomp/whomp_face_diffuse.rgba32"
         },
@@ -3677,8 +4614,12 @@
             "materialMod": {
                 "reflectionFactor": 0.20000000298023224,
                 "reflectionFresnelFactor": 0.20000000298023224,
-                "specularExponent": 2.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/whomp/whomp_hands.rgba32"
         },
@@ -3687,8 +4628,12 @@
                 "whomp_whomp_side_rgba32"
             ],
             "materialMod": {
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/whomp/whomp_side.rgba32"
         },
@@ -3701,8 +4646,12 @@
                 "reflectionFactor": 0.15000000596046448,
                 "reflectionFresnelFactor": 0.15000000596046448,
                 "shadowRayBias": 20.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 1.0
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/whomp/whomp_tongue.rgba32"
         },
@@ -3739,47 +4688,71 @@
         {
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 1.0,
-                "specularIntensity": 1.5
+                "specularColor": [
+                    1.5,
+                    1.5,
+                    1.5
+                ],
+                "specularExponent": 1.0
             },
             "name": "actors/yoshi/yoshi_body.rgba32"
         },
         {
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 1.0,
-                "specularIntensity": 1.5
+                "specularColor": [
+                    1.5,
+                    1.5,
+                    1.5
+                ],
+                "specularExponent": 1.0
             },
             "name": "actors/yoshi/yoshi_cheeks.rgba32"
         },
         {
             "materialMod": {
                 "shadowRayBias": 0.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/yoshi/yoshi_eye_diffuse.rgba32"
         },
         {
             "materialMod": {
-                "specularExponent": 5.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/yoshi/yoshi_saddle.rgba32"
         },
         {
             "materialMod": {
                 "shadowRayBias": 20.0,
-                "specularExponent": 2.0,
-                "specularIntensity": 2.0
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
+                "specularExponent": 2.0
             },
             "name": "actors/yoshi/yoshi_saddle_rim.rgba32"
         },
         {
             "materialMod": {
                 "shadowRayBias": 0.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 5.0
+                "specularColor": [
+                    5.0,
+                    5.0,
+                    5.0
+                ],
+                "specularExponent": 5.0
             },
             "name": "actors/yoshi/yoshi_spikes.rgba32"
         },
@@ -3825,7 +4798,7 @@
         },
         {
             "materialMod": {
-                "normalMapScale": 1.0
+                "uvDetailScale": 1.0
             },
             "name": "levels/bowser_1/arena_tiles_bake.rgba32"
         },
@@ -3837,15 +4810,22 @@
                     0.5,
                     0.10000000149011612
                 ],
-                "normalMapScale": 1.0,
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.10000000149011612,
+                "specularColor": [
+                    3.0,
+                    3.0,
+                    3.0
+                ],
                 "specularExponent": 2.0,
-                "specularIntensity": 3.0
+                "uvDetailScale": 1.0
             },
             "name": "levels/bowser_1/ball_side_1_bake.rgba32",
             "normalMapMod": {
                 "name": "levels/bowser_1/ball_side_1_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -3856,15 +4836,22 @@
                     0.5,
                     0.10000000149011612
                 ],
-                "normalMapScale": 1.0,
                 "reflectionFactor": 0.05000000074505806,
                 "reflectionFresnelFactor": 0.10000000149011612,
+                "specularColor": [
+                    3.0,
+                    3.0,
+                    3.0
+                ],
                 "specularExponent": 2.0,
-                "specularIntensity": 3.0
+                "uvDetailScale": 1.0
             },
             "name": "levels/bowser_1/ball_side_2_bake.rgba32",
             "normalMapMod": {
                 "name": "levels/bowser_1/ball_side_2_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -3875,13 +4862,20 @@
                     0.5,
                     0.10000000149011612
                 ],
-                "normalMapScale": 1.0,
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
                 "specularExponent": 1.0,
-                "specularIntensity": 1.0
+                "uvDetailScale": 1.0
             },
             "name": "levels/bowser_1/center_brick_bake.rgba32",
             "normalMapMod": {
                 "name": "levels/bowser_1/center_brick_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -3892,13 +4886,20 @@
                     0.5,
                     0.10000000149011612
                 ],
-                "normalMapScale": 1.0,
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
                 "specularExponent": 1.0,
-                "specularIntensity": 2.0
+                "uvDetailScale": 1.0
             },
             "name": "levels/bowser_1/center_concrete_bake.rgba32",
             "normalMapMod": {
                 "name": "levels/bowser_1/center_concrete_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -3909,13 +4910,20 @@
                     0.5,
                     0.10000000149011612
                 ],
-                "normalMapScale": 1.0,
+                "specularColor": [
+                    1.0,
+                    1.0,
+                    1.0
+                ],
                 "specularExponent": 1.0,
-                "specularIntensity": 1.0
+                "uvDetailScale": 1.0
             },
             "name": "levels/bowser_1/inner_brick_bake.rgba32",
             "normalMapMod": {
                 "name": "levels/bowser_1/inner_brick_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -3926,13 +4934,20 @@
                     0.5,
                     0.10000000149011612
                 ],
-                "normalMapScale": 1.0,
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
                 "specularExponent": 1.0,
-                "specularIntensity": 2.0
+                "uvDetailScale": 1.0
             },
             "name": "levels/bowser_1/inner_concrete_bake.rgba32",
             "normalMapMod": {
                 "name": "levels/bowser_1/inner_concrete_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -3943,31 +4958,44 @@
                     0.5,
                     0.10000000149011612
                 ],
-                "normalMapScale": 1.0,
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
                 "specularExponent": 4.0,
-                "specularIntensity": 2.0
+                "uvDetailScale": 1.0
             },
             "name": "levels/bowser_1/outer_concrete_bake.rgba32",
             "normalMapMod": {
                 "name": "levels/bowser_1/outer_concrete_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
             "materialMod": {
-                "normalMapScale": 1.0
+                "uvDetailScale": 1.0
             },
             "name": "levels/bowser_1/outer_concrete_more_bake.rgba32",
             "normalMapMod": {
                 "name": "levels/bowser_1/outer_concrete_more_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
             "materialMod": {
-                "normalMapScale": 1.0
+                "uvDetailScale": 1.0
             },
             "name": "levels/bowser_1/outer_concrete_pillar_bake.rgba32",
             "normalMapMod": {
                 "name": "levels/bowser_1/outer_concrete_pillar_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -3978,13 +5006,20 @@
                     0.5,
                     0.10000000149011612
                 ],
-                "normalMapScale": 1.0,
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
                 "specularExponent": 4.0,
-                "specularIntensity": 2.0
+                "uvDetailScale": 1.0
             },
             "name": "levels/bowser_1/top_concrete_pillar_bake.rgba32",
             "normalMapMod": {
                 "name": "levels/bowser_1/top_concrete_pillar_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -3995,13 +5030,20 @@
                     0.5,
                     0.10000000149011612
                 ],
-                "normalMapScale": 1.0,
+                "specularColor": [
+                    2.0,
+                    2.0,
+                    2.0
+                ],
                 "specularExponent": 4.0,
-                "specularIntensity": 2.0
+                "uvDetailScale": 1.0
             },
             "name": "levels/bowser_1/upper_concrete_pillar_bake.rgba32",
             "normalMapMod": {
                 "name": "levels/bowser_1/upper_concrete_pillar_normal.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -4065,8 +5107,6 @@
         {
             "materialMod": {
                 "lightGroupMaskBits": 0,
-                "reflectionFactor": 0.5,
-                "reflectionFresnelFactor": 0.15000000596046448,
                 "selfLight": [
                     0.5,
                     0.5,
@@ -4256,7 +5296,11 @@
         },
         {
             "materialMod": {
-                "specularIntensity": 0.25
+                "specularColor": [
+                    0.25,
+                    0.25,
+                    0.25
+                ]
             },
             "name": "levels/menu/main_menu_seg7.01018.rgba16"
         },
@@ -4274,7 +5318,11 @@
         },
         {
             "materialMod": {
-                "specularIntensity": 0.25
+                "specularColor": [
+                    0.25,
+                    0.25,
+                    0.25
+                ]
             },
             "name": "levels/menu/main_menu_seg7.04468.rgba16"
         },
@@ -4638,8 +5686,12 @@
                     0.05000000074505806
                 ],
                 "shadowRayBias": 30.0,
-                "specularExponent": 5.0,
-                "specularIntensity": 1.5
+                "specularColor": [
+                    1.5,
+                    1.5,
+                    1.5
+                ],
+                "specularExponent": 5.0
             },
             "name": "textures/intro_raw/mario_face_shine.ia8"
         },
@@ -4661,7 +5713,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.16249999403953552,
+                    0.16249999403953552
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -4691,7 +5747,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.16249999403953552,
+                    0.16249999403953552
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -4721,7 +5781,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.16249999403953552,
+                    0.16249999403953552
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -4751,7 +5815,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.16249999403953552,
+                    0.16249999403953552
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -4781,7 +5849,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.16249999403953552,
+                    0.16249999403953552
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -4811,7 +5883,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.16249999403953552,
+                    0.16249999403953552
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -4841,7 +5917,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.16249999403953552,
+                    0.16249999403953552
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -4871,7 +5951,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.16249999403953552,
+                    0.16249999403953552
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -4901,7 +5985,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.8125,
+                    0.8125
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -4931,7 +6019,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.8125,
+                    0.8125
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -4961,7 +6053,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.8125,
+                    0.8125
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -4991,7 +6087,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.8125,
+                    0.8125
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -5021,7 +6121,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.8125,
+                    0.8125
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -5051,7 +6155,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.8125,
+                    0.8125
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -5081,7 +6189,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.8125,
+                    0.8125
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -5111,7 +6223,11 @@
                     0.0
                 ],
                 "shadowOffset": 50.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8125,
+                    0.8125,
+                    0.8125
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -5214,6 +6330,10 @@
         },
         {
             "materialMod": null,
+            "name": "textures/outside/castle_grounds_textures.06800.rgba16"
+        },
+        {
+            "materialMod": null,
             "name": "textures/outside/castle_grounds_textures.07800.rgba16"
         },
         {
@@ -5246,15 +6366,18 @@
                     0.0,
                     0.699999988079071
                 ],
-                "normalMapScale": 0.20000000298023224,
                 "reflectionFactor": 0.375,
                 "reflectionFresnelFactor": 0.75,
                 "refractionFactor": 0.949999988079071,
-                "solidAlphaMultiplier": 0.75
+                "solidAlphaMultiplier": 0.75,
+                "uvDetailScale": 0.20000000298023224
             },
             "name": "textures/segment2/segment2.11C58.rgba16",
             "normalMapMod": {
                 "name": "rt64/textures/normal_maps/water_nrm.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -5269,15 +6392,18 @@
                     0.0,
                     0.699999988079071
                 ],
-                "normalMapScale": 0.4000000059604645,
                 "reflectionFactor": 0.375,
                 "reflectionFresnelFactor": 0.75,
                 "refractionFactor": 0.949999988079071,
-                "solidAlphaMultiplier": 0.75
+                "solidAlphaMultiplier": 0.75,
+                "uvDetailScale": 0.4000000059604645
             },
             "name": "textures/segment2/segment2.12458.rgba16",
             "normalMapMod": {
                 "name": "rt64/textures/normal_maps/water_nrm.rgba32"
+            },
+            "specularMapMod": {
+                "name": ""
             }
         },
         {
@@ -5379,13 +6505,21 @@
         },
         {
             "materialMod": {
-                "specularIntensity": 0.0
+                "specularColor": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
             },
             "name": "textures/snow/ccm_textures.02000.rgba16"
         },
         {
             "materialMod": {
-                "specularIntensity": 0.0
+                "specularColor": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
             },
             "name": "textures/snow/ccm_textures.06000.rgba16"
         },
@@ -5395,7 +6529,11 @@
         },
         {
             "materialMod": {
-                "specularIntensity": 0.0
+                "specularColor": [
+                    0.0,
+                    0.0,
+                    0.0
+                ]
             },
             "name": "textures/snow/ccm_textures.08800.rgba16"
         },

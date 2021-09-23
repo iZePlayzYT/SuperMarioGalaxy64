@@ -87,11 +87,29 @@ static const u8 optsGameStr[][32] = {
 
 #ifdef RAPI_RT64
 static const u8 optsRT64Str[][32] = {
+    "TEXT_OPT_TARGETFPS",
+    "TEXT_OPT_DLSS",
     "TEXT_OPT_RESSCALE",
+    "TEXT_OPT_MAXLIGHTS",
     "TEXT_OPT_SPHEREL",
     "TEXT_OPT_GI",
-    "TEXT_OPT_GIWEIGHT",
     "TEXT_OPT_DENOISER",
+    "TEXT_OPT_MOTBLUR",
+    "TEXT_OPT_DLSS_OFF",
+    "TEXT_OPT_DLSS_AUTO",
+    "TEXT_OPT_DLSS_MAXQ",
+    "TEXT_OPT_DLSS_BAL",
+    "TEXT_OPT_DLSS_MAXP",
+    "TEXT_OPT_DLSS_ULTP"
+};
+
+static const u8 *dlssChoices[] = {
+    optsRT64Str[8],
+    optsRT64Str[9],
+    optsRT64Str[10],
+    optsRT64Str[11],
+    optsRT64Str[12],
+    optsRT64Str[13]
 };
 #endif
 
@@ -337,12 +355,25 @@ static struct Option optsCamera[] = {
 };
 
 #ifdef RAPI_RT64
+extern bool gfx_rt64_dlss_supported();
+
+static bool optdlss_enabled() {
+    return gfx_rt64_dlss_supported();
+}
+
+static bool optresscale_enabled() {
+    return (configRT64DlssMode == 0) || !optdlss_enabled();
+}
+
 static struct Option optsRT64[] = {
-    DEF_OPT_SCROLL( optsRT64Str[0], &configRT64ResScale, 10, 200, 1 ),
-    DEF_OPT_TOGGLE( optsRT64Str[1], &configRT64SphereLights ),
-    DEF_OPT_TOGGLE( optsRT64Str[2], &configRT64GI ),
-    DEF_OPT_SCROLL( optsRT64Str[3], &configRT64GIStrength, 5, 95, 1 ),
-    DEF_OPT_TOGGLE( optsRT64Str[4], &configRT64Denoiser ),
+    DEF_OPT_SCROLL( optsRT64Str[0], /*0,*/ &configRT64TargetFPS, 30, 360, 30 ),
+    DEF_OPT_CHOICE( optsRT64Str[1], /*optdlss_enabled,*/ &configRT64DlssMode, dlssChoices ),
+    DEF_OPT_SCROLL( optsRT64Str[2], /*optresscale_enabled,*/ &configRT64ResScale, 10, 200, 1 ),
+    DEF_OPT_SCROLL( optsRT64Str[3], /*0,*/ &configRT64MaxLights, 1, 16, 1 ),
+    DEF_OPT_TOGGLE( optsRT64Str[4], /*0,*/ &configRT64SphereLights ),
+    DEF_OPT_TOGGLE( optsRT64Str[5], /*0,*/ &configRT64GI ),
+    DEF_OPT_TOGGLE( optsRT64Str[6], /*0,*/ &configRT64Denoiser ),
+    DEF_OPT_SCROLL( optsRT64Str[7], /*0,*/ &configRT64MotionBlurStrength, 0, 100, 5 ),
     DEF_OPT_BUTTON( optsVideoStr[10], optvideo_apply ),
 };
 #endif
@@ -375,7 +406,9 @@ static struct Option optsVideo[] = {
     //DEF_OPT_CHOICE( optsVideoStr[14], &configCustomWindowResolution, windowChoices ),
     #endif
     //DEF_OPT_TOGGLE( optsVideoStr[15], &configForce4by3 ),
+    #ifndef RAPI_RT64
     DEF_OPT_TOGGLE( optsVideoStr[11], &config60FPS ),
+    #endif
     #if defined(RAPI_D3D11)
     DEF_OPT_TOGGLE( optsVideoStr[12], &configInternalResolutionBool ),
     DEF_OPT_CHOICE( optsVideoStr[13], &configCustomInternalResolution, internalChoices ),
@@ -486,10 +519,16 @@ static u8 optmenu_hold_count = 0;
 static struct SubMenu *currentMenu = &menuMain;
 
 static inline s32 wrap_add(s32 a, const s32 b, const s32 min, const s32 max) {
-    a += b;
-    if (a < min) a = max - (min - a) + 1;
-    else if (a > max) a = min + (a - max) - 1;
-    return a;
+    s32 c = a + b;
+    if (c < min) {
+        return max;
+    }
+    else if (c > max) {
+        return min;
+    }
+    else {
+        return c;
+    }
 }
 
 static void uint_to_hex(u32 num, u8 *dst) {

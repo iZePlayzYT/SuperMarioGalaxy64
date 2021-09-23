@@ -24,6 +24,7 @@
 #include "actors/group17.h"
 #include "actors/common0.h"
 #include "actors/common1.h"
+#include "levels/intro/header.h"
 
 #define FILL_GEO_MAPS(x) geoNameMap[(void *)(x)] = #x; nameGeoMap[#x] = (void *)(x)
 
@@ -50,11 +51,6 @@ inline void gfx_rt64_init_geo_layout_maps(std::unordered_map<void *, std::string
     FILL_GEO_MAPS(bowser_key_geo);
     FILL_GEO_MAPS(bowser_key_cutscene_geo);
     FILL_GEO_MAPS(breakable_box_geo);
-    /* TODO(RT64) The compilation macro is not properly detected for some reason.
-#ifndef RENDER_96_ALPHA
-    FILL_GEO_MAPS(breakable_box_small_geo);
-#endif
-    */
     FILL_GEO_MAPS(bub_geo);
     FILL_GEO_MAPS(bubba_geo);
     FILL_GEO_MAPS(bubble_geo);
@@ -119,12 +115,6 @@ inline void gfx_rt64_init_geo_layout_maps(std::unordered_map<void *, std::string
     FILL_GEO_MAPS(koopa_with_shell_geo);
     FILL_GEO_MAPS(koopa_flag_geo);
     FILL_GEO_MAPS(koopa_shell_geo);
-/* TODO(RT64) The compilation macro is not properly detected for some reason.
-#ifndef RENDER_96_ALPHA
-    FILL_GEO_MAPS(koopa_shell2_geo);
-    FILL_GEO_MAPS(koopa_shell3_geo);
-#endif
-*/
     FILL_GEO_MAPS(lakitu_geo);
     FILL_GEO_MAPS(enemy_lakitu_geo);
     FILL_GEO_MAPS(leaves_geo);
@@ -203,6 +193,8 @@ inline void gfx_rt64_init_geo_layout_maps(std::unordered_map<void *, std::string
     FILL_GEO_MAPS(yellow_sphere_geo);
     FILL_GEO_MAPS(yoshi_geo);
     FILL_GEO_MAPS(yoshi_egg_geo);
+    FILL_GEO_MAPS(intro_geo_00035C);
+    FILL_GEO_MAPS(intro_geo_0003B8);
 }
 
 #endif

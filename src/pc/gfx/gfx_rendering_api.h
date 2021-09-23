@@ -22,7 +22,11 @@ struct GfxRenderingAPI {
     uint32_t (*new_texture)(const char *name);
 #endif
     void (*select_texture)(int tile, uint32_t texture_id);
+#ifndef GFX_UPLOAD_TEXTURE_FILE
     void (*upload_texture)(const uint8_t *rgba32_buf, int width, int height);
+#else
+    void (*upload_texture)(const char *file_path, const uint8_t *file_buf, uint64_t file_buf_size);
+#endif
     void (*set_sampler_parameters)(int sampler, bool linear_filter, uint32_t cms, uint32_t cmt);
     void (*set_depth_test)(bool depth_test);
     void (*set_depth_mask)(bool z_upd);
@@ -36,13 +40,16 @@ struct GfxRenderingAPI {
 #ifndef GFX_SEPARATE_PROJECTIONS
     void (*draw_triangles)(float buf_vbo[], size_t buf_vbo_len, size_t buf_vbo_num_tris);
 #else
-    void (*set_camera_perspective)(float fov_degrees, float near_dist, float far_dist);
+    void (*set_camera_perspective)(float fov_degrees, float near_dist, float far_dist, bool can_interpolate);
     void (*set_camera_matrix)(float matrix[4][4]);
-    void (*draw_triangles_ortho)(float buf_vbo[], size_t buf_vbo_len, size_t buf_vbo_num_tris, bool double_sided);
-    void (*draw_triangles_persp)(float buf_vbo[], size_t buf_vbo_len, size_t buf_vbo_num_tris, float transform_affine[4][4], bool double_sided);
+    void (*draw_triangles_ortho)(float buf_vbo[], size_t buf_vbo_len, size_t buf_vbo_num_tris, bool double_sided, uint32_t uid);
+    void (*draw_triangles_persp)(float buf_vbo[], size_t buf_vbo_len, size_t buf_vbo_num_tris, float transform_affine[4][4], bool double_sided, uint32_t uid);
 #endif
 #ifdef GFX_ENABLE_GRAPH_NODE_MODS
     void (*set_graph_node_mod)(void *graph_node_mod);
+#endif
+#ifdef GFX_SEPARATE_SKYBOX
+    void (*set_skybox)(uint32_t texture_id, float diffuse_color[3]);
 #endif
     void (*init)(void);
     void (*on_resize)(void);

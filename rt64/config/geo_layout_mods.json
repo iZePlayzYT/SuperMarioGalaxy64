@@ -3,13 +3,13 @@
         {
             "lightMod": {
                 "attenuationExponent": 1.0,
-                "attenuationRadius": 1125.0,
+                "attenuationRadius": 1500.0,
                 "diffuseColor": [
                     1.2999999523162842,
                     1.2999999523162842,
                     0.20000000298023224
                 ],
-                "flickerIntensity": 0.0,
+                "flickerIntensity": 0.125,
                 "groupBits": 16,
                 "pointRadius": 25.0,
                 "position": [
@@ -18,19 +18,19 @@
                     0.0
                 ],
                 "shadowOffset": 80.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.8449999094009399,
+                    0.8449999094009399,
+                    0.12999999523162842
+                ]
             },
             "materialMod": {
-                "reflectionFactor": 0.05000000074505806,
-                "reflectionFresnelFactor": 0.15000000596046448,
+                "lightGroupMaskBits": 0,
                 "selfLight": [
                     0.699999988079071,
                     0.699999988079071,
                     0.699999988079071
-                ],
-                "shadowRayBias": 0.0,
-                "specularExponent": 20.0,
-                "specularIntensity": 1.0
+                ]
             },
             "name": "amp_geo"
         },
@@ -76,7 +76,11 @@
                     0.0
                 ],
                 "shadowOffset": 25.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.0,
+                    0.12999999523162842,
+                    0.5199999809265137
+                ]
             },
             "materialMod": {
                 "ignoreNormalFactor": 1.0,
@@ -94,7 +98,9 @@
             "name": "bobomb_buddy_geo"
         },
         {
-            "materialMod": null,
+            "materialMod": {
+                "refractionFactor": 0.9750000238418579
+            },
             "name": "boo_castle_geo"
         },
         {
@@ -238,7 +244,9 @@
             "name": "castle_door_geo"
         },
         {
-            "materialMod": null,
+            "materialMod": {
+                "ignoreNormalFactor": 1.0
+            },
             "name": "chain_chomp_geo"
         },
         {
@@ -352,6 +360,16 @@
         {
             "materialMod": null,
             "name": "idle_water_wave_geo"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": null,
+            "name": "intro_geo_00035C"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": null,
+            "name": "intro_geo_0003B8"
         },
         {
             "materialMod": null,
@@ -481,7 +499,7 @@
                     0.0
                 ],
                 "flickerIntensity": 0.0,
-                "groupBits": 1,
+                "groupBits": 16,
                 "pointRadius": 25.0,
                 "position": [
                     0.0,
@@ -489,7 +507,11 @@
                     0.0
                 ],
                 "shadowOffset": 25.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.12999999523162842,
+                    0.5199999809265137,
+                    0.0
+                ]
             },
             "materialMod": {
                 "lightGroupMaskBits": 0,
@@ -565,7 +587,11 @@
                     0.0
                 ],
                 "shadowOffset": 25.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.5199999809265137,
+                    0.12999999523162842,
+                    0.0
+                ]
             },
             "materialMod": {
                 "ignoreNormalFactor": 1.0,
@@ -579,8 +605,37 @@
             "name": "red_flame_geo"
         },
         {
+            "lightMod": {
+                "attenuationExponent": 2.0,
+                "attenuationRadius": 300.0,
+                "diffuseColor": [
+                    0.800000011920929,
+                    0.20000000298023224,
+                    0.0
+                ],
+                "flickerIntensity": 0.07500000298023224,
+                "groupBits": 64,
+                "pointRadius": 25.0,
+                "position": [
+                    0.0,
+                    0.0,
+                    0.0
+                ],
+                "shadowOffset": 25.0,
+                "specularColor": [
+                    0.5199999809265137,
+                    0.12999999523162842,
+                    0.0
+                ]
+            },
             "materialMod": {
-                "ignoreNormalFactor": 1.0
+                "ignoreNormalFactor": 1.0,
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
             },
             "name": "red_flame_shadow_geo"
         },
@@ -638,7 +693,11 @@
                     0.0
                 ],
                 "shadowOffset": 25.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.5199999809265137,
+                    0.5199999809265137,
+                    0.0
+                ]
             },
             "materialMod": {
                 "ignoreNormalFactor": 1.0,
@@ -669,7 +728,11 @@
                     0.0
                 ],
                 "shadowOffset": 25.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.5199999809265137,
+                    0.5199999809265137,
+                    0.0
+                ]
             },
             "materialMod": {
                 "ignoreNormalFactor": 1.0,
@@ -719,12 +782,12 @@
                 "attenuationExponent": 1.0,
                 "attenuationRadius": 1125.0,
                 "diffuseColor": [
-                    1.100000023841858,
-                    0.800000011920929,
+                    0.8999999761581421,
+                    0.8999999761581421,
                     0.20000000298023224
                 ],
                 "flickerIntensity": 0.0,
-                "groupBits": 1,
+                "groupBits": 16,
                 "pointRadius": 50.0,
                 "position": [
                     0.0,
@@ -732,19 +795,19 @@
                     0.0
                 ],
                 "shadowOffset": 150.0,
-                "specularIntensity": 0.6499999761581421
+                "specularColor": [
+                    0.44999998807907104,
+                    0.44999998807907104,
+                    0.10000000149011612
+                ]
             },
             "materialMod": {
-                "reflectionFactor": 0.05000000074505806,
-                "reflectionFresnelFactor": 0.15000000596046448,
+                "lightGroupMaskBits": 0,
                 "selfLight": [
-                    0.25,
-                    0.20000000298023224,
-                    0.10000000149011612
-                ],
-                "shadowRayBias": 0.0,
-                "specularExponent": 20.0,
-                "specularIntensity": 1.0
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
             },
             "name": "star_geo"
         },
