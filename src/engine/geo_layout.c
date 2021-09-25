@@ -48,10 +48,10 @@ struct GraphNode gObjParentGraphNode;
 struct AllocOnlyPool *gGraphNodePool;
 struct GraphNode *gCurRootGraphNode;
 
-#ifdef GFX_ENABLE_GRAPH_NODE_MODS
+#ifdef GFX_SEPARATE_PROJECTIONS
 #define GRAPH_NODE_SWITCH_MAX_COUNT 8
 u32 gCurGraphNodeSwitchUID[GRAPH_NODE_SWITCH_MAX_COUNT];
-u32 gCurGraphNodeSwitchIndex[GRAPH_NODE_SWITCH_MAX_COUNT];
+s16 gCurGraphNodeSwitchIndex[GRAPH_NODE_SWITCH_MAX_COUNT];
 u32 gCurGraphNodeSwitchCount = 0;
 u32 gCurGraphNodeUID = 1;
 void *gCurGeoLayout = NULL;
@@ -140,6 +140,11 @@ void geo_layout_cmd_branch(void) {
     }
 
     gGeoLayoutCommand = segmented_to_virtual(cur_geo_cmd_ptr(0x04));
+#ifdef GFX_SEPARATE_PROJECTIONS
+    if (gCurGraphNodeSwitchCount > 0) {
+        gCurGraphNodeUID = gCurGraphNodeSwitchUID[gCurGraphNodeSwitchCount - 1];
+    }
+#endif
 }
 
 // 0x03: Return from branch
@@ -156,7 +161,7 @@ void geo_layout_cmd_open_node(void) {
 
 // 0x05: Close node
 void geo_layout_cmd_close_node(void) {
-#ifdef GFX_ENABLE_GRAPH_NODE_MODS
+#ifdef GFX_SEPARATE_PROJECTIONS
     if ((gCurGraphNodeSwitchCount > 0) && (gCurGraphNodeSwitchIndex[gCurGraphNodeSwitchCount - 1] == gCurGraphNodeIndex)) {
         gCurGraphNodeSwitchCount--;
     }
@@ -361,8 +366,8 @@ void geo_layout_cmd_node_switch_case(void) {
 
     gGeoLayoutCommand += 0x08 << CMD_SIZE_SHIFT;
     
-#ifdef GFX_ENABLE_GRAPH_NODE_MODS
-    gCurGraphNodeSwitchUID[gCurGraphNodeSwitchCount] = gCurGraphNodeUID++;
+#ifdef GFX_SEPARATE_PROJECTIONS
+    gCurGraphNodeSwitchUID[gCurGraphNodeSwitchCount] = gCurGraphNodeUID;
     gCurGraphNodeSwitchIndex[gCurGraphNodeSwitchCount] = gCurGraphNodeIndex + 1;
     gCurGraphNodeSwitchCount++;
 #endif
