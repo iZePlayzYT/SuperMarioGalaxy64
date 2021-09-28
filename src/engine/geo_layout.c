@@ -140,11 +140,6 @@ void geo_layout_cmd_branch(void) {
     }
 
     gGeoLayoutCommand = segmented_to_virtual(cur_geo_cmd_ptr(0x04));
-#ifdef GFX_SEPARATE_PROJECTIONS
-    if (gCurGraphNodeSwitchCount > 0) {
-        gCurGraphNodeUID = gCurGraphNodeSwitchUID[gCurGraphNodeSwitchCount - 1];
-    }
-#endif
 }
 
 // 0x03: Return from branch

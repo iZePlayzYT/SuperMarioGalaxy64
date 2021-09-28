@@ -12,6 +12,9 @@
 #include "pc/gfx/gfx_pc.h"
 
 #ifdef GFX_SEPARATE_PROJECTIONS
+extern u32 gCurGraphNodeSwitchUID[];
+extern s16 gCurGraphNodeSwitchIndex[];
+extern u32 gCurGraphNodeSwitchCount;
 extern u32 gCurGraphNodeUID;
 #endif
 
@@ -36,6 +39,10 @@ void init_scene_graph_node_links(struct GraphNode *graphNode, s32 type) {
     graphNode->parent = NULL;
     graphNode->children = NULL;
 #ifdef GFX_SEPARATE_PROJECTIONS
+    if ((gCurGraphNodeSwitchCount > 0) && (gCurGraphNodeSwitchIndex[gCurGraphNodeSwitchCount - 1] == gCurGraphNodeIndex)) {
+        gCurGraphNodeUID = gCurGraphNodeSwitchUID[gCurGraphNodeSwitchCount - 1];
+    }
+
     graphNode->uid = gCurGraphNodeUID++;
 #endif
 }
