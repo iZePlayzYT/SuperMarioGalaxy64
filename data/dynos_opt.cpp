@@ -857,8 +857,14 @@ void optmenu_check_buttons(void) {
 // Built-in options
 //
 
+#define DYNOS_DEFINE_ACTION(func) \
+DYNOS_AT_STARTUP static void DynOS_Opt_AddAction_##func() { \
+    DynOS_Opt_AddAction(#func, func, false); \
+}
+
 static bool DynOS_Opt_ReturnToMainMenu(UNUSED const char *optName) {
-    return DynOS_Warp_ReturnToMainMenu();
+    DynOS_ReturnToMainMenu();
+    return true;
 }
 DYNOS_DEFINE_ACTION(DynOS_Opt_ReturnToMainMenu);
 
@@ -894,3 +900,5 @@ static bool DynOS_Opt_DisableAllPacks(UNUSED const char *optName) {
     return true;
 }
 DYNOS_DEFINE_ACTION(DynOS_Opt_DisableAllPacks);
+
+#undef DYNOS_DEFINE_ACTION

@@ -14,7 +14,7 @@ extern "C" {
 #define SCALE_3_8(VAL_) ((VAL_) * 0x24)
 #define SCALE_8_3(VAL_) ((VAL_) / 0x24)
 
-u8 *RGBA16_RGBA32(const u8 *aData, u64 aLength) {
+static u8 *RGBA16_RGBA32(const u8 *aData, u64 aLength) {
     u8 *_Buffer = New<u8>(aLength * 2);
     u8 *pBuffer = _Buffer;
     for (u64 i = 0; i != aLength; i += 2) {
@@ -31,13 +31,13 @@ u8 *RGBA16_RGBA32(const u8 *aData, u64 aLength) {
     return _Buffer;
 }
 
-u8 *RGBA32_RGBA32(const u8 *aData, u64 aLength) {
+static u8 *RGBA32_RGBA32(const u8 *aData, u64 aLength) {
     u8 *_Buffer = New<u8>(aLength * 1);
     memcpy(_Buffer, aData, aLength);
     return _Buffer;
 }
 
-u8 *IA4_RGBA32(const u8 *aData, u64 aLength) {
+static u8 *IA4_RGBA32(const u8 *aData, u64 aLength) {
     u8 *_Buffer = New<u8>(aLength * 8);
     u8 *pBuffer = _Buffer;
     for (u64 i = 0; i != aLength; ++i) {
@@ -56,7 +56,7 @@ u8 *IA4_RGBA32(const u8 *aData, u64 aLength) {
     return _Buffer;
 }
 
-u8 *IA8_RGBA32(const u8 *aData, u64 aLength) {
+static u8 *IA8_RGBA32(const u8 *aData, u64 aLength) {
     u8 *_Buffer = New<u8>(aLength * 4);
     u8 *pBuffer = _Buffer;
     for (u64 i = 0; i != aLength; ++i) {
@@ -70,7 +70,7 @@ u8 *IA8_RGBA32(const u8 *aData, u64 aLength) {
     return _Buffer;
 }
 
-u8 *IA16_RGBA32(const u8 *aData, u64 aLength) {
+static u8 *IA16_RGBA32(const u8 *aData, u64 aLength) {
     u8 *_Buffer = New<u8>(aLength * 2);
     u8 *pBuffer = _Buffer;
     for (u64 i = 0; i != aLength; i += 2) {
@@ -84,7 +84,7 @@ u8 *IA16_RGBA32(const u8 *aData, u64 aLength) {
     return _Buffer;
 }
 
-u8 *CI4_RGBA32(const u8 *aData, u64 aLength, const u8 *aPalette) {
+static u8 *CI4_RGBA32(const u8 *aData, u64 aLength, const u8 *aPalette) {
     u8 *_Buffer = New<u8>(aLength * 8);
     u8 *pBuffer = _Buffer;
     for (u64 i = 0; i != aLength; ++i) {
@@ -113,7 +113,7 @@ u8 *CI4_RGBA32(const u8 *aData, u64 aLength, const u8 *aPalette) {
     return _Buffer;
 }
 
-u8 *CI8_RGBA32(const u8 *aData, u64 aLength, const u8 *aPalette) {
+static u8 *CI8_RGBA32(const u8 *aData, u64 aLength, const u8 *aPalette) {
     u8 *_Buffer = New<u8>(aLength * 4);
     u8 *pBuffer = _Buffer;
     for (u64 i = 0; i != aLength; ++i) {
@@ -131,7 +131,7 @@ u8 *CI8_RGBA32(const u8 *aData, u64 aLength, const u8 *aPalette) {
     return _Buffer;
 }
 
-u8 *I4_RGBA32(const u8 *aData, u64 aLength) {
+static u8 *I4_RGBA32(const u8 *aData, u64 aLength) {
     u8 *_Buffer = New<u8>(aLength * 8);
     u8 *pBuffer = _Buffer;
     for (u64 i = 0; i != aLength; ++i) {
@@ -150,7 +150,7 @@ u8 *I4_RGBA32(const u8 *aData, u64 aLength) {
     return _Buffer;
 }
 
-u8 *I8_RGBA32(const u8 *aData, u64 aLength) {
+static u8 *I8_RGBA32(const u8 *aData, u64 aLength) {
     u8 *_Buffer = New<u8>(aLength * 4);
     u8 *pBuffer = _Buffer;
     for (u64 i = 0; i != aLength; ++i) {
@@ -162,7 +162,7 @@ u8 *I8_RGBA32(const u8 *aData, u64 aLength) {
     return _Buffer;
 }
 
-u8 *ConvertToRGBA32(const u8 *aData, u64 aLength, s32 aFormat, s32 aSize, const u8 *aPalette) {
+u8 *DynOS_Gfx_TextureConvertToRGBA32(const u8 *aData, u64 aLength, s32 aFormat, s32 aSize, const u8 *aPalette) {
     switch   ((aFormat       << 8) | aSize       ) {
         case ((G_IM_FMT_RGBA << 8) | G_IM_SIZ_16b): return RGBA16_RGBA32(aData, aLength);
         case ((G_IM_FMT_RGBA << 8) | G_IM_SIZ_32b): return RGBA32_RGBA32(aData, aLength);

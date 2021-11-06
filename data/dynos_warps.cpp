@@ -12,10 +12,10 @@ extern "C" {
 #include "game/object_list_processor.h"
 #include "game/options_menu.h"
 #include "r96/system/r96_system.h"
-extern char gDialogBoxState;
+extern s8 gDialogBoxState;
 extern s16 gMenuMode;
 extern s32 gWdwWaterLevelSet;
-extern const u8 sSpawnTypeFromWarpBhv[];
+extern u8 sSpawnTypeFromWarpBhv[];
 extern void set_mario_initial_action(struct MarioState *, u32, u32);
 extern void set_play_mode(s16);
 }
@@ -24,13 +24,13 @@ extern void set_play_mode(s16);
 // Data
 //
 
-       s32  gDDDBowsersSub      = -1;
-       s32  gDDDPoles           = -1;
-static s32  sDynosWarpLevelNum  = -1;
-static s32  sDynosWarpAreaNum   = -1;
-static s32  sDynosWarpActNum    = -1;
-static s32  sDynosExitLevelNum  = -1;
-static s32  sDynosExitAreaNum   = -1;
+       s32 gDDDBowsersSub     = -1;
+       s32 gDDDPoles          = -1;
+static s32 sDynosWarpLevelNum = -1;
+static s32 sDynosWarpAreaNum  = -1;
+static s32 sDynosWarpActNum   = -1;
+static s32 sDynosExitLevelNum = -1;
+static s32 sDynosExitAreaNum  = -1;
 
 //
 // Level Entry
@@ -117,19 +117,6 @@ bool DynOS_Warp_ToCastle(s32 aLevel) {
     set_play_mode(0);
     sDynosExitLevelNum = aLevel;
     sDynosExitAreaNum = 1;
-    return true;
-}
-
-//
-// Return to Main Menu
-//
-
-bool DynOS_Warp_ReturnToMainMenu() {
-    optmenu_toggle();
-    level_set_transition(0, NULL);
-    gDialogBoxState = 0;
-    gMenuMode = -1;
-    fade_into_special_warp(-2, 0);
     return true;
 }
 
