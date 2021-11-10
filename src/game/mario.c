@@ -63,18 +63,7 @@ s32 is_anim_past_end(struct MarioState *m) {
 
     return o->header.gfx.curAnim.animFrame >= (o->header.gfx.curAnim.curAnim->unk08 - 2);
 }
-s32 is_metal_cap(struct MarioState *m){
-    return (m->flags & MARIO_METAL_CAP);
-}
-s32 is_vanish_cap(struct MarioState *m){
-    return (m->flags & MARIO_VANISH_CAP);
-}
-s32 is_wing_cap(struct MarioState *m){
-    return (m->flags & MARIO_WING_CAP);
-}
-s32 is_hatless(struct MarioState *m){
-    return !(m->flags & MARIO_CAP_ON_HEAD);
-}
+
 s32 is_moving(){
     return( gMarioState->action & (ACT_FLAG_MOVING|ACT_FLAG_AIR) || gMarioState->action == ACT_HOLD_FREEFALL_LAND_STOP ||gMarioState->action == ACT_FREEFALL_LAND_STOP );
 }
@@ -898,7 +887,7 @@ static u32 set_mario_action_airborne(struct MarioState *m, u32 action, u32 actio
 
             //! (BLJ's) This properly handles long jumps from getting forward speed with
             //  too much velocity, but misses backwards longs allowing high negative speeds.
-            if ((m->forwardVel *= 1.5f) > 48.0f && !(Cheats.EnableCheats && Cheats.FLJ)) {
+            if ((m->forwardVel *= 1.5f) > 48.0f) {
                 m->forwardVel = 48.0f;
             }
             break;
@@ -1094,8 +1083,6 @@ s32 set_jump_from_landing(struct MarioState *m) {
                         set_mario_action(m, ACT_FLYING_TRIPLE_JUMP, 0);
                     } else if (m->forwardVel > 20.0f) {
                         set_mario_action(m, ACT_TRIPLE_JUMP, 0);
-                    } else if (Cheats.EnableCheats && JUMP_MAN == 1) {
-                        set_mario_action(m, ACT_TRIPLE_JUMP, 0);
                     } else {
                         set_mario_action(m, ACT_JUMP, 0);
                     }
@@ -1253,25 +1240,7 @@ void squish_mario_model(struct MarioState *m) {
         // If no longer squished, scale back to default.
         // Also handles the Tiny Mario and Huge Mario cheats.
         if (m->squishTimer == 0) {
-            if (Cheats.EnableCheats) {
-                if (Cheats.HugeMario) {
-                    vec3f_set(m->marioObj->header.gfx.scale, 2.5f, 2.5f, 2.5f);
-                }
-                else if (Cheats.TinyMario) {
-                    vec3f_set(m->marioObj->header.gfx.scale, 0.2f, 0.2f, 0.2f);
-                } else if (Cheats.PAC == 3) {
-                    vec3f_set(m->marioObj->header.gfx.scale, 1.5f, 1.5f, 1.5f);
-                } else if (Cheats.PAC == 5) {
-                    vec3f_set(m->marioObj->header.gfx.scale, 1.5f, 1.5f, 1.5f);
-                }
-                else {
-                    vec3f_set(m->marioObj->header.gfx.scale, 1.0f, 1.0f, 1.0f);
-                }
-            }
-            else {
-                vec3f_set(m->marioObj->header.gfx.scale, 1.0f, 1.0f, 1.0f);
-            }
-            
+            vec3f_set(m->marioObj->header.gfx.scale, 1.0f, 1.0f, 1.0f);
         }
         // If timer is less than 16, rubber-band Mario's size scale up and down.
         else if (m->squishTimer <= 16) {
@@ -1289,6 +1258,7 @@ void squish_mario_model(struct MarioState *m) {
             vec3f_set(m->marioObj->header.gfx.scale, 1.4f, 0.4f, 1.4f);
         }
     }
+    cheats_size_modifier(m);
 }
 
 /**
@@ -1450,15 +1420,6 @@ void update_mario_inputs(struct MarioState *m) {
 
     debug_print_speed_action_normal(m);
 
-    cheats_mario_inputs(m);
-
-    /* Moonjump cheat */
-    while (Cheats.MoonJump == true && Cheats.EnableCheats == true && m->controller->buttonDown & L_TRIG ){
-        m->vel[1] = 25;
-        break;   // TODO: Unneeded break?
-    }
-    /*End of moonjump cheat */
-
     if (gCameraMovementFlags & CAM_MOVE_C_UP_MODE) {
         if (m->action & ACT_FLAG_ALLOW_FIRST_PERSON) {
             m->input |= INPUT_FIRST_PERSON;
@@ -1487,6 +1448,29 @@ void update_mario_inputs(struct MarioState *m) {
     if (m->doubleJumpTimer > 0) {
         m->doubleJumpTimer--;
     }
+
+    // Cheats
+    cheats_chaos_mode(m);
+    cheats_moon_jump(m);
+    cheats_moon_gravity(m);
+    cheats_super_copter(m);
+    cheats_debug_move(m);
+    cheats_god_mode(m);
+    cheats_infinite_lives(m);
+    cheats_spamba(m);
+    cheats_hurt_mario(m);
+    cheats_swim_anywhere(m);
+    cheats_cap_modifier(m);
+    cheats_super_wing_cap(m);
+    cheats_auto_wall_kick(m);
+    cheats_no_hold_heavy(m);
+    cheats_coins_magnet(m);
+    cheats_time_stop(m);
+    cheats_quick_ending(m);
+    cheats_water_control(m);
+    cheats_speed_display(m);
+    cheats_play_as(m);
+    cheats_instant_death(m);
 }
 
 /**
@@ -1727,7 +1711,7 @@ void mario_update_hitbox_and_cap_model(struct MarioState *m) {
     // Short hitbox for crouching/crawling/etc.
     if (m->action & ACT_FLAG_SHORT_HITBOX) {
         m->marioObj->hitboxHeight = 100.0f;
-    } else if (Cheats.EnableCheats && Cheats.PAC > 0) {
+    } else if (Cheats.EnableCheats && Cheats.PlayAs > 0) {
         m->marioObj->hitboxHeight = 120.0f;
     } else {
         m->marioObj->hitboxHeight = 160.0f;
@@ -1757,24 +1741,6 @@ void func_sh_8025574C(void) {
  */
 s32 execute_mario_action(UNUSED struct Object *o) {
     s32 inLoop = TRUE;
-    /**
-    * Cheat stuff
-    */
-
-    if (Cheats.EnableCheats)
-    {
-        if (Cheats.GodMode)
-            gMarioState->health = 0x880;
-
-        if (Cheats.InfiniteLives && gMarioState->numLives < 99)
-            gMarioState->numLives += 1;
-
-        if (Cheats.SuperSpeed && gMarioState->forwardVel > 0)
-            gMarioState->forwardVel += 100;
-    }
-    /**
-    * End of cheat stuff
-    */
     if (gMarioState->action) {
         gMarioState->marioObj->header.gfx.node.flags &= ~GRAPH_RENDER_INVISIBLE;
         mario_reset_bodystate(gMarioState);
@@ -1955,11 +1921,11 @@ void init_mario_from_save_file(void) {
     setCharacterModel(save_file_get_player_model(gCurrSaveFileNum - 1));
 
     if (isLuigi())
-        gMarioState->animation = &Data_LuigiAnims;
+        gMarioState->animation = (struct MarioAnimation *) &Data_LuigiAnims;
 	else if(isWario())
-	    gMarioState->animation = &Data_WarioAnims;
+	    gMarioState->animation = (struct MarioAnimation *) &Data_WarioAnims;
     else if(!isLuigi() && !isWario())
-        gMarioState->animation = &Data_MarioAnims;
+        gMarioState->animation = (struct MarioAnimation *) &Data_MarioAnims;
 
     set_notification_status(save_file_get_keys(gCurrSaveFileNum - 1) >= 10);
 

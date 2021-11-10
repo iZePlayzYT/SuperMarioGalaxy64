@@ -346,6 +346,22 @@ void render_debug_info(void) {
  * Renders the amount of lives Mario has.
  */
 
+s32 is_metal_cap(struct MarioState *m){
+    return (m->flags & MARIO_METAL_CAP);
+}
+
+s32 is_vanish_cap(struct MarioState *m){
+    return (m->flags & MARIO_VANISH_CAP);
+}
+
+s32 is_wing_cap(struct MarioState *m){
+    return (m->flags & MARIO_WING_CAP);
+}
+
+s32 is_hatless(struct MarioState *m){
+    return !(m->flags & MARIO_CAP_ON_HEAD);
+}
+
 void render_hud_mario_lives(void) {
 
     if (isLuigi()) {
@@ -530,10 +546,6 @@ s8 get_notification_state(){
 
 void render_notification(){
     if(renderNotification){
-        u32 width = SCREEN_WIDTH / 2 - SCREEN_HEIGHT / 2 * gfx_current_dimensions.aspect_ratio;
-
-        f32 a = SCREEN_WIDTH / gfx_current_dimensions.width;
-
         if(buttonTimer < 15){
             buttonTimer++;
         }else{

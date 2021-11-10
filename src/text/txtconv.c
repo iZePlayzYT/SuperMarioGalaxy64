@@ -4,213 +4,213 @@
 #include "txtconv.h"
 
 struct Character charmap[512] = {
-    {"0", {0x0, NULL}}, {"{65296}", {0x0, NULL}}, {"1", {0x1, NULL}}, {"{65297}", {0x1, NULL}}, {"2", {0x2, NULL}}, {"{65298}", {0x2, NULL}}, {"3", {0x3, NULL}}, {"{65299}", {0x3, NULL}}, {"4", {0x4, NULL}}, 
-    {"{65300}", {0x4, NULL}}, {"5", {0x5, NULL}}, {"{65301}", {0x5, NULL}}, {"6", {0x6, NULL}}, {"{65302}", {0x6, NULL}}, {"7", {0x7, NULL}}, {"{65303}", {0x7, NULL}}, {"8", {0x8, NULL}}, {"{65304}", {0x8, NULL}}, 
-    {"9", {0x9, NULL}}, {"{65305}", {0x9, NULL}}, {"A", {0xa, NULL}}, {"{65313}", {0xa, NULL}}, {"B", {0xb, NULL}}, {"{65314}", {0xb, NULL}}, {"C", {0xc, NULL}}, {"{65315}", {0xc, NULL}}, {"D", {0xd, NULL}}, 
-    {"{65316}", {0xd, NULL}}, {"E", {0xe, NULL}}, {"{65317}", {0xe, NULL}}, {"F", {0xf, NULL}}, {"{65318}", {0xf, NULL}}, {"G", {0x10, NULL}}, {"{65319}", {0x10, NULL}}, {"H", {0x11, NULL}}, {"{65320}", {0x11, NULL}}, 
-    {"I", {0x12, NULL}}, {"{65321}", {0x12, NULL}}, {"J", {0x13, NULL}}, {"{65322}", {0x13, NULL}}, {"K", {0x14, NULL}}, {"{65323}", {0x14, NULL}}, {"L", {0x15, NULL}}, {"{65324}", {0x15, NULL}}, {"M", {0x16, NULL}}, 
-    {"{65325}", {0x16, NULL}}, {"N", {0x17, NULL}}, {"{65326}", {0x17, NULL}}, {"O", {0x18, NULL}}, {"{65327}", {0x18, NULL}}, {"P", {0x19, NULL}}, {"{65328}", {0x19, NULL}}, {"Q", {0x1a, NULL}}, {"{65329}", {0x1a, NULL}}, 
-    {"R", {0x1b, NULL}}, {"{65330}", {0x1b, NULL}}, {"S", {0x1c, NULL}}, {"{65331}", {0x1c, NULL}}, {"T", {0x1d, NULL}}, {"{65332}", {0x1d, NULL}}, {"U", {0x1e, NULL}}, {"{65333}", {0x1e, NULL}}, {"V", {0x1f, NULL}}, 
-    {"{65334}", {0x1f, NULL}}, {"W", {0x20, NULL}}, {"{65335}", {0x20, NULL}}, {"X", {0x21, NULL}}, {"{65336}", {0x21, NULL}}, {"Y", {0x22, NULL}}, {"{65337}", {0x22, NULL}}, {"Z", {0x23, NULL}}, {"{65338}", {0x23, NULL}}, 
-    {"a", {0x24, NULL}}, {"{65345}", {0x24, NULL}}, {"b", {0x25, NULL}}, {"{65346}", {0x25, NULL}}, {"c", {0x26, NULL}}, {"{65347}", {0x26, NULL}}, {"d", {0x27, NULL}}, {"{65348}", {0x27, NULL}}, {"e", {0x28, NULL}}, 
-    {"{65349}", {0x28, NULL}}, {"f", {0x29, NULL}}, {"{65350}", {0x29, NULL}}, {"g", {0x2a, NULL}}, {"{65351}", {0x2a, NULL}}, {"h", {0x2b, NULL}}, {"{65352}", {0x2b, NULL}}, {"i", {0x2c, NULL}}, {"{65353}", {0x2c, NULL}}, 
-    {"j", {0x2d, NULL}}, {"{65354}", {0x2d, NULL}}, {"k", {0x2e, NULL}}, {"{65355}", {0x2e, NULL}}, {"l", {0x2f, NULL}}, {"{65356}", {0x2f, NULL}}, {"m", {0x30, NULL}}, {"{65357}", {0x30, NULL}}, {"n", {0x31, NULL}}, 
-    {"{65358}", {0x31, NULL}}, {"o", {0x32, NULL}}, {"{65359}", {0x32, NULL}}, {"p", {0x33, NULL}}, {"{65360}", {0x33, NULL}}, {"q", {0x34, NULL}}, {"{65361}", {0x34, NULL}}, {"r", {0x35, NULL}}, {"{65362}", {0x35, NULL}}, 
-    {"s", {0x36, NULL}}, {"{65363}", {0x36, NULL}}, {"t", {0x37, NULL}}, {"{65364}", {0x37, NULL}}, {"u", {0x38, NULL}}, {"{65365}", {0x38, NULL}}, {"v", {0x39, NULL}}, {"{65366}", {0x39, NULL}}, {"w", {0x3a, NULL}}, 
-    {"{65367}", {0x3a, NULL}}, {"x", {0x3b, NULL}}, {"{65368}", {0x3b, NULL}}, {"y", {0x3c, NULL}}, {"{65369}", {0x3c, NULL}}, {"z", {0x3d, NULL}}, {"{65370}", {0x3d, NULL}}, {"'", {0x3e, NULL}}, {"{65287}", {0x3e, NULL}}, 
-    {".", {0x3f, NULL}}, {"{65294}", {0x3f, NULL}}, {",", {0x6f, NULL}}, {"{65292}", {0x6f, NULL}}, {"-", {0x9f, NULL}}, {"{65293}", {0x9f, NULL}}, {"(", {0xe1, NULL}}, {"{65288}", {0xe1, NULL}}, {")(", {0xe2, NULL}}, 
-    {"）（", {0xe2, NULL}}, {")", {0xe3, NULL}}, {"{65289}", {0xe3, NULL}}, {"+", {0xe4, NULL}}, {"{65291}", {0xe4, NULL}}, {"&", {0xe5, NULL}}, {"{65286}", {0xe5, NULL}}, {":", {0xe6, NULL}}, {"{65306}", {0xe6, NULL}}, 
-    {"!", {0xf2, NULL}}, {"{65281}", {0xf2, NULL}}, {"%", {0xf3, NULL}}, {"{65285}", {0xf3, NULL}}, {"?", {0xf4, NULL}}, {"{65311}", {0xf4, NULL}}, {"~", {0xf7, NULL}}, {"{65374}", {0xf7, NULL}}, {" ", {0x9e, NULL}}, 
-    {"{12288}", {0x9e, NULL}}, {"\n", {0xfe, NULL}}, {"{12443}", {0xf0, NULL}}, {"{12444}", {0xf1, NULL}}, {"{12302}", {0xf5, NULL}}, {"{12303}", {0xf6, NULL}}, {"{08230}", {0xf8, NULL}}, {"{08596}", {0xe4, NULL}}, {"$", {0xf9, NULL}}, 
-    {"{09733}", {0xfa, NULL}}, {"{00215}", {0xfb, NULL}}, {"{12539}", {0xfc, NULL}}, {"{09734}", {0xfd, NULL}}, {"^", {0x50, NULL}}, {"|", {0x51, NULL}}, {"<", {0x52, NULL}}, {">", {0x53, NULL}}, {"[%]", {0xe0, NULL}}, 
-    {"[A]", {0x54, NULL}}, {"[B]", {0x55, NULL}}, {"[C]", {0x56, NULL}}, {"[Z]", {0x57, NULL}}, {"[R]", {0x58, NULL}}, {"/", {0xd0, NULL}}, {"the", {0xd1, NULL}}, {"you", {0xd2, NULL}}, {"{09786}", {0x40, 0x41}}, 
+    {"0", {0x0, 0}}, {"{65296}", {0x0, 0}}, {"1", {0x1, 0}}, {"{65297}", {0x1, 0}}, {"2", {0x2, 0}}, {"{65298}", {0x2, 0}}, {"3", {0x3, 0}}, {"{65299}", {0x3, 0}}, {"4", {0x4, 0}}, 
+    {"{65300}", {0x4, 0}}, {"5", {0x5, 0}}, {"{65301}", {0x5, 0}}, {"6", {0x6, 0}}, {"{65302}", {0x6, 0}}, {"7", {0x7, 0}}, {"{65303}", {0x7, 0}}, {"8", {0x8, 0}}, {"{65304}", {0x8, 0}}, 
+    {"9", {0x9, 0}}, {"{65305}", {0x9, 0}}, {"A", {0xa, 0}}, {"{65313}", {0xa, 0}}, {"B", {0xb, 0}}, {"{65314}", {0xb, 0}}, {"C", {0xc, 0}}, {"{65315}", {0xc, 0}}, {"D", {0xd, 0}}, 
+    {"{65316}", {0xd, 0}}, {"E", {0xe, 0}}, {"{65317}", {0xe, 0}}, {"F", {0xf, 0}}, {"{65318}", {0xf, 0}}, {"G", {0x10, 0}}, {"{65319}", {0x10, 0}}, {"H", {0x11, 0}}, {"{65320}", {0x11, 0}}, 
+    {"I", {0x12, 0}}, {"{65321}", {0x12, 0}}, {"J", {0x13, 0}}, {"{65322}", {0x13, 0}}, {"K", {0x14, 0}}, {"{65323}", {0x14, 0}}, {"L", {0x15, 0}}, {"{65324}", {0x15, 0}}, {"M", {0x16, 0}}, 
+    {"{65325}", {0x16, 0}}, {"N", {0x17, 0}}, {"{65326}", {0x17, 0}}, {"O", {0x18, 0}}, {"{65327}", {0x18, 0}}, {"P", {0x19, 0}}, {"{65328}", {0x19, 0}}, {"Q", {0x1a, 0}}, {"{65329}", {0x1a, 0}}, 
+    {"R", {0x1b, 0}}, {"{65330}", {0x1b, 0}}, {"S", {0x1c, 0}}, {"{65331}", {0x1c, 0}}, {"T", {0x1d, 0}}, {"{65332}", {0x1d, 0}}, {"U", {0x1e, 0}}, {"{65333}", {0x1e, 0}}, {"V", {0x1f, 0}}, 
+    {"{65334}", {0x1f, 0}}, {"W", {0x20, 0}}, {"{65335}", {0x20, 0}}, {"X", {0x21, 0}}, {"{65336}", {0x21, 0}}, {"Y", {0x22, 0}}, {"{65337}", {0x22, 0}}, {"Z", {0x23, 0}}, {"{65338}", {0x23, 0}}, 
+    {"a", {0x24, 0}}, {"{65345}", {0x24, 0}}, {"b", {0x25, 0}}, {"{65346}", {0x25, 0}}, {"c", {0x26, 0}}, {"{65347}", {0x26, 0}}, {"d", {0x27, 0}}, {"{65348}", {0x27, 0}}, {"e", {0x28, 0}}, 
+    {"{65349}", {0x28, 0}}, {"f", {0x29, 0}}, {"{65350}", {0x29, 0}}, {"g", {0x2a, 0}}, {"{65351}", {0x2a, 0}}, {"h", {0x2b, 0}}, {"{65352}", {0x2b, 0}}, {"i", {0x2c, 0}}, {"{65353}", {0x2c, 0}}, 
+    {"j", {0x2d, 0}}, {"{65354}", {0x2d, 0}}, {"k", {0x2e, 0}}, {"{65355}", {0x2e, 0}}, {"l", {0x2f, 0}}, {"{65356}", {0x2f, 0}}, {"m", {0x30, 0}}, {"{65357}", {0x30, 0}}, {"n", {0x31, 0}}, 
+    {"{65358}", {0x31, 0}}, {"o", {0x32, 0}}, {"{65359}", {0x32, 0}}, {"p", {0x33, 0}}, {"{65360}", {0x33, 0}}, {"q", {0x34, 0}}, {"{65361}", {0x34, 0}}, {"r", {0x35, 0}}, {"{65362}", {0x35, 0}}, 
+    {"s", {0x36, 0}}, {"{65363}", {0x36, 0}}, {"t", {0x37, 0}}, {"{65364}", {0x37, 0}}, {"u", {0x38, 0}}, {"{65365}", {0x38, 0}}, {"v", {0x39, 0}}, {"{65366}", {0x39, 0}}, {"w", {0x3a, 0}}, 
+    {"{65367}", {0x3a, 0}}, {"x", {0x3b, 0}}, {"{65368}", {0x3b, 0}}, {"y", {0x3c, 0}}, {"{65369}", {0x3c, 0}}, {"z", {0x3d, 0}}, {"{65370}", {0x3d, 0}}, {"'", {0x3e, 0}}, {"{65287}", {0x3e, 0}}, 
+    {".", {0x3f, 0}}, {"{65294}", {0x3f, 0}}, {",", {0x6f, 0}}, {"{65292}", {0x6f, 0}}, {"-", {0x9f, 0}}, {"{65293}", {0x9f, 0}}, {"(", {0xe1, 0}}, {"{65288}", {0xe1, 0}}, {")(", {0xe2, 0}}, 
+    {"）（", {0xe2, 0}}, {")", {0xe3, 0}}, {"{65289}", {0xe3, 0}}, {"+", {0xe4, 0}}, {"{65291}", {0xe4, 0}}, {"&", {0xe5, 0}}, {"{65286}", {0xe5, 0}}, {":", {0xe6, 0}}, {"{65306}", {0xe6, 0}}, 
+    {"!", {0xf2, 0}}, {"{65281}", {0xf2, 0}}, {"%", {0xf3, 0}}, {"{65285}", {0xf3, 0}}, {"?", {0xf4, 0}}, {"{65311}", {0xf4, 0}}, {"~", {0xf7, 0}}, {"{65374}", {0xf7, 0}}, {" ", {0x9e, 0}}, 
+    {"{12288}", {0x9e, 0}}, {"\n", {0xfe, 0}}, {"{12443}", {0xf0, 0}}, {"{12444}", {0xf1, 0}}, {"{12302}", {0xf5, 0}}, {"{12303}", {0xf6, 0}}, {"{08230}", {0xf8, 0}}, {"{08596}", {0xe4, 0}}, {"$", {0xf9, 0}}, 
+    {"{09733}", {0xfa, 0}}, {"{00215}", {0xfb, 0}}, {"{12539}", {0xfc, 0}}, {"{09734}", {0xfd, 0}}, {"^", {0x50, 0}}, {"|", {0x51, 0}}, {"<", {0x52, 0}}, {">", {0x53, 0}}, {"[%]", {0xe0, 0}}, 
+    {"[A]", {0x54, 0}}, {"[B]", {0x55, 0}}, {"[C]", {0x56, 0}}, {"[Z]", {0x57, 0}}, {"[R]", {0x58, 0}}, {"/", {0xd0, 0}}, {"the", {0xd1, 0}}, {"you", {0xd2, 0}}, {"{09786}", {0x40, 0x41}}, 
 
 
     // SPECIAL CHARACTERS
-    {"{00161}",  {66, NULL}},    // INVERTED EXCLAMATION MARK
-    {"{00191}",  {67, NULL}},    // INVERTED QUESTION MARK
-    {"{00192}",  {68, NULL}},    // LATIN CAPITAL LETTER A WITH GRAVE
-    {"{00193}",  {69, NULL}},    // LATIN CAPITAL LETTER A WITH ACUTE
-    {"{00194}",  {70, NULL}},    // LATIN CAPITAL LETTER A WITH CIRCUMFLEX
-    {"{00195}",  {71, NULL}},    // LATIN CAPITAL LETTER A WITH TILDE
-    {"{00196}",  {72, NULL}},    // LATIN CAPITAL LETTER A WITH DIAERESIS
-    {"{00197}",  {73, NULL}},    // LATIN CAPITAL LETTER A WITH RING ABOVE
-    {"{00198}",  {74, NULL}},    // LATIN CAPITAL LETTER AE
-    {"{00199}",  {75, NULL}},    // LATIN CAPITAL LETTER C WITH CEDILLA
-    {"{00200}",  {76, NULL}},    // LATIN CAPITAL LETTER E WITH GRAVE
-    {"{00201}",  {77, NULL}},    // LATIN CAPITAL LETTER E WITH ACUTE
-    {"{00202}",  {78, NULL}},    // LATIN CAPITAL LETTER E WITH CIRCUMFLEX
-    {"{00203}",  {79, NULL}},    // LATIN CAPITAL LETTER E WITH DIAERESIS
+    {"{00161}",  {66, 0}},    // INVERTED EXCLAMATION MARK
+    {"{00191}",  {67, 0}},    // INVERTED QUESTION MARK
+    {"{00192}",  {68, 0}},    // LATIN CAPITAL LETTER A WITH GRAVE
+    {"{00193}",  {69, 0}},    // LATIN CAPITAL LETTER A WITH ACUTE
+    {"{00194}",  {70, 0}},    // LATIN CAPITAL LETTER A WITH CIRCUMFLEX
+    {"{00195}",  {71, 0}},    // LATIN CAPITAL LETTER A WITH TILDE
+    {"{00196}",  {72, 0}},    // LATIN CAPITAL LETTER A WITH DIAERESIS
+    {"{00197}",  {73, 0}},    // LATIN CAPITAL LETTER A WITH RING ABOVE
+    {"{00198}",  {74, 0}},    // LATIN CAPITAL LETTER AE
+    {"{00199}",  {75, 0}},    // LATIN CAPITAL LETTER C WITH CEDILLA
+    {"{00200}",  {76, 0}},    // LATIN CAPITAL LETTER E WITH GRAVE
+    {"{00201}",  {77, 0}},    // LATIN CAPITAL LETTER E WITH ACUTE
+    {"{00202}",  {78, 0}},    // LATIN CAPITAL LETTER E WITH CIRCUMFLEX
+    {"{00203}",  {79, 0}},    // LATIN CAPITAL LETTER E WITH DIAERESIS
     ////////////
-    {"{00204}",  {89, NULL}},    // LATIN CAPITAL LETTER I WITH GRAVE
-    {"{00205}",  {90, NULL}},    // LATIN CAPITAL LETTER I WITH ACUTE
-    {"{00206}",  {91, NULL}},    // LATIN CAPITAL LETTER I WITH CIRCUMFLEX
-    {"{00207}",  {92, NULL}},    // LATIN CAPITAL LETTER I WITH DIAERESIS
-    {"{00208}",  {93, NULL}},    // LATIN CAPITAL LETTER ETH
-    {"{00209}",  {94, NULL}},    // LATIN CAPITAL LETTER N WITH TILDE
-    {"{00210}",  {95, NULL}},    // LATIN CAPITAL LETTER O WITH GRAVE
-    {"{00211}",  {96, NULL}},    // LATIN CAPITAL LETTER O WITH ACUTE
-    {"{00212}",  {97, NULL}},    // LATIN CAPITAL LETTER O WITH CIRCUMFLEX
-    {"{00213}",  {98, NULL}},    // LATIN CAPITAL LETTER O WITH TILDE
-    {"{00214}",  {99, NULL}},    // LATIN CAPITAL LETTER O WITH DIAERESIS
+    {"{00204}",  {89, 0}},    // LATIN CAPITAL LETTER I WITH GRAVE
+    {"{00205}",  {90, 0}},    // LATIN CAPITAL LETTER I WITH ACUTE
+    {"{00206}",  {91, 0}},    // LATIN CAPITAL LETTER I WITH CIRCUMFLEX
+    {"{00207}",  {92, 0}},    // LATIN CAPITAL LETTER I WITH DIAERESIS
+    {"{00208}",  {93, 0}},    // LATIN CAPITAL LETTER ETH
+    {"{00209}",  {94, 0}},    // LATIN CAPITAL LETTER N WITH TILDE
+    {"{00210}",  {95, 0}},    // LATIN CAPITAL LETTER O WITH GRAVE
+    {"{00211}",  {96, 0}},    // LATIN CAPITAL LETTER O WITH ACUTE
+    {"{00212}",  {97, 0}},    // LATIN CAPITAL LETTER O WITH CIRCUMFLEX
+    {"{00213}",  {98, 0}},    // LATIN CAPITAL LETTER O WITH TILDE
+    {"{00214}",  {99, 0}},    // LATIN CAPITAL LETTER O WITH DIAERESIS
     ///////////
-    {"{00216}", {100, NULL}},    // LATIN CAPITAL LETTER O WITH STROKE]
-    {"{00217}", {101, NULL}},    // LATIN CAPITAL LETTER U WITH GRAVE
-    {"{00218}", {102, NULL}},    // LATIN CAPITAL LETTER U WITH ACUTE
-    {"{00219}", {103, NULL}},    // LATIN CAPITAL LETTER U WITH CIRCUMFLEX
-    {"{00220}", {104, NULL}},    // LATIN CAPITAL LETTER U WITH DIAERESIS
-    {"{00221}", {105, NULL}},    // LATIN CAPITAL LETTER Y WITH ACUTE
-    {"{00222}", {106, NULL}},    // LATIN CAPITAL LETTER THORN
-    {"{00223}", {107, NULL}},    // LATIN SMALL LETTER SHARP S = Eszett
-    {"{00224}", {108, NULL}},    // LATIN SMALL LETTER A WITH GRAVE
-    {"{00225}", {109, NULL}},    // LATIN SMALL LETTER A WITH ACUTE
-    {"{00226}", {110, NULL}},    // LATIN SMALL LETTER A WITH CIRCUMFLEX
+    {"{00216}", {100, 0}},    // LATIN CAPITAL LETTER O WITH STROKE]
+    {"{00217}", {101, 0}},    // LATIN CAPITAL LETTER U WITH GRAVE
+    {"{00218}", {102, 0}},    // LATIN CAPITAL LETTER U WITH ACUTE
+    {"{00219}", {103, 0}},    // LATIN CAPITAL LETTER U WITH CIRCUMFLEX
+    {"{00220}", {104, 0}},    // LATIN CAPITAL LETTER U WITH DIAERESIS
+    {"{00221}", {105, 0}},    // LATIN CAPITAL LETTER Y WITH ACUTE
+    {"{00222}", {106, 0}},    // LATIN CAPITAL LETTER THORN
+    {"{00223}", {107, 0}},    // LATIN SMALL LETTER SHARP S = Eszett
+    {"{00224}", {108, 0}},    // LATIN SMALL LETTER A WITH GRAVE
+    {"{00225}", {109, 0}},    // LATIN SMALL LETTER A WITH ACUTE
+    {"{00226}", {110, 0}},    // LATIN SMALL LETTER A WITH CIRCUMFLEX
     /////////////
-    {"{00227}", {112, NULL}},    // LATIN SMALL LETTER A WITH TILDE
-    {"{00228}", {113, NULL}},    // LATIN SMALL LETTER A WITH DIAERESIS
-    {"{00229}", {114, NULL}},    // LATIN SMALL LETTER A WITH RING ABOVE
-    {"{00230}", {115, NULL}},    // LATIN SMALL LETTER AE
-    {"{00231}", {116, NULL}},    // LATIN SMALL LETTER C WITH CEDILLA
-    {"{00232}", {117, NULL}},    // LATIN SMALL LETTER E WITH GRAVE
-    {"{00233}", {118, NULL}},    // LATIN SMALL LETTER E WITH ACUTE
-    {"{00234}", {119, NULL}},    // LATIN SMALL LETTER E WITH CIRCUMFLEX
-    {"{00235}", {120, NULL}},    // LATIN SMALL LETTER E WITH DIAERESIS
-    {"{00236}", {121, NULL}},    // LATIN SMALL LETTER I WITH GRAVE
-    {"{00237}", {122, NULL}},    // LATIN SMALL LETTER I WITH ACUTE
-    {"{00238}", {123, NULL}},    // LATIN SMALL LETTER I WITH CIRCUMFLEX
-    {"{00239}", {124, NULL}},    // LATIN SMALL LETTER I WITH DIAERESIS
-    {"{00240}", {125, NULL}},    // LATIN SMALL LETTER ETH
-    {"{00241}", {126, NULL}},    // LATIN SMALL LETTER N WITH TILDE
-    {"{00242}", {127, NULL}},    // LATIN SMALL LETTER O WITH GRAVE
-    {"{00243}", {128, NULL}},    // LATIN SMALL LETTER O WITH ACUTE
-    {"{00244}", {129, NULL}},    // LATIN SMALL LETTER O WITH CIRCUMFLEX
-    {"{00245}", {130, NULL}},    // LATIN SMALL LETTER O WITH TILDE
-    {"{00246}", {131, NULL}},    // LATIN SMALL LETTER O WITH DIAERESIS
+    {"{00227}", {112, 0}},    // LATIN SMALL LETTER A WITH TILDE
+    {"{00228}", {113, 0}},    // LATIN SMALL LETTER A WITH DIAERESIS
+    {"{00229}", {114, 0}},    // LATIN SMALL LETTER A WITH RING ABOVE
+    {"{00230}", {115, 0}},    // LATIN SMALL LETTER AE
+    {"{00231}", {116, 0}},    // LATIN SMALL LETTER C WITH CEDILLA
+    {"{00232}", {117, 0}},    // LATIN SMALL LETTER E WITH GRAVE
+    {"{00233}", {118, 0}},    // LATIN SMALL LETTER E WITH ACUTE
+    {"{00234}", {119, 0}},    // LATIN SMALL LETTER E WITH CIRCUMFLEX
+    {"{00235}", {120, 0}},    // LATIN SMALL LETTER E WITH DIAERESIS
+    {"{00236}", {121, 0}},    // LATIN SMALL LETTER I WITH GRAVE
+    {"{00237}", {122, 0}},    // LATIN SMALL LETTER I WITH ACUTE
+    {"{00238}", {123, 0}},    // LATIN SMALL LETTER I WITH CIRCUMFLEX
+    {"{00239}", {124, 0}},    // LATIN SMALL LETTER I WITH DIAERESIS
+    {"{00240}", {125, 0}},    // LATIN SMALL LETTER ETH
+    {"{00241}", {126, 0}},    // LATIN SMALL LETTER N WITH TILDE
+    {"{00242}", {127, 0}},    // LATIN SMALL LETTER O WITH GRAVE
+    {"{00243}", {128, 0}},    // LATIN SMALL LETTER O WITH ACUTE
+    {"{00244}", {129, 0}},    // LATIN SMALL LETTER O WITH CIRCUMFLEX
+    {"{00245}", {130, 0}},    // LATIN SMALL LETTER O WITH TILDE
+    {"{00246}", {131, 0}},    // LATIN SMALL LETTER O WITH DIAERESIS
     ///////////
-    {"{00248}", {132, NULL}},    // LATIN SMALL LETTER O WITH STROKE
-    {"{00249}", {133, NULL}},    // LATIN SMALL LETTER U WITH GRAVE
-    {"{00250}", {134, NULL}},    // LATIN SMALL LETTER U WITH ACUTE
-    {"{00251}", {135, NULL}},    // LATIN SMALL LETTER U WITH CIRCUMFLEX
-    {"{00252}", {136, NULL}},    // LATIN SMALL LETTER U WITH DIAERESIS
-    {"{00253}", {137, NULL}},    // LATIN SMALL LETTER Y WITH ACUTE
-    {"{00254}", {138, NULL}},    // LATIN SMALL LETTER THORN
-    {"{00255}", {139, NULL}},    // LATIN SMALL LETTER Y WITH DIAERESIS
+    {"{00248}", {132, 0}},    // LATIN SMALL LETTER O WITH STROKE
+    {"{00249}", {133, 0}},    // LATIN SMALL LETTER U WITH GRAVE
+    {"{00250}", {134, 0}},    // LATIN SMALL LETTER U WITH ACUTE
+    {"{00251}", {135, 0}},    // LATIN SMALL LETTER U WITH CIRCUMFLEX
+    {"{00252}", {136, 0}},    // LATIN SMALL LETTER U WITH DIAERESIS
+    {"{00253}", {137, 0}},    // LATIN SMALL LETTER Y WITH ACUTE
+    {"{00254}", {138, 0}},    // LATIN SMALL LETTER THORN
+    {"{00255}", {139, 0}},    // LATIN SMALL LETTER Y WITH DIAERESIS
     ///////////
-    {"{00260}", {140, NULL}},    // LATIN CAPITAL LETTER A WITH OGONEK
-    {"{00261}", {141, NULL}},    // LATIN SMALL LETTER A WITH OGONEK
-    {"{00262}", {142, NULL}},    // LATIN CAPITAL LETTER C WITH ACUTE
-    {"{00263}", {143, NULL}},    // LATIN SMALL LETTER C WITH ACUTE
+    {"{00260}", {140, 0}},    // LATIN CAPITAL LETTER A WITH OGONEK
+    {"{00261}", {141, 0}},    // LATIN SMALL LETTER A WITH OGONEK
+    {"{00262}", {142, 0}},    // LATIN CAPITAL LETTER C WITH ACUTE
+    {"{00263}", {143, 0}},    // LATIN SMALL LETTER C WITH ACUTE
     ///////////
-    {"{00280}", {144, NULL}},    // LATIN CAPITAL LETTER E WITH OGONEK
-    {"{00281}", {145, NULL}},    // LATIN SMALL LETTER E WITH OGONEK
+    {"{00280}", {144, 0}},    // LATIN CAPITAL LETTER E WITH OGONEK
+    {"{00281}", {145, 0}},    // LATIN SMALL LETTER E WITH OGONEK
     ///////////
-    {"{00286}", {146, NULL}},    // LATIN CAPITAL LETTER G WITH BREVE
-    {"{00287}", {147, NULL}},    // LATIN SMALL LETTER G WITH BREVE
+    {"{00286}", {146, 0}},    // LATIN CAPITAL LETTER G WITH BREVE
+    {"{00287}", {147, 0}},    // LATIN SMALL LETTER G WITH BREVE
     ///////////
-    {"{00304}", {148, NULL}},    // LATIN CAPITAL LETTER S WITH CEDILLA
-    {"{00305}", {149, NULL}},    // LATIN SMALL LETTER S WITH CEDILLA
+    {"{00304}", {148, 0}},    // LATIN CAPITAL LETTER S WITH CEDILLA
+    {"{00305}", {149, 0}},    // LATIN SMALL LETTER S WITH CEDILLA
     ///////////
-    {"{00321}", {150, NULL}},    // LATIN CAPITAL LETTER L WITH STROKE
-    {"{00322}", {151, NULL}},    // LATIN SMALL LETTER L WITH STROKE
-    {"{00323}", {152, NULL}},    // LATIN CAPITAL LETTER N WITH ACUTE
-    {"{00324}", {153, NULL}},    // LATIN SMALL LETTER N WITH ACUTE
+    {"{00321}", {150, 0}},    // LATIN CAPITAL LETTER L WITH STROKE
+    {"{00322}", {151, 0}},    // LATIN SMALL LETTER L WITH STROKE
+    {"{00323}", {152, 0}},    // LATIN CAPITAL LETTER N WITH ACUTE
+    {"{00324}", {153, 0}},    // LATIN SMALL LETTER N WITH ACUTE
     ///////////
-    {"{00338}", {154, NULL}},    // LATIN CAPITAL LIGATURE OE
-    {"{00339}", {155, NULL}},    // LATIN SMALL LIGATURE OE
+    {"{00338}", {154, 0}},    // LATIN CAPITAL LIGATURE OE
+    {"{00339}", {155, 0}},    // LATIN SMALL LIGATURE OE
     ///////////
-    {"{00346}", {156, NULL}},    // LATIN CAPITAL LETTER S WITH ACUTE
-    {"{00347}", {157, NULL}},    // LATIN SMALL LETTER S WITH ACUTE
+    {"{00346}", {156, 0}},    // LATIN CAPITAL LETTER S WITH ACUTE
+    {"{00347}", {157, 0}},    // LATIN SMALL LETTER S WITH ACUTE
     /////////////////////////
-    {"{00350}", {160, NULL}},    // LATIN CAPITAL LETTER I WITH DOT ABOVE
-    {"{00351}", {161, NULL}},    // LATIN SMALL LETTER DOTLESS I
+    {"{00350}", {160, 0}},    // LATIN CAPITAL LETTER I WITH DOT ABOVE
+    {"{00351}", {161, 0}},    // LATIN SMALL LETTER DOTLESS I
     ///////////
-    {"{00376}", {162, NULL}},    // LATIN CAPITAL LETTER Y WITH DIAERESIS
-    {"{00377}", {163, NULL}},    // LATIN CAPITAL LETTER Z WITH ACUTE
-    {"{00378}", {164, NULL}},    // LATIN SMALL LETTER Z WITH ACUTE
-    {"{00379}", {165, NULL}},    // LATIN CAPITAL LETTER Z WITH DOT ABOVE
+    {"{00376}", {162, 0}},    // LATIN CAPITAL LETTER Y WITH DIAERESIS
+    {"{00377}", {163, 0}},    // LATIN CAPITAL LETTER Z WITH ACUTE
+    {"{00378}", {164, 0}},    // LATIN SMALL LETTER Z WITH ACUTE
+    {"{00379}", {165, 0}},    // LATIN CAPITAL LETTER Z WITH DOT ABOVE
     /////////////
-    {"{00380}", {166, NULL}},    // LATIN SMALL LETTER Z WITH DOT ABOVE
+    {"{00380}", {166, 0}},    // LATIN SMALL LETTER Z WITH DOT ABOVE
     ///////////
-    {"{07838}", {167, NULL}},    // LATIN EXTENDED ADDITIONAL = small eszett
+    {"{07838}", {167, 0}},    // LATIN EXTENDED ADDITIONAL = small eszett
     ///////////
-    {"{00928}", {168, NULL}},    // Greek Capital Letter Pi
-    {"{00929}", {169, NULL}},    // Greek Capital Letter Rho
-    {"{00931}", {170, NULL}},    // Greek Capital Letter Sigma
-    {"{00932}", {171, NULL}},    // Greek Capital Letter Tau
-    {"{00933}", {172, NULL}},    // Greek Capital Letter Upsilon
-    {"{00934}", {173, NULL}},    // Greek Capital Letter Phi
-    {"{00935}", {174, NULL}},    // Greek Capital Letter Chi
-    {"{00936}", {175, NULL}},    // Greek Capital Letter Psi
-    {"{00937}", {176, NULL}},    // Greek Capital Letter Omega
-    {"{00938}", {177, NULL}},    // Imagine the rest are documented
-    {"{00939}", {178, NULL}},    // 
-    {"{00940}", {179, NULL}},    // 
-    {"{00941}", {180, NULL}},    // 
-    {"{00942}", {181, NULL}},    // 
-    {"{00943}", {182, NULL}},    // 
-    {"{00944}", {183, NULL}},    // 
-    {"{00945}", {184, NULL}},    // 
-    {"{00946}", {185, NULL}},    // 
-    {"{00947}", {186, NULL}},    // 
-    {"{00948}", {187, NULL}},    // 
-    {"{00949}", {188, NULL}},    // 
-    {"{00950}", {189, NULL}},    // 
-    {"{00951}", {190, NULL}},    // 
-    {"{00952}", {191, NULL}},    // 
-    {"{00953}", {192, NULL}},    // 
-    {"{00954}", {193, NULL}},    // 
-    {"{00955}", {194, NULL}},    // 
-    {"{00956}", {195, NULL}},    // 
-    {"{00957}", {196, NULL}},    // 
-    {"{00958}", {197, NULL}},    // 
-    {"{00959}", {198, NULL}},    // 
-    {"{00960}", {199, NULL}},    // 
-    {"{00961}", {200, NULL}},    // 
-    {"{00962}", {201, NULL}},    // 
-    {"{00963}", {202, NULL}},    // 
-    {"{00964}", {203, NULL}},    // 
-    {"{00965}", {204, NULL}},    // 
-    {"{00966}", {205, NULL}},    // 
-    {"{00967}", {206, NULL}},    // 
-    {"{00968}", {207, NULL}},    // 
+    {"{00928}", {168, 0}},    // Greek Capital Letter Pi
+    {"{00929}", {169, 0}},    // Greek Capital Letter Rho
+    {"{00931}", {170, 0}},    // Greek Capital Letter Sigma
+    {"{00932}", {171, 0}},    // Greek Capital Letter Tau
+    {"{00933}", {172, 0}},    // Greek Capital Letter Upsilon
+    {"{00934}", {173, 0}},    // Greek Capital Letter Phi
+    {"{00935}", {174, 0}},    // Greek Capital Letter Chi
+    {"{00936}", {175, 0}},    // Greek Capital Letter Psi
+    {"{00937}", {176, 0}},    // Greek Capital Letter Omega
+    {"{00938}", {177, 0}},    // Imagine the rest are documented
+    {"{00939}", {178, 0}},    // 
+    {"{00940}", {179, 0}},    // 
+    {"{00941}", {180, 0}},    // 
+    {"{00942}", {181, 0}},    // 
+    {"{00943}", {182, 0}},    // 
+    {"{00944}", {183, 0}},    // 
+    {"{00945}", {184, 0}},    // 
+    {"{00946}", {185, 0}},    // 
+    {"{00947}", {186, 0}},    // 
+    {"{00948}", {187, 0}},    // 
+    {"{00949}", {188, 0}},    // 
+    {"{00950}", {189, 0}},    // 
+    {"{00951}", {190, 0}},    // 
+    {"{00952}", {191, 0}},    // 
+    {"{00953}", {192, 0}},    // 
+    {"{00954}", {193, 0}},    // 
+    {"{00955}", {194, 0}},    // 
+    {"{00956}", {195, 0}},    // 
+    {"{00957}", {196, 0}},    // 
+    {"{00958}", {197, 0}},    // 
+    {"{00959}", {198, 0}},    // 
+    {"{00960}", {199, 0}},    // 
+    {"{00961}", {200, 0}},    // 
+    {"{00962}", {201, 0}},    // 
+    {"{00963}", {202, 0}},    // 
+    {"{00964}", {203, 0}},    // 
+    {"{00965}", {204, 0}},    // 
+    {"{00966}", {205, 0}},    // 
+    {"{00967}", {206, 0}},    // 
+    {"{00968}", {207, 0}},    // 
     ///////////
-    {"{00969}", {211, NULL}},    // 
-    {"{00970}", {212, NULL}},    // 
-    {"{00971}", {213, NULL}},    // 
-    {"{00972}", {214, NULL}},    // 
-    {"{00973}", {215, NULL}},    // 
-    {"{00974}", {216, NULL}},    // 
-    {"{00922}", {217, NULL}},    // 
-    {"{00923}", {218, NULL}},    // 
-    {"{00924}", {219, NULL}},    // 
-    {"{00925}", {220, NULL}},    // 
-    {"{00926}", {221, NULL}},    // 
-    {"{00927}", {222, NULL}},    // 
-    {"{00913}", {223, NULL}},    // 
+    {"{00969}", {211, 0}},    // 
+    {"{00970}", {212, 0}},    // 
+    {"{00971}", {213, 0}},    // 
+    {"{00972}", {214, 0}},    // 
+    {"{00973}", {215, 0}},    // 
+    {"{00974}", {216, 0}},    // 
+    {"{00922}", {217, 0}},    // 
+    {"{00923}", {218, 0}},    // 
+    {"{00924}", {219, 0}},    // 
+    {"{00925}", {220, 0}},    // 
+    {"{00926}", {221, 0}},    // 
+    {"{00927}", {222, 0}},    // 
+    {"{00913}", {223, 0}},    // 
     ///////////
-    {"{00914}", {231, NULL}},    // 
-    {"{00915}", {232, NULL}},    // 
-    {"{00916}", {233, NULL}},    // 
-    {"{00917}", {234, NULL}},    // 
-    {"{00918}", {235, NULL}},    // 
-    {"{00919}", {236, NULL}},    // 
-    {"{00920}", {237, NULL}},    //
-    {"{00921}", {238, NULL}},    //  
+    {"{00914}", {231, 0}},    // 
+    {"{00915}", {232, 0}},    // 
+    {"{00916}", {233, 0}},    // 
+    {"{00917}", {234, 0}},    // 
+    {"{00918}", {235, 0}},    // 
+    {"{00919}", {236, 0}},    // 
+    {"{00920}", {237, 0}},    //
+    {"{00921}", {238, 0}},    //  
     ///////////
-    {"{00906}", {255, NULL}},    // 
-    {"{00908}", {256, NULL}},    // 
-    {"{00910}", {257, NULL}},    // 
-    {"{00911}", {258, NULL}},    // 
-    {"{00902}", {259, NULL}},    // 
-    {"{00904}", {260, NULL}},    // 
-    {"{00905}", {261, NULL}},    // 
-    {"{00912}", {262, NULL}},    // 
+    {"{00906}", {255, 0}},    // 
+    {"{00908}", {256, 0}},    // 
+    {"{00910}", {257, 0}},    // 
+    {"{00911}", {258, 0}},    // 
+    {"{00902}", {259, 0}},    // 
+    {"{00904}", {260, 0}},    // 
+    {"{00905}", {261, 0}},    // 
+    {"{00912}", {262, 0}},    // 
     ////////////////////////
 };
 
 struct Character getCharacter(char *ch){
-    struct Character tmp = {NULL, {NULL, NULL}};
-    for(s32 cmid = 0; cmid < sizeof(charmap) / sizeof(struct Character); cmid++){
+    struct Character tmp = {NULL, {0, 0}};
+    for(s32 cmid = 0; cmid < (s32) (sizeof(charmap) / sizeof(struct Character)); cmid++){
         if(charmap[cmid].txt != NULL){
             if(strncmp(charmap[cmid].txt, ch, strlen(charmap[cmid].txt)) == 0) {
                 tmp = charmap[cmid];
@@ -230,7 +230,6 @@ u8 *getTranslatedText(char  *txt){
     s32 strSize = strlen(txt);
 
     u8 *tmp = malloc((strSize + 1) * sizeof(u8));
-    u8 icon = FALSE;
 
     char tmpIcon[3];
     char tmpSpecialChar[7];
@@ -250,7 +249,7 @@ u8 *getTranslatedText(char  *txt){
                 shiftArr += 2;
                 cid += 2;
                 for(int cl = 0; cl < 2; cl++){
-                    if(ctm.value[cl] != NULL){
+                    if(ctm.value[cl] != 0){
                         tmp[cid - shiftArr + cl] = ctm.value[cl];
                         shiftArr-=cl;
                     }
@@ -280,7 +279,7 @@ u8 *getTranslatedText(char  *txt){
                 shiftArr += 1;
                 cid += 1;
                 for(int cl = 0; cl < 2; cl++){
-                    if(ctm.value[cl] != NULL){
+                    if(ctm.value[cl] != 0){
                         tmp[cid - shiftArr + cl] = ctm.value[cl];
                         shiftArr-=cl;
                     }
@@ -309,7 +308,7 @@ u8 *getTranslatedText(char  *txt){
                 shiftArr += 5;
                 cid += 5;
                 for(int cl = 0; cl < 2; cl++){
-                    if(ctm.value[cl] != NULL){
+                    if(ctm.value[cl] != 0){
                         tmp[cid - shiftArr + cl] = ctm.value[cl];
                         shiftArr-=cl;
                     }

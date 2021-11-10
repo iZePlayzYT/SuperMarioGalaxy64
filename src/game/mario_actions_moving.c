@@ -154,8 +154,6 @@ s32 set_triple_jump_action(struct MarioState *m, UNUSED u32 action, UNUSED u32 a
         return set_mario_action(m, ACT_FLYING_TRIPLE_JUMP, 0);
     } else if (m->forwardVel > 20.0f) {
         return set_mario_action(m, ACT_TRIPLE_JUMP, 0);
-    } else if (Cheats.EnableCheats && JUMP_MAN == 1) {
-        return set_mario_action(m, ACT_TRIPLE_JUMP, 0);
     } else {
         return set_mario_action(m, ACT_JUMP, 0);
     }
@@ -475,14 +473,8 @@ void update_walking_speed(struct MarioState *m) {
         m->forwardVel = 48.0f;
     }
 
-    /* Handles the "Super responsive controls" cheat. The content of the "else" is Mario's original code for turning around.*/
-
-    if (Cheats.Responsive == true && Cheats.EnableCheats == true ) {
-        m->faceAngle[1] = m->intendedYaw;
-    }
-    else {
-         m->faceAngle[1] = m->intendedYaw - approach_s32((s16)(m->intendedYaw - m->faceAngle[1]), 0, 0x800, 0x800);
-    }        
+    m->faceAngle[1] = m->intendedYaw - approach_s32((s16)(m->intendedYaw - m->faceAngle[1]), 0, 0x800, 0x800);
+    cheats_responsive(m);
     apply_slope_accel(m);
 }
 
@@ -1923,7 +1915,7 @@ s32 act_long_jump_land(struct MarioState *m) {
         r96_play_character_sound_if_no_flag(m, R96_MARIO_GRUNT_2, R96_LUIGI_GRUNT_2, R96_WARIO_GRUNT_2, MARIO_MARIO_SOUND_PLAYED);
     }
 
-    cheats_long_jump(m);
+    cheats_blj_anywhere(m);
     common_landing_action(m,
                           !m->marioObj->oMarioLongJumpIsSlow ? MARIO_ANIM_CROUCH_FROM_FAST_LONGJUMP
                                                              : MARIO_ANIM_CROUCH_FROM_SLOW_LONGJUMP,

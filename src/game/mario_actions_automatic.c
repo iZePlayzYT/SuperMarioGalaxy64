@@ -81,7 +81,7 @@ s32 set_pole_position(struct MarioState *m, f32 offsetY) {
     collided |= f32_find_wall_collision(&m->pos[0], &m->pos[1], &m->pos[2], 30.0f, 24.0f);
 
     ceilHeight = vec3f_find_ceil(m->pos, m->pos[1], &ceil);
-    if (Cheats.EnableCheats && Cheats.PAC > 0) {
+    if (Cheats.EnableCheats && Cheats.PlayAs > 0) {
         if (m->pos[1] > ceilHeight - 120.0f) {
             m->pos[1] = ceilHeight - 120.0f;
             marioObj->oMarioPolePos = m->pos[1] - m->usedObj->oPosY;

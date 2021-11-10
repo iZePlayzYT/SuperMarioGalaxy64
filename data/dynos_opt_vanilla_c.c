@@ -1,10 +1,3 @@
-
-// Not my problem
-#pragma GCC diagnostic push
-#pragma GCC diagnostic ignored "-Wsizeof-pointer-div"
-#pragma GCC diagnostic ignored "-Wdiscarded-qualifiers"
-#pragma GCC diagnostic ignored "-Wpointer-sign"
-#pragma GCC diagnostic ignored "-Wsign-compare"
 #define optmenu_toggle optmenu_toggle_unused
 #define optmenu_draw optmenu_draw_unused
 #define optmenu_draw_prompt optmenu_draw_prompt_unused
@@ -18,8 +11,6 @@
 #undef optmenu_draw_prompt
 #undef optmenu_check_buttons
 #undef optmenu_open
-#pragma GCC diagnostic pop
-// Now, that's my problem
 
 extern void dynos_opt_end_submenu();
 extern void dynos_opt_convert_submenu(const u8 *label, const u8 *title);

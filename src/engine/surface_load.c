@@ -16,6 +16,7 @@
 #include "surface_load.h"
 #include "game/game_init.h"
 #include "pc/configfile.h"
+#include "math_util.h"
 
 s32 unused8038BE90;
 

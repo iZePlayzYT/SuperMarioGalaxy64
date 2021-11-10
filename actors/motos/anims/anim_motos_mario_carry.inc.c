@@ -148,7 +148,7 @@ static const u16 motos_anim_motos_mario_carry_indices[] = {
 	
 };
 
-static const struct Animation motos_anim_motos_mario_carry[] = {
+static const struct Animation motos_anim_motos_mario_carry = {
 	0,
 	0,
 	0,

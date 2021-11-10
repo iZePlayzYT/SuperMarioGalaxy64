@@ -2078,12 +2078,9 @@ void print_score_file_star_score(s8 fileIndex, s16 courseIndex, s16 x, s16 y) {
  * Prints save file score strings that shows when a save file is chosen inside the score menu.
  */
  void print_save_file_scores(s8 fileIndex) {
-    u8 * o = get_key_string("TEXT_ZERO");
-    u8 * textFileLetter = malloc(sizeof(o));
-    memcpy(textFileLetter, o, sizeof(o));
     void **levelNameTable = segmented_to_virtual(seg2_course_name_table);
 
-    textFileLetter[0] = fileIndex + ASCII_TO_DIALOG('A'); // get letter of file selected
+    u8 textFileLetter[] = { fileIndex + ASCII_TO_DIALOG('A'), 0xFF }; // get letter of file selected
 
     // Print file name at top
     gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);

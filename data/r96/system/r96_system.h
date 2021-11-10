@@ -17,6 +17,18 @@ void triggerLuigiNotification();
 s32 isLuigi();
 s32 isWario();
 
+// Wario moves
+s32 check_wario_pile_driver_jump_cancel(struct MarioState *m);
+s32 check_wario_spin_light_idle_cancel(struct MarioState *m);
+s32 check_wario_spin_heavy_idle_cancel(struct MarioState *m);
+s32 act_wario_pile_driver(struct MarioState *m);
+s32 act_wario_pile_driver_land(struct MarioState *m);
+s32 act_wario_charge(struct MarioState *m);
+s32 act_wario_triple_jump(struct MarioState *m);
+s32 act_walking_wario_spin(struct MarioState *m);
+s32 act_picking_up_enemies(struct MarioState *m);
+s32 act_holding_enemies(struct MarioState *m);
+s32 act_releasing_enemies(struct MarioState *m);
 
 /* Audio */
 
@@ -60,12 +72,16 @@ void r96_play_menu_jingle(const char* R96_JINGLE);
 void r96_play_jingle(const char* R96_JINGLE);
 void r96_play_collect_jingle(const char* R96_JINGLE);
 void r96_stop_jingle();
+void r96_jingle_fade_in();
 void r96_jingle_fade_out();
 
 // Music Functions
 
 void r96_play_music(const char* R96_MUSIC);
+void r96_play_multi_music(const char* R96_MUSIC);
 void r96_stop_music();
+void r96_music_fade_in();
+void r96_music_fade_out();
 
 // When the fanfare is playing and the pause window opens
 void r96_lower_music();

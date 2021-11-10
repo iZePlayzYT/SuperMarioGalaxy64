@@ -6283,3 +6283,54 @@ const BehaviorScript bhvMilk[] = {
         CALL_NATIVE(bhv_milk_loop),
     END_LOOP(),
 };
+
+const BehaviorScript bhvSpambaYellowCoin[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 64),
+    SET_INT(oInteractType, INTERACT_COIN),
+    SET_INT(oIntangibleTimer, 0),
+    SET_INT(oAnimState, -1),
+    CALL_NATIVE(bhv_yellow_coin_init),
+    CALL_NATIVE(bhv_moving_yellow_coin_init),
+    BEGIN_LOOP(),
+        MODELPACK(),
+        CALL_NATIVE(bhv_moving_yellow_coin_loop),
+        ADD_INT(oAnimState, 1),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvSpambaRedCoin[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 64),
+    SET_INT(oInteractType, INTERACT_COIN),
+    SET_INT(oIntangibleTimer, 0),
+    SET_INT(oAnimState, -1),
+    CALL_NATIVE(bhv_red_coin_init),
+    CALL_NATIVE(bhv_moving_yellow_coin_init),
+    BEGIN_LOOP(),
+        MODELPACK(),
+        CALL_NATIVE(bhv_red_coin_loop),
+        CALL_NATIVE(bhv_moving_yellow_coin_loop),
+        ADD_INT(oAnimState, 1),
+    END_LOOP(),
+};
+
+const BehaviorScript bhvSpambaBlueCoin[] = {
+    BEGIN(OBJ_LIST_LEVEL),
+    OR_INT(oFlags, OBJ_FLAG_UPDATE_GFX_POS_AND_ANGLE),
+    SET_HITBOX(/*Radius*/ 100, /*Height*/ 64),
+    SET_INT(oInteractType, INTERACT_COIN),
+    SET_INT(oIntangibleTimer, 0),
+    SET_INT(oAnimState, -1),
+    CALL_NATIVE(bhv_blue_coin_sliding_jumping_init),
+    CALL_NATIVE(bhv_moving_yellow_coin_init),
+    CALL_NATIVE(bhv_yellow_coin_init),
+    BEGIN_LOOP(),
+        MODELPACK(),
+        CALL_NATIVE(bhv_moving_yellow_coin_loop),
+        ADD_INT(oAnimState, 1),
+    END_LOOP(),
+};
+

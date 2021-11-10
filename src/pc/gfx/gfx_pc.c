@@ -6,6 +6,10 @@
 #include <stdbool.h>
 #include <assert.h>
 
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#pragma GCC diagnostic ignored "-Wpointer-sign"
+
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 

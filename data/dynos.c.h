@@ -25,6 +25,7 @@ void dynos_update_opt(void *pad);
 
 int dynos_gfx_import_texture(void **output, void *ptr, int tile, void *grapi, void **hashmap, void *pool, int *poolpos, int poolsize);
 void dynos_gfx_swap_animations(void *ptr);
+void *dynos_geo_get_graph_node(const void *geoLayout, bool keepInMemory);
 
 //
 // Musics

@@ -400,4 +400,31 @@ struct MarioState
              s16 defeatEnemy;
 };
 
+// Not important warnings
+#ifndef __cplusplus
+#pragma GCC diagnostic ignored "-Wpointer-sign"
+#pragma GCC diagnostic ignored "-Wdiscarded-qualifiers"
+#endif
+#pragma GCC diagnostic ignored "-Wmissing-field-initializers"
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Woverflow"
+
+// Global declarations
+extern s16 object_step(void);
+extern s32 check_fall_damage(struct MarioState *m, u32 hardFallAction);
+extern void animated_stationary_ground_step(struct MarioState *m, s32 animation, u32 endAction);
+extern void bhv_koopa_shell_flame_spawn(void);
+extern void interpolate_vectors(Vec3f res, Vec3f a, Vec3f b);
+extern void interpolate_vectors_s16(Vec3s res, Vec3s a, Vec3s b);
+extern void koopa_shell_spawn_sparkles(f32 a);
+extern void mario_attract_nearby_coins(struct MarioState *m, f32 range);
+extern void obj_check_floor_death(s16 collisionFlags, struct Surface *floor);
+extern void obj_spawn_yellow_coins(struct Object *obj, s8 nCoins);
+extern void play_step_sound(struct MarioState *m, s16 frame1, s16 frame2);
+extern void queue_rumble_data(s16 a0, s16 a1);
+extern void reset_rumble_timers(void);
+extern void spawn_orange_number(s8 behParam, s16 relX, s16 relY, s16 relZ);
+extern void update_air_without_turn(struct MarioState *m);
+extern void update_shell_speed(struct MarioState *m);
+
 #endif // _SM64_TYPES_H_

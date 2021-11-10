@@ -555,5 +555,8 @@ extern const BehaviorScript bhvCharacterSwitchPipeLuigiLocked[];
 extern const BehaviorScript bhvCharacterSwitchPipeLuigiUnlocked[];
 extern const BehaviorScript bhvWarioCoin[];
 extern const BehaviorScript bhvMilk[];
+extern const BehaviorScript bhvSpambaYellowCoin[];
+extern const BehaviorScript bhvSpambaRedCoin[];
+extern const BehaviorScript bhvSpambaBlueCoin[];
 
 #endif // BEHAVIOR_DATA_H

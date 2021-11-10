@@ -174,6 +174,7 @@ void update_air_with_turn(struct MarioState *m) {
 
             m->forwardVel += 1.5f * coss(intendedDYaw) * intendedMag;
             m->faceAngle[1] += 512.0f * sins(intendedDYaw) * intendedMag;
+            cheats_responsive(m);
         }
 
         //! Uncapped air speed. Net positive when moving forward.
@@ -190,6 +191,9 @@ void update_air_with_turn(struct MarioState *m) {
 }
 
 void update_air_without_turn(struct MarioState *m) {
+    if (Cheats.EnableCheats && Cheats.Responsive) {
+        return update_air_with_turn(m);
+    }
     f32 sidewaysSpeed = 0.0f;
     f32 dragThreshold;
     s16 intendedDYaw;
@@ -236,6 +240,7 @@ void update_lava_boost_or_twirling(struct MarioState *m) {
 
         m->forwardVel += coss(intendedDYaw) * intendedMag;
         m->faceAngle[1] += sins(intendedDYaw) * intendedMag * 1024.0f;
+        cheats_responsive(m);
 
         if (m->forwardVel < 0.0f) {
             m->faceAngle[1] += 0x8000;
@@ -312,12 +317,6 @@ void update_flying(struct MarioState *m) {
     update_flying_pitch(m);
     update_flying_yaw(m);
 
-    /*Flyer Cheat*/
-    if (Cheats.Fly) {
-        if (m->forwardVel < 30.0f) {
-            m->forwardVel += 2.0f;
-        }
-    }
     m->forwardVel -= 0.5f * (1.0f - coss(m->angleVel[1]));
     m->forwardVel -= 2.0f * ((f32) m->faceAngle[0] / 0x4000) + 0.1f;
 
@@ -359,8 +358,7 @@ u32 common_air_action_step(struct MarioState *m, u32 landAction, s32 animation, 
     stepResult = perform_air_step(m, stepArg);
     switch (stepResult) {
         case AIR_STEP_NONE:
-            // BLJ anywhere cheat
-            cheats_air_step(m);
+            cheats_blj_anywhere(m);
             if ((animation == MARIO_ANIM_SINGLE_JUMP && isLuigi()) && (animID == MARIO_ANIM_FORWARD_FLIP || is_anim_at_end(m))) {
                 set_mario_animation(m, MARIO_ANIM_FORWARD_FLIP);
                 if (is_anim_at_end(m)) {
@@ -723,7 +721,11 @@ s32 act_twirling(struct MarioState *m) {
     s16 yawVelTarget;
 
     if (m->input & INPUT_A_DOWN) {
-        yawVelTarget = 0x2000;
+        if (Cheats.EnableCheats && Cheats.SuperCopter) {
+            yawVelTarget = 0x4000;
+        } else {
+            yawVelTarget = 0x2000;
+        }
     } else {
         yawVelTarget = 0x1800;
     }
@@ -956,7 +958,7 @@ s32 act_ground_pound(struct MarioState *m) {
     if (m->actionState == 0) {
         if (m->actionTimer < 10) {
             yOffset = 20 - 2 * m->actionTimer;
-            if (Cheats.EnableCheats && Cheats.PAC > 0) {
+            if (Cheats.EnableCheats && Cheats.PlayAs > 0) {
                 if (m->pos[1] + yOffset + 120.0f < m->ceilHeight) {
                     m->pos[1] += yOffset;
                     m->peakHeight = m->pos[1];
@@ -1135,8 +1137,6 @@ u32 common_air_knockback_step(struct MarioState *m, u32 landAction, u32 hardFall
     stepResult = perform_air_step(m, 0);
     switch (stepResult) {
         case AIR_STEP_NONE:
-            // BLJ anywhere cheat
-            cheats_air_step(m);
             set_mario_animation(m, animation);
             break;
 

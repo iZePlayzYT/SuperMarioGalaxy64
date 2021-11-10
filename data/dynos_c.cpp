@@ -45,6 +45,10 @@ void dynos_gfx_swap_animations(void *ptr) {
     return DynOS_Gfx_SwapAnimations(ptr);
 }
 
+void *dynos_geo_get_graph_node(const void *geoLayout, bool keepInMemory) {
+    return DynOS_Geo_GetGraphNode(geoLayout, keepInMemory);
+}
+
 //
 // Musics
 //

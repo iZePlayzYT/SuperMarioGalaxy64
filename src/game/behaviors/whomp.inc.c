@@ -236,9 +236,10 @@ void whomp_act_8(void) {
 }
 
 void whomp_act_9(void) {
-    if (o->oTimer == 60)
+    if (o->oTimer == 60) {
         r96_stop_music();
         r96_cap_music_boss_fix();
+    }
 }
 
 void (*sWhompActions[])(void) = {

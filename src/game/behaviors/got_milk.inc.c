@@ -54,7 +54,6 @@ void bhv_milk_init(void)
 
 void bhv_milk_loop(void) 
 {
-    s32 gCurrLevelArea = gCurrLevelNum * 16 + gCurrentArea->index;
     o->oFaceAngleYaw += 0x400;
     koopa_shell_spawn_sparkles(10.0f);
     bhv_milk_interact();
@@ -69,7 +68,6 @@ void bhv_milk_time_out(void)
     u16 timerValFrames;
     u16 timerMins;
     u16 timerSecs;
-    u16 hide;
     timerValFrames = s;
     timerMins = timerValFrames / (30 * 60);
     timerSecs = (timerValFrames - (timerMins * 1800)) / 1;

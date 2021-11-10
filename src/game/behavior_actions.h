@@ -573,7 +573,7 @@ void bhv_milk_init(void);
 void bhv_milk_loop(void);
 void bhv_milk_interact(void);
 void bhv_milk_time_out(void);
-
+void bhv_milk_end();
 
 Gfx *geo_move_mario_part_from_parent(s32 run, UNUSED struct GraphNode *node, Mat4 mtx);
 

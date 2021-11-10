@@ -108,7 +108,9 @@ static void toad_message_faded(void) {
     if (gCurrentObject->oToadMessageRecentlyTalked == 0 && gCurrentObject->oDistanceToMario < 600.0f) {
         gCurrentObject->oToadMessageState = TOAD_MESSAGE_OPACIFYING;
     }
-    r96_stop_jingle();
+    if (cheats_jukebox(gMarioState) == -1) {
+        r96_stop_jingle();
+    }
 }
 
 static void toad_message_opaque(void) {
@@ -235,7 +237,7 @@ void bhv_unlock_door_star_init(void) {
     gCurrentObject->oUnlockDoorStarTimer = 0;
     gCurrentObject->oUnlockDoorStarYawVel = 0x1000;
     gCurrentObject->oPosX += 30.0f * sins(gMarioState->faceAngle[1] - 0x4000);
-    if (Cheats.EnableCheats && Cheats.PAC > 0) {
+    if (Cheats.EnableCheats && Cheats.PlayAs > 0) {
         gCurrentObject->oPosY += 120.0f;
     } else {
         gCurrentObject->oPosY += 160.0f;

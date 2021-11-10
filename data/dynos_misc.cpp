@@ -118,7 +118,6 @@ define_actor(invisible_bowser_accessory_geo),
 define_actor(bowser_key_geo),
 define_actor(bowser_key_cutscene_geo),
 define_actor(breakable_box_geo),
-//define_actor(breakable_box_small_geo),
 define_actor(bub_geo),
 define_actor(bubba_geo),
 define_actor(bubble_geo),
@@ -403,6 +402,10 @@ static void _RelocateGraphNodePointers(struct GraphNode *aHead, u64 aOffset) {
 }
 
 void *DynOS_Geo_GetGraphNode(const void *aGeoLayout, bool aKeepInMemory) {
+    if (!aGeoLayout) {
+        return NULL;
+    }
+    
     static Array<Pair<void *, void *>> sLoadedGraphNodes;
     if (aKeepInMemory) {
         s32 _LoadedGraphNodeIndex = sLoadedGraphNodes.FindIf([&aGeoLayout](const Pair<void *, void *> &aLoadedGraphNode) { return aLoadedGraphNode.first == aGeoLayout; });

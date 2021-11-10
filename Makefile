@@ -644,6 +644,8 @@ endif
 BASEPACK_PATH := $(BUILD_DIR)/$(BASEDIR)/$(BASEPACK)
 BASEPACK_LST := $(BUILD_DIR)/basepack.lst
 
+ifneq ($(NO_COPY),1)
+
 # depend on resources as well
 all: $(BASEPACK_PATH)
 
@@ -667,6 +669,8 @@ $(BASEPACK_LST): $(EXE)
 # prepares the resource ZIP with base data
 $(BASEPACK_PATH): $(BASEPACK_LST)
 	@$(PYTHON) $(TOOLS_DIR)/mkzip.py $(BASEPACK_LST) $(BASEPACK_PATH)
+  
+endif
 
 clean:
 	$(RM) -r $(BUILD_DIR_BASE)
