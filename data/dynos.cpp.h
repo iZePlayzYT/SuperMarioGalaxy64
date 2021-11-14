@@ -634,6 +634,7 @@ void               DynOS_Opt_LoadConfig                  (DynosOption *aMenu);
 void               DynOS_Opt_SaveConfig                  (DynosOption *aMenu);
 void               DynOS_Opt_DrawMenu                    (DynosOption *aCurrentOption, DynosOption *aCurrentMenu, DynosOption *aOptionsMenu, DynosOption *aDynosMenu);
 void               DynOS_Opt_DrawPrompt                  (DynosOption *aCurrentMenu, DynosOption *aOptionsMenu, DynosOption *aDynosMenu);
+void               DynOS_Opt_EnableModelPackByName       (const String& aPackName, bool aEnable);
 
 //
 // Gfx

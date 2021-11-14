@@ -1335,6 +1335,15 @@ void update_mario_joystick_inputs(struct MarioState *m) {
         m->intendedMag = mag / 8.0f;
     }
 
+    if (Cheats.EnableCheats && Cheats.ChaosMode) {
+        if ((Cheats.ChaosControls >> 1) & 1) {
+            controller->stickX *= -1;
+        }
+        if ((Cheats.ChaosControls >> 2) & 1) {
+            controller->stickY *= -1;
+        }
+    }
+
     if (m->intendedMag > 0.0f) {
         if (gLakituState.mode != CAMERA_MODE_NEWCAM)
             m->intendedYaw = atan2s(-controller->stickY, controller->stickX) + m->area->camera->yaw;
@@ -1450,14 +1459,13 @@ void update_mario_inputs(struct MarioState *m) {
     }
 
     // Cheats
-    cheats_chaos_mode(m);
+    cheats_update(m);
     cheats_moon_jump(m);
     cheats_moon_gravity(m);
     cheats_super_copter(m);
     cheats_debug_move(m);
     cheats_god_mode(m);
     cheats_infinite_lives(m);
-    cheats_spamba(m);
     cheats_hurt_mario(m);
     cheats_swim_anywhere(m);
     cheats_cap_modifier(m);
@@ -1471,6 +1479,8 @@ void update_mario_inputs(struct MarioState *m) {
     cheats_speed_display(m);
     cheats_play_as(m);
     cheats_instant_death(m);
+    cheats_spamba(m);
+    cheats_chaos_mode(m);
 }
 
 /**
@@ -1709,9 +1719,15 @@ void mario_update_hitbox_and_cap_model(struct MarioState *m) {
     }
 
     // Short hitbox for crouching/crawling/etc.
+    s32 playAsIndex;
+    if (Cheats.ChaosMode) {
+        playAsIndex = Cheats.ChaosPlayAs;
+    } else {
+        playAsIndex = Cheats.PlayAs;
+    }
     if (m->action & ACT_FLAG_SHORT_HITBOX) {
         m->marioObj->hitboxHeight = 100.0f;
-    } else if (Cheats.EnableCheats && Cheats.PlayAs > 0) {
+    } else if (Cheats.EnableCheats && playAsIndex > 0) {
         m->marioObj->hitboxHeight = 120.0f;
     } else {
         m->marioObj->hitboxHeight = 160.0f;

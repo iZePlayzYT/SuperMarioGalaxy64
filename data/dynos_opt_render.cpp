@@ -286,7 +286,7 @@ void DynOS_Opt_DrawMenu(DynosOption *aCurrentOption, DynosOption *aCurrentMenu, 
     gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
     if (!_Title.second) _Title.second = get_key_string(_Title.first.begin());
-print_hud_lut_string(HUD_LUT_GLOBAL, (SCREEN_WIDTH / 2 - DynOS_String_Length(_Title.second) * 6), 40, _Title.second);
+    print_hud_lut_string(HUD_LUT_GLOBAL, (SCREEN_WIDTH / 2 - DynOS_String_Length(_Title.second) * 6), 40, _Title.second);
     gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
 
     // Display options

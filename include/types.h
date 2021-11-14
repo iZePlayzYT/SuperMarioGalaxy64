@@ -417,6 +417,7 @@ extern void bhv_koopa_shell_flame_spawn(void);
 extern void interpolate_vectors(Vec3f res, Vec3f a, Vec3f b);
 extern void interpolate_vectors_s16(Vec3s res, Vec3s a, Vec3s b);
 extern void koopa_shell_spawn_sparkles(f32 a);
+extern void load_object_collision_model(void);
 extern void mario_attract_nearby_coins(struct MarioState *m, f32 range);
 extern void obj_check_floor_death(s16 collisionFlags, struct Surface *floor);
 extern void obj_spawn_yellow_coins(struct Object *obj, s8 nCoins);

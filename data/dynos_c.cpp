@@ -17,6 +17,10 @@ void dynos_opt_add_action(const char *funcname, bool (*funcptr)(const char *), b
     return DynOS_Opt_AddAction(funcname, funcptr, overwrite);
 }
 
+void dynos_opt_enable_model_pack_by_name(const char *packname, bool enable) {
+    return DynOS_Opt_EnableModelPackByName(packname, enable);
+}
+
 //
 // Update
 //

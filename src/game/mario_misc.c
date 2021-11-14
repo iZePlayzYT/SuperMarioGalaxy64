@@ -237,7 +237,13 @@ void bhv_unlock_door_star_init(void) {
     gCurrentObject->oUnlockDoorStarTimer = 0;
     gCurrentObject->oUnlockDoorStarYawVel = 0x1000;
     gCurrentObject->oPosX += 30.0f * sins(gMarioState->faceAngle[1] - 0x4000);
-    if (Cheats.EnableCheats && Cheats.PlayAs > 0) {
+    s32 playAsIndex;
+    if (Cheats.ChaosMode) {
+        playAsIndex = Cheats.ChaosPlayAs;
+    } else {
+        playAsIndex = Cheats.PlayAs;
+    }
+    if (Cheats.EnableCheats && playAsIndex > 0) {
         gCurrentObject->oPosY += 120.0f;
     } else {
         gCurrentObject->oPosY += 160.0f;

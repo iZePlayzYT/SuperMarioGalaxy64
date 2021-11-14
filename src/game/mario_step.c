@@ -527,7 +527,7 @@ u32 should_strengthen_gravity_for_jump_ascent(struct MarioState *m) {
     }
 
     // Always make a full wall jump when AutoWallKick is enabled
-    if (m->action == ACT_WALL_KICK_AIR && Cheats.EnableCheats && Cheats.AutoWallKick) {
+    if (m->action == ACT_WALL_KICK_AIR && Cheats.EnableCheats && ((Cheats.AutoWallKick && !Cheats.ChaosMode) || Cheats.ChaosWallKicks)) {
         return FALSE;
     }
 

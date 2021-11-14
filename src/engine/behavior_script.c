@@ -14,6 +14,7 @@
 #include "graph_node.h"
 #include "surface_collision.h"
 #include "pc/configfile.h"
+#include "pc/cheats.h"
 
 // Macros for retrieving arguments from behavior scripts.
 #define BHV_CMD_GET_1ST_U8(index)  (u8)((gCurBhvCommand[index] >> 24) & 0xFF) // unused
@@ -954,6 +955,12 @@ static BhvCommandProc BehaviorCmdTable[] = {
 // Execute the behavior script of the current object, process the object flags, and other miscellaneous code for updating objects.
 void cur_obj_update(void) {
     UNUSED u32 unused;
+    if (gCurrentObject != gMarioObject && Cheats.EnableCheats && Cheats.ChaosSlowTime && (gGlobalTimer & 1)) {
+        if (gCurrentObject->collisionData) {
+            load_object_collision_model();
+        }
+        return;
+    }
 
     s16 objFlags = gCurrentObject->oFlags;
     f32 distanceFromMario;

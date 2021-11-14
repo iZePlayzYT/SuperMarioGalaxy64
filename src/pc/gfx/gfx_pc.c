@@ -29,6 +29,7 @@
 #include "../platform.h"
 #include "../configfile.h"
 #include "../fs/fs.h"
+#include "../cheats.h"
 
 #define SUPPORT_CHECK(x) assert(x)
 
@@ -488,6 +489,14 @@ static void gfx_sp_matrix(uint8_t parameters, const int32_t *addr) {
     
     if (parameters & G_MTX_PROJECTION) {
         if (parameters & G_MTX_LOAD) {
+            if (Cheats.EnableCheats && Cheats.ChaosMode) {
+                if ((Cheats.ChaosInvertedScreen >> 0) & 1) {
+                    matrix[0][0] *= -1;
+                }
+                if ((Cheats.ChaosInvertedScreen >> 1) & 1) {
+                    matrix[1][1] *= -1;
+                }
+            }
             memcpy(rsp.P_matrix, matrix, sizeof(matrix));
         } else {
             gfx_matrix_mul(rsp.P_matrix, matrix, rsp.P_matrix);
@@ -538,7 +547,7 @@ static void gfx_sp_vertex(size_t n_vertices, size_t dest_index, const Vtx *verti
         short U = v->tc[0] * rsp.texture_scaling_factor.s >> 16;
         short V = v->tc[1] * rsp.texture_scaling_factor.t >> 16;
         
-        if (rsp.geometry_mode & G_LIGHTING) {
+        if ((rsp.geometry_mode & G_LIGHTING) && !(Cheats.EnableCheats && Cheats.ChaosRainbow)) {
             if (rsp.lights_changed) {
                 for (int i = 0; i < rsp.current_num_lights - 1; i++) {
                     calculate_normal_dir(&rsp.current_lights[i], rsp.current_lights_coeffs[i]);
@@ -587,6 +596,12 @@ static void gfx_sp_vertex(size_t n_vertices, size_t dest_index, const Vtx *verti
             d->color.r = v->cn[0];
             d->color.g = v->cn[1];
             d->color.b = v->cn[2];
+        }
+        
+        // Make the whole screen more red, as if the entire world was burning
+        if (Cheats.EnableCheats && Cheats.ChaosBowserTime) {
+            d->color.g /= 2;
+            d->color.b /= 2;
         }
         
         d->u = U;
@@ -653,12 +668,18 @@ static void gfx_sp_tri1(uint8_t vtx1_idx, uint8_t vtx2_idx, uint8_t vtx3_idx) {
             cross = -cross;
         }
         
+        s32 crossSign;
+        if (Cheats.EnableCheats && Cheats.ChaosMode) {
+            crossSign = ((((Cheats.ChaosInvertedScreen >> 0) & 1) ^ ((Cheats.ChaosInvertedScreen >> 1) & 1)) ? -1 : +1);
+        } else {
+            crossSign = +1;
+        }
         switch (rsp.geometry_mode & G_CULL_BOTH) {
             case G_CULL_FRONT:
-                if (cross <= 0) return;
+                if (cross * crossSign <= 0) return;
                 break;
             case G_CULL_BACK:
-                if (cross >= 0) return;
+                if (cross * crossSign >= 0) return;
                 break;
             case G_CULL_BOTH:
                 // Why is this even an option?

@@ -191,7 +191,7 @@ void update_air_with_turn(struct MarioState *m) {
 }
 
 void update_air_without_turn(struct MarioState *m) {
-    if (Cheats.EnableCheats && Cheats.Responsive) {
+    if (Cheats.EnableCheats && ((Cheats.Responsive && !Cheats.ChaosMode) || ((Cheats.ChaosControls >> 0) & 1))) {
         return update_air_with_turn(m);
     }
     f32 sidewaysSpeed = 0.0f;
@@ -721,7 +721,7 @@ s32 act_twirling(struct MarioState *m) {
     s16 yawVelTarget;
 
     if (m->input & INPUT_A_DOWN) {
-        if (Cheats.EnableCheats && Cheats.SuperCopter) {
+        if (Cheats.EnableCheats && ((Cheats.SuperCopter && !Cheats.ChaosMode))) {
             yawVelTarget = 0x4000;
         } else {
             yawVelTarget = 0x2000;
@@ -958,7 +958,13 @@ s32 act_ground_pound(struct MarioState *m) {
     if (m->actionState == 0) {
         if (m->actionTimer < 10) {
             yOffset = 20 - 2 * m->actionTimer;
-            if (Cheats.EnableCheats && Cheats.PlayAs > 0) {
+            s32 playAsIndex;
+            if (Cheats.ChaosMode) {
+                playAsIndex = Cheats.ChaosPlayAs;
+            } else {
+                playAsIndex = Cheats.PlayAs;
+            }
+            if (Cheats.EnableCheats && playAsIndex > 0) {
                 if (m->pos[1] + yOffset + 120.0f < m->ceilHeight) {
                     m->pos[1] += yOffset;
                     m->peakHeight = m->pos[1];

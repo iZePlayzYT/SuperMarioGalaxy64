@@ -373,6 +373,11 @@ void r96_level_music_update() {
 const char *r96_get_intended_level_music() { 
     s32 gCurrLevelArea = gCurrLevelNum * 16 + gCurrentArea->index;
 
+    // Bowser Time!
+    if (Cheats.EnableCheats && Cheats.ChaosBowserTime) {
+        return R96_LEVEL_BOWSER_3;
+    }
+
     // Castle Grounds
     if (gCurrLevelNum == LEVEL_CASTLE_GROUNDS) {
         if (gCurrLevelArea == AREA_CASTLE_GROUNDS) {

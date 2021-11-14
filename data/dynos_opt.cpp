@@ -179,21 +179,23 @@ static void DynOS_Opt_EndSubMenu() {
     }
 }
 
-static void DynOS_Opt_CreateSubMenu(const String &aName, const String &aLabel, const String &aTitle) {
+static DynosOption *DynOS_Opt_CreateSubMenu(const String &aName, const String &aLabel, const String &aTitle) {
     DynosOption *_Opt     = DynOS_Opt_NewOption(aName, "", aLabel, aTitle);
     _Opt->mType           = DOPT_SUBMENU;
     _Opt->mSubMenu.mChild = NULL;
     _Opt->mSubMenu.mEmpty = true;
+    return _Opt;
 }
 
-static void DynOS_Opt_CreateToggle(const String &aName, const String &aConfigName, const String &aLabel, s32 aValue) {
+static DynosOption *DynOS_Opt_CreateToggle(const String &aName, const String &aConfigName, const String &aLabel, s32 aValue) {
     DynosOption *_Opt   = DynOS_Opt_NewOption(aName, aConfigName, aLabel, aLabel);
     _Opt->mType         = DOPT_TOGGLE;
     _Opt->mToggle.mTog  = New<bool>();
     *_Opt->mToggle.mTog = (bool) aValue;
+    return _Opt;
 }
 
-static void DynOS_Opt_CreateScroll(const String &aName, const String &aConfigName, const String &aLabel, s32 aMin, s32 aMax, s32 aStep, s32 aValue) {
+static DynosOption *DynOS_Opt_CreateScroll(const String &aName, const String &aConfigName, const String &aLabel, s32 aMin, s32 aMax, s32 aStep, s32 aValue) {
     DynosOption *_Opt     = DynOS_Opt_NewOption(aName, aConfigName, aLabel, aLabel);
     _Opt->mType           = DOPT_SCROLL;
     _Opt->mScroll.mMin    = aMin;
@@ -201,9 +203,10 @@ static void DynOS_Opt_CreateScroll(const String &aName, const String &aConfigNam
     _Opt->mScroll.mStep   = aStep;
     _Opt->mScroll.mValue  = New<s32>();
     *_Opt->mScroll.mValue = aValue;
+    return _Opt;
 }
 
-static void DynOS_Opt_CreateChoice(const String &aName, const String &aConfigName, const String &aLabel, const Array<String>& aChoices, s32 aValue) {
+static DynosOption *DynOS_Opt_CreateChoice(const String &aName, const String &aConfigName, const String &aLabel, const Array<String>& aChoices, s32 aValue) {
     DynosOption *_Opt      = DynOS_Opt_NewOption(aName, aConfigName, aLabel, aLabel);
     _Opt->mType            = DOPT_CHOICE;
     _Opt->mChoice.mIndex   = New<s32>();
@@ -220,15 +223,17 @@ static void DynOS_Opt_CreateChoice(const String &aName, const String &aConfigNam
             AddLangString(_Choice, _Choice);
         }
     }
+    return _Opt;
 }
 
-static void DynOS_Opt_CreateButton(const String &aName, const String &aLabel, const String& aFuncName) {
+static DynosOption *DynOS_Opt_CreateButton(const String &aName, const String &aLabel, const String& aFuncName) {
     DynosOption *_Opt       = DynOS_Opt_NewOption(aName, "", aLabel, aLabel);
     _Opt->mType             = DOPT_BUTTON;
     _Opt->mButton.mFuncName = aFuncName;
+    return _Opt;
 }
 
-static void DynOS_Opt_CreateBind(const String &aName, const String &aConfigName, const String &aLabel, u32 aMask, u32 aBind0, u32 aBind1, u32 aBind2) {
+static DynosOption *DynOS_Opt_CreateBind(const String &aName, const String &aConfigName, const String &aLabel, u32 aMask, u32 aBind0, u32 aBind1, u32 aBind2) {
     DynosOption *_Opt     = DynOS_Opt_NewOption(aName, aConfigName, aLabel, aLabel);
     _Opt->mType           = DOPT_BIND;
     _Opt->mBind.mMask     = aMask;
@@ -237,6 +242,7 @@ static void DynOS_Opt_CreateBind(const String &aName, const String &aConfigName,
     _Opt->mBind.mBinds[1] = aBind1;
     _Opt->mBind.mBinds[2] = aBind2;
     _Opt->mBind.mIndex    = 0;
+    return _Opt;
 }
 
 static void DynOS_Opt_ReadFile(const SysPath &aFolder, const SysPath &aFilename) {
@@ -765,6 +771,9 @@ static u32 DynOS_Opt_GetHash(const String& aStr) {
     return _Hash;
 }
 
+STATIC_STORAGE(EXPAND(Array<Pair<String, DynosOption *>>), DynosModelPacksByName);
+#define sDynosModelPacksByName __DynosModelPacksByName()
+
 static void DynOS_Opt_CreateModelPacksSubMenu() {
     Array<String> _Packs = DynOS_Gfx_Init();
     if (_Packs.Count() == 0) {
@@ -774,7 +783,8 @@ static void DynOS_Opt_CreateModelPacksSubMenu() {
     sCurrentLanguage = "";
     DynOS_Opt_CreateSubMenu("dynos_model_loader_submenu", LABEL_NAME("Model Packs"), LABEL_NAME("MODEL PACKS"));
     for (s32 i = 0; i != _Packs.Count(); ++i) {
-        DynOS_Opt_CreateToggle(String("dynos_pack_%d", i), String("dynos_pack_%08X", DynOS_Opt_GetHash(_Packs[i])), _Packs[i], false);
+        DynosOption *_Opt = DynOS_Opt_CreateToggle(String("dynos_pack_%d", i), String("dynos_pack_%08X", DynOS_Opt_GetHash(_Packs[i])), _Packs[i], false);
+        sDynosModelPacksByName.Add({ _Packs[i], _Opt });
     }
     DynOS_Opt_CreateButton("dynos_packs_disable_all", LABEL_NAME("Disable all packs"), "DynOS_Opt_DisableAllPacks");
     DynOS_Opt_EndSubMenu();
@@ -822,6 +832,15 @@ void DynOS_Opt_Update(OSContPad *aPad) {
         aPad->stick_y = 0;
     }
     LoadLangStrings();
+}
+
+void DynOS_Opt_EnableModelPackByName(const String& aPackName, bool aEnable) {
+    for (auto &_Pack : sDynosModelPacksByName) {
+        if (_Pack.first == aPackName) {
+            *_Pack.second->mToggle.mTog = aEnable;
+            break;
+        }
+    }
 }
 
 //

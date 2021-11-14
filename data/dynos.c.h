@@ -11,6 +11,8 @@
 int dynos_opt_get_value(const char *name);
 void dynos_opt_set_value(const char *name, int value);
 void dynos_opt_add_action(const char *funcname, bool (*funcptr)(const char *), bool overwrite);
+void dynos_opt_enable_model_pack_by_name(const char *packname, bool enable);
+
 //
 // Update
 //
