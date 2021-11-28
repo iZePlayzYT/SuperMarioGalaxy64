@@ -11,8 +11,6 @@
 #define NUM_BONUS_COURSES 10
 #define NUM_FLAGS 21
 #define NUM_CAP_ON 4
-#define NUM_KEYS 10
-#define NUM_WARIO_COINS 6
 
 const char *sav_flags[NUM_FLAGS] = {
     "file_exists", "wing_cap", "metal_cap", "vanish_cap", "key_1", "key_2",

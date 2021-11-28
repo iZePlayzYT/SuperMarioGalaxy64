@@ -10,6 +10,8 @@
 
 #define EEPROM_SIZE 0x1600
 #define NUM_SAVE_FILES 4
+#define NUM_KEYS 10
+#define NUM_WARIO_COINS 06
 
 struct SaveBlockSignature
 {

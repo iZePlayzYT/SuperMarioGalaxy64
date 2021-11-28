@@ -41,14 +41,12 @@ s32 cheats_update(struct MarioState *m) {
 }
 
 s32 cheats_moon_jump(struct MarioState *m) {
-#if !defined(OMM_DEFINES_H)
     if (Cheats.EnableCheats && ((Cheats.MoonJump && !Cheats.ChaosMode))) {
         if (gPlayer1Controller->buttonDown & L_TRIG) {
             m->vel[1] = 25.f;
             return TRUE;
         }
     }
-#endif
     return FALSE;
 }
 
@@ -153,9 +151,6 @@ s32 cheats_swim_modifier(struct MarioState *m) {
 
 s32 cheats_size_modifier(struct MarioState *m) {
     if (Cheats.EnableCheats) {
-        if (m->squishTimer == 0xFF) {
-            vec3f_set(m->marioObj->header.gfx.scale, 1.8f, 0.05f, 1.8f);
-        }
         f32 size = 1.f;
         if (!Cheats.ChaosMode) {
             size = sSizeValues[Cheats.SizeModifier];

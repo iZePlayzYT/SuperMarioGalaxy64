@@ -980,6 +980,7 @@ void handle_special_dialog_text(s16 dialogID) { // dialog ID tables, in order
 
 s16 gMenuMode = -1;
 
+u8 *gEndCutsceneStringsEn[10];
 u16 gCutsceneMsgFade = 0;
 s16 gCutsceneMsgIndex = -1;
 s16 gCutsceneMsgDuration = -1;
@@ -1179,18 +1180,15 @@ void set_cutscene_message(s16 xOffset, s16 yOffset, s16 msgIndex, s16 msgDuratio
 void do_cutscene_handler(void) {
     s16 x;
 
-    u8 * gEndCutsceneStringsEn[] = {
-        get_key_string("TEXT_FILE_MARIO_EXCLAMATION"),
-        get_key_string("TEXT_POWER_STARS_RESTORED"),
-        get_key_string("TEXT_THANKS_TO_YOU"),
-        get_key_string("TEXT_THANK_YOU_MARIO"),
-        get_key_string("TEXT_SOMETHING_SPECIAL"),
-        get_key_string("TEXT_LISTEN_EVERYBODY"),
-        get_key_string("TEXT_LETS_HAVE_CAKE"),
-        get_key_string("TEXT_FOR_MARIO"),
-        get_key_string("TEXT_FILE_MARIO_QUESTION"),
-        NULL
-    };
+    gEndCutsceneStringsEn[0] = get_key_string("TEXT_FILE_MARIO_EXCLAMATION");
+    gEndCutsceneStringsEn[1] = get_key_string("TEXT_POWER_STARS_RESTORED");
+    gEndCutsceneStringsEn[2] = get_key_string("TEXT_THANKS_TO_YOU");
+    gEndCutsceneStringsEn[3] = get_key_string("TEXT_THANK_YOU_MARIO");
+    gEndCutsceneStringsEn[4] = get_key_string("TEXT_SOMETHING_SPECIAL");
+    gEndCutsceneStringsEn[5] = get_key_string("TEXT_LISTEN_EVERYBODY");
+    gEndCutsceneStringsEn[6] = get_key_string("TEXT_LETS_HAVE_CAKE");
+    gEndCutsceneStringsEn[7] = get_key_string("TEXT_FOR_MARIO");
+    gEndCutsceneStringsEn[8] = get_key_string("TEXT_FILE_MARIO_QUESTION");
 
     // is a cutscene playing? do not perform this handler's actions if so.
     if (gCutsceneMsgIndex == -1) {

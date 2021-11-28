@@ -1,5 +1,6 @@
 #include "dynos.cpp.h"
 extern "C" {
+#include "sm64.h"
 
 //
 // Options menu
