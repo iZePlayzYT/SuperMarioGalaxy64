@@ -184,11 +184,7 @@ u8 *DynOS_Gfx_TextureConvertToRGBA32(const u8 *aData, u64 aLength, s32 aFormat, 
 typedef struct GfxRenderingAPI GRAPI;
 static void DynOS_Gfx_UploadTexture(DataNode<TexData> *aNode, GRAPI *aGfxRApi, s32 aTile, s32 aTexId) {
     aGfxRApi->select_texture(aTile, aTexId);
-#ifndef GFX_UPLOAD_TEXTURE_FILE
     aGfxRApi->upload_texture(aNode->mData->mRawData.begin(), aNode->mData->mRawWidth, aNode->mData->mRawHeight);
-#else
-    aGfxRApi->upload_texture(aNode->mName.begin(), aNode->mData->mPngData.begin(), aNode->mData->mPngData.Count());
-#endif
     aNode->mData->mUploaded = true;
 }
 

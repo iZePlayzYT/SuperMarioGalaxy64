@@ -766,7 +766,20 @@ static void gfx_rt64_rapi_select_texture(int tile, uint32_t texture_id) {
     RT64.currentTextureIds[tile] = texture_id;
 }
 
-static void gfx_rt64_rapi_upload_texture(const char *file_path, const uint8_t *file_buf, uint64_t file_buf_size) {
+static void gfx_rt64_rapi_upload_texture(const uint8_t *rgba32_buf, int width, int height) {
+	uint32_t textureKey = RT64.currentTextureIds[RT64.currentTile];
+	RT64_TEXTURE_DESC texDesc;
+	texDesc.bytes = rgba32_buf;
+	texDesc.width = width;
+	texDesc.height = height;
+	texDesc.rowPitch = texDesc.width * 4;
+	texDesc.byteCount = texDesc.height * texDesc.rowPitch;
+	texDesc.format = RT64_TEXTURE_FORMAT_RGBA8;
+	RT64_TEXTURE *texture = RT64.lib.CreateTexture(RT64.device, texDesc);
+	RT64.textures[textureKey].texture = texture;
+}
+
+static void gfx_rt64_rapi_upload_texture_file(const char *file_path, const uint8_t *file_buf, uint64_t file_buf_size) {
 	RT64_TEXTURE *texture = nullptr;
 	uint32_t textureKey = RT64.currentTextureIds[RT64.currentTile];
 
@@ -803,7 +816,7 @@ static void gfx_rt64_rapi_upload_texture(const char *file_path, const uint8_t *f
 		RT64.textures[textureKey].texture = texture;
 	}
 	else {
-		fprintf(stderr, "gfx_rt64_rapi_upload_texture(%s, %p, %llu) failed.\n", file_path, file_buf, file_buf_size);
+		fprintf(stderr, "gfx_rt64_rapi_upload_texture_file(%s, %p, %llu) failed.\n", file_path, file_buf, file_buf_size);
 	}
 }
 
@@ -1853,7 +1866,8 @@ struct GfxRenderingAPI gfx_rt64_rapi = {
     gfx_rt64_rapi_shader_get_info,
     gfx_rt64_rapi_new_texture,
     gfx_rt64_rapi_select_texture,
-    gfx_rt64_rapi_upload_texture,
+	gfx_rt64_rapi_upload_texture,
+    gfx_rt64_rapi_upload_texture_file,
     gfx_rt64_rapi_set_sampler_parameters,
     gfx_rt64_rapi_set_depth_test,
     gfx_rt64_rapi_set_depth_mask,

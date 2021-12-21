@@ -483,17 +483,15 @@ static inline void load_texture(const char *fullpath) {
             return;
         }
 #else
-        gfx_rapi->upload_texture(fullpath, imgdata, imgsize);
+        gfx_rapi->upload_texture_file(fullpath, imgdata, imgsize);
         free(imgdata);
         return;
 #endif
     }
 
-#ifndef GFX_UPLOAD_TEXTURE_FILE
     fprintf(stderr, "could not load texture: `%s`\n", fullpath);
     // replace with missing texture
     gfx_rapi->upload_texture(missing_texture, MISSING_W, MISSING_H);
-#endif
 }
 
 
