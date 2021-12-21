@@ -94,7 +94,7 @@ static const u16 motos_anim_motos_walk_indices[] = {
 	
 };
 
-static const struct Animation motos_anim_motos_walk[] = {
+static const struct Animation motos_anim_motos_walk = {
 	0,
 	0,
 	0,

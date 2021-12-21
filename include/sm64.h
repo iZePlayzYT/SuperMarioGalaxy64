@@ -13,7 +13,6 @@
 #include "mario_geo_switch_case_ids.h"
 #include "surface_terrains.h"
 #include "macros.h"
-#include "data/dynos.c.h"
 #include "data/r96/r96_includes.h"
 
 // Crash handler enhancement

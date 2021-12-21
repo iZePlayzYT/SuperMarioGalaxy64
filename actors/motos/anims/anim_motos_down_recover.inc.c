@@ -95,7 +95,7 @@ static const u16 motos_anim_motos_down_recover_indices[] = {
 	
 };
 
-static const struct Animation motos_anim_motos_down_recover[] = {
+static const struct Animation motos_anim_motos_down_recover = {
 	1,
 	0,
 	0,

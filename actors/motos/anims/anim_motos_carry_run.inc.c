@@ -76,7 +76,7 @@ static const u16 motos_anim_motos_carry_run_indices[] = {
 	
 };
 
-static const struct Animation motos_anim_motos_carry_run[] = {
+static const struct Animation motos_anim_motos_carry_run = {
 	0,
 	0,
 	0,

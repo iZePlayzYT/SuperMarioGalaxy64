@@ -368,59 +368,60 @@ void goomba_wario_grab() {
 
         if(o->oAction < GOOMBA_ACT_GRAB)
             cur_obj_init_animation_with_accel_and_sound(0, animSpeed);
-            switch (o->oAction) {
-                case GOOMBA_ACT_WALK:
-                    goomba_act_walk();
-                    break;
-                case GOOMBA_ACT_ATTACKED_MARIO:
-                    goomba_act_attacked_mario();
-                    break;
-                case GOOMBA_ACT_JUMP:
-                    goomba_act_jump();
-                    break;
-                case GOOMBA_ACT_GRAB_INIT:
-                    goomba_act_grab_init();
-                    break;
-                case GOOMBA_ACT_GRAB:
-                    goomba_act_grab();
-                    break;
-            }
-            if(o->oAction < GOOMBA_ACT_GRAB) {
-                if (o->oInteractStatus & INT_STATUS_INTERACTED) {
-                    if (o->oInteractStatus & INT_STATUS_ATTACKED_MARIO) {
-                        if (o->oAction != GOOMBA_ACT_ATTACKED_MARIO) {
-                            o->oAction = GOOMBA_ACT_ATTACKED_MARIO;
-                            o->oTimer = 0;
-                        }
-                    } else {
-                        s32 attackType = o->oInteractStatus & INT_STATUS_ATTACK_MASK;
-
-                        switch (sGoombaAttackHandlers[0][attackType - 1]) {
-                            case ATTACK_HANDLER_NOP:
-                                break;
-
-                            case ATTACK_HANDLER_KNOCKBACK:
-                                obj_set_knockback_action(attackType);
-                                break;
-
-                            case ATTACK_HANDLER_SQUISHED:
-                                obj_set_squished_action();
-                                break;
-
-                            case ATTACK_HANDLER_STUN:
-                                o->oTimer = 0;
-                                o->oAction = GOOMBA_ACT_GRAB_INIT;
-                                break;
-                        }
+            
+        switch (o->oAction) {
+            case GOOMBA_ACT_WALK:
+                goomba_act_walk();
+                break;
+            case GOOMBA_ACT_ATTACKED_MARIO:
+                goomba_act_attacked_mario();
+                break;
+            case GOOMBA_ACT_JUMP:
+                goomba_act_jump();
+                break;
+            case GOOMBA_ACT_GRAB_INIT:
+                goomba_act_grab_init();
+                break;
+            case GOOMBA_ACT_GRAB:
+                goomba_act_grab();
+                break;
+        }
+        if(o->oAction < GOOMBA_ACT_GRAB) {
+            if (o->oInteractStatus & INT_STATUS_INTERACTED) {
+                if (o->oInteractStatus & INT_STATUS_ATTACKED_MARIO) {
+                    if (o->oAction != GOOMBA_ACT_ATTACKED_MARIO) {
+                        o->oAction = GOOMBA_ACT_ATTACKED_MARIO;
+                        o->oTimer = 0;
                     }
-                    o->oInteractStatus = 0;
+                } else {
+                    s32 attackType = o->oInteractStatus & INT_STATUS_ATTACK_MASK;
+
+                    switch (sGoombaAttackHandlers[0][attackType - 1]) {
+                        case ATTACK_HANDLER_NOP:
+                            break;
+
+                        case ATTACK_HANDLER_KNOCKBACK:
+                            obj_set_knockback_action(attackType);
+                            break;
+
+                        case ATTACK_HANDLER_SQUISHED:
+                            obj_set_squished_action();
+                            break;
+
+                        case ATTACK_HANDLER_STUN:
+                            o->oTimer = 0;
+                            o->oAction = GOOMBA_ACT_GRAB_INIT;
+                            break;
+                    }
                 }
-                cur_obj_move_standard(-78);
-            } 
-            else {
-                if (o->oInteractStatus & INT_STATUS_INTERACTED) {}
                 o->oInteractStatus = 0;
             }
+            cur_obj_move_standard(-78);
+        } 
+        else {
+            if (o->oInteractStatus & INT_STATUS_INTERACTED) {}
+            o->oInteractStatus = 0;
+        }
     } else {
         o->oAnimState = TRUE;
     }

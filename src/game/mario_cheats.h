@@ -1,39 +1,40 @@
 #ifndef MARIO_CHEATS_H
 #define MARIO_CHEATS_H
 
-#include <PR/ultratypes.h>
-
-#include "macros.h"
 #include "types.h"
 
-void cheats_set_model(struct MarioState *m);
-void cheats_swimming_speed(struct MarioState *m);
-void cheats_air_step(struct MarioState *m);
-void cheats_long_jump(struct MarioState *m);
-void cheats_mario_inputs(struct MarioState *m);
-
-/* Options */
-#define TIME_BUTTON 0x0400
-
-#include "data/dynos.c.h"
-#define __chaos_mode__   dynos_opt_get_value("chaos_mode")
-#define __time_button__ dynos_opt_get_value("time_button")
-#define __spl__ dynos_opt_get_value("spl")
-#define __no_heavy__ dynos_opt_get_value("no_heavy")
-#define __haz_walk__ dynos_opt_get_value("haz_walk")
-#define __swim_any__ dynos_opt_get_value("swim_any")
-#define __coin_mag__ dynos_opt_get_value("coin_mag")
-#define __jump_man__ dynos_opt_get_value("jump_man")
-#define __wat_con__ dynos_opt_get_value("wat_con")
-#define __wat_lev__ dynos_opt_get_value("wat_lev")
-#define CHAOS_MODE (__chaos_mode__ == 1)
-#define SPL (__spl__)
-#define NO_HEAVY (__no_heavy__ == 1)
-#define HAZ_WALK (__haz_walk__ == 1)
-#define SWIM_ANY (__swim_any__ == 1)
-#define COIN_MAG (__coin_mag__ == 1)
-#define JUMP_MAN (__jump_man__ == 1)
-#define WAT_CON (__wat_con__ == 1)
-#define WAT_LEV (__wat_lev__)
+s32 cheats_update(struct MarioState *m);
+s32 cheats_moon_jump(struct MarioState *m);
+s32 cheats_moon_gravity(struct MarioState *m);
+s32 cheats_super_copter(struct MarioState *m);
+s32 cheats_debug_move(struct MarioState *m);
+s32 cheats_god_mode(struct MarioState *m);
+s32 cheats_infinite_lives(struct MarioState *m);
+s32 cheats_responsive(struct MarioState *m);
+s32 cheats_speed_modifier(struct MarioState *m);
+s32 cheats_jump_modifier(struct MarioState *m);
+s32 cheats_swim_modifier(struct MarioState *m);
+s32 cheats_size_modifier(struct MarioState *m);
+s32 cheats_hurt_mario(struct MarioState *m);
+s32 cheats_blj_anywhere(struct MarioState *m);
+s32 cheats_swim_anywhere(struct MarioState *m);
+s32 cheats_exit_anywhere(struct MarioState *m);
+s32 cheats_cap_modifier(struct MarioState *m);
+s32 cheats_super_wing_cap(struct MarioState *m);
+s32 cheats_auto_wall_kick(struct MarioState *m);
+s32 cheats_walk_on_hazards(struct MarioState *m);
+s32 cheats_no_death_barrier(struct MarioState *m);
+s32 cheats_no_bounds(struct MarioState *m);
+s32 cheats_no_hold_heavy(struct MarioState *m);
+s32 cheats_coins_magnet(struct MarioState *m);
+s32 cheats_time_stop(struct MarioState *m);
+s32 cheats_quick_ending(struct MarioState *m);
+s32 cheats_water_control(struct MarioState *m);
+s32 cheats_speed_display(struct MarioState *m);
+s32 cheats_play_as(struct MarioState *m);
+s32 cheats_jukebox(struct MarioState *m);
+s32 cheats_instant_death(struct MarioState *m);
+s32 cheats_spamba(struct MarioState *m);
+s32 cheats_chaos_mode(struct MarioState *m);
 
 #endif // MARIO_CHEATS_H

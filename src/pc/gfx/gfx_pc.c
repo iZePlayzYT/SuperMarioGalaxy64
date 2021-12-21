@@ -6,6 +6,10 @@
 #include <stdbool.h>
 #include <assert.h>
 
+#pragma GCC diagnostic ignored "-Wunused-parameter"
+#pragma GCC diagnostic ignored "-Wunused-variable"
+#pragma GCC diagnostic ignored "-Wpointer-sign"
+
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb/stb_image.h>
 
@@ -25,6 +29,7 @@
 #include "../platform.h"
 #include "../configfile.h"
 #include "../fs/fs.h"
+#include "../cheats.h"
 
 #define SUPPORT_CHECK(x) assert(x)
 
@@ -695,6 +700,14 @@ static void gfx_sp_matrix(uint8_t parameters, const int32_t *addr) {
 
     if (parameters & G_MTX_PROJECTION) {
         if (parameters & G_MTX_LOAD) {
+            if (Cheats.EnableCheats && Cheats.ChaosMode) {
+                if ((Cheats.ChaosInvertedScreen >> 0) & 1) {
+                    matrix[0][0] *= -1;
+                }
+                if ((Cheats.ChaosInvertedScreen >> 1) & 1) {
+                    matrix[1][1] *= -1;
+                }
+            }
             memcpy(rsp.P_matrix, matrix, sizeof(matrix));
 #ifdef GFX_SEPARATE_PROJECTIONS
             gd_set_identity_mat4(&separate_projections.mat.extra_model_matrix);
@@ -825,7 +838,7 @@ static void gfx_sp_vertex(size_t n_vertices, size_t dest_index, const Vtx *verti
         short U = v->tc[0] * rsp.texture_scaling_factor.s >> 16;
         short V = v->tc[1] * rsp.texture_scaling_factor.t >> 16;
         
-        if (rsp.geometry_mode & G_LIGHTING) {
+        if ((rsp.geometry_mode & G_LIGHTING) && !(Cheats.EnableCheats && Cheats.ChaosRainbow)) {
 #ifdef GFX_OUTPUT_NORMALS_TO_VBO
             d->nx = vn->n[0] / 127.0f;
             d->ny = vn->n[1] / 127.0f;
@@ -894,6 +907,12 @@ static void gfx_sp_vertex(size_t n_vertices, size_t dest_index, const Vtx *verti
             d->color.r = v->cn[0];
             d->color.g = v->cn[1];
             d->color.b = v->cn[2];
+        }
+        
+        // Make the whole screen more red, as if the entire world was burning
+        if (Cheats.EnableCheats && Cheats.ChaosBowserTime) {
+            d->color.g /= 2;
+            d->color.b /= 2;
         }
         
         d->u = U;
@@ -986,12 +1005,18 @@ static void gfx_sp_tri1(uint8_t vtx1_idx, uint8_t vtx2_idx, uint8_t vtx3_idx) {
             cross = -cross;
         }
         
+        s32 crossSign;
+        if (Cheats.EnableCheats && Cheats.ChaosMode) {
+            crossSign = ((((Cheats.ChaosInvertedScreen >> 0) & 1) ^ ((Cheats.ChaosInvertedScreen >> 1) & 1)) ? -1 : +1);
+        } else {
+            crossSign = +1;
+        }
         switch (rsp.geometry_mode & G_CULL_BOTH) {
             case G_CULL_FRONT:
-                if (cross <= 0) return;
+                if (cross * crossSign <= 0) return;
                 break;
             case G_CULL_BACK:
-                if (cross >= 0) return;
+                if (cross * crossSign >= 0) return;
                 break;
             case G_CULL_BOTH:
                 // Why is this even an option?

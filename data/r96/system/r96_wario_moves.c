@@ -95,6 +95,16 @@ s32 act_wario_pile_driver(struct MarioState *m) {
     return FALSE;
 }
 
+s32 wario_landing_step(struct MarioState *m, s32 arg1, u32 action) {
+    stationary_ground_step(m);
+    set_mario_animation(m, arg1);
+    if (is_anim_at_end(m)) {
+        r96_play_character_sound(m, R96_MARIO_SO_LONGA_BOWSER, R96_LUIGI_SO_LONGA_BOWSER, R96_WARIO_SO_LONGA_BOWSER);
+        return set_mario_action(m, action, 0);
+    }
+    return 0;
+}
+
 s32 act_wario_pile_driver_land(struct MarioState *m) {
     m->actionState = 1;
     queue_rumble_data(4, 50);
@@ -111,28 +121,12 @@ s32 act_wario_pile_driver_land(struct MarioState *m) {
         return set_mario_action(m, ACT_BUTT_SLIDE, 0);
     }
 
-    coin_magnet_wario(m);
+    mario_attract_nearby_coins(m, 500.f);
     wario_landing_step(m, MARIO_ANIM_GROUND_POUND_LANDING, ACT_BUTT_SLIDE_STOP);
     return 0;
 }
 
-s32 wario_landing_step(struct MarioState *m, s32 arg1, u32 action) {
-    stationary_ground_step(m);
-    set_mario_animation(m, arg1);
-    if (is_anim_at_end(m)) {
-        r96_play_character_sound(m, R96_MARIO_SO_LONGA_BOWSER, R96_LUIGI_SO_LONGA_BOWSER, R96_WARIO_SO_LONGA_BOWSER);
-        return set_mario_action(m, action, 0);
-    }
-    return 0;
-}
-
-s32 act_wario_charge_punch(struct MarioState *m) {
-    return FALSE;
-}
-
 s32 act_wario_charge(struct MarioState *m) {
-    s16 startYaw = m->faceAngle[1];
-
     if (m->input & INPUT_A_PRESSED) {
         charge_count = 0;
         return set_mario_action(m, ACT_TRIPLE_JUMP, 0);
@@ -226,27 +220,6 @@ s32 act_wario_triple_jump(struct MarioState *m) {
         set_mario_animation(m, MARIO_ANIM_GENERAL_FALL);
     }
     return FALSE;
-}
-
-/*Coin Magnet thanks 4y*/
-void coin_magnet_wario(struct MarioState *m) {
-        struct Object* coinMagMove = cur_obj_nearest_object_with_behavior(bhvMovingYellowCoinWario);
-        f32 oDistMove;
-        if (coinMagMove != NULL && m->marioObj != NULL) {
-            oDistMove = dist_between_objects(coinMagMove, m->marioObj);
-        }
-        while (coinMagMove != NULL && oDistMove >= 100 && oDistMove < 1000) {
-            while (oDistMove >= 10) {
-                coinMagMove->oPosX = approach_f32_symmetric(coinMagMove->oPosX, m->pos[0], 28);
-                coinMagMove->oPosY = approach_f32_symmetric(coinMagMove->oPosY, m->pos[1], 28);
-                coinMagMove->oPosZ = approach_f32_symmetric(coinMagMove->oPosZ, m->pos[2], 28);
-                break;
-            }
-            break;
-        }
-        if (oDistMove == 0 && oDistMove > 1000) {
-            obj_mark_for_deletion(coinMagMove);
-        }
 }
 
 void update_wario_spin_walk_speed(struct MarioState *m) {
@@ -396,7 +369,7 @@ s32 act_holding_enemies(struct MarioState *m) {
         if (spin_count == 70)
             obj_spawn_yellow_coins(m->marioObj, 1);
 
-        coin_magnet_wario(m);
+        mario_attract_nearby_coins(m, 500.f);
         if (spin_count >= 120) {
             r96_play_character_sound(m, R96_MARIO_SO_LONGA_BOWSER, R96_LUIGI_SO_LONGA_BOWSER, R96_WARIO_SO_LONGA_BOWSER);
             walk_spin = 0;

@@ -3,6 +3,9 @@
 #ifdef __cplusplus
 
 #include "dynos.h"
+extern "C" {
+#include "engine/math_util.h"
+}
 
 #undef STATIC_ASSERT
 #define STATIC_ASSERT(...)
@@ -11,14 +14,6 @@
 #define POINTER_CODE        (u32) 0x52544E50
 
 #define DYNOS_COURSE_NO_WARP(level)     (DynOS_Level_GetCourse(level) == COURSE_NONE)
-
-// The action signature is "bool (*) (const char *)"
-// The input is the button internal name (not label)
-// The output is the result of the action
-#define DYNOS_DEFINE_ACTION(func) \
-DYNOS_AT_STARTUP static void DynOS_Opt_AddAction_##func() { \
-    DynOS_Opt_AddAction(#func, func, false); \
-}
 
 //
 // Enums
@@ -56,7 +51,6 @@ enum {
     DOPT_CHOICEPARAM,
     DOPT_LANGUAGE,
 };
-
 
 //
 // DynOS Array
@@ -186,7 +180,7 @@ private:
 // A fixed-size string that doesn't require heap memory allocation
 //
 
-#define STRING_SIZE 95
+#define STRING_SIZE 127
 class String {
 public:
     inline String() : mCount(0) {
@@ -525,8 +519,10 @@ T* New(u64 aCount = 1llu) {
 
 template <typename T>
 void Delete(T *& aPtr) {
-    if (aPtr) aPtr->~T();
-    free(aPtr);
+    if (aPtr) {
+        aPtr->~T();
+        free(aPtr);
+    }
     aPtr = NULL;
 }
 
@@ -616,11 +612,11 @@ SysPath fstring(const char *aFmt, Args... aArgs) {
 // Main
 //
 
-void               DynOS_Init                            ();
 void               DynOS_UpdateOpt                       (void *aPad);
 void              *DynOS_UpdateCmd                       (void *aCmd);
 void               DynOS_UpdateGfx                       ();
 bool               DynOS_IsTransitionActive              ();
+void               DynOS_ReturnToMainMenu                ();
 
 //
 // Opt
@@ -638,26 +634,13 @@ void               DynOS_Opt_LoadConfig                  (DynosOption *aMenu);
 void               DynOS_Opt_SaveConfig                  (DynosOption *aMenu);
 void               DynOS_Opt_DrawMenu                    (DynosOption *aCurrentOption, DynosOption *aCurrentMenu, DynosOption *aOptionsMenu, DynosOption *aDynosMenu);
 void               DynOS_Opt_DrawPrompt                  (DynosOption *aCurrentMenu, DynosOption *aOptionsMenu, DynosOption *aDynosMenu);
-
-//
-// Conversion
-//
-
-u8                *RGBA16_RGBA32                         (const u8 *aData, u64 aLength);
-u8                *RGBA32_RGBA32                         (const u8 *aData, u64 aLength);
-u8                *IA4_RGBA32                            (const u8 *aData, u64 aLength);
-u8                *IA8_RGBA32                            (const u8 *aData, u64 aLength);
-u8                *IA16_RGBA32                           (const u8 *aData, u64 aLength);
-u8                *CI4_RGBA32                            (const u8 *aData, u64 aLength, const u8 *aPalette);
-u8                *CI8_RGBA32                            (const u8 *aData, u64 aLength, const u8 *aPalette);
-u8                *I4_RGBA32                             (const u8 *aData, u64 aLength);
-u8                *I8_RGBA32                             (const u8 *aData, u64 aLength);
-u8                *ConvertToRGBA32                       (const u8 *aData, u64 aLength, s32 aFormat, s32 aSize, const u8 *aPalette);
+void               DynOS_Opt_EnableModelPackByName       (const String& aPackName, bool aEnable);
 
 //
 // Gfx
 //
 
+u8                *DynOS_Gfx_TextureConvertToRGBA32      (const u8 *aData, u64 aLength, s32 aFormat, s32 aSize, const u8 *aPalette);
 bool               DynOS_Gfx_ImportTexture               (void **aOutput, void *aPtr, s32 aTile, void *aGfxRApi, void **aHashMap, void *aPool, u32 *aPoolPos, u32 aPoolSize);
 Array<ActorGfx>   &DynOS_Gfx_GetActorList                ();
 Array<PackData *> &DynOS_Gfx_GetPacks                    ();
@@ -665,7 +648,7 @@ Array<String>      DynOS_Gfx_Init                        ();
 void               DynOS_Gfx_Update                      ();
 void               DynOS_Gfx_SwapAnimations              (void *aPtr);
 bool               DynOS_Gfx_WriteBinary                 (const SysPath &aOutputFilename, GfxData *aGfxData);
-GfxData           *DynOS_Gfx_LoadFromBinary              (const SysPath &aFilename);
+GfxData           *DynOS_Gfx_LoadFromBinary              (const SysPath &aPackFolder, const char *aActorName);
 void               DynOS_Gfx_Free                        (GfxData *aGfxData);
 void               DynOS_Gfx_GeneratePack                (const SysPath &aPackFolder);
 
@@ -714,7 +697,7 @@ s32                DynOS_String_Width                    (const u8 *aStr64);
 
 s32                DynOS_Geo_GetActorCount               ();
 const char        *DynOS_Geo_GetActorName                (s32 aIndex);
-void              *DynOS_Geo_GetActorLayout              (s32 aIndex);
+const void        *DynOS_Geo_GetActorLayout              (s32 aIndex);
 s32                DynOS_Geo_GetActorIndex               (const void *aGeoLayout);
 void              *DynOS_Geo_GetFunctionPointerFromName  (const String &aName);
 void              *DynOS_Geo_GetFunctionPointerFromIndex (s32 aIndex);
@@ -747,7 +730,6 @@ bool               DynOS_Warp_ToLevel                    (s32 aLevel, s32 aArea,
 bool               DynOS_Warp_RestartLevel               ();
 bool               DynOS_Warp_ExitLevel                  (s32 aDelay);
 bool               DynOS_Warp_ToCastle                   (s32 aLevel);
-bool               DynOS_Warp_ReturnToMainMenu           ();
 void               DynOS_Warp_SetParam                   (s32 aLevel, s32 aIndex);
 const char        *DynOS_Warp_GetParamName               (s32 aLevel, s32 aIndex);
 

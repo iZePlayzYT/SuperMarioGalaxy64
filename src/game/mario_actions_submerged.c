@@ -168,7 +168,7 @@ static void apply_water_current(struct MarioState *m, Vec3f step) {
 
 static u32 perform_water_step(struct MarioState *m) {
     UNUSED u32 unused;
-    u32 stepResult;
+    u32 stepResult, i, numSteps;
     Vec3f nextPos;
     Vec3f step;
     struct Object *marioObj = m->marioObj;
@@ -179,17 +179,20 @@ static u32 perform_water_step(struct MarioState *m) {
         apply_water_current(m, step);
     }
 
-    nextPos[0] = m->pos[0] + step[0];
-    nextPos[1] = m->pos[1] + step[1];
-    nextPos[2] = m->pos[2] + step[2];
+    numSteps = cheats_swim_modifier(m);
+    for (i = 0; i != numSteps; ++i) {
+        nextPos[0] = m->pos[0] + step[0];
+        nextPos[1] = m->pos[1] + step[1];
+        nextPos[2] = m->pos[2] + step[2];
 
-    if (nextPos[1] > m->waterLevel - 80) {
-        nextPos[1] = m->waterLevel - 80;
-        m->vel[1] = 0.0f;
+        if (nextPos[1] > m->waterLevel - 80) {
+            nextPos[1] = m->waterLevel - 80;
+            m->vel[1] = 0.0f;
+        }
+
+        stepResult = perform_water_full_step(m, nextPos);
     }
-
-    stepResult = perform_water_full_step(m, nextPos);
-
+    
     vec3f_copy(marioObj->header.gfx.pos, m->pos);
     vec3s_set(marioObj->header.gfx.angle, -m->faceAngle[0], m->faceAngle[1], m->faceAngle[2]);
 
@@ -232,8 +235,6 @@ static void stationary_slow_down(struct MarioState *m) {
 static void update_swimming_speed(struct MarioState *m, f32 decelThreshold) {
     f32 buoyancy = get_buoyancy(m);
     f32 maxSpeed = 28.0f;
-
-    cheats_swimming_speed(m);
 
     if (m->action & ACT_FLAG_STATIONARY) {
         m->forwardVel -= 2.0f;

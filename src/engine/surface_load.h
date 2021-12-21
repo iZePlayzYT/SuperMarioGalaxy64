@@ -6,9 +6,6 @@
 #include "types.h"
 #include "engine/extended_bounds.h"
 
-
-extern u8 gSurfacePoolError;
-
 struct SurfaceNode
 {
     struct SurfaceNode *next;

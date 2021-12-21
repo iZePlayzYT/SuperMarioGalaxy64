@@ -931,11 +931,11 @@ u32 interact_warp(struct MarioState *m, UNUSED u32 interactType, struct Object *
                 setCharacterModel(characterModel);
                 save_file_update_player_model(gCurrSaveFileNum - 1, characterModel);
                 if (isLuigi())
-                    gMarioState->animation = &Data_LuigiAnims;
+                    gMarioState->animation = (struct MarioAnimation *) &Data_LuigiAnims;
 		        else if(isWario())
-			        gMarioState->animation = &Data_WarioAnims;
+			        gMarioState->animation = (struct MarioAnimation *) &Data_WarioAnims;
                 else if(!isLuigi() && !isWario())
-                    gMarioState->animation = &Data_MarioAnims;
+                    gMarioState->animation = (struct MarioAnimation *) &Data_MarioAnims;
                 
                 m->marioObj->header.gfx.sharedChild = gLoadedGraphNodes[MODEL_PLAYER];	
 				return animation;
@@ -1820,18 +1820,17 @@ void mario_process_interactions(struct MarioState *m) {
 }
 
 void check_death_barrier(struct MarioState *m) {
-    while (Cheats.NDB == false) {
+    if (!cheats_no_death_barrier(m)) {
         if (m->pos[1] < m->floorHeight + 2048.0f) {
             if (level_trigger_warp(m, WARP_OP_WARP_FLOOR) == 20 && !(m->flags & MARIO_UNKNOWN_18)) {
                 r96_play_character_sound(m, R96_MARIO_FALLING, R96_LUIGI_FALLING, R96_WARIO_FALLING);
             }
         }
-        break;
     }
 }
 
 void check_lava_boost(struct MarioState *m) {
-    if (!(Cheats.EnableCheats && HAZ_WALK == 1)) {
+    if (!cheats_walk_on_hazards(m)) {
         if (!(m->action & ACT_FLAG_RIDING_SHELL) && m->pos[1] < m->floorHeight + 10.0f) {
             if (!(m->flags & MARIO_METAL_CAP)) {
                 m->hurtCounter += (m->flags & MARIO_CAP_ON_HEAD) ? 12 : 18;
@@ -1893,10 +1892,9 @@ void mario_handle_special_floors(struct MarioState *m) {
         if (!(m->action & ACT_FLAG_AIR) && !(m->action & ACT_FLAG_SWIMMING)) {
             switch (floorType) {
                 case SURFACE_BURNING:
-                    if (Cheats.EnableCheats && HAZ_WALK == 1) {
-                        break;
+                    if (!cheats_walk_on_hazards(m)) {
+                        check_lava_boost(m);
                     }
-                    check_lava_boost(m);
                     break;
             }
         }

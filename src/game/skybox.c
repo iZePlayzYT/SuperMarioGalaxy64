@@ -213,8 +213,6 @@ void draw_skybox_tile_grid(Gfx **dlist, s8 background, s8 player, s8 colorIndex)
         for (col = 0; col < 3; col++) {
             s32 tileIndex = sSkyBoxInfo[player].upperLeftTile + row * SKYBOX_COLS + col;
             char * texture = sSkyboxTextures[background];
-            s16 x = tileIndex % SKYBOX_COLS * SKYBOX_TILE_WIDTH;
-            s16 y = SKYBOX_HEIGHT - tileIndex / SKYBOX_COLS * SKYBOX_TILE_HEIGHT;
 
             gLoadBlockTexture((*dlist)++, SKYBOX_IMAGE_SIZE, SKYBOX_IMAGE_SIZE, G_IM_FMT_RGBA, texture);
 

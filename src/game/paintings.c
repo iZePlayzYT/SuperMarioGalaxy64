@@ -16,6 +16,7 @@
 #include "paintings.h"
 #include "save_file.h"
 #include "segment2.h"
+#include "level_update.h"
 
 /**
  * @file paintings.c
@@ -1310,7 +1311,11 @@ Gfx *geo_painting_update(s32 callContext, UNUSED struct GraphNode *node, UNUSED 
         gPaintingUpdateCounter = gAreaUpdateCounter;
 
         // Store Mario's floor and position
-        find_floor(gMarioObject->oPosX, gMarioObject->oPosY, gMarioObject->oPosZ, &surface);
+        if (gMarioState->floor) {
+            surface = gMarioState->floor;
+        } else {
+            find_floor(gMarioObject->oPosX, gMarioObject->oPosY, gMarioObject->oPosZ, &surface);
+        }
         gPaintingMarioFloorType = surface->type;
         gPaintingMarioXPos = gMarioObject->oPosX;
         gPaintingMarioYPos = gMarioObject->oPosY;

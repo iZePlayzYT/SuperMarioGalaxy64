@@ -1,20 +1,25 @@
 #include "dynos.cpp.h"
 extern "C" {
+#include "sm64.h"
 
 //
 // Options menu
 //
 
-s32 dynos_opt_get_value(const char *name) {
+int dynos_opt_get_value(const char *name) {
     return DynOS_Opt_GetValue(name);
 }
 
-void dynos_opt_set_value(const char *name, s32 value) {
+void dynos_opt_set_value(const char *name, int value) {
     return DynOS_Opt_SetValue(name, value);
 }
 
 void dynos_opt_add_action(const char *funcname, bool (*funcptr)(const char *), bool overwrite) {
     return DynOS_Opt_AddAction(funcname, funcptr, overwrite);
+}
+
+void dynos_opt_enable_model_pack_by_name(const char *packname, bool enable) {
+    return DynOS_Opt_EnableModelPackByName(packname, enable);
 }
 
 //
@@ -37,12 +42,16 @@ void dynos_update_opt(void *pad) {
 // Gfx
 //
 
-s32 dynos_gfx_import_texture(void **output, void *ptr, s32 tile, void *grapi, void **hashmap, void *pool, s32 *poolpos, s32 poolsize) {
+int dynos_gfx_import_texture(void **output, void *ptr, int tile, void *grapi, void **hashmap, void *pool, int *poolpos, int poolsize) {
     return DynOS_Gfx_ImportTexture(output, ptr, tile, grapi, hashmap, pool, (u32 *) poolpos, (u32) poolsize);
 }
 
 void dynos_gfx_swap_animations(void *ptr) {
     return DynOS_Gfx_SwapAnimations(ptr);
+}
+
+void *dynos_geo_get_graph_node(const void *geoLayout, bool keepInMemory) {
+    return DynOS_Geo_GetGraphNode(geoLayout, keepInMemory);
 }
 
 //
@@ -94,11 +103,11 @@ bool dynos_sound_load_presets_from_dynos_folder(const char *filename, const char
     return DynOS_Sound_LoadPresets(filepath, wavpath);
 }
 
-void dynos_sound_play(const char *name, f32 *pos) {
+void dynos_sound_play(const char *name, float *pos) {
     return DynOS_Sound_Play(name, pos);
 }
 
-void dynos_sound_stop(u8 bank) {
+void dynos_sound_stop(unsigned char bank) {
     return DynOS_Sound_Stop(bank);
 }
 
@@ -136,30 +145,6 @@ void dynos_jingle_resume() {
 
 bool dynos_jingle_is_playing(const char *name) {
     return DynOS_Jingle_IsPlaying(name);
-}
-
-//
-// Warps
-//
-
-bool dynos_warp_to_level(s32 level, s32 area, s32 act) {
-    return DynOS_Warp_ToLevel(level, area, act);
-}
-
-bool dynos_warp_restart_level() {
-    return DynOS_Warp_RestartLevel();
-}
-
-bool dynos_warp_exit_level(s32 delay) {
-    return DynOS_Warp_ExitLevel(delay);
-}
-
-bool dynos_warp_to_castle(s32 level) {
-    return DynOS_Warp_ToCastle(level);
-}
-
-bool dynos_warp_return_to_main_menu() {
-    return DynOS_Warp_ReturnToMainMenu();
 }
 
 }

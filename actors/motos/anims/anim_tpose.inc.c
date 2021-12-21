@@ -19,7 +19,7 @@ static const u16 motos_anim_tpose_indices[] = {
 	0x0028, 0x0001, 0x0029, 
 };
 
-static const struct Animation motos_anim_tpose[] = {
+static const struct Animation motos_anim_tpose = {
 	1,
 	0,
 	0,

@@ -118,7 +118,7 @@ static const u16 motos_anim_motos_pitch_indices[] = {
 	
 };
 
-static const struct Animation motos_anim_motos_pitch[] = {
+static const struct Animation motos_anim_motos_pitch = {
 	1,
 	0,
 	0,

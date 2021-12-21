@@ -547,9 +547,9 @@ void setup_game_memory(void) {
     gPhysicalFrameBuffers[2] = VIRTUAL_TO_PHYSICAL(gFrameBuffer2);
     D_80339CF0 = main_pool_alloc(0x4000, MEMORY_POOL_LEFT);
     set_segment_base_addr(17, (void *) D_80339CF0);
-    func_80278A78(&Data_MarioAnims, gMarioAnims, D_80339CF0);
-    func_80278A78(&Data_LuigiAnims, gLuigiAnims, D_80339CF0);
-    func_80278A78(&Data_WarioAnims, gWarioAnims, D_80339CF0);
+    func_80278A78((struct MarioAnimation *) &Data_MarioAnims, gMarioAnims, D_80339CF0);
+    func_80278A78((struct MarioAnimation *) &Data_LuigiAnims, gLuigiAnims, D_80339CF0);
+    func_80278A78((struct MarioAnimation *) &Data_WarioAnims, gWarioAnims, D_80339CF0);
     D_80339CF4 = main_pool_alloc(2048, MEMORY_POOL_LEFT);
     set_segment_base_addr(24, (void *) D_80339CF4);
     func_80278A78(&gDemo, gDemoInputs, D_80339CF4);
