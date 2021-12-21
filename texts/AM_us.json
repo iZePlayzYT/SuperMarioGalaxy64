@@ -3396,7 +3396,7 @@
         "TEXT_OPT_DLSS_MAXQ": "Max Quality",
         "TEXT_OPT_DLSS_BAL": "Balanced",
         "TEXT_OPT_DLSS_MAXP": "Max Performance",
-        "TEXT_OPT_DLSS_ULTP": "Ultra Performance"
+        "TEXT_OPT_DLSS_ULTP": "Ultra Performance",
         "TEXT_BIND_D_UP": "D-pad Up",
         "TEXT_BIND_D_DOWN": "D-pad Down",
         "TEXT_BIND_D_LEFT": "D-pad Left",
