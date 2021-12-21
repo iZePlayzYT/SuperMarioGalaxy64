@@ -154,17 +154,8 @@ s32 act_wario_charge(struct MarioState *m) {
                 play_sound(m->flags & MARIO_METAL_CAP ? SOUND_ACTION_METAL_BONK : SOUND_ACTION_BONK,
                         m->marioObj->header.gfx.cameraToObject);
                 m->particleFlags |= PARTICLE_VERTICAL_STAR;
-                set_mario_action(m, ACT_WARIO_CHARGE_PUNCH, 0);
+                set_mario_action(m, ACT_BACKWARD_GROUND_KB, 0);
                 break;
-
-           // case GROUND_STEP_HIT_WALL:
-           //     charge_count = 0;
-           //     mario_stop_riding_object(m);
-           //     play_sound(m->flags & MARIO_METAL_CAP ? SOUND_ACTION_METAL_BONK : SOUND_ACTION_BONK,
-           //             m->marioObj->header.gfx.cameraToObject);
-           //     m->particleFlags |= PARTICLE_VERTICAL_STAR;
-           //     set_mario_action(m, ACT_BACKWARD_GROUND_KB, 0);
-           //     break;
 
             case GROUND_STEP_NONE:
                 m->flags |= MARIO_KICKING;
