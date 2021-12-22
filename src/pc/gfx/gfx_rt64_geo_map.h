@@ -26,6 +26,10 @@
 #include "actors/common1.h"
 #include "levels/intro/header.h"
 
+#ifdef OMM_VERSION
+#include "data/omm/object/omm_object_data.h"
+#endif
+
 #define FILL_GEO_MAPS(x) geoNameMap[(void *)(x)] = #x; nameGeoMap[#x] = (void *)(x)
 
 inline void gfx_rt64_init_geo_layout_maps(std::unordered_map<void *, std::string> &geoNameMap, std::map<std::string, void *> &nameGeoMap) {
@@ -195,6 +199,32 @@ inline void gfx_rt64_init_geo_layout_maps(std::unordered_map<void *, std::string
     FILL_GEO_MAPS(yoshi_egg_geo);
     FILL_GEO_MAPS(intro_geo_00035C);
     FILL_GEO_MAPS(intro_geo_0003B8);
+#ifdef OMM_VERSION
+    FILL_GEO_MAPS(omm_geo_metal_sparkle);
+    FILL_GEO_MAPS(omm_geo_vanish_mist);
+    FILL_GEO_MAPS(omm_geo_shockwave_fire);
+    FILL_GEO_MAPS(omm_geo_bowser_flame);
+    FILL_GEO_MAPS(omm_geo_bowser_fireball);
+    FILL_GEO_MAPS(omm_geo_bowser_fireball_flame);
+    FILL_GEO_MAPS(omm_geo_flaming_bobomb_aura);
+    FILL_GEO_MAPS(omm_geo_flaming_bobomb_explosion);
+    FILL_GEO_MAPS(omm_geo_perry_trail);
+    FILL_GEO_MAPS(omm_geo_perry_shockwave);
+    FILL_GEO_MAPS(omm_geo_peach_vibe_aura);
+    FILL_GEO_MAPS(omm_geo_peach_vibe_sparkle);
+    FILL_GEO_MAPS(omm_geo_peach_vibe_joy_tornado);
+    FILL_GEO_MAPS(omm_geo_peach_vibe_joy_gust);
+    FILL_GEO_MAPS(omm_geo_peach_vibe_rage_aura);
+    FILL_GEO_MAPS(omm_geo_peach_vibe_rage_shockwave);
+    FILL_GEO_MAPS(omm_geo_peach_vibe_gloom_aura);
+    FILL_GEO_MAPS(omm_geo_peach_vibe_gloom_tear);
+    FILL_GEO_MAPS(omm_geo_peach_vibe_gloom_tear_small);
+    FILL_GEO_MAPS(omm_geo_peach_vibe_calm_aura);
+    FILL_GEO_MAPS(omm_geo_peach_vibe_calm_sparkle);
+    FILL_GEO_MAPS(omm_geo_explosion);
+    FILL_GEO_MAPS(omm_geo_shockwave_whomp);
+    FILL_GEO_MAPS(omm_geo_shockwave_spindrift);
+#endif
 }
 
 #endif

@@ -530,6 +530,294 @@
             "name": "number_geo"
         },
         {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_bowser_fireball"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_bowser_fireball_flame"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_bowser_flame"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_explosion"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_flaming_bobomb_aura"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_flaming_bobomb_explosion"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_metal_sparkle"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_peach_vibe_aura"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_peach_vibe_calm_aura"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_peach_vibe_calm_sparkle"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_peach_vibe_gloom_aura"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_peach_vibe_gloom_tear"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_peach_vibe_gloom_tear_small"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_peach_vibe_joy_gust"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_peach_vibe_joy_tornado"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_peach_vibe_rage_aura"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_peach_vibe_rage_shockwave"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_peach_vibe_sparkle"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_perry_shockwave"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_perry_trail"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_shockwave_fire"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_shockwave_spindrift"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_shockwave_whomp"
+        },
+        {
+            "interpolationEnabled": false,
+            "materialMod": {
+                "lightGroupMaskBits": 0,
+                "selfLight": [
+                    0.699999988079071,
+                    0.699999988079071,
+                    0.699999988079071
+                ]
+            },
+            "name": "omm_geo_vanish_mist"
+        },
+        {
             "materialMod": null,
             "name": "palm_tree_geo"
         },
