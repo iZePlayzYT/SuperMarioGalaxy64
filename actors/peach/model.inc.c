@@ -1792,6 +1792,7 @@ Gfx peach_000_offset_011_mesh_tri_0[] = {
 
 Gfx mat_peach_dress[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -1809,6 +1810,7 @@ Gfx mat_peach_dress[] = {
 
 Gfx mat_peach_brooch[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -1826,6 +1828,7 @@ Gfx mat_peach_brooch[] = {
 
 Gfx mat_peach_lips[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -1843,6 +1846,7 @@ Gfx mat_peach_lips[] = {
 
 Gfx mat_peach_color[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -1860,6 +1864,7 @@ Gfx mat_peach_color[] = {
 
 Gfx mat_peach_ears[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -1877,6 +1882,7 @@ Gfx mat_peach_ears[] = {
 
 Gfx mat_peach_eyes_open[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -1894,6 +1900,7 @@ Gfx mat_peach_eyes_open[] = {
 
 Gfx mat_peach_crown_red[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -1911,6 +1918,7 @@ Gfx mat_peach_crown_red[] = {
 
 Gfx mat_peach_crown_blue[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -1928,6 +1936,7 @@ Gfx mat_peach_crown_blue[] = {
 
 Gfx mat_peach_eyes_3quarter[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -1945,6 +1954,7 @@ Gfx mat_peach_eyes_3quarter[] = {
 
 Gfx mat_peach_eyes_1quarter[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -1962,6 +1972,7 @@ Gfx mat_peach_eyes_1quarter[] = {
 
 Gfx mat_peach_eyes_closed[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -1979,6 +1990,7 @@ Gfx mat_peach_eyes_closed[] = {
 
 Gfx mat_peach_lips_wide[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -1996,6 +2008,7 @@ Gfx mat_peach_lips_wide[] = {
 
 Gfx mat_peach_hands[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),

@@ -634,12 +634,16 @@ AIFF_EXTRACT_CODEBOOK = $(TOOLS_DIR)/aiff_extract_codebook
 VADPCM_ENC = $(TOOLS_DIR)/vadpcm_enc
 EXTRACT_DATA_FOR_MIO = $(TOOLS_DIR)/extract_data_for_mio
 ZEROTERM = $(PYTHON) $(TOOLS_DIR)/zeroterm.py
+R96_TEXTURE_CONVERT = $(PYTHON) $(TOOLS_DIR)/texture_converter.py
 
 ###################### Dependency Check #####################
 
 # Stubbed
 
 ######################## Targets #############################
+
+all:
+	$(R96_TEXTURE_CONVERT)
 
 all: $(EXE)
 ifeq ($(TARGET_SWITCH),1)

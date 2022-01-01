@@ -221,6 +221,7 @@ static void gfx_sdl_init(const char *window_title) {
 
     //SDL_GL_SetAttribute(SDL_GL_MULTISAMPLEBUFFERS, 1);
     //SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 4);
+    SDL_GL_SetAttribute(SDL_GL_MULTISAMPLESAMPLES, 1);
 
     #ifdef TARGET_SWITCH
     configWindow.fullscreen = false;

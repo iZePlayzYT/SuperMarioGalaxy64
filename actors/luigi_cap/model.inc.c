@@ -3285,6 +3285,7 @@ Gfx luigi_cap_000_displaylist_mesh_tri_2[] = {
 
 Gfx mat_luigi_cap_luigi_wings[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPSetLights1(luigi_cap_luigi_wings_lights),
@@ -3294,6 +3295,7 @@ Gfx mat_luigi_cap_luigi_wings[] = {
 
 Gfx mat_luigi_cap_luigi_hat[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -3311,6 +3313,7 @@ Gfx mat_luigi_cap_luigi_hat[] = {
 
 Gfx mat_luigi_cap_luigi_black[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPSetLights1(luigi_cap_luigi_black_lights),
@@ -3320,6 +3323,7 @@ Gfx mat_luigi_cap_luigi_black[] = {
 
 Gfx mat_luigi_cap_luigi_metal[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, ENVIRONMENT, 0, 0, 0, TEXEL0, 0, 0, 0, ENVIRONMENT),
 	gsSPSetGeometryMode(G_TEXTURE_GEN),
 	gsSPTexture(32703, 32703, 0, 0, 1),

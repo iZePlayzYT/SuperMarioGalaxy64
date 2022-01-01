@@ -26,6 +26,20 @@
 #include "gfx_rendering_api.h"
 #include "gfx_screen_config.h"
 
+#if FOR_WINDOWS || defined(OSX_BUILD)
+# define GLEW_STATIC
+# include <GL/glew.h>
+#endif
+
+#include <SDL2/SDL.h>
+
+#define GL_GLEXT_PROTOTYPES 1
+#ifdef USE_GLES
+# include <SDL2/SDL_opengles2.h>
+#else
+# include <SDL2/SDL_opengl.h>
+#endif
+
 #include "../platform.h"
 #include "../configfile.h"
 #include "../fs/fs.h"
@@ -1064,6 +1078,15 @@ static void gfx_sp_tri1(uint8_t vtx1_idx, uint8_t vtx2_idx, uint8_t vtx3_idx) {
     bool use_fog = (rdp.other_mode_l >> 30) == G_BL_CLR_FOG;
     bool texture_edge = (rdp.other_mode_l & CVG_X_ALPHA) == CVG_X_ALPHA;
     bool use_noise = (rdp.other_mode_l & G_AC_DITHER) == G_AC_DITHER;
+    bool use_coverage = (rdp.other_mode_l & G_AC_COVERAGE) == G_AC_COVERAGE;
+	
+	glDisable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+	glDisable(GL_SAMPLE_ALPHA_TO_ONE);
+	if (use_coverage) {
+		glDepthMask(GL_TRUE);
+		glEnable(GL_SAMPLE_ALPHA_TO_COVERAGE);
+		glEnable(GL_SAMPLE_ALPHA_TO_ONE);
+	}
     
     if (texture_edge) {
         use_alpha = true;

@@ -3226,6 +3226,7 @@ Gfx mario_cap_000_displaylist_mesh_tri_2[] = {
 
 Gfx mat_mario_cap_mario_logo[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -3243,6 +3244,7 @@ Gfx mat_mario_cap_mario_logo[] = {
 
 Gfx mat_mario_cap_mario_black[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPSetLights1(mario_cap_mario_black_lights),
@@ -3252,6 +3254,7 @@ Gfx mat_mario_cap_mario_black[] = {
 
 Gfx mat_mario_cap_mario_wings[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPSetLights1(mario_cap_mario_wings_lights),
@@ -3261,6 +3264,7 @@ Gfx mat_mario_cap_mario_wings[] = {
 
 Gfx mat_mario_cap_mario_metal[] = {
 	gsDPPipeSync(),
+	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, ENVIRONMENT, 0, 0, 0, TEXEL0, 0, 0, 0, ENVIRONMENT),
 	gsSPSetGeometryMode(G_TEXTURE_GEN),
 	gsSPTexture(32703, 32703, 0, 0, 1),

@@ -55,7 +55,7 @@ if not len(sys.argv) > 1:
     for file in glob.iglob(path, recursive=True):
         try:
             if not "\\build" in file:
-                parse_model(file, open(file, 'r').readlines(), False)
+                parse_model(file, open(file, 'r').readlines(), True)
         except Exception as err:
             print(f"Error on {file}")
             print(err)

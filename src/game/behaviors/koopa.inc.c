@@ -417,7 +417,7 @@ static void koopa_unshelled_act_dive(void) {
 
     if (o->oForwardVel != 0.0f) {
         if (o->oAction == KOOPA_UNSHELLED_ACT_LYING) {
-            o->oAnimState = 1;
+            o->oAnimState = KOOPA_ANIM_STATE_EYE_HURT;
             cur_obj_init_anim_extend(2);
         } else {
             cur_obj_init_anim_extend(5);
@@ -428,6 +428,8 @@ static void koopa_unshelled_act_dive(void) {
         cur_obj_extend_animation_if_at_end();
     } else if (cur_obj_init_anim_and_check_if_end(6)) {
         o->oAction = KOOPA_UNSHELLED_ACT_RUN;
+        if (o->oAnimState != KOOPA_ANIM_STATE_EYE_HURT)
+            o->oAnimState = KOOPA_ANIM_STATE_EYE_CLOSED;
     }
 
 end:;
@@ -812,7 +814,7 @@ void bhv_koopa_update(void) {
                 break;
         }
     } else {
-        o->oAnimState = 1;
+        o->oAnimState = KOOPA_ANIM_STATE_EYE_CLOSED;
     }
 
     obj_face_yaw_approach(o->oMoveAngleYaw, 0x600);

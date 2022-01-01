@@ -674,6 +674,7 @@ static s64 ParseGfxSymbolArg(GfxData* aGfxData, DataNode<Gfx>* aNode, u64* pToke
     gfx_constant(G_AC_NONE);
     gfx_constant(G_AC_THRESHOLD);
     gfx_constant(G_AC_DITHER);
+    gfx_constant(G_AC_COVERAGE);
 
     // Other modes
     gfx_constant(G_MDSFT_ALPHACOMPARE);
