@@ -2729,6 +2729,7 @@ Gfx bowser_002_offset_006_mesh_tri_0[] = {
 Gfx mat_bowser_skin[] = {
 	gsDPPipeSync(),
 	gsDPSetAlphaCompare(G_AC_COVERAGE),
+	gsDPSetRenderMode(G_RM_CUSTOM_AA_ZB_XLU_SURF, G_RM_NOOP2),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),

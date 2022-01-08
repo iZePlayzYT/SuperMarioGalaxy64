@@ -1793,6 +1793,7 @@ Gfx peach_000_offset_011_mesh_tri_0[] = {
 Gfx mat_peach_dress[] = {
 	gsDPPipeSync(),
 	gsDPSetAlphaCompare(G_AC_COVERAGE),
+	gsDPSetRenderMode(G_RM_CUSTOM_AA_ZB_XLU_SURF, G_RM_NOOP2),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),

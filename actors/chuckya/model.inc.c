@@ -347,9 +347,9 @@ static const Vtx chuckya_seg8_vertex_0800A680[] = {
 
 // 0x0800A700 - 0x0800A758
 const Gfx chuckya_seg8_dl_0800A700[] = {
-    gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, chuckya_seg8_texture_08006778),
+    gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_32b, 1, chuckya_seg8_texture_08006778),
     gsDPLoadSync(),
-    gsDPLoadBlock(G_TX_LOADTILE, 0, 0, 32 * 64 - 1, CALC_DXT(32, G_IM_SIZ_16b_BYTES)),
+    gsDPLoadBlock(G_TX_LOADTILE, 0, 0, 32 * 64 - 1, CALC_DXT(32, G_IM_SIZ_32b_BYTES)),
     gsSPLight(&chuckya_seg8_lights_0800A668.l, 1),
     gsSPLight(&chuckya_seg8_lights_0800A668.a, 2),
     gsSPVertex(chuckya_seg8_vertex_0800A680, 8, 0),
