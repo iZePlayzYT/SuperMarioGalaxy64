@@ -2745,7 +2745,6 @@ Gfx mat_bowser_skin[] = {
 
 Gfx mat_bowser_belly[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -2762,7 +2761,6 @@ Gfx mat_bowser_belly[] = {
 
 Gfx mat_bowser_colors[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -2779,7 +2777,6 @@ Gfx mat_bowser_colors[] = {
 
 Gfx mat_bowser_shell[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -2796,7 +2793,6 @@ Gfx mat_bowser_shell[] = {
 
 Gfx mat_bowser_spikes[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -2813,7 +2809,6 @@ Gfx mat_bowser_spikes[] = {
 
 Gfx mat_bowser_cuff[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -2830,7 +2825,6 @@ Gfx mat_bowser_cuff[] = {
 
 Gfx mat_bowser_foot[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -2847,7 +2841,6 @@ Gfx mat_bowser_foot[] = {
 
 Gfx mat_bowser_nose[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -2864,7 +2857,6 @@ Gfx mat_bowser_nose[] = {
 
 Gfx mat_bowser_mouth[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -2881,7 +2873,6 @@ Gfx mat_bowser_mouth[] = {
 
 Gfx mat_bowser_eye[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -2898,7 +2889,6 @@ Gfx mat_bowser_eye[] = {
 
 Gfx mat_bowser_eye_r[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -2915,7 +2905,6 @@ Gfx mat_bowser_eye_r[] = {
 
 Gfx mat_bowser_hair[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -2932,7 +2921,6 @@ Gfx mat_bowser_hair[] = {
 
 Gfx mat_bowser_eye_half[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -2949,7 +2937,6 @@ Gfx mat_bowser_eye_half[] = {
 
 Gfx mat_bowser_eye_closed[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -2966,7 +2953,6 @@ Gfx mat_bowser_eye_closed[] = {
 
 Gfx mat_bowser_eye_right[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),

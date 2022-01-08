@@ -204,6 +204,7 @@ const Gfx water_bubble_seg5_dl_05010D30[] = {
 const Gfx water_bubble_seg5_dl_05011000[] = {
     gsDPPipeSync(),
     gsSPSetGeometryMode(G_TEXTURE_GEN),
+    gsDPSetAlphaCompare(G_AC_THRESHOLD),
     gsDPSetCombineMode(G_CC_MODULATERGBFADE, G_CC_MODULATERGBFADE),
     gsDPSetEnvColor(255, 255, 255, 205),
     gsDPLoadTextureBlock(water_bubble_seg5_texture_0500FE80, G_IM_FMT_RGBA, G_IM_SIZ_16b, 32, 32, 0, G_TX_WRAP | G_TX_NOMIRROR, G_TX_WRAP | G_TX_NOMIRROR, 5, 5, G_TX_NOLOD, G_TX_NOLOD),

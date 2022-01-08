@@ -9299,7 +9299,6 @@ Gfx mat_mario_blue[] = {
 
 Gfx mat_mario_metal[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, ENVIRONMENT, 0, 0, 0, TEXEL0, 0, 0, 0, ENVIRONMENT),
 	gsSPSetGeometryMode(G_TEXTURE_GEN),
 	gsSPTexture(4031, 1983, 0, 0, 1),
@@ -9323,7 +9322,6 @@ Gfx mat_revert_mario_metal[] = {
 
 Gfx mat_mario_hat[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -9341,7 +9339,6 @@ Gfx mat_mario_hat[] = {
 
 Gfx mat_mario_eye_open[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -9359,7 +9356,6 @@ Gfx mat_mario_eye_open[] = {
 
 Gfx mat_mario_sideburn[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -9377,7 +9373,6 @@ Gfx mat_mario_sideburn[] = {
 
 Gfx mat_mario_mustache[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -9395,7 +9390,6 @@ Gfx mat_mario_mustache[] = {
 
 Gfx mat_mario_ear[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -9413,7 +9407,6 @@ Gfx mat_mario_ear[] = {
 
 Gfx mat_mario_eye_half[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -9431,7 +9424,6 @@ Gfx mat_mario_eye_half[] = {
 
 Gfx mat_mario_eye_closed[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -9449,7 +9441,6 @@ Gfx mat_mario_eye_closed[] = {
 
 Gfx mat_mario_eye_dead[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -9467,7 +9458,6 @@ Gfx mat_mario_eye_dead[] = {
 
 Gfx mat_mario_mario_wings[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPSetLights1(mario_mario_wings_lights),
@@ -9477,7 +9467,6 @@ Gfx mat_mario_mario_wings[] = {
 
 Gfx mat_mario_glove[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -9495,7 +9484,6 @@ Gfx mat_mario_glove[] = {
 
 Gfx mat_mario_openhand[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -9513,7 +9501,6 @@ Gfx mat_mario_openhand[] = {
 
 Gfx mat_mario_peace[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -9531,7 +9518,6 @@ Gfx mat_mario_peace[] = {
 
 Gfx mat_mario_shoe[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),

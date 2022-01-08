@@ -3256,7 +3256,6 @@ Gfx mat_wario_cap_wario_logo[] = {
 
 Gfx mat_wario_cap_wario_black[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPSetLights1(wario_cap_wario_black_lights),
@@ -3266,7 +3265,6 @@ Gfx mat_wario_cap_wario_black[] = {
 
 Gfx mat_wario_cap_wario_bill[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -3284,7 +3282,6 @@ Gfx mat_wario_cap_wario_bill[] = {
 
 Gfx mat_wario_cap_wario_wings[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPSetLights1(wario_cap_wario_wings_lights),
@@ -3294,7 +3291,6 @@ Gfx mat_wario_cap_wario_wings[] = {
 
 Gfx mat_wario_cap_wario_metal[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, ENVIRONMENT, 0, 0, 0, TEXEL0, 0, 0, 0, ENVIRONMENT),
 	gsSPSetGeometryMode(G_TEXTURE_GEN),
 	gsSPTexture(32703, 32703, 0, 0, 1),

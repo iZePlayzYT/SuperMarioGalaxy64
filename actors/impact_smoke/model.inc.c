@@ -30,6 +30,7 @@ static const Vtx impact_smoke_seg6_vertex_06062A28[] = {
 const Gfx impact_smoke_seg6_dl_06062AA8[] = {
     gsDPPipeSync(),
     gsDPSetCombineMode(G_CC_MODULATEFADE, G_CC_MODULATEFADE),
+    gsDPSetAlphaCompare(G_AC_THRESHOLD),
     gsSPGeometryMode(G_LIGHTING, G_SHADING_SMOOTH),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
     gsSPEndDisplayList(),

@@ -29,6 +29,7 @@ ALIGNED8 static const u8 sparkles_seg4_texture_04029C90[] = "actors/sparkle/spar
 // 0x0402A490 - 0x0402A4F8
 const Gfx sparkles_seg4_dl_0402A490[] = {
     gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
+    gsDPSetAlphaCompare(G_AC_THRESHOLD),
     gsSPTexture(0x8000, 0x8000, 0, G_TX_RENDERTILE, G_ON),
     gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, G_TX_LOADTILE, 0, G_TX_WRAP | G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOLOD, G_TX_WRAP | G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOLOD),
     gsDPLoadSync(),

@@ -25322,7 +25322,6 @@ Gfx mat_wario_wario_buttons[] = {
 
 Gfx mat_wario_wario_hat_icon[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -25340,7 +25339,6 @@ Gfx mat_wario_wario_hat_icon[] = {
 
 Gfx mat_wario_metal[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(0, 0, 0, TEXEL0, 0, 0, 0, ENVIRONMENT, 0, 0, 0, TEXEL0, 0, 0, 0, ENVIRONMENT),
 	gsSPSetGeometryMode(G_TEXTURE_GEN),
 	gsSPTexture(32703, 32703, 0, 0, 1),
@@ -25364,7 +25362,6 @@ Gfx mat_revert_wario_metal[] = {
 
 Gfx mat_wario_wario_teeth[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -25382,7 +25379,6 @@ Gfx mat_wario_wario_teeth[] = {
 
 Gfx mat_wario_wario_eyes[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -25400,7 +25396,6 @@ Gfx mat_wario_wario_eyes[] = {
 
 Gfx mat_wario_wario_colors[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -25418,7 +25413,6 @@ Gfx mat_wario_wario_colors[] = {
 
 Gfx mat_wario_wario_peak[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -25436,7 +25430,6 @@ Gfx mat_wario_wario_peak[] = {
 
 Gfx mat_wario_wario_hair[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -25454,7 +25447,6 @@ Gfx mat_wario_wario_hair[] = {
 
 Gfx mat_wario_wario_ears[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -25472,7 +25464,6 @@ Gfx mat_wario_wario_ears[] = {
 
 Gfx mat_wario_wario_moustache[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPSetLights1(wario_wario_moustache_lights),
@@ -25482,7 +25473,6 @@ Gfx mat_wario_wario_moustache[] = {
 
 Gfx mat_wario_wario_eyes_semiclosed[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -25500,7 +25490,6 @@ Gfx mat_wario_wario_eyes_semiclosed[] = {
 
 Gfx mat_wario_wario_eyes_closed[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -25518,7 +25507,6 @@ Gfx mat_wario_wario_eyes_closed[] = {
 
 Gfx mat_wario_wario_eyes_dead[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -25536,7 +25524,6 @@ Gfx mat_wario_wario_eyes_dead[] = {
 
 Gfx mat_wario_wario_wings[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT, 0, 0, 0, SHADE, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsSPSetLights1(wario_wario_wings_lights),
@@ -25546,7 +25533,6 @@ Gfx mat_wario_wario_wings[] = {
 
 Gfx mat_wario_wario_glove[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -25564,7 +25550,6 @@ Gfx mat_wario_wario_glove[] = {
 
 Gfx mat_wario_wario_open_hand[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),
@@ -25582,7 +25567,6 @@ Gfx mat_wario_wario_open_hand[] = {
 
 Gfx mat_wario_wario_peace[] = {
 	gsDPPipeSync(),
-	gsDPSetAlphaCompare(G_AC_COVERAGE),
 	gsDPSetCombineLERP(TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT, TEXEL0, 0, SHADE, 0, 0, 0, 0, ENVIRONMENT),
 	gsSPTexture(65535, 65535, 0, 0, 1),
 	gsDPTileSync(),

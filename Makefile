@@ -42,6 +42,9 @@ EXT_OPTIONS_MENU ?= 1
 # Enable Discord Rich Presence
 DISCORDRPC ?= 0
 
+# Enable Expermental Transparency for GL
+TRANSPARENCY_GL ?= 0
+
 # Various workarounds for weird toolchains
 NO_BZERO_BCOPY ?= 0
 NO_LDIV ?= 0
@@ -552,6 +555,12 @@ endif
 ifeq ($(DISCORDRPC),1)
   CC_CHECK += -DDISCORDRPC
   CFLAGS += -DDISCORDRPC
+endif
+
+# Check for Transparency GL option
+ifeq ($(TRANSPARENCY_GL),1)
+  CC_CHECK += -DTRANSPARENCY_GL
+  CFLAGS += -DTRANSPARENCY_GL
 endif
 
 # Check for texture fix option
