@@ -684,7 +684,11 @@ $(BASEPACK_LST): $(EXE)
 	@find textures -name \*.png -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
 	@find db -name \*.* -exec echo "{} {}" >> $(BASEPACK_LST) \;
 ifeq ($(RENDER_API),RT64)
+	@find actors -name \*.dds -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
+	@find levels -name \*.dds -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
+	@find textures -name \*.dds -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
 	@find rt64/textures -name \*.png -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
+	@find rt64/textures -name \*.dds -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
 endif
 
 # prepares the resource ZIP with base data

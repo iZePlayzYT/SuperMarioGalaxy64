@@ -890,13 +890,17 @@ static void gfx_sp_vertex(size_t n_vertices, size_t dest_index, const Vtx *verti
             
             if (rsp.geometry_mode & G_TEXTURE_GEN) {
                 float dotx = 0, doty = 0;
+#ifndef GFX_DISABLE_TEXTURE_GEN
                 dotx += vn->n[0] * rsp.current_lookat_coeffs[0][0];
                 dotx += vn->n[1] * rsp.current_lookat_coeffs[0][1];
                 dotx += vn->n[2] * rsp.current_lookat_coeffs[0][2];
                 doty += vn->n[0] * rsp.current_lookat_coeffs[1][0];
                 doty += vn->n[1] * rsp.current_lookat_coeffs[1][1];
                 doty += vn->n[2] * rsp.current_lookat_coeffs[1][2];
-                
+#else
+                dotx = vn->n[0];
+                doty = vn->n[1];
+#endif
                 U = (int32_t)((dotx / 127.0f + 1.0f) / 4.0f * rsp.texture_scaling_factor.s);
                 V = (int32_t)((doty / 127.0f + 1.0f) / 4.0f * rsp.texture_scaling_factor.t);
             }
