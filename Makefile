@@ -671,6 +671,7 @@ all: $(BASEPACK_PATH)
 res: $(BASEPACK_PATH)
 
 # prepares the basepack.lst
+ifneq ($(SKIP_BASEPACK),1)
 $(BASEPACK_LST): $(EXE)
 	@mkdir -p $(BUILD_DIR)/$(BASEDIR)
 	@touch $(BASEPACK_LST)
@@ -689,6 +690,7 @@ ifeq ($(RENDER_API),RT64)
 	@find textures -name \*.dds -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
 	@find rt64/textures -name \*.png -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
 	@find rt64/textures -name \*.dds -exec echo "{} gfx/{}" >> $(BASEPACK_LST) \;
+endif
 endif
 
 # prepares the resource ZIP with base data

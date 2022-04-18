@@ -1548,7 +1548,6 @@ inline void gfx_rt64_render_thread_draw_display_list(uint32_t uid, GameFrame *cu
 	const auto &prevDisplayList = prevFrame->displayLists[uid];
 
 	for (int i = 0; i < curDisplayList.drawCount; i++) {
-		auto &dstMesh = gpuDl.meshes[i];
 		auto &dstInstance = gpuDl.instances[i];
 		const auto &curMesh = curDisplayList.meshes[i];
 		const auto &prevMesh = (i < prevDisplayList.meshes.size()) ? prevDisplayList.meshes[i] : curDisplayList.meshes[i];
@@ -1559,49 +1558,113 @@ inline void gfx_rt64_render_thread_draw_display_list(uint32_t uid, GameFrame *cu
 		RT64_MESH *usedMesh = nullptr;
 		if (curMesh.raytrace && (curMesh.vertexBufferHash == prevMesh.vertexBufferHash)) {
 			const auto &staticMesh = RT64.GPUStaticMeshes[curMesh.vertexBufferHash];
-			usedMesh = staticMesh.mesh;
-			RT64.staticMeshesDrawn++;
+			if (staticMesh.mesh != nullptr) {
+				usedMesh = staticMesh.mesh;
+				RT64.staticMeshesDrawn++;
+			}
 		}
 
 		if (usedMesh == nullptr) {
-			// Destroy the existing mesh if the raytracing mode is different.
-			if ((dstMesh.mesh != nullptr) && (dstMesh.raytrace != curMesh.raytrace)) {
-				free(dstMesh.deltaVertexBuffer);
-				RT64.lib.DestroyMesh(dstMesh.mesh);
-				dstMesh.deltaVertexBuffer = nullptr;
-				dstMesh.mesh = nullptr;
-				dstMesh.vertexBufferHash = 0;
-			}
-
-			// Create the mesh if it doesn't exist yet.
-			if (dstMesh.mesh == nullptr) {
-				dstMesh.mesh = RT64.lib.CreateMesh(RT64.device, curMesh.raytrace ? (RT64_MESH_RAYTRACE_ENABLED | RT64_MESH_RAYTRACE_UPDATABLE) : 0);
-				dstMesh.raytrace = curMesh.raytrace;
-			}
-
 			// Check if current and previous meshes are different.
-			if (curInstance.interpolate && (curMesh.vertexBufferHash != prevMesh.vertexBufferHash)) {
-				bool meshesCompatible = 
-					(curMesh.vertexCount == prevMesh.vertexCount) &&
-					(curMesh.vertexStride == prevMesh.vertexStride) &&
-					(curMesh.indexCount == prevMesh.indexCount) &&
-					(curMesh.raytrace == prevMesh.raytrace);
+			if (curInstance.interpolate) {
+				auto &dstMesh = gpuDl.meshes[i];
 
-				// If the meshes are compatible, we interpolate using the delta buffer instead.
-				if (meshesCompatible) {
-					gfx_rt64_render_thread_interpolate_mesh(dstMesh, curMesh, prevMesh, curFrameWeight);
+				// Destroy the existing mesh if the raytracing mode is different.
+				if ((dstMesh.mesh != nullptr) && (dstMesh.raytrace != curMesh.raytrace)) {
+					free(dstMesh.deltaVertexBuffer);
+					RT64.lib.DestroyMesh(dstMesh.mesh);
+					dstMesh.deltaVertexBuffer = nullptr;
+					dstMesh.mesh = nullptr;
+					dstMesh.vertexBufferHash = 0;
+					RT64.meshesDestroyed++;
+				}
+
+				// Create the mesh if it doesn't exist yet.
+				if (dstMesh.mesh == nullptr) {
+					dstMesh.mesh = RT64.lib.CreateMesh(RT64.device, curMesh.raytrace ? (RT64_MESH_RAYTRACE_ENABLED | RT64_MESH_RAYTRACE_UPDATABLE) : 0);
+					dstMesh.raytrace = curMesh.raytrace;
+					RT64.meshesCreated++;
+				}
+				
+				if (curMesh.vertexBufferHash != prevMesh.vertexBufferHash) {
+					bool meshesCompatible = 
+						(curMesh.vertexCount == prevMesh.vertexCount) &&
+						(curMesh.vertexStride == prevMesh.vertexStride) &&
+						(curMesh.indexCount == prevMesh.indexCount) &&
+						(curMesh.raytrace == prevMesh.raytrace);
+
+					// If the meshes are compatible, we interpolate using the delta buffer instead.
+					if (meshesCompatible) {
+						gfx_rt64_render_thread_interpolate_mesh(dstMesh, curMesh, prevMesh, curFrameWeight);
+					}
+				}
+
+				// Update the mesh altogether if the vertex buffer hashes are different.
+				if (dstMesh.vertexBufferHash != curMesh.vertexBufferHash) {
+					RT64.lib.SetMesh(dstMesh.mesh, curMesh.vertexBuffer, curMesh.vertexCount, curMesh.vertexStride, RT64.indexTriangleList, curMesh.indexCount);
+					dstMesh.vertexCount = curMesh.vertexCount;
+					dstMesh.vertexStride = curMesh.vertexStride;
+					dstMesh.indexCount = curMesh.indexCount;
+					dstMesh.vertexBufferHash = curMesh.vertexBufferHash;
+				}
+				
+				usedMesh = dstMesh.mesh;
+			}
+			else {
+				// Search for a dynamic mesh that has the same hash.
+				auto dynamicMeshIt = RT64.GPUDynamicMeshes.find(curMesh.vertexBufferHash);
+				if (dynamicMeshIt != RT64.GPUDynamicMeshes.end()) {
+					dynamicMeshIt->second.inUse = true;
+					usedMesh = dynamicMeshIt->second.mesh;
+				}
+
+				if (usedMesh == nullptr) {
+					// Search linearly for a compatible dynamic mesh.
+					uint64_t foundHash = 0;
+					for (auto dynamicMeshIt : RT64.GPUDynamicMeshes) {
+						if (
+							!dynamicMeshIt.second.inUse &&
+							(dynamicMeshIt.second.vertexCount == curMesh.vertexCount) && 
+							(dynamicMeshIt.second.vertexStride == curMesh.vertexStride) && 
+							(dynamicMeshIt.second.indexCount == curMesh.indexCount) && 
+							(dynamicMeshIt.second.raytrace == curMesh.raytrace)
+						) 
+						{
+							foundHash = dynamicMeshIt.first;
+							break;
+						}
+					}
+
+					// If we found a valid hash, change the hash where the mesh is stored.
+					if (foundHash != 0) {
+						RT64.GPUDynamicMeshes[curMesh.vertexBufferHash] = RT64.GPUDynamicMeshes[foundHash];
+						RT64.GPUDynamicMeshes.erase(foundHash);
+					}
+
+					auto &dynamicMesh = RT64.GPUDynamicMeshes[curMesh.vertexBufferHash];
+
+					// Create the mesh if it hasn't been created yet.
+					if (dynamicMesh.mesh == nullptr) {
+						dynamicMesh.mesh = RT64.lib.CreateMesh(RT64.device, curMesh.raytrace ? (RT64_MESH_RAYTRACE_ENABLED | RT64_MESH_RAYTRACE_UPDATABLE) : 0);
+					}
+
+					RT64.lib.SetMesh(dynamicMesh.mesh, curMesh.vertexBuffer, curMesh.vertexCount, curMesh.vertexStride, RT64.indexTriangleList, curMesh.indexCount);
+
+					dynamicMesh.vertexBufferHash = curMesh.vertexBufferHash;
+					dynamicMesh.vertexCount = curMesh.vertexCount;
+					dynamicMesh.vertexStride = curMesh.vertexStride;
+					dynamicMesh.indexCount = curMesh.indexCount;
+					dynamicMesh.raytrace = curMesh.raytrace;
+					dynamicMesh.inUse = true;
+
+					usedMesh = dynamicMesh.mesh;
 				}
 			}
 
-			// Update the mesh altogether if the vertex buffer hashes are different.
-			if (dstMesh.vertexBufferHash != curMesh.vertexBufferHash) {
-				RT64.lib.SetMesh(dstMesh.mesh, curMesh.vertexBuffer, curMesh.vertexCount, curMesh.vertexStride, RT64.indexTriangleList, curMesh.indexCount);
-				dstMesh.vertexBufferHash = curMesh.vertexBufferHash;
-			}
-
-			usedMesh = dstMesh.mesh;
 			RT64.dynamicMeshesDrawn++;
 		}
+
+		assert(usedMesh != nullptr);
 		
 		// Create the instance if it doesn't exist yet.
 		if (dstInstance.instance == nullptr) {
@@ -1657,6 +1720,8 @@ void gfx_rt64_render_thread_draw_frame(GameFrame *curFrame, GameFrame *prevFrame
 
 	RT64.staticMeshesDrawn = 0;
 	RT64.dynamicMeshesDrawn = 0;
+	RT64.meshesCreated = 0;
+	RT64.meshesDestroyed = 0;
 
 	// Copy the frame's static lights.
 	memcpy(RT64.renderLights, curFrame->areaLights, sizeof(RT64_LIGHT) * curFrame->areaLightCount);
@@ -1686,7 +1751,10 @@ void gfx_rt64_render_thread_draw_frame(GameFrame *curFrame, GameFrame *prevFrame
 		// Destroy all unused instances.
 		while (dl.instances.size() > dl.drawCount) {
 			auto &dynInst = dl.instances.back();
-			RT64.lib.DestroyInstance(dynInst.instance);
+			if (dynInst.instance != nullptr) {
+				RT64.lib.DestroyInstance(dynInst.instance);
+			}
+
 			dl.instances.pop_back();
 		}
 
@@ -1694,7 +1762,10 @@ void gfx_rt64_render_thread_draw_frame(GameFrame *curFrame, GameFrame *prevFrame
 		while (dl.meshes.size() > dl.drawCount) {
 			auto &dynMesh = dl.meshes.back();
 			free(dynMesh.deltaVertexBuffer);
-			RT64.lib.DestroyMesh(dynMesh.mesh);
+			if (dynMesh.mesh != nullptr) {
+				RT64.lib.DestroyMesh(dynMesh.mesh);
+			}
+
 			dl.meshes.pop_back();
 		}
 		
@@ -1739,12 +1810,25 @@ void gfx_rt64_render_thread_draw_frame(GameFrame *curFrame, GameFrame *prevFrame
 		RT64.lib.PrintMessageInspector(RT64.renderInspector, dlMsMessage);
 
 		char infoMessage[128];
-		sprintf(infoMessage, "ST %d DYN %d\n", RT64.staticMeshesDrawn, RT64.dynamicMeshesDrawn);
+		sprintf(infoMessage, "ST %d DYN %d CRE %d DTY %d\n", RT64.staticMeshesDrawn, RT64.dynamicMeshesDrawn, RT64.meshesCreated, RT64.meshesDestroyed);
 		RT64.lib.PrintMessageInspector(RT64.renderInspector, infoMessage);
 	}
 
 	// Draw everything and update the window.
 	RT64.lib.DrawDevice(RT64.device, gfx_rt64_use_vsync() ? 1 : 0);
+
+	// Dynamic mesh pool cleanup.
+	auto dynamicMeshIt = RT64.GPUDynamicMeshes.begin();
+	while (dynamicMeshIt != RT64.GPUDynamicMeshes.end()) {
+		if (dynamicMeshIt->second.inUse) {
+			dynamicMeshIt->second.inUse = false;
+			dynamicMeshIt++;
+        }
+		else {
+			RT64.lib.DestroyMesh(dynamicMeshIt->second.mesh);
+			dynamicMeshIt = RT64.GPUDynamicMeshes.erase(dynamicMeshIt);
+		}
+	}
 }
 
 void gfx_rt64_render_thread_preprocess_frames(GameFrame *curFrame, GameFrame *prevFrame) {
@@ -1945,12 +2029,11 @@ void gfx_rt64_render_thread() {
 				// Print to the inspector the previous time it took to draw a frame.
 				if ((RT64.renderInspector != nullptr) && RT64.renderInspectorActive) {
 					const std::lock_guard<std::mutex> lock(RT64.renderInspectorMutex);
-					char preprocessTimeMsg[64];
+					char preprocessTimeMsg[64], renderDeltaTimeMsg[64];
 					sprintf(preprocessTimeMsg, "RENDER PREPROCESS: %.3f ms\n", preprocessTimeMs);
-
-					char renderDeltaTimeMsg[64];
 					sprintf(renderDeltaTimeMsg, "RENDER FRAME: %.3f ms\n", frameDeltaTimeMs);
 					RT64.lib.PrintClearInspector(RT64.renderInspector);
+					RT64.lib.PrintMessageInspector(RT64.renderInspector, preprocessTimeMsg);
 					RT64.lib.PrintMessageInspector(RT64.renderInspector, renderDeltaTimeMsg);
 					for (const std::string &message : RT64.renderInspectorMessages) {
 						RT64.lib.PrintMessageInspector(RT64.renderInspector, message.c_str());
