@@ -756,7 +756,6 @@ static uint32_t gfx_rt64_rapi_new_texture(const char *name) {
 	// We reserve 0 for unassigned textures.
 	uint32_t textureKey = 1 + RT64.textures.size();
 	auto &recordedTexture = RT64.textures[textureKey];
-	recordedTexture.texture = nullptr;
 	recordedTexture.linearFilter = 0;
 	recordedTexture.cms = 0;
 	recordedTexture.cmt = 0;
@@ -773,7 +772,11 @@ static void gfx_rt64_rapi_select_texture(int tile, uint32_t texture_id) {
 
 static void gfx_rt64_rapi_upload_texture(const uint8_t *rgba32_buf, int width, int height) {
 	uint32_t textureKey = RT64.currentTextureIds[RT64.currentTile];
-	RT64_TEXTURE_DESC &texDesc = RT64.textures[textureKey].texDesc;
+	UploadTexture uploadTexture;
+	uploadTexture.hash = RT64.textures[textureKey].hash;
+	uploadTexture.key = textureKey;
+	
+	RT64_TEXTURE_DESC &texDesc = uploadTexture.desc;
 	texDesc.width = width;
 	texDesc.height = height;
 	texDesc.rowPitch = texDesc.width * 4;
@@ -783,13 +786,17 @@ static void gfx_rt64_rapi_upload_texture(const uint8_t *rgba32_buf, int width, i
 	memcpy(texDesc.bytes, rgba32_buf, texDesc.byteCount);
 
 	RT64.textureUploadQueueMutex.lock();
-	RT64.textureUploadQueue.push(textureKey);
+	RT64.textureUploadQueue.push(uploadTexture);
 	RT64.textureUploadQueueMutex.unlock();
 }
 
 static void gfx_rt64_rapi_upload_texture_file(const char *file_path, const uint8_t *file_buf, uint64_t file_buf_size) {
 	uint32_t textureKey = RT64.currentTextureIds[RT64.currentTile];
-	RT64_TEXTURE_DESC &texDesc = RT64.textures[textureKey].texDesc;
+	UploadTexture uploadTexture;
+	uploadTexture.hash = RT64.textures[textureKey].hash;
+	uploadTexture.key = textureKey;
+
+	RT64_TEXTURE_DESC &texDesc = uploadTexture.desc;
 
 	// Use special case for loading DDS directly.
 	if (strstr(file_path, ".dds") || strstr(file_path, ".DDS")) {
@@ -800,7 +807,7 @@ static void gfx_rt64_rapi_upload_texture_file(const char *file_path, const uint8
 		texDesc.format = RT64_TEXTURE_FORMAT_DDS;
 
 		RT64.textureUploadQueueMutex.lock();
-		RT64.textureUploadQueue.push(textureKey);
+		RT64.textureUploadQueue.push(uploadTexture);
 		RT64.textureUploadQueueMutex.unlock();
 	}
 	// Use stb image to load the file from memory instead if possible.
@@ -816,7 +823,7 @@ static void gfx_rt64_rapi_upload_texture_file(const char *file_path, const uint8
 			texDesc.format = RT64_TEXTURE_FORMAT_RGBA8;
 			
             RT64.textureUploadQueueMutex.lock();
-			RT64.textureUploadQueue.push(textureKey);
+			RT64.textureUploadQueue.push(uploadTexture);
 			RT64.textureUploadQueueMutex.unlock();
 		}
 		else {
@@ -969,10 +976,7 @@ static void gfx_rt64_rapi_draw_triangles_common(RT64_MATRIX4 transform, float bu
 		linearFilter = recordedTexture.linearFilter; 
 		cms = recordedTexture.cms; 
 		cmt = recordedTexture.cmt;
-
-		if (recordedTexture.texture != nullptr) {
-			displayListInstance.textures.diffuse = diffuseKey;
-		}
+		displayListInstance.textures.diffuse = diffuseKey;
 
 		// Use the hash from the texture alias if it exists.
 		uint64_t textureHash = recordedTexture.hash;
@@ -1423,8 +1427,8 @@ extern "C" void *gfx_build_graph_node_mod(void *graphNode, float modelview_matri
 }
 
 RT64_TEXTURE *gfx_rt64_render_thread_find_texture(uint32_t textureKey) {
-	auto texIt = RT64.textures.find(textureKey);
-	if (texIt != RT64.textures.end()) {
+	auto texIt = RT64.GPUTextures.find(textureKey);
+	if ((texIt != RT64.GPUTextures.end()) && (texIt->second.texture != nullptr)) {
 		return texIt->second.texture;
 	}
 	else {
@@ -1612,8 +1616,9 @@ inline void gfx_rt64_render_thread_draw_display_list(uint32_t uid, GameFrame *cu
 			}
 			else {
 				// Search for a dynamic mesh that has the same hash.
-				auto dynamicMeshIt = RT64.GPUDynamicMeshes.find(curMesh.vertexBufferHash);
-				if (dynamicMeshIt != RT64.GPUDynamicMeshes.end()) {
+				auto &dynamicMeshPool = curMesh.raytrace ? RT64.GPUDynamicRtMeshes : RT64.GPUDynamicRasterMeshes;
+				auto dynamicMeshIt = dynamicMeshPool.find(curMesh.vertexBufferHash);
+				if ((dynamicMeshIt != dynamicMeshPool.end()) && (dynamicMeshIt->second.raytrace == curMesh.raytrace)) {
 					dynamicMeshIt->second.inUse = true;
 					usedMesh = dynamicMeshIt->second.mesh;
 				}
@@ -1621,14 +1626,14 @@ inline void gfx_rt64_render_thread_draw_display_list(uint32_t uid, GameFrame *cu
 				if (usedMesh == nullptr) {
 					// Search linearly for a compatible dynamic mesh.
 					uint64_t foundHash = 0;
-					for (auto dynamicMeshIt : RT64.GPUDynamicMeshes) {
+					for (auto dynamicMeshIt : dynamicMeshPool) {
 						if (
 							!dynamicMeshIt.second.inUse &&
-							(dynamicMeshIt.second.vertexCount == curMesh.vertexCount) && 
-							(dynamicMeshIt.second.vertexStride == curMesh.vertexStride) && 
-							(dynamicMeshIt.second.indexCount == curMesh.indexCount) && 
+							(dynamicMeshIt.second.vertexCount == curMesh.vertexCount) &&
+							(dynamicMeshIt.second.vertexStride == curMesh.vertexStride) &&
+							(dynamicMeshIt.second.indexCount == curMesh.indexCount) &&
 							(dynamicMeshIt.second.raytrace == curMesh.raytrace)
-						) 
+						)
 						{
 							foundHash = dynamicMeshIt.first;
 							break;
@@ -1637,11 +1642,11 @@ inline void gfx_rt64_render_thread_draw_display_list(uint32_t uid, GameFrame *cu
 
 					// If we found a valid hash, change the hash where the mesh is stored.
 					if (foundHash != 0) {
-						RT64.GPUDynamicMeshes[curMesh.vertexBufferHash] = RT64.GPUDynamicMeshes[foundHash];
-						RT64.GPUDynamicMeshes.erase(foundHash);
+						dynamicMeshPool[curMesh.vertexBufferHash] = dynamicMeshPool[foundHash];
+						dynamicMeshPool.erase(foundHash);
 					}
 
-					auto &dynamicMesh = RT64.GPUDynamicMeshes[curMesh.vertexBufferHash];
+					auto &dynamicMesh = dynamicMeshPool[curMesh.vertexBufferHash];
 
 					// Create the mesh if it hasn't been created yet.
 					if (dynamicMesh.mesh == nullptr) {
@@ -1801,7 +1806,7 @@ void gfx_rt64_render_thread_draw_frame(GameFrame *curFrame, GameFrame *prevFrame
 	// Update the scene.
 	RT64.lib.SetSceneLights(RT64.scene, RT64.renderLights, RT64.renderLightCount);
 	RT64.lib.SetSceneDescription(RT64.scene, curFrame->sceneDesc);
-	RT64.lib.SetViewSkyPlane(RT64.view, (curFrame->skyTextureId > 0) ? RT64.textures[curFrame->skyTextureId].texture : nullptr);
+	RT64.lib.SetViewSkyPlane(RT64.view, (curFrame->skyTextureId > 0) ? RT64.GPUTextures[curFrame->skyTextureId].texture : nullptr);
 
 	// Additional information.
 	if ((RT64.renderInspector != nullptr) && RT64.renderInspectorActive) {
@@ -1818,15 +1823,27 @@ void gfx_rt64_render_thread_draw_frame(GameFrame *curFrame, GameFrame *prevFrame
 	RT64.lib.DrawDevice(RT64.device, gfx_rt64_use_vsync() ? 1 : 0);
 
 	// Dynamic mesh pool cleanup.
-	auto dynamicMeshIt = RT64.GPUDynamicMeshes.begin();
-	while (dynamicMeshIt != RT64.GPUDynamicMeshes.end()) {
+	auto dynamicMeshIt = RT64.GPUDynamicRasterMeshes.begin();
+	while (dynamicMeshIt != RT64.GPUDynamicRasterMeshes.end()) {
 		if (dynamicMeshIt->second.inUse) {
 			dynamicMeshIt->second.inUse = false;
 			dynamicMeshIt++;
         }
 		else {
 			RT64.lib.DestroyMesh(dynamicMeshIt->second.mesh);
-			dynamicMeshIt = RT64.GPUDynamicMeshes.erase(dynamicMeshIt);
+			dynamicMeshIt = RT64.GPUDynamicRasterMeshes.erase(dynamicMeshIt);
+		}
+	}
+
+	dynamicMeshIt = RT64.GPUDynamicRtMeshes.begin();
+	while (dynamicMeshIt != RT64.GPUDynamicRtMeshes.end()) {
+		if (dynamicMeshIt->second.inUse) {
+			dynamicMeshIt->second.inUse = false;
+			dynamicMeshIt++;
+		}
+		else {
+			RT64.lib.DestroyMesh(dynamicMeshIt->second.mesh);
+			dynamicMeshIt = RT64.GPUDynamicRtMeshes.erase(dynamicMeshIt);
 		}
 	}
 }
@@ -1874,8 +1891,8 @@ void gfx_rt64_render_thread_preprocess_frames(GameFrame *curFrame, GameFrame *pr
 				if (gpuDl.instances[i].instance == pickSearchInstance) {
 					const std::lock_guard<std::mutex> pickLock(RT64.pickTextureMutex);
 					uint32_t diffuseId = curDisplayList.instances[i].textures.diffuse;
-					auto texIt = RT64.textures.find(diffuseId);
-					if ((diffuseId > 0) && (texIt != RT64.textures.end())) {
+					auto texIt = RT64.GPUTextures.find(diffuseId);
+					if ((diffuseId > 0) && (texIt != RT64.GPUTextures.end())) {
 						RT64.pickTextureHash = texIt->second.hash;
 					}
 					else {
@@ -1927,14 +1944,13 @@ void gfx_rt64_render_thread_upload_texture_queue() {
 	RT64.textureUploadQueueMutex.unlock();
 
 	while (!textureUploadQueue.empty()) {
-		uint32_t textureKey = textureUploadQueue.front();
-		auto &recordedTexture = RT64.textures[textureKey];
-		assert(recordedTexture.texture == nullptr);
-		assert(recordedTexture.texDesc.bytes != nullptr);
-		recordedTexture.texture = RT64.lib.CreateTexture(RT64.device, recordedTexture.texDesc);
-		free(recordedTexture.texDesc.bytes);
-		recordedTexture.texDesc.bytes = nullptr;
+		UploadTexture uploadTexture = textureUploadQueue.front();
 		textureUploadQueue.pop();
+
+		auto &gpuTexture = RT64.GPUTextures[uploadTexture.key];
+		gpuTexture.texture = RT64.lib.CreateTexture(RT64.device, uploadTexture.desc);
+		gpuTexture.hash = uploadTexture.hash;
+		free(uploadTexture.desc.bytes);
 	}
 }
 

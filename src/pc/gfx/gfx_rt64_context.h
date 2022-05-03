@@ -39,8 +39,6 @@ struct ShaderProgram {
 };
 
 struct RecordedTexture {
-	RT64_TEXTURE *texture;
-	RT64_TEXTURE_DESC texDesc;
 	bool linearFilter;
 	uint32_t cms;
 	uint32_t cmt;
@@ -141,6 +139,17 @@ struct GPUDisplayList {
 	int drawCount = 0;
 };
 
+struct GPUTexture {
+	RT64_TEXTURE *texture = nullptr;
+	uint64_t hash = 0;
+};
+
+struct UploadTexture {
+	RT64_TEXTURE_DESC desc;
+	uint32_t key;
+	uint64_t hash;
+};
+
 //	Convention of bits for different lights.
 //		1 	- Directional Tier A
 //		2 	- Directional Tier B
@@ -204,9 +213,11 @@ struct RT64Context {
 	int BarrierFrameIndex = -1;
 	std::unordered_map<uint32_t, GPUDisplayList> GPUDisplayLists;
 	std::unordered_map<uint64_t, GPUMesh> GPUStaticMeshes;
-	std::unordered_map<uint64_t, GPUMesh> GPUDynamicMeshes;
+	std::unordered_map<uint64_t, GPUMesh> GPUDynamicRtMeshes;
+	std::unordered_map<uint64_t, GPUMesh> GPUDynamicRasterMeshes;
+	std::unordered_map<uint32_t, GPUTexture> GPUTextures;
 	std::mutex renderFrameIndexMutex;
-	std::queue<uint32_t> textureUploadQueue;
+	std::queue<UploadTexture> textureUploadQueue;
 	std::mutex textureUploadQueueMutex;
 	RT64_VIEW_DESC renderViewDesc;
 	bool renderViewDescChanged = false;
