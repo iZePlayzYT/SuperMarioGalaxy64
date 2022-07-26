@@ -2,7 +2,7 @@
 #define GFX_RENDERING_API_CONFIG_H
 
 #ifdef RAPI_RT64
-#   define GFX_MAX_BUFFERED                 65536
+#   define GFX_MAX_BUFFERED                 131072
 #   define GFX_DIM_SHADOWS_CLOSE_TO_GROUND
 #   define GFX_DISABLE_FRUSTUM_CULLING
 #   define GFX_DISABLE_LIGHTING
