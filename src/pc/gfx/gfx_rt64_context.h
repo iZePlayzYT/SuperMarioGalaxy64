@@ -266,6 +266,8 @@ struct RT64Context {
 	
 	// Supported features.
 	std::atomic<bool> dlssSupport;
+	std::atomic<bool> fsrSupport;
+	std::atomic<bool> xessSupport;
 
 	// Function pointers for game.
     void (*run_one_game_iter)(void);

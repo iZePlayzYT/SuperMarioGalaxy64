@@ -365,7 +365,9 @@ void gfx_rt64_apply_config() {
 		RT64.renderViewDesc.giSamples = configRT64GI ? 1 : 0;
 		RT64.renderViewDesc.denoiserEnabled = configRT64Denoiser;
 		RT64.renderViewDesc.motionBlurStrength = configRT64MotionBlurStrength / 100.0f;
-		RT64.renderViewDesc.dlssMode = configRT64DlssMode;
+		RT64.renderViewDesc.upscaler = configRT64Upscaler;
+		RT64.renderViewDesc.upscalerMode = configRT64UpscalerMode;
+		RT64.renderViewDesc.upscalerSharpness = configRT64UpscalerSharpness / 100.0f;
 		RT64.useVsync = configWindow.vsync;
 		RT64.targetFPS = configRT64TargetFPS;
 		RT64.renderViewDescChanged = true;
@@ -624,6 +626,8 @@ static void gfx_rt64_wapi_init(const char *window_title) {
 	RT64.fogMul = RT64.fogOffset = 0;
 	RT64.skyTextureId = 0;
 	RT64.dlssSupport = false;
+	RT64.fsrSupport = false;
+	RT64.xessSupport = false;
 
 	// Initialize the triangle list index array used by all meshes.
 	unsigned int index = 0;
@@ -666,6 +670,7 @@ static void gfx_rt64_wapi_init(const char *window_title) {
 	RT64.defaultMaterial.fogMul = 0.0f;
 	RT64.defaultMaterial.fogOffset = 0.0f;
 	RT64.defaultMaterial.fogEnabled = false;
+	RT64.defaultMaterial.lockMask = 0.0f;
 
 	// Initialize camera.
 	GameFrame *CPUFrame = &RT64.frames[RT64.CPUFrameIndex];
@@ -673,7 +678,7 @@ static void gfx_rt64_wapi_init(const char *window_title) {
     CPUFrame->nearDist = 1.0f;
     CPUFrame->farDist = 1000.0f;
     CPUFrame->fovRadians = 0.75f;
-
+	
 	// Apply loaded configuration.
 	gfx_rt64_apply_config();
 
@@ -1412,6 +1417,14 @@ extern "C" bool gfx_rt64_dlss_supported() {
 	return RT64.dlssSupport;
 }
 
+extern "C" bool gfx_rt64_fsr_supported() {
+	return RT64.fsrSupport;
+}
+
+extern "C" bool gfx_rt64_xess_supported() {
+	return RT64.xessSupport;
+}
+
 extern "C" void gfx_register_layout_graph_node(void *geoLayout, void *graphNode) {
 	static bool loadedLayoutMods = false;
 	if (!loadedLayoutMods) {
@@ -1686,6 +1699,9 @@ inline void gfx_rt64_render_thread_draw_display_list(uint32_t uid, GameFrame *cu
 		instDesc.specularTexture = gfx_rt64_render_thread_find_texture(curInstance.textures.specular);
 		instDesc.mesh = usedMesh;
 
+		const bool animatedTexture = (curInstance.textures.diffuse != prevInstance.textures.diffuse);
+		instDesc.material.lockMask = animatedTexture ? 1.0f : 0.0f;
+
 		// Assign the shader to the instance. Create if necessary.
 		const auto &shader = curInstance.shader;
 		instDesc.shader = gfx_rt64_render_thread_load_shader_variant(shader.program, shader.raytrace, shader.filter, shader.hAddr, shader.vAddr, shader.normalMap, shader.specularMap);
@@ -1720,7 +1736,7 @@ inline void gfx_rt64_render_thread_draw_display_list(uint32_t uid, GameFrame *cu
 	}
 }
 
-void gfx_rt64_render_thread_draw_frame(GameFrame *curFrame, GameFrame *prevFrame, float curFrameWeight) {
+void gfx_rt64_render_thread_draw_frame(GameFrame *curFrame, GameFrame *prevFrame, float curFrameWeight, float deltaTimeMs) {
 	LARGE_INTEGER elapsedMicro;
 
 	RT64.staticMeshesDrawn = 0;
@@ -1820,7 +1836,7 @@ void gfx_rt64_render_thread_draw_frame(GameFrame *curFrame, GameFrame *prevFrame
 	}
 
 	// Draw everything and update the window.
-	RT64.lib.DrawDevice(RT64.device, gfx_rt64_use_vsync() ? 1 : 0);
+	RT64.lib.DrawDevice(RT64.device, gfx_rt64_use_vsync() ? 1 : 0, deltaTimeMs);
 
 	// Dynamic mesh pool cleanup.
 	auto dynamicMeshIt = RT64.GPUDynamicRasterMeshes.begin();
@@ -1960,10 +1976,12 @@ void gfx_rt64_render_thread() {
 	// Setup scene and view.
 	RT64.scene = RT64.lib.CreateScene(RT64.device);
 	RT64.view = RT64.lib.CreateView(RT64.scene);
-	RT64.dlssSupport = RT64.lib.GetViewFeatureSupport(RT64.view, RT64_FEATURE_DLSS);
+	RT64.dlssSupport = RT64.lib.GetViewUpscalerSupport(RT64.view, RT64_UPSCALER_DLSS);
+	RT64.fsrSupport = RT64.lib.GetViewUpscalerSupport(RT64.view, RT64_UPSCALER_FSR);
+	RT64.xessSupport = RT64.lib.GetViewUpscalerSupport(RT64.view, RT64_UPSCALER_XESS);
 	
 	// Draw at least one empty frame to fill the window.
-	RT64.lib.DrawDevice(RT64.device, gfx_rt64_use_vsync() ? 1 : 0);
+	RT64.lib.DrawDevice(RT64.device, gfx_rt64_use_vsync() ? 1 : 0, 0.0f);
 
 	// Preload shaders to avoid ingame stuttering.
 	gfx_rt64_render_thread_preload_shaders();
@@ -1996,6 +2014,7 @@ void gfx_rt64_render_thread() {
 	const double FrameSkippingMultiplier = 1.05;
 	double targetDeltaTimeMs = (1000.0 / renderTargetFPS);
 	double frameDeltaTimeMs = targetDeltaTimeMs;
+	int framesSkipped = 0;
 	while (RT64.renderThreadRunning) {
 		// Create or destroy the inspector depending on the current state of the flag.
 		if (RT64.renderInspectorActive && (RT64.renderInspector == nullptr)) {
@@ -2092,7 +2111,7 @@ void gfx_rt64_render_thread() {
 
 				// Draw the frame and measure the time right before and right after.
 				frameStart = gfx_rt64_profile_marker();
-				gfx_rt64_render_thread_draw_frame(&RT64.frames[curFrameIndex], &RT64.frames[prevFrameIndex], (f + 1) * weightPerFrame);
+				gfx_rt64_render_thread_draw_frame(&RT64.frames[curFrameIndex], &RT64.frames[prevFrameIndex], (f + 1) * weightPerFrame, targetDeltaTimeMs * (1 + framesSkipped));
 				frameEnd = gfx_rt64_profile_marker();
 				elapsedMicro = gfx_rt64_profile_delta(frameStart, frameEnd);
 				frameDeltaTimeMs = elapsedMicro.QuadPart / 1000.0;
@@ -2101,6 +2120,10 @@ void gfx_rt64_render_thread() {
 				if (frameDeltaTimeMs > (targetDeltaTimeMs * FrameSkippingMultiplier)) {
 					int framesToSkip = (int)(frameDeltaTimeMs / targetDeltaTimeMs);
 					f += framesToSkip;
+					framesSkipped += framesToSkip;
+				}
+				else {
+					framesSkipped = 0;
 				}
 			}
 
