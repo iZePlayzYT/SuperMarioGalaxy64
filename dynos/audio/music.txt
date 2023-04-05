@@ -46,4 +46,4 @@
 "level_inside_castle_basement" level_inside_castle 110 22810
 "level_castle_courtyard" level_castle_courtyard 80 1
 "level_castle_grounds" level_castle_grounds 80 1
-"level_fourth_floor" level_fourth_floor 127 768572
+"level_fourth_floor" level_fourth_floor 127 15102
