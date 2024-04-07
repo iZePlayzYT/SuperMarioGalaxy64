@@ -1529,7 +1529,7 @@ void update_mario_health(struct MarioState *m) {
         if (((u32) m->healCounter | (u32) m->hurtCounter) == 0) {
             if ((m->input & INPUT_IN_POISON_GAS) && ((m->action & ACT_FLAG_INTANGIBLE) == 0)) {
                 if (((m->flags & MARIO_METAL_CAP) == 0) && (gDebugLevelSelect == 0)) {
-                    m->health -= 4;
+                    m->health -= 1;
                 }
             } else {
                 if ((m->action & ACT_FLAG_SWIMMING) && ((m->action & ACT_FLAG_INTANGIBLE) == 0)) {
@@ -1539,32 +1539,44 @@ void update_mario_health(struct MarioState *m) {
                     // when in snow terrains lose 3 health.
                     // If using the debug level select, do not lose any HP to water.
                     if ((m->pos[1] >= (m->waterLevel - 140)) && !terrainIsSnow) {
-                        m->health += 0x1A;
+                        m->health += 11;
                     } else if (gDebugLevelSelect == 0) {
-                        m->health -= (terrainIsSnow ? 3 : 1);
+                        if (terrainIsSnow) {	
+                            m->health -= 1;	
+                        }	
+                        else {	
+                            if (gGlobalTimer % 3 == 0) {	
+                                m->health -= 1;	
+                            }	
+                        }
                     }
                 }
             }
         }
 
         if (m->healCounter > 0) {
-            m->health += 0x40;
-            m->healCounter--;
+	        if (m->healCounter == 31) {	
+                m->health = 0x380;	
+            }	
+            else {	
+                m->health += 0x100;	
+            }	
+            m->healCounter = 0;
         }
         if (m->hurtCounter > 0) {
-            m->health -= 0x40;
-            m->hurtCounter--;
+	        m->health -= 0x100;	
+            m->hurtCounter = 0;
         }
 
-        if (m->health >= 0x881) {
-            m->health = 0x880;
+	    if (m->health >= 0x381) {	
+            m->health = 0x380;	
         }
         if (m->health < 0x100) {
             m->health = 0xFF;
         }
 
         // Play a noise to alert the player when Mario is close to drowning.
-        if (((m->action & ACT_GROUP_MASK) == ACT_GROUP_SUBMERGED) && (m->health < 0x300)) {
+        if (((m->action & ACT_GROUP_MASK) == ACT_GROUP_SUBMERGED) && (m->health < 0x200)) {
             play_sound(SOUND_MOVING_ALMOST_DROWNING, gDefaultSoundArgs);
             if (!gRumblePakTimer) {
                 gRumblePakTimer = 36;
@@ -1945,12 +1957,12 @@ void init_mario_from_save_file(void) {
 
     set_notification_status(save_file_get_keys(gCurrSaveFileNum - 1) >= 10);
 
-    gMarioState->numLives = 4;
-    gMarioState->health = 0x880;
+    gMarioState->numLives = 69;
+    gMarioState->health = 0x380;
 
     gMarioState->prevNumStarsForDialog = gMarioState->numStars;
     gMarioState->unkB0 = 0xBD;
 
     gHudDisplay.coins = 0;
-    gHudDisplay.wedges = 8;
+    gHudDisplay.wedges = 3;
 }

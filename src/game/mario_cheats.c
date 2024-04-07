@@ -92,7 +92,7 @@ s32 cheats_debug_move(struct MarioState *m) {
 s32 cheats_god_mode(struct MarioState *m) {
 #if !defined(OMM_DEFINES_H)
     if (Cheats.EnableCheats && ((Cheats.GodMode && !Cheats.ChaosMode))) {
-        m->health = 0x880;
+        m->health = 0x380;
         m->healCounter = 0;
         m->hurtCounter = 0;
         return TRUE;

@@ -530,7 +530,7 @@ void bowser_act_hit_edge(void) {
 }
 
 void bowser_act_spit_fire_onto_floor(void) {
-    if (gHudDisplay.wedges < 4)
+    if (gHudDisplay.wedges < 2)
         o->oBowserUnk108 = 3;
     else
         o->oBowserUnk108 = random_float() * 3.0f + 1.0f;

@@ -536,6 +536,35 @@ void print_hud_my_score_coins(s32 useCourseCoinScore, s8 fileNum, s8 courseNum, 
     }
 }
 
+void print_hud_my_score_coins_star_select(s32 useCourseCoinScore, s8 fileNum, s8 courseNum, s16 x, s16 y) {
+    u8 strNumCoins[4];
+    s16 numCoins;
+    s16 var;
+
+    if (!useCourseCoinScore) {
+        numCoins = (u16)(save_file_get_max_coin_score(courseNum) & 0xFFFF);
+    } else {
+        numCoins = save_file_get_course_coin_score(fileNum, courseNum);
+    }
+
+    if (numCoins < 10) {
+        var = 0;
+    }
+    else if (numCoins < 100) {
+        var = 12;
+    }
+    else {
+        var = 24;
+    }
+
+    if (numCoins != 0) {
+        print_hud_lut_string(HUD_LUT_GLOBAL, x - var, y, gHudSymCoin);
+        print_hud_lut_string(HUD_LUT_GLOBAL, x + 16 - var, y, gHudSymX);
+        int_to_str(numCoins, strNumCoins);
+        print_hud_lut_string(HUD_LUT_GLOBAL, x + 32 - var, y, strNumCoins);
+    }
+}
+
 void print_hud_my_score_stars(s8 fileNum, s8 courseNum, s16 x, s16 y) {
     u8 strStarCount[4];
     s16 starCount;

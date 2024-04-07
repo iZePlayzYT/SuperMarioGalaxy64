@@ -687,6 +687,9 @@ endif
 BASEPACK_PATH := $(BUILD_DIR)/$(BASEDIR)/$(BASEPACK)
 BASEPACK_LST := $(BUILD_DIR)/basepack.lst
 
+RES_IN_DIR := ./res
+RES_BUILD_DIR := $(BUILD_DIR)/$(BASEDIR)
+
 ifneq ($(NO_COPY),1)
 
 # depend on resources as well
@@ -721,7 +724,23 @@ endif
 # prepares the resource ZIP with base data
 $(BASEPACK_PATH): $(BASEPACK_LST)
 	@$(PYTHON) $(TOOLS_DIR)/mkzip.py $(BASEPACK_LST) $(BASEPACK_PATH)
-  
+	@rm -rf $(BUILD_DIR)/res
+	@mkdir -p $(BUILD_DIR)/res
+	@cp -rf ./res/* $(BUILD_DIR)/$(BASEDIR)/
+	@cp -rf $(BUILD_DIR)/sound/bank_sets $(BUILD_DIR)/$(BASEDIR)/sound/bank_sets
+	@cp -rf $(BUILD_DIR)/sound/sequences.bin $(BUILD_DIR)/$(BASEDIR)/sound/sequences.bin
+	@echo "   "
+	@echo "   "
+	@echo "   "
+	@echo "################################################"
+	@echo "   "
+	@echo "SUPER MARIO GALAXY 64 WAS SUCCESSFULLY COMPILED!"
+	@echo "(The .exe is located in the folder build/us_pc/)"
+	@echo "   "
+	@echo "################################################"
+	@echo "   "
+	@echo "   "
+	@echo "   "
 endif
 
 clean:
