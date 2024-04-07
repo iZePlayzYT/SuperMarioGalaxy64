@@ -2,7 +2,7 @@
 "luigi_wah" LUIGI_01 95 1 0x80
 "luigi_yah" LUIGI_02 95 1 0x80
 "luigi_haha" LUIGI_03 95 1 0x80
-"luigi_yahoo" LUIGI_04 95 1 0x80
+"luigi_yahoo" LUIGI_19 95 1 0x80
 "luigi_grunt" LUIGI_05 95 1 0x80
 "luigi_lift" LUIGI_06 95 1 0x80
 "luigi_throw" LUIGI_07 95 1 0x80
